@@ -3,6 +3,7 @@ import React from 'react';
 
 import type { Post } from '@/api';
 import { usePosts } from '@/api';
+// import http from '@/api/common/http';
 import { Card } from '@/components/card';
 import { EmptyList, FocusAwareStatusBar, Text, View } from '@/components/ui';
 
@@ -12,7 +13,16 @@ export default function Feed() {
     ({ item }: { item: Post }) => <Card {...item} />,
     []
   );
-
+  // const getModuleInfo1 = async () => {
+  //   debugger;
+  //   let { Success, Message } = await http.get<any>(`/api/Common/Test1`, {});
+  //   return (
+  //     <View>
+  //       <Text> {Message} </Text>
+  //     </View>
+  //   );
+  // };
+  // getModuleInfo1();
   if (isError) {
     return (
       <View>
