@@ -7,7 +7,7 @@ import { Pressable, Text } from '@/components/ui';
 import {
   Feed as FeedIcon,
   Github as DemoIcon,
-  Settings as SettingsIcon,
+  Settings as profileIcon,
   Style as AddIcon,
   Style as StyleIcon,
 } from '@/components/ui/icons';
@@ -19,7 +19,7 @@ const tabConfig = [
   { name: 'style', title: 'Style', icon: StyleIcon },
   { name: 'add', title: 'add', icon: AddIcon },
   { name: 'demo', title: 'Demo', icon: DemoIcon },
-  { name: 'settings', title: 'Settings', icon: SettingsIcon },
+  { name: 'profile', title: 'Profile', icon: profileIcon },
 ];
 
 export default function TabLayout() {
