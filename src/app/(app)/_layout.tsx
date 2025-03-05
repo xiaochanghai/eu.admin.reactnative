@@ -6,7 +6,7 @@ import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Pressable, Text } from '@/components/ui';
 import {
   Feed as FeedIcon,
-  Github as TestIcon,
+  Github as DemoIcon,
   Settings as SettingsIcon,
   Style as AddIcon,
   Style as StyleIcon,
@@ -18,7 +18,7 @@ const tabConfig = [
   { name: 'index', title: 'Feed', icon: FeedIcon },
   { name: 'style', title: 'Style', icon: StyleIcon },
   { name: 'add', title: 'add', icon: AddIcon },
-  { name: 'test', title: 'Test', icon: TestIcon },
+  { name: 'demo', title: 'Demo', icon: DemoIcon },
   { name: 'settings', title: 'Settings', icon: SettingsIcon },
 ];
 
