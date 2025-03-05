@@ -2,6 +2,11 @@
   "onboarding": {
     "message": "Welcome to eu-cloud app site"
   },
+  "profile": {
+    "about": "About",
+    "feedback": "Feedback",
+    "help": "Help"
+  },
   "settings": {
     "about": "About",
     "app_name": "App Name",

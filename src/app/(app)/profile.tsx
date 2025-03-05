@@ -1,12 +1,13 @@
 /* eslint-disable react/react-in-jsx-scope */
-import { Env } from '@env';
 import { useColorScheme } from 'nativewind';
-import { Image, StyleSheet } from 'react-native';
+import { Image, StyleSheet, TouchableOpacity } from 'react-native';
 
-import { Item } from '@/components/settings/item';
-import { ItemsContainer } from '@/components/settings/items-container';
-import { LanguageItem } from '@/components/settings/language-item';
-import { ThemeItem } from '@/components/settings/theme-item';
+import About from '@/components/profile/about';
+import { BigDivider, Divider } from '@/components/profile/divider';
+import Feedback from '@/components/profile/feedback';
+import Help from '@/components/profile/help';
+// import { Item } from '@/components/settings/item';
+// import { ItemsContainer } from '@/components/settings/items-container';
 import {
   colors,
   FocusAwareStatusBar,
@@ -14,7 +15,6 @@ import {
   Text,
   View,
 } from '@/components/ui';
-import { Github, Rate, Share, Support, Website } from '@/components/ui/icons';
 import { useAuth } from '@/lib';
 
 // eslint-disable-next-line max-lines-per-function
@@ -59,14 +59,26 @@ export default function Settings() {
               <Text style={styles.userDepartment}>{'所属部门'}</Text>
             </View>
           </View>
-          <View
-            style={{
-              height: 10,
-              backgroundColor: colorScheme === 'dark' ? '#fff' : '#dfdfdf',
-            }}
-          ></View>
-          <ItemsContainer title="settings.generale">
+
+          <BigDivider colorScheme={colorScheme} />
+
+          <Feedback iconColor={iconColor} />
+          <Divider colorScheme={colorScheme} />
+          <Help iconColor={iconColor} />
+          <Divider colorScheme={colorScheme} />
+          <About iconColor={iconColor} />
+
+          {/* <ItemsContainer title="settings.generale">
             <LanguageItem />
+            <View
+              className={
+                colorScheme === 'dark' ? 'border-neutral-600' : 'bg-neutral-200'
+              }
+              style={{
+                height: 1,
+                marginLeft: 16,
+              }}
+            />
             <ThemeItem />
           </ItemsContainer>
 
@@ -106,13 +118,22 @@ export default function Settings() {
               icon={<Website color={iconColor} />}
               onPress={() => {}}
             />
-          </ItemsContainer>
+          </ItemsContainer> */}
 
-          <View className="my-8">
+          {/* <View className="my-8">
             <ItemsContainer>
               <Item text="settings.logout" onPress={signOut} />
             </ItemsContainer>
-          </View>
+          </View> */}
+
+          {/* 退出登录按钮 */}
+          <TouchableOpacity
+            style={styles.logoutButton}
+            onPress={signOut}
+            className="m-10"
+          >
+            <Text style={styles.logoutButtonText} tx="settings.logout" />
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </>
@@ -149,7 +170,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     backgroundColor: '#ff4d4f',
     borderRadius: 8,
-    paddingVertical: 12,
+    paddingVertical: 10,
     alignItems: 'center',
   },
   logoutButtonText: {
