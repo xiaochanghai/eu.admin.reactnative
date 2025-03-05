@@ -1,4 +1,4 @@
-package com.eu_cloud.erp.development
+package com.eu_cloud.erp
 import expo.modules.splashscreen.SplashScreenManager
 
 import android.os.Build

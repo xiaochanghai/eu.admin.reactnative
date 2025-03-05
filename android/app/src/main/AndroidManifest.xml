@@ -24,8 +24,8 @@
         <action android:name="android.intent.action.VIEW"/>
         <category android:name="android.intent.category.DEFAULT"/>
         <category android:name="android.intent.category.BROWSABLE"/>
+        <data android:scheme="com.eu_cloud.erp"/>
         <data android:scheme="eu_cloud"/>
-        <data android:scheme="com.eu_cloud.erp.development"/>
         <data android:scheme="exp+eu-cloud"/>
       </intent-filter>
     </activity>

@@ -1,4 +1,4 @@
-package com.eu_cloud.erp.development
+package com.eu_cloud.erp
 
 import android.app.Application
 import android.content.res.Configuration
