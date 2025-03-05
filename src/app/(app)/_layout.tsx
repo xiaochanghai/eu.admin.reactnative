@@ -8,7 +8,7 @@ import {
   Feed as FeedIcon,
   Github as TestIcon,
   Settings as SettingsIcon,
-  // Style as AddIcon,
+  Style as AddIcon,
   Style as StyleIcon,
 } from '@/components/ui/icons';
 import { useAuth, useIsFirstTime } from '@/lib';
@@ -17,7 +17,7 @@ import { useAuth, useIsFirstTime } from '@/lib';
 const tabConfig = [
   { name: 'index', title: 'Feed', icon: FeedIcon },
   { name: 'style', title: 'Style', icon: StyleIcon },
-  // { name: 'add', title: 'add', icon: AddIcon },
+  { name: 'add', title: 'add', icon: AddIcon },
   { name: 'test', title: 'Test', icon: TestIcon },
   { name: 'settings', title: 'Settings', icon: SettingsIcon },
 ];
