@@ -21,7 +21,7 @@ extensions.configure(com.facebook.react.ReactSettingsExtension) { ex ->
   }
 }
 
-rootProject.name = '优智云'
+rootProject.name = 'eu_cloud'
 
 dependencyResolutionManagement {
   versionCatalogs {
