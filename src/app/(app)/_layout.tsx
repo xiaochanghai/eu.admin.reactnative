@@ -15,11 +15,11 @@ import { useAuth, useIsFirstTime } from '@/lib';
 
 // 定义 Tab 配置
 const tabConfig = [
-  { name: 'index', title: 'Feed', icon: FeedIcon },
+  { name: 'index', title: '首页', icon: FeedIcon },
   { name: 'style', title: 'Style', icon: StyleIcon },
   { name: 'add', title: 'add', icon: AddIcon },
   { name: 'demo', title: 'Demo', icon: DemoIcon },
-  { name: 'profile', title: 'Profile', icon: profileIcon },
+  { name: 'profile', title: '我的', icon: profileIcon },
 ];
 
 export default function TabLayout() {
