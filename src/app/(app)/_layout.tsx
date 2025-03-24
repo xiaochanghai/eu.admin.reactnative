@@ -1,9 +1,9 @@
 /* eslint-disable react/no-unstable-nested-components */
-import { Link, Redirect, SplashScreen, Tabs } from 'expo-router';
+import { Redirect, SplashScreen, Tabs } from 'expo-router';
 import React, { useCallback, useEffect } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 
-import { Pressable, Text } from '@/components/ui';
+import { Text } from '@/components/ui';
 import {
   Feed as FeedIcon,
   Github as DemoIcon,
@@ -47,41 +47,49 @@ export default function TabLayout() {
         <Tabs.Screen
           key={name}
           name={name}
-          options={
-            name === 'index'
-              ? {
-                  title,
-                  headerShown: name === 'index',
-                  tabBarIcon: ({ focused }) => (
-                    <IconWrapper IconComponent={icon} focused={focused} />
-                  ),
-                  headerRight: () => <CreateNewPostLink />,
-                  tabBarButtonTestID: `${name}-tab`,
-                }
-              : {
-                  title,
-                  headerShown: name === 'index',
-                  tabBarIcon: ({ focused }) => (
-                    <IconWrapper IconComponent={icon} focused={focused} />
-                  ),
-                  tabBarButtonTestID: `${name}-tab`,
-                }
-          }
+          options={{
+            title,
+            headerShown: false,
+            tabBarIcon: ({ focused }) => (
+              <IconWrapper IconComponent={icon} focused={focused} />
+            ),
+            tabBarButtonTestID: `${name}-tab`,
+          }}
+          // options={
+          //   name === 'index'
+          //     ? {
+          //         title,
+          //         headerShown: name === 'index',
+          //         tabBarIcon: ({ focused }) => (
+          //           <IconWrapper IconComponent={icon} focused={focused} />
+          //         ),
+          //         headerRight: () => <CreateNewPostLink />,
+          //         tabBarButtonTestID: `${name}-tab`,
+          //       }
+          //     : {
+          //         title,
+          //         headerShown: name === 'index',
+          //         tabBarIcon: ({ focused }) => (
+          //           <IconWrapper IconComponent={icon} focused={focused} />
+          //         ),
+          //         tabBarButtonTestID: `${name}-tab`,
+          //       }
+          // }
         />
       ))}
     </Tabs>
   );
 }
 
-const CreateNewPostLink = () => {
-  return (
-    <Link href="/feed/add-post" asChild>
-      <Pressable>
-        <Text className="px-3 text-primary-300">Create</Text>
-      </Pressable>
-    </Link>
-  );
-};
+// const CreateNewPostLink = () => {
+//   return (
+//     <Link href="/feed/add-post" asChild>
+//       <Pressable>
+//         <Text className="px-3 text-primary-300">Create</Text>
+//       </Pressable>
+//     </Link>
+//   );
+// };
 
 // 自定义 TabBar 组件
 function CustomTabBar({ state, descriptors, navigation }: any) {
