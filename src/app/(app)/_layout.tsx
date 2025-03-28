@@ -9,16 +9,17 @@ import {
   Github as DemoIcon,
   Settings as profileIcon,
   Style as AddIcon,
-  Style as StyleIcon,
+  Style as ProductionIcon,
 } from '@/components/ui/icons';
 import { useAuth, useIsFirstTime } from '@/lib';
 
 // 定义 Tab 配置
 const tabConfig = [
   { name: 'index', title: '首页', icon: FeedIcon },
-  { name: 'style', title: 'Style', icon: StyleIcon },
-  { name: 'add', title: 'add', icon: AddIcon },
-  { name: 'demo', title: 'Demo', icon: DemoIcon },
+  { name: 'production', title: '生产', icon: ProductionIcon },
+  // { name: 'add', title: 'add', icon: AddIcon },
+  { name: 'inventory', title: '库存', icon: AddIcon },
+  { name: 'order', title: '订单', icon: DemoIcon },
   { name: 'profile', title: '我的', icon: profileIcon },
 ];
 
