@@ -59,6 +59,7 @@ const ModuleItem: React.FC<ModuleItemProps> = ({
   <TouchableOpacity style={styles.moduleItem} onPress={onPress}>
     <View style={[styles.moduleIcon, { backgroundColor: bgColor }]}>
       <FontAwesome name={icon as any} size={24} color="white" />
+      {/* <Entypo name={icon as any} size={24} color="white" /> */}
     </View>
     <Text style={styles.moduleText}>{title}</Text>
   </TouchableOpacity>
@@ -281,8 +282,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   avatar: {
-    width: 32,
-    height: 32,
+    width: 24,
+    height: 24,
     borderRadius: 16,
   },
   content: {

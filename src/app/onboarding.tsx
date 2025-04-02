@@ -6,12 +6,18 @@ import React, { useEffect, useRef } from 'react';
 import {
   Animated,
   Dimensions,
-  StatusBar,
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
 
-import { SafeAreaView, Text, View } from '@/components/ui';
+import {
+  FocusAwareStatusBar,
+  Image,
+  SafeAreaView,
+  ScrollView,
+  Text,
+  View,
+} from '@/components/ui';
 import { useIsFirstTime } from '@/lib/hooks';
 
 const { width, height } = Dimensions.get('window');
@@ -83,166 +89,170 @@ const Welcome: React.FC = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar
-        barStyle="dark-content"
-        backgroundColor="transparent"
-        translucent
-      />
-
-      {/* 背景粒子效果 */}
-      <View style={styles.particles}>
-        {particles.map((particle) => (
-          <Animated.View
-            key={particle.id}
-            style={[
-              styles.particle,
-              {
-                width: particle.size,
-                height: particle.size,
-                left: particle.x,
-                top: particle.y,
-                opacity: fadeAnim,
-                transform: [
+    <>
+      <FocusAwareStatusBar />
+      <ScrollView>
+        <SafeAreaView style={styles.container}>
+          {/* 背景粒子效果 */}
+          <View style={styles.particles}>
+            {particles.map((particle) => (
+              <Animated.View
+                key={particle.id}
+                style={[
+                  styles.particle,
                   {
-                    translateY: fadeAnim.interpolate({
-                      inputRange: [0, 1],
-                      outputRange: [0, -height],
-                    }),
+                    width: particle.size,
+                    height: particle.size,
+                    left: particle.x,
+                    top: particle.y,
+                    opacity: fadeAnim,
+                    transform: [
+                      {
+                        translateY: fadeAnim.interpolate({
+                          inputRange: [0, 1],
+                          outputRange: [0, -height],
+                        }),
+                      },
+                    ],
                   },
-                ],
-              },
-            ]}
-          />
-        ))}
-      </View>
-
-      <View style={styles.contentWrapper}>
-        {/* 版本标识 */}
-        <Animated.View style={[styles.versionBadge, { opacity: fadeAnim }]}>
-          {/* <FontAwesome name="code-branch" size={12} color="#0066ff" style={{ marginRight: 4 }} /> */}
-          <Text style={styles.versionText}>v2.0.1</Text>
-        </Animated.View>
-
-        {/* 顶部空间 */}
-        <View style={{ height: height * 0.08 }} />
-
-        {/* Logo和标题 */}
-        <Animated.View
-          style={[
-            styles.logoSection,
-            {
-              opacity: fadeAnim,
-              transform: [{ translateY: slideAnim }],
-            },
-          ]}
-        >
-          <Animated.View
-            style={[
-              styles.logoContainer,
-              { transform: [{ translateY: floatAnim }] },
-            ]}
-          >
-            <View style={styles.logoGlow} />
-            <LinearGradient
-              colors={['#EBF5FF', '#E1F0FF']}
-              style={styles.logoCircle}
-            >
-              <FontAwesome name="industry" size={50} color="#0066ff" />
-            </LinearGradient>
-          </Animated.View>
-          <Text style={styles.title}>优智云</Text>
-          <Text style={styles.subtitle}>智能制造管理系统</Text>
-        </Animated.View>
-
-        {/* 欢迎信息 */}
-        <Animated.View
-          style={[
-            styles.welcomeSection,
-            {
-              opacity: fadeAnim,
-              transform: [{ translateY: slideAnim }],
-            },
-          ]}
-        >
-          <Text style={styles.welcomeTitle}>欢迎使用轻智造ERP系统</Text>
-          <Text style={styles.welcomeText}>
-            高效、智能的制造业管理解决方案，助力企业数字化转型，提升生产效率
-          </Text>
-        </Animated.View>
-
-        {/* 功能特点 */}
-        <View style={styles.featuresGrid}>
-          <FeatureCard
-            icon="cogs"
-            title="生产管理"
-            description="实时监控生产进度，优化生产流程"
-            delay={200}
-          />
-          <FeatureCard
-            icon="archive"
-            title="库存管理"
-            description="精准追踪库存变动，降低库存成本"
-            delay={400}
-          />
-          <FeatureCard
-            icon="list"
-            title="订单管理"
-            description="高效处理订单流程，提升客户满意度"
-            delay={600}
-          />
-          <FeatureCard
-            icon="line-chart"
-            title="数据分析"
-            description="深度分析业务数据，辅助决策制定"
-            delay={800}
-          />
-        </View>
-
-        {/* 开始使用按钮 */}
-        <Animated.View
-          style={[
-            styles.buttonSection,
-            {
-              opacity: fadeAnim,
-              transform: [{ translateY: slideAnim }],
-            },
-          ]}
-        >
-          <TouchableOpacity
-            style={styles.startButton}
-            onPress={handleGetStarted}
-            activeOpacity={0.8}
-          >
-            <LinearGradient
-              colors={['#0066ff', '#0052cc']}
-              style={styles.buttonGradient}
-            >
-              <Text style={styles.buttonText}>开始使用</Text>
-              <FontAwesome
-                name="arrow-right"
-                size={16}
-                color="white"
-                style={{ marginLeft: 8 }}
+                ]}
               />
-            </LinearGradient>
-            {/* <Button
+            ))}
+          </View>
+
+          <View style={styles.contentWrapper}>
+            {/* 版本标识 */}
+            <Animated.View style={[styles.versionBadge, { opacity: fadeAnim }]}>
+              <Text style={styles.versionText}>v2.0.1</Text>
+            </Animated.View>
+
+            {/* 顶部空间 */}
+            <View style={{ height: height * 0.08 }} />
+
+            {/* Logo和标题 */}
+            <Animated.View
+              style={[
+                styles.logoSection,
+                {
+                  opacity: fadeAnim,
+                  transform: [{ translateY: slideAnim }],
+                },
+              ]}
+            >
+              <Animated.View
+                style={[
+                  styles.logoContainer,
+                  { transform: [{ translateY: floatAnim }] },
+                ]}
+              >
+                <View style={styles.logoGlow} />
+                <LinearGradient
+                  colors={['#EBF5FF', '#E1F0FF']}
+                  style={styles.logoCircle}
+                >
+                  <Image
+                    source={require('../../assets/favicon.png')}
+                    style={{ width: 80, height: 80 }}
+                    contentFit="contain"
+                  />
+                </LinearGradient>
+              </Animated.View>
+              <Text style={styles.title}>优智云</Text>
+              <Text style={styles.subtitle}>智能制造管理系统</Text>
+            </Animated.View>
+
+            {/* 欢迎信息 */}
+            <Animated.View
+              style={[
+                styles.welcomeSection,
+                {
+                  opacity: fadeAnim,
+                  transform: [{ translateY: slideAnim }],
+                },
+              ]}
+            >
+              <Text style={styles.welcomeTitle}>欢迎使用轻智造ERP系统</Text>
+              <Text style={styles.welcomeText}>
+                高效、智能的制造业管理解决方案，助力企业数字化转型，提升生产效率
+              </Text>
+            </Animated.View>
+
+            {/* 功能特点 */}
+            <View style={styles.featuresGrid}>
+              <FeatureCard
+                icon="cogs"
+                title="生产管理"
+                description="实时监控生产进度，优化生产流程"
+                delay={200}
+              />
+              <FeatureCard
+                icon="archive"
+                title="库存管理"
+                description="精准追踪库存变动，降低库存成本"
+                delay={400}
+              />
+              <FeatureCard
+                icon="list"
+                title="订单管理"
+                description="高效处理订单流程，提升客户满意度"
+                delay={600}
+              />
+              <FeatureCard
+                icon="line-chart"
+                title="数据分析"
+                description="深度分析业务数据，辅助决策制定"
+                delay={800}
+              />
+            </View>
+
+            {/* 开始使用按钮 */}
+            <Animated.View
+              style={[
+                styles.buttonSection,
+                {
+                  opacity: fadeAnim,
+                  transform: [{ translateY: slideAnim }],
+                },
+              ]}
+            >
+              <TouchableOpacity
+                style={styles.startButton}
+                onPress={handleGetStarted}
+                activeOpacity={0.8}
+              >
+                <LinearGradient
+                  colors={['#F7952B', '#E94934']}
+                  style={styles.buttonGradient}
+                >
+                  <Text style={styles.buttonText}>开始使用</Text>
+                  <FontAwesome
+                    name="arrow-right"
+                    size={16}
+                    color="white"
+                    style={{ marginLeft: 8 }}
+                  />
+                </LinearGradient>
+                {/* <Button
               label="Let's Get Started "
               onPress={() => {
                 setIsFirstTime(false);
                 router.replace('/login');
               }}
             /> */}
-          </TouchableOpacity>
-          <Text style={styles.buttonHint}>点击按钮进入登录页面</Text>
-        </Animated.View>
+              </TouchableOpacity>
+              <Text style={styles.buttonHint}>点击按钮进入登录页面</Text>
+            </Animated.View>
 
-        {/* 底部 */}
-        <View style={styles.footer}>
-          <Text style={styles.footerText}>© 2023 轻智造科技有限公司</Text>
-        </View>
-      </View>
-    </SafeAreaView>
+            {/* 底部 */}
+            <View style={styles.footer}>
+              <Text style={styles.footerText}>
+                © 2025 苏州优智云科技有限公司
+              </Text>
+            </View>
+          </View>
+        </SafeAreaView>
+      </ScrollView>
+    </>
   );
 };
 
@@ -279,7 +289,7 @@ const FeatureCard: React.FC<FeatureCardProps> = ({
         useNativeDriver: true,
       }),
     ]).start();
-  }, []);
+  });
 
   return (
     <Animated.View
@@ -292,7 +302,12 @@ const FeatureCard: React.FC<FeatureCardProps> = ({
       ]}
     >
       <View style={styles.featureIcon}>
-        <FontAwesome name={icon as any} size={24} color="#0066ff" />
+        <FontAwesome
+          name={icon as any}
+          size={24}
+          color="#fff"
+          style={styles.featureIcon1}
+        />
       </View>
       <Text style={styles.featureTitle}>{title}</Text>
       <Text style={styles.featureDescription}>{description}</Text>
@@ -328,24 +343,24 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 20,
     right: 20,
-    backgroundColor: 'rgba(255,255,255,0.8)',
-    paddingVertical: 6,
-    paddingHorizontal: 12,
-    borderRadius: 20,
+    // backgroundColor: 'rgba(255,255,255,0.8)',
+    // paddingVertical: 6,
+    // paddingHorizontal: 12,
+    // borderRadius: 20,
     flexDirection: 'row',
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
-    borderWidth: 1,
-    borderColor: 'rgba(0,102,255,0.1)',
+    // shadowColor: '#000',
+    // shadowOffset: { width: 0, height: 2 },
+    // shadowOpacity: 0.1,
+    // shadowRadius: 4,
+    // elevation: 2,
+    // borderWidth: 1,
+    // borderColor: 'rgba(0,102,255,0.1)',
     zIndex: 10,
   },
   versionText: {
     fontSize: 12,
-    color: '#0066ff',
+    color: '#F7952B',
     fontWeight: '500',
   },
   logoSection: {
@@ -364,7 +379,7 @@ const styles = StyleSheet.create({
     top: -10,
     left: -10,
     borderRadius: 60,
-    backgroundColor: 'rgba(0,102,255,0.3)',
+    backgroundColor: 'rgba(240,123,28,0.3)',
     opacity: 0.5,
     zIndex: -1,
   },
@@ -381,9 +396,10 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   title: {
-    fontSize: 32,
+    fontSize: 18,
     fontWeight: 'bold',
     color: '#333',
+    // backgroundColor: 'rgba(255,255,255,0.8)',
     marginTop: 16,
   },
   subtitle: {
@@ -397,14 +413,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   welcomeTitle: {
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: '600',
     color: '#374151',
     marginBottom: 12,
     textAlign: 'center',
   },
   welcomeText: {
-    fontSize: 16,
+    fontSize: 14,
     color: '#6b7280',
     textAlign: 'center',
     lineHeight: 24,
@@ -419,7 +435,7 @@ const styles = StyleSheet.create({
   },
   featureCard: {
     width: '48%',
-    backgroundColor: 'rgba(255,255,255,0.8)',
+    backgroundColor: '#FFF',
     borderRadius: 16,
     padding: 16,
     marginBottom: 16,
@@ -433,15 +449,18 @@ const styles = StyleSheet.create({
     width: 56,
     height: 56,
     borderRadius: 16,
-    backgroundColor: 'rgba(0,102,255,0.1)',
+    backgroundColor: '#F7952B',
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 12,
-    shadowColor: '#0066ff',
+    shadowColor: '#F7952B',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 2,
+  },
+  featureIcon1: {
+    // backgroundColor: 'rgba(0,102,255,0.1)',
   },
   featureTitle: {
     fontSize: 16,
@@ -461,7 +480,7 @@ const styles = StyleSheet.create({
   startButton: {
     borderRadius: 16,
     overflow: 'hidden',
-    shadowColor: '#0066ff',
+    shadowColor: '#F7952B',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.2,
     shadowRadius: 8,

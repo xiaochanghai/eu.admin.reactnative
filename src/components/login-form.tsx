@@ -1,6 +1,7 @@
 /* eslint-disable react/react-in-jsx-scope */
 // import { zodResolver } from '@hookform/resolvers/zod';
 import { FontAwesome } from '@expo/vector-icons';
+import Entypo from '@expo/vector-icons/Entypo';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import {
@@ -16,7 +17,7 @@ import {
 import { KeyboardAvoidingView } from 'react-native-keyboard-controller';
 import * as z from 'zod';
 
-import { Text, View } from '@/components/ui';
+import { Image, Text, View } from '@/components/ui';
 import { signIn } from '@/lib';
 import { message } from '@/utils';
 
@@ -80,7 +81,11 @@ export const LoginForm = () => {
           {/* Logo和标题 */}
           <View style={styles.logoContainer}>
             <View style={styles.logoCircle}>
-              <FontAwesome name="industry" size={40} color="#0066ff" />
+              <Image
+                source={require('../../assets/favicon.png')}
+                style={{ width: 60, height: 60 }}
+                contentFit="contain"
+              />
             </View>
             <Text style={styles.title}>优智云</Text>
             <Text style={styles.subtitle}>智能制造管理系统</Text>
@@ -179,6 +184,7 @@ export const LoginForm = () => {
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.socialButton}>
                   {/* <FontAwesome name="fingerprint" size={24} color="#a855f7" /> */}
+                  <Entypo name="fingerprint" size={24} color="#a855f7" />
                 </TouchableOpacity>
               </View>
             </View>
@@ -189,7 +195,7 @@ export const LoginForm = () => {
             <Text style={styles.footerText}>
               还没有账号? <Text style={styles.footerLink}>联系管理员</Text>
             </Text>
-            <Text style={styles.copyright}>© 2023 轻智造科技有限公司</Text>
+            <Text style={styles.copyright}>© 2025 苏州优智云科技有限公司</Text>
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
@@ -226,7 +232,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   title: {
-    fontSize: 24,
+    fontSize: 18,
     fontWeight: 'bold',
     color: '#333',
   },
