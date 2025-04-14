@@ -5,7 +5,7 @@ const { showMoreDetails } = require('./utils.js');
 const { cloneLastTemplateRelease } = require('./clone-repo.js');
 const { setupProject, installDeps } = require('./setup-project.js');
 
-const createObytesApp = async () => {
+const createEUCloudERP = async () => {
   consola.box('Obytes Starter\nPerfect React Native App Kickstart 🚀!');
   // get project name from command line
   const projectName = process.argv[2];
@@ -29,4 +29,4 @@ const createObytesApp = async () => {
   showMoreDetails(projectName);
 };
 
-createObytesApp();
+createEUCloudERP();
