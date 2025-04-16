@@ -7,10 +7,14 @@ import {
   ScrollView,
   StatusBar,
   StyleSheet,
-  Text,
   TouchableOpacity,
-  View,
 } from 'react-native';
+
+import {
+  Text,
+  // FocusAwareStatusBar,
+  View,
+} from '@/components/ui';
 
 // 活动项组件
 type ActivityItemProps = {
@@ -68,7 +72,9 @@ const ModuleItem: React.FC<ModuleItemProps> = ({
 const Home: React.FC = () => {
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="dark-content" backgroundColor="transparent" />
+      {/* <StatusBar barStyle="dark-content" backgroundColor="transparent" /> */}
+      <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
+      {/* <FocusAwareStatusBar /> */}
 
       {/* 顶部导航 */}
       <View style={styles.header}>

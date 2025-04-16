@@ -245,7 +245,7 @@ const Production: React.FC = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="dark-content" backgroundColor="transparent" />
+      <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
 
       {/* 顶部导航 */}
       <View style={styles.header}>
