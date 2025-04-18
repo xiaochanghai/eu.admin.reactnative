@@ -2,8 +2,6 @@ import { FontAwesome } from '@expo/vector-icons';
 import React, { useEffect, useRef, useState } from 'react';
 import {
   Animated,
-  SafeAreaView,
-  ScrollView,
   StatusBar,
   StyleSheet,
   Text,
@@ -11,6 +9,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+
+import { NavHeader, SafeAreaView, ScrollView } from '@/components/ui';
 
 // 分段控制器选项类型
 type SegmentedControlOption = {
@@ -314,28 +314,23 @@ const Inventory: React.FC = () => {
       <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
 
       {/* 顶部导航 */}
-      <View style={styles.header}>
-        <View style={styles.headerLeft}>
-          <TouchableOpacity
-            // onPress={() => navigation.navigate('Home')}
-            style={styles.backButton}
-          >
-            <FontAwesome name="arrow-left" size={18} color="#6b7280" />
-          </TouchableOpacity>
-          <Text style={styles.headerTitle}>库存管理</Text>
-        </View>
-        <View style={styles.headerRight}>
-          <TouchableOpacity style={styles.headerButton}>
-            <FontAwesome name="search" size={18} color="#6b7280" />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.headerButton}>
-            <FontAwesome name="filter" size={18} color="#6b7280" />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.headerButton}>
-            <FontAwesome name="qrcode" size={20} color="#0066ff" />
-          </TouchableOpacity>
-        </View>
-      </View>
+      <NavHeader
+        title="库存管理"
+        leftShown={false}
+        right={
+          <>
+            <TouchableOpacity style={styles.headerButton}>
+              <FontAwesome name="search" size={18} color="#6b7280" />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.headerButton}>
+              <FontAwesome name="filter" size={18} color="#6b7280" />
+            </TouchableOpacity>
+            {/* <TouchableOpacity style={styles.headerButton}>
+              <FontAwesome name="qrcode" size={22} color="#0066ff" />
+            </TouchableOpacity> */}
+          </>
+        }
+      />
 
       <View style={styles.content}>
         {/* 分段控制器 */}
@@ -623,31 +618,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f5f5f5',
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: 'white',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
-  },
-  headerLeft: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  backButton: {
-    marginRight: 12,
-  },
-  headerTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-  },
-  headerRight: {
-    flexDirection: 'row',
-    alignItems: 'center',
   },
   headerButton: {
     marginLeft: 16,

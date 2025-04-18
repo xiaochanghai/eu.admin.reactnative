@@ -2,8 +2,6 @@ import { FontAwesome } from '@expo/vector-icons';
 import React, { useEffect, useRef, useState } from 'react';
 import {
   Animated,
-  SafeAreaView,
-  ScrollView,
   StatusBar,
   StyleSheet,
   Text,
@@ -11,6 +9,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+
+import { NavHeader, SafeAreaView, ScrollView } from '@/components/ui';
 
 // 分段控制器选项类型
 type SegmentedControlOption = {
@@ -361,29 +361,24 @@ const Orders: React.FC = () => {
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
 
-      {/* 顶部导航栏 */}
-      <View style={styles.header}>
-        <View style={styles.flexRow}>
-          <TouchableOpacity
-            style={styles.backButton}
-            // onPress={() => navigation.navigate('Home')}
-          >
-            <FontAwesome name="arrow-left" size={16} color="#4b5563" />
-          </TouchableOpacity>
-          <Text style={styles.headerTitle}>订单管理</Text>
-        </View>
-        <View style={styles.headerActions}>
-          <TouchableOpacity style={styles.headerButton}>
-            <FontAwesome name="search" size={16} color="#4b5563" />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.headerButton}>
-            <FontAwesome name="filter" size={16} color="#4b5563" />
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <FontAwesome name="plus-circle" size={20} color="#0066ff" />
-          </TouchableOpacity>
-        </View>
-      </View>
+      {/* 顶部导航 */}
+      <NavHeader
+        title="订单管理"
+        leftShown={false}
+        right={
+          <>
+            <TouchableOpacity style={styles.headerButton}>
+              <FontAwesome name="search" size={18} color="#6b7280" />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.headerButton}>
+              <FontAwesome name="filter" size={18} color="#6b7280" />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.headerButton}>
+              <FontAwesome name="plus-circle" size={22} color="#0066ff" />
+            </TouchableOpacity>
+          </>
+        }
+      />
 
       {/* 内容区域 */}
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
@@ -414,16 +409,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#f5f5f5',
   },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    backgroundColor: '#ffffff',
-    borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
-  },
   flexRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -434,19 +419,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 8,
   },
-  backButton: {
-    marginRight: 12,
-  },
-  headerTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-  },
-  headerActions: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
   headerButton: {
-    marginRight: 16,
+    marginLeft: 16,
   },
   content: {
     flex: 1,

@@ -50,7 +50,7 @@ export default function TabLayout() {
           name={name}
           options={{
             title,
-            headerShown: false,
+            // headerShown: false,
             tabBarIcon: ({ focused }) => (
               <IconWrapper IconComponent={icon} focused={focused} />
             ),

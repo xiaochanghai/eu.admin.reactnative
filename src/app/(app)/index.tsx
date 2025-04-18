@@ -1,8 +1,6 @@
 /* eslint-disable react/react-in-jsx-scope */
-import { FontAwesome } from '@expo/vector-icons';
 import React from 'react';
 import {
-  Image,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -10,11 +8,8 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-import {
-  Text,
-  // FocusAwareStatusBar,
-  View,
-} from '@/components/ui';
+import { NavHeader, Text, View } from '@/components/ui';
+import { FontAwesome } from '@/components/ui/icons';
 
 // 活动项组件
 type ActivityItemProps = {
@@ -77,17 +72,11 @@ const Home: React.FC = () => {
       {/* <FocusAwareStatusBar /> */}
 
       {/* 顶部导航 */}
-      <View style={styles.header}>
-        <View style={styles.headerLeft}>
-          <FontAwesome
-            name="industry"
-            size={20}
-            color="#0066ff"
-            style={styles.headerIcon}
-          />
-          <Text style={styles.headerTitle}>优智云</Text>
-        </View>
-        <View style={styles.headerRight}>
+
+      <NavHeader
+        title="首页"
+        leftShown={false}
+        right={
           <TouchableOpacity
             style={styles.notificationButton}
             // onPress={() => navigation.navigate('Notifications')}
@@ -97,16 +86,8 @@ const Home: React.FC = () => {
               <Text style={styles.notificationBadgeText}>3</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity
-          // onPress={() => navigation.navigate('Profile')}
-          >
-            <Image
-              source={{ uri: 'https://randomuser.me/api/portraits/men/32.jpg' }}
-              style={styles.avatar}
-            />
-          </TouchableOpacity>
-        </View>
-      </View>
+        }
+      />
 
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
         {/* 欢迎信息 */}
@@ -239,34 +220,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#f5f5f5',
   },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    backgroundColor: 'white',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 2,
-    elevation: 2,
-  },
-  headerLeft: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  headerIcon: {
-    marginRight: 8,
-  },
-  headerTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-  },
-  headerRight: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
   notificationButton: {
     marginRight: 16,
     position: 'relative',
@@ -286,11 +239,6 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 10,
     fontWeight: 'bold',
-  },
-  avatar: {
-    width: 24,
-    height: 24,
-    borderRadius: 16,
   },
   content: {
     flex: 1,

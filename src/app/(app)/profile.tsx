@@ -1,6 +1,7 @@
 /* eslint-disable react/react-in-jsx-scope */
 // import { useColorScheme } from 'nativewind';
 import { FontAwesome } from '@expo/vector-icons';
+import { Link } from 'expo-router';
 import {
   Image,
   SafeAreaView,
@@ -10,7 +11,7 @@ import {
 
 // import { Item } from '@/components/settings/item';
 // import { ItemsContainer } from '@/components/settings/items-container';
-import { ScrollView, Text, View } from '@/components/ui';
+import { NavHeader, ScrollView, Text, View } from '@/components/ui';
 // import About from '@/components/profile/about';
 // import { BigDivider, Divider } from '@/components/profile/divider';
 // import Feedback from '@/components/profile/feedback';
@@ -30,16 +31,16 @@ export default function Settings() {
       {/* <FocusAwareStatusBar /> */}
       <SafeAreaView style={styles.container}>
         {/* 顶部导航 */}
-        <View style={styles.header}>
-          <View style={styles.headerLeft}>
-            <Text style={styles.headerTitle}>个人中心</Text>
-          </View>
-          <TouchableOpacity
-          // onPress={() => navigation.navigate('Settings')}
-          >
-            <FontAwesome name="cog" size={22} color="#666" />
-          </TouchableOpacity>
-        </View>
+
+        <NavHeader
+          title="我的"
+          leftShown={false}
+          right={
+            <Link href={`/settings`}>
+              <FontAwesome name="cog" size={22} color="#666" />
+            </Link>
+          }
+        />
         <ScrollView style={styles.content}>
           {/* 用户信息卡片 */}
           <View style={styles.card}>
@@ -225,29 +226,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f5f5f5',
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    backgroundColor: 'white',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 2,
-    elevation: 2,
-    textAlign: 'center',
-  },
-  headerLeft: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    textAlign: 'center',
-  },
-  headerTitle: {
-    fontSize: 18,
-    fontWeight: '600',
   },
   content: {
     flex: 1,

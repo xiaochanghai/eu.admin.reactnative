@@ -2,14 +2,14 @@ import { FontAwesome } from '@expo/vector-icons';
 import React, { useEffect, useRef, useState } from 'react';
 import {
   Animated,
-  SafeAreaView,
-  ScrollView,
   StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
+
+import { NavHeader, SafeAreaView, ScrollView } from '@/components/ui';
 
 import ReportDateSelector from '../report-date-selector';
 
@@ -248,29 +248,23 @@ const Production: React.FC = () => {
       <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
 
       {/* 顶部导航 */}
-      <View style={styles.header}>
-        <View style={styles.headerLeft}>
-          <TouchableOpacity
-            style={styles.backButton}
-            // onPress={() => navigation.navigate('Home')}
-          >
-            <FontAwesome name="arrow-left" size={18} color="#666" />
-          </TouchableOpacity>
-          <Text style={styles.headerTitle}>生产管理</Text>
-        </View>
-        <View style={styles.headerRight}>
-          <TouchableOpacity style={styles.headerButton}>
-            <FontAwesome name="search" size={18} color="#666" />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.headerButton}>
-            <FontAwesome name="filter" size={18} color="#666" />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.headerButton}>
-            <FontAwesome name="plus-circle" size={22} color="#0066ff" />
-          </TouchableOpacity>
-        </View>
-      </View>
-
+      <NavHeader
+        title="生产管理"
+        leftShown={false}
+        right={
+          <>
+            <TouchableOpacity style={styles.headerButton}>
+              <FontAwesome name="search" size={18} color="#6b7280" />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.headerButton}>
+              <FontAwesome name="filter" size={18} color="#6b7280" />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.headerButton}>
+              <FontAwesome name="plus-circle" size={22} color="#0066ff" />
+            </TouchableOpacity>
+          </>
+        }
+      />
       <View style={styles.content}>
         {/* 分段控制器 */}
         <SegmentedControl
@@ -1104,18 +1098,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#f5f5f5',
   },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    backgroundColor: 'white',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 2,
-    elevation: 2,
+  headerButton: {
+    marginLeft: 16,
   },
   floatingButton: {
     position: 'absolute',
@@ -1132,25 +1116,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
-  },
-  headerLeft: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  backButton: {
-    marginRight: 12,
-  },
-  headerTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#333',
-  },
-  headerRight: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  headerButton: {
-    marginLeft: 16,
   },
   content: {
     flex: 1,
