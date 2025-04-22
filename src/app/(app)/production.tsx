@@ -249,7 +249,7 @@ const Production: React.FC = () => {
 
       {/* 顶部导航 */}
       <NavHeader
-        title="生产管理"
+        title="生产"
         leftShown={false}
         right={
           <>

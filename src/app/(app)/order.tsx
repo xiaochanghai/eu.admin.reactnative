@@ -363,7 +363,7 @@ const Orders: React.FC = () => {
 
       {/* 顶部导航 */}
       <NavHeader
-        title="订单管理"
+        title="订单"
         leftShown={false}
         right={
           <>

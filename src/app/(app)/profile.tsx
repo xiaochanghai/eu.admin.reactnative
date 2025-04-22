@@ -1,6 +1,5 @@
 /* eslint-disable react/react-in-jsx-scope */
 // import { useColorScheme } from 'nativewind';
-import { FontAwesome } from '@expo/vector-icons';
 import { Link } from 'expo-router';
 import {
   Image,
@@ -12,6 +11,7 @@ import {
 // import { Item } from '@/components/settings/item';
 // import { ItemsContainer } from '@/components/settings/items-container';
 import { NavHeader, ScrollView, Text, View } from '@/components/ui';
+import { FontAwesome } from '@/components/ui/icons';
 // import About from '@/components/profile/about';
 // import { BigDivider, Divider } from '@/components/profile/divider';
 // import Feedback from '@/components/profile/feedback';

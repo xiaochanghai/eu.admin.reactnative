@@ -315,7 +315,7 @@ const Inventory: React.FC = () => {
 
       {/* 顶部导航 */}
       <NavHeader
-        title="库存管理"
+        title="库存"
         leftShown={false}
         right={
           <>
