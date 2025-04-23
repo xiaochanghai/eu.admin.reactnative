@@ -66,6 +66,10 @@ export const LoginForm = () => {
   // 状态管理
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+
+  // 添加焦点状态
+  const [usernameFocused, setUsernameFocused] = useState(false);
+  const [passwordFocused, setPasswordFocused] = useState(false);
   // const [rememberMe, setRememberMe] = useState(false);
   return (
     <SafeAreaView style={styles.container}>
@@ -94,11 +98,16 @@ export const LoginForm = () => {
           {/* 登录表单 */}
           <View style={styles.formContainer}>
             {/* 用户名输入框 */}
-            <View style={styles.inputGroup}>
+            <View
+              style={[
+                styles.inputGroup,
+                usernameFocused && styles.inputGroupFocused,
+              ]}
+            >
               <FontAwesome
                 name="user"
                 size={20}
-                color="#9ca3af"
+                color={usernameFocused ? '#0066ff' : '#9ca3af'}
                 style={styles.inputIcon}
               />
               <TextInput
@@ -107,20 +116,22 @@ export const LoginForm = () => {
                 placeholderTextColor="#9ca3af"
                 value={username}
                 onChangeText={setUsername}
+                onFocus={() => setUsernameFocused(true)}
+                onBlur={() => setUsernameFocused(false)}
               />
             </View>
-            {/* <ControlledInput
-              testID="name"
-              control={control}
-              name="name"
-              label="Name"
-            /> */}
+
             {/* 密码输入框 */}
-            <View style={styles.inputGroup}>
+            <View
+              style={[
+                styles.inputGroup,
+                passwordFocused && styles.inputGroupFocused,
+              ]}
+            >
               <FontAwesome
                 name="lock"
                 size={20}
-                color="#9ca3af"
+                color={passwordFocused ? '#0066ff' : '#9ca3af'}
                 style={styles.inputIcon}
               />
               <TextInput
@@ -130,8 +141,16 @@ export const LoginForm = () => {
                 secureTextEntry
                 value={password}
                 onChangeText={setPassword}
+                onFocus={() => setPasswordFocused(true)}
+                onBlur={() => setPasswordFocused(false)}
               />
             </View>
+            {/* <ControlledInput
+              testID="name"
+              control={control}
+              name="name"
+              label="Name"
+            /> */}
             {/* <ControlledInput
               testID="password-input"
               control={control}
@@ -253,6 +272,11 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     paddingHorizontal: 12,
     height: 50,
+  },
+  // 添加焦点样式
+  inputGroupFocused: {
+    borderColor: '#0066ff',
+    backgroundColor: '#f0f7ff',
   },
   inputIcon: {
     marginRight: 12,
