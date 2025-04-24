@@ -1,3 +1,4 @@
+import { Env } from '@env';
 import axios, {
   type AxiosError,
   type AxiosInstance,
@@ -19,7 +20,8 @@ export interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
 
 const config = {
   // The default address request address, which can be modified in the .env.** file
-  baseURL: 'http://localhost:9291' as string,
+  baseURL: Env.API_URL,
+  // baseURL: 'http://116.204.98.209:8090/' as string,
   // timeout
   timeout: ResultEnum.TIMEOUT as number,
   // Credentials are allowed to be carried across domains
@@ -40,12 +42,11 @@ class RequestHttp {
     this.service.interceptors.request.use(
       (config: CustomAxiosRequestConfig) => {
         // The current request needs to display loading, which is controlled by the third parameter specified in the API service: {loading: true}
-        // config.loading && showFullScreenLoading();
         if (config.headers && typeof config.headers.set === 'function') {
           config.headers.set(
             'Authorization',
             'Bearer 1112'
-            // 'Bearer ' + store.getState().user.token
+            //'Bearer ' + store.getState().user.token
           );
           if (config.filter)
             config.headers.set(
@@ -69,11 +70,8 @@ class RequestHttp {
         const { data } = response;
         // tryHideFullScreenLoading();
         // login failure
-        // message.destroy();
         if (data.Status === ResultEnum.OVERDUE) {
-          // store.dispatch(setToken(''));
           message.error(data.Message);
-          // window.$navigate(LOGIN_URL);
           return Promise.reject(data);
         }
         // Global error information interception (to prevent data stream from being returned when downloading files, and report errors directly without code)
@@ -106,6 +104,14 @@ class RequestHttp {
    */
   get<T>(url: string, params?: object, _object = {}): Promise<ResultData<T>> {
     return this.service.get(url, { params, ..._object });
+  }
+
+  post<T>(
+    url: string,
+    params?: object | string,
+    _object = {}
+  ): Promise<ResultData<T>> {
+    return this.service.post(url, params, _object);
   }
 }
 
