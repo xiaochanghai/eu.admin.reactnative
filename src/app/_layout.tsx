@@ -1,6 +1,8 @@
+/* eslint-disable max-lines-per-function */
 // Import  global CSS file
 import '../../global.css';
 
+import { Provider, Toast } from '@ant-design/react-native';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { ThemeProvider } from '@react-navigation/native';
 import { Stack } from 'expo-router';
@@ -30,23 +32,26 @@ SplashScreen.setOptions({
   duration: 500,
   fade: true,
 });
+Toast.config({ duration: 2 });
 
 export default function RootLayout() {
   return (
-    <Providers>
-      <Stack
-        screenOptions={{
-          animation: 'slide_from_right',
-          animationDuration: 200,
-          gestureEnabled: true,
-          contentStyle: { backgroundColor: 'white' },
-        }}
-      >
-        <Stack.Screen name="(app)" options={{ headerShown: false }} />
-        <Stack.Screen name="onboarding" options={{ headerShown: false }} />
-        <Stack.Screen name="login" options={{ headerShown: false }} />
-      </Stack>
-    </Providers>
+    <Provider>
+      <Providers>
+        <Stack
+          screenOptions={{
+            animation: 'slide_from_right',
+            animationDuration: 200,
+            gestureEnabled: true,
+            contentStyle: { backgroundColor: 'white' },
+          }}
+        >
+          <Stack.Screen name="(app)" options={{ headerShown: false }} />
+          <Stack.Screen name="onboarding" options={{ headerShown: false }} />
+          <Stack.Screen name="login" options={{ headerShown: false }} />
+        </Stack>
+      </Providers>
+    </Provider>
   );
 }
 

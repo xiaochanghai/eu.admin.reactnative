@@ -1,4 +1,5 @@
 /* eslint-disable react/no-unstable-nested-components */
+import { useFonts } from 'expo-font';
 import { Redirect, SplashScreen, Tabs } from 'expo-router';
 import React, { useCallback, useEffect } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
@@ -29,6 +30,11 @@ export default function TabLayout() {
   const hideSplash = useCallback(async () => {
     await SplashScreen.hideAsync();
   }, []);
+
+  useFonts({
+    antoutline: require('@ant-design/icons-react-native/fonts/antoutline.ttf'),
+    antfill: require('@ant-design/icons-react-native/fonts/antfill.ttf'),
+  });
 
   useEffect(() => {
     if (status !== 'idle') {

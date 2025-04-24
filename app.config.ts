@@ -69,7 +69,11 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     [
       'expo-font',
       {
-        fonts: ['./assets/fonts/Inter.ttf'],
+        fonts: [
+          './assets/fonts/Inter.ttf',
+          'node_modules/@ant-design/icons-react-native/fonts/antoutline.ttf',
+          'node_modules/@ant-design/icons-react-native/fonts/antfill.ttf',
+        ],
       },
     ],
     'expo-localization',
