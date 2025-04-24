@@ -1,7 +1,6 @@
 import { FontAwesome } from '@expo/vector-icons';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import {
-  Animated,
   StatusBar,
   StyleSheet,
   Text,
@@ -9,15 +8,10 @@ import {
   View,
 } from 'react-native';
 
+import { SegmentedControl, type SegmentedControlOption } from '@/components';
 import { NavHeader, SafeAreaView, ScrollView } from '@/components/ui';
 
 import ReportDateSelector from '../report-date-selector';
-
-// 分段控制器选项类型
-type SegmentedControlOption = {
-  key: string;
-  label: string;
-};
 
 // 进度条组件
 type ProgressBarProps = {
@@ -167,69 +161,6 @@ const ProcessNode: React.FC<ProcessNodeProps> = ({ icon, label, status }) => {
   );
 };
 
-// 分段控制器组件
-type SegmentedControlProps = {
-  options: SegmentedControlOption[];
-  selectedIndex: number;
-  onChange: (index: number) => void;
-};
-
-const SegmentedControl: React.FC<SegmentedControlProps> = ({
-  options,
-  selectedIndex,
-  onChange,
-}) => {
-  const [containerWidth, setContainerWidth] = useState(0);
-  const slideAnim = useRef(new Animated.Value(0)).current;
-
-  useEffect(() => {
-    if (containerWidth > 0) {
-      const optionWidth = containerWidth / options.length;
-      Animated.timing(slideAnim, {
-        toValue: selectedIndex * optionWidth,
-        duration: 300,
-        useNativeDriver: false,
-      }).start();
-    }
-  }, [selectedIndex, containerWidth]);
-
-  return (
-    <View
-      style={styles.segmentedControlContainer}
-      onLayout={(e) => setContainerWidth(e.nativeEvent.layout.width)}
-    >
-      <View style={styles.segmentedControl}>
-        <Animated.View
-          style={[
-            styles.segmentedControlSlider,
-            {
-              width: containerWidth > 0 ? containerWidth / options.length : 0,
-              transform: [{ translateX: slideAnim }],
-            },
-          ]}
-        />
-        {options.map((option, index) => (
-          <TouchableOpacity
-            key={option.key}
-            style={styles.segmentedControlOption}
-            onPress={() => onChange(index)}
-          >
-            <Text
-              style={[
-                styles.segmentedControlOptionText,
-                index === selectedIndex &&
-                  styles.segmentedControlOptionTextActive,
-              ]}
-            >
-              {option.label}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </View>
-    </View>
-  );
-};
-
 const Production: React.FC = () => {
   // const navigation = useNavigation<ProductionScreenNavigationProp>();
 
@@ -274,7 +205,10 @@ const Production: React.FC = () => {
         />
 
         {/* 选项卡内容 */}
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={styles.scrollView}
+        >
           {selectedTabIndex === 0 && (
             <View>
               {/* 生产概览 */}
@@ -1101,6 +1035,11 @@ const styles = StyleSheet.create({
   headerButton: {
     marginLeft: 16,
   },
+
+  scrollView: {
+    flex: 1,
+    marginTop: 16,
+  },
   floatingButton: {
     position: 'absolute',
     right: 24,
@@ -1122,43 +1061,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingTop: 16,
     paddingBottom: 16,
-  },
-  segmentedControlContainer: {
-    marginBottom: 16,
-  },
-  segmentedControl: {
-    flexDirection: 'row',
-    backgroundColor: 'rgba(0, 0, 0, 0.06)',
-    borderRadius: 8,
-    padding: 2,
-    position: 'relative',
-    height: 36,
-  },
-  segmentedControlSlider: {
-    position: 'absolute',
-    top: 2,
-    bottom: 2,
-    backgroundColor: 'white',
-    borderRadius: 6,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 1,
-  },
-  segmentedControlOption: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    zIndex: 1,
-  },
-  segmentedControlOptionText: {
-    fontSize: 14,
-    fontWeight: '500',
-    color: '#666',
-  },
-  segmentedControlOptionTextActive: {
-    color: '#000',
   },
   card: {
     backgroundColor: 'white',

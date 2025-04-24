@@ -561,9 +561,6 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 16,
   },
-  segmentedControlContainer: {
-    // backgroundColor: '#000',
-  },
   flex1: {
     flex: 1,
   },
@@ -643,41 +640,6 @@ const styles = StyleSheet.create({
   },
   reportItem: {
     marginTop: 12,
-  },
-  segmentedControl: {
-    flexDirection: 'row',
-    backgroundColor: '#e5e7eb',
-    borderRadius: 8,
-    padding: 2,
-    position: 'relative',
-    height: 40,
-  },
-  segmentedControlOption: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    zIndex: 1,
-  },
-  segmentedControlSlider: {
-    position: 'absolute',
-    top: 2,
-    bottom: 2,
-    borderRadius: 6,
-    backgroundColor: 'white',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 1,
-    elevation: 1,
-  },
-  segmentedControlText: {
-    fontSize: 14,
-    color: '#6b7280',
-    fontWeight: '500',
-  },
-  segmentedControlActiveText: {
-    color: '#0066ff',
-    fontWeight: '600',
   },
   card: {
     backgroundColor: 'white',

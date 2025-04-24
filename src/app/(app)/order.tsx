@@ -1,7 +1,6 @@
 import { FontAwesome } from '@expo/vector-icons';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import {
-  Animated,
   StatusBar,
   StyleSheet,
   Text,
@@ -10,13 +9,8 @@ import {
   View,
 } from 'react-native';
 
+import { SegmentedControl, type SegmentedControlOption } from '@/components';
 import { NavHeader, SafeAreaView, ScrollView } from '@/components/ui';
-
-// 分段控制器选项类型
-type SegmentedControlOption = {
-  key: string;
-  label: string;
-};
 
 // 状态徽章组件
 type StatusBadgeProps = {
@@ -84,70 +78,6 @@ const OrderItem: React.FC<OrderItemProps> = ({
     </View>
   </View>
 );
-
-// 分段控制器组件
-type SegmentedControlProps = {
-  options: SegmentedControlOption[];
-  selectedIndex: number;
-  onChange: (index: number) => void;
-};
-
-const SegmentedControl: React.FC<SegmentedControlProps> = ({
-  options,
-  selectedIndex,
-  onChange,
-}) => {
-  const [containerWidth, setContainerWidth] = useState(0);
-  const slideAnim = useRef(new Animated.Value(0)).current;
-
-  useEffect(() => {
-    if (containerWidth > 0) {
-      const optionWidth = containerWidth / options.length;
-      Animated.timing(slideAnim, {
-        toValue: selectedIndex * optionWidth,
-        duration: 300,
-        useNativeDriver: false,
-      }).start();
-    }
-  }, [selectedIndex, containerWidth]);
-
-  return (
-    <View
-      style={styles.segmentedControlContainer}
-      onLayout={(e) => setContainerWidth(e.nativeEvent.layout.width)}
-    >
-      <View style={styles.segmentedControl}>
-        <Animated.View
-          style={[
-            styles.segmentedControlSlider,
-            {
-              width: containerWidth > 0 ? containerWidth / options.length : 0,
-              transform: [{ translateX: slideAnim }],
-            },
-          ]}
-        />
-        {options.map((option, index) => (
-          <TouchableOpacity
-            key={option.key}
-            style={styles.segmentedControlOption}
-            onPress={() => onChange(index)}
-          >
-            <Text
-              style={[
-                styles.segmentedControlText,
-                index === selectedIndex
-                  ? styles.segmentedControlActiveText
-                  : null,
-              ]}
-            >
-              {option.label}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </View>
-    </View>
-  );
-};
 
 const Orders: React.FC = () => {
   // const navigation = useNavigation<OrdersScreenNavigationProp>();
@@ -426,46 +356,13 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
   },
-  segmentedControlContainer: {
-    marginBottom: 16,
-  },
-  segmentedControl: {
-    flexDirection: 'row',
-    backgroundColor: 'rgba(0, 0, 0, 0.06)',
-    borderRadius: 8,
-    padding: 2,
-    position: 'relative',
-    overflow: 'hidden',
-  },
-  segmentedControlSlider: {
-    position: 'absolute',
-    top: 2,
-    bottom: 2,
-    backgroundColor: 'white',
-    borderRadius: 6,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 1,
-    elevation: 1,
-  },
-  segmentedControlOption: {
+  scrollView: {
     flex: 1,
-    paddingVertical: 8,
-    paddingHorizontal: 4,
-    alignItems: 'center',
-    justifyContent: 'center',
-    zIndex: 1,
-  },
-  segmentedControlText: {
-    fontSize: 14,
-    fontWeight: '500',
-    color: '#666666',
-  },
-  segmentedControlActiveText: {
-    color: '#000000',
+    marginTop: 16,
   },
   card: {
+    marginTop: 16,
+
     backgroundColor: '#ffffff',
     borderRadius: 16,
     padding: 16,
