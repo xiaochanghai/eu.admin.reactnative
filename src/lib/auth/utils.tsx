@@ -4,6 +4,7 @@ const TOKEN = 'token';
 
 export type TokenType = {
   access: string;
+  userId: string;
   refresh: string;
 };
 
