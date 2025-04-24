@@ -1,38 +1,31 @@
-# eu.admin.reactnative
+<div align="center"><h1>EU-Admin-React-Native</h1></div>
 
-#### 介绍
+📱 A React Native project 🚀, Made with developer experience and performance first: Expo, TypeScript, TailwindCSS, Husky, Lint-Staged, expo-router, react-query, react-hook-form, I18n.
 
-🚀🚀🚀 EU-Admin App
-1
+## 💎 Libraries used
 
-#### 软件架构
+- [Expo](https://docs.expo.io/)
+- [Expo Router](https://docs.expo.dev/router/introduction/)
+- [Nativewind](https://www.nativewind.dev/v4/overview)
+- [Flash list](https://github.com/Shopify/flash-list)
+- [React Query](https://tanstack.com/query/v4)
+- [Axios](https://axios-http.com/docs/intro)
+- [React Hook Form](https://react-hook-form.com/)
+- [i18next](https://www.i18next.com/)
+- [zustand](https://github.com/pmndrs/zustand)
+- [React Native MMKV](https://github.com/mrousavy/react-native-mmkv)
+- [React Native Gesture Handler](https://docs.swmansion.com/react-native-gesture-handler/docs/)
+- [React Native Reanimated](https://docs.swmansion.com/react-native-reanimated/docs/)
+- [React Native Svg](https://github.com/software-mansion/react-native-svg)
+- [React Error Boundaries](https://github.com/bvaughn/react-error-boundary)
+- [Expo Image](https://docs.expo.dev/versions/unversioned/sdk/image/)
+- [React Native Keyboard Controller](https://github.com/kirillzyusko/react-native-keyboard-controller)
+- [Moti](https://moti.fyi/)
+- [React Native Safe Area Context](https://github.com/th3rdwave/react-native-safe-area-context)
+- [React Native Screens](https://github.com/software-mansion/react-native-screens)
+- [Tailwind Variants](https://www.tailwind-variants.org/)
+- [Zod](https://zod.dev/)
 
-软件架构说明
+## 🔖 License
 
-#### 安装教程
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 使用说明
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 参与贡献
-
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
-
-#### 特技
-
-1.  使用 Readme_XXX.md 来支持不同的语言，例如 Readme_en.md, Readme_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+This project is MIT licensed.
