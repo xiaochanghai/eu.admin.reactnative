@@ -7,13 +7,19 @@ podfile_properties = JSON.parse(File.read(File.join(__dir__, 'Podfile.properties
 ENV['RCT_NEW_ARCH_ENABLED'] = podfile_properties['newArchEnabled'] == 'true' ? '1' : '0'
 ENV['EX_DEV_CLIENT_NETWORK_INSPECTOR'] = podfile_properties['EX_DEV_CLIENT_NETWORK_INSPECTOR']
 
+# 设置环境变量来绕过版本检查
+ENV['RCT_MINIMUM_XCODE_VERSION'] = '14.0'
+ENV['RCT_DISABLE_XCODE_VERSION_CHECK'] = '1'
+
 platform :ios, podfile_properties['ios.deploymentTarget'] || '15.1'
 install! 'cocoapods',
   :deterministic_uuids => false
 
 prepare_react_native_project!
 
-target 'ObytesApp' do
+# 删除有问题的猴子补丁代码
+
+target 'EUCloudERP' do
   use_expo_modules!
 
   if ENV['EXPO_USE_COMMUNITY_AUTOLINKING'] == '1'
@@ -64,3 +70,4 @@ target 'ObytesApp' do
     end
   end
 end
+

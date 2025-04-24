@@ -21,7 +21,7 @@ extensions.configure(com.facebook.react.ReactSettingsExtension) { ex ->
   }
 }
 
-rootProject.name = 'eu_cloud'
+rootProject.name = 'EUCloudERP'
 
 dependencyResolutionManagement {
   versionCatalogs {

@@ -9,6 +9,7 @@ export * from './image';
 export * from './input';
 export * from './list';
 export * from './modal';
+export * from './nav-header';
 export * from './progress-bar';
 export * from './select';
 export * from './text';

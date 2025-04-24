@@ -34,7 +34,14 @@ SplashScreen.setOptions({
 export default function RootLayout() {
   return (
     <Providers>
-      <Stack>
+      <Stack
+        screenOptions={{
+          animation: 'slide_from_right',
+          animationDuration: 200,
+          gestureEnabled: true,
+          contentStyle: { backgroundColor: 'white' },
+        }}
+      >
         <Stack.Screen name="(app)" options={{ headerShown: false }} />
         <Stack.Screen name="onboarding" options={{ headerShown: false }} />
         <Stack.Screen name="login" options={{ headerShown: false }} />
@@ -48,7 +55,7 @@ function Providers({ children }: { children: React.ReactNode }) {
   return (
     <GestureHandlerRootView
       style={styles.container}
-      // className={theme.dark ? `dark` : undefined}
+      className={theme.dark ? `dark` : undefined}
     >
       <KeyboardProvider>
         <ThemeProvider value={theme}>

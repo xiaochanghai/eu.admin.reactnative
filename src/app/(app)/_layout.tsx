@@ -1,25 +1,26 @@
 /* eslint-disable react/no-unstable-nested-components */
-import { Link, Redirect, SplashScreen, Tabs } from 'expo-router';
+import { Redirect, SplashScreen, Tabs } from 'expo-router';
 import React, { useCallback, useEffect } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 
-import { Pressable, Text } from '@/components/ui';
+import { Text } from '@/components/ui';
 import {
-  Feed as FeedIcon,
-  Github as DemoIcon,
-  Settings as profileIcon,
-  Style as AddIcon,
-  Style as StyleIcon,
+  Home as HomeIcon,
+  Inventory as InventoryIcon,
+  Order as OrderIcon,
+  Production as ProductionIcon,
+  Profile as ProfileIcon,
 } from '@/components/ui/icons';
 import { useAuth, useIsFirstTime } from '@/lib';
 
 // 定义 Tab 配置
 const tabConfig = [
-  { name: 'index', title: '首页', icon: FeedIcon },
-  { name: 'style', title: 'Style', icon: StyleIcon },
-  { name: 'add', title: 'add', icon: AddIcon },
-  { name: 'demo', title: 'Demo', icon: DemoIcon },
-  { name: 'profile', title: '我的', icon: profileIcon },
+  { name: 'index', title: '首页', icon: HomeIcon },
+  { name: 'production', title: '生产', icon: ProductionIcon },
+  // { name: 'add', title: 'add', icon: AddIcon },
+  { name: 'inventory', title: '库存', icon: InventoryIcon },
+  { name: 'order', title: '订单', icon: OrderIcon },
+  { name: 'profile', title: '我的', icon: ProfileIcon },
 ];
 
 export default function TabLayout() {
@@ -47,41 +48,49 @@ export default function TabLayout() {
         <Tabs.Screen
           key={name}
           name={name}
-          options={
-            name === 'index'
-              ? {
-                  title,
-                  headerShown: name === 'index',
-                  tabBarIcon: ({ focused }) => (
-                    <IconWrapper IconComponent={icon} focused={focused} />
-                  ),
-                  headerRight: () => <CreateNewPostLink />,
-                  tabBarButtonTestID: `${name}-tab`,
-                }
-              : {
-                  title,
-                  headerShown: name === 'index',
-                  tabBarIcon: ({ focused }) => (
-                    <IconWrapper IconComponent={icon} focused={focused} />
-                  ),
-                  tabBarButtonTestID: `${name}-tab`,
-                }
-          }
+          options={{
+            title,
+            // headerShown: false,
+            tabBarIcon: ({ focused }) => (
+              <IconWrapper IconComponent={icon} focused={focused} />
+            ),
+            tabBarButtonTestID: `${name}-tab`,
+          }}
+          // options={
+          //   name === 'index'
+          //     ? {
+          //         title,
+          //         headerShown: name === 'index',
+          //         tabBarIcon: ({ focused }) => (
+          //           <IconWrapper IconComponent={icon} focused={focused} />
+          //         ),
+          //         headerRight: () => <CreateNewPostLink />,
+          //         tabBarButtonTestID: `${name}-tab`,
+          //       }
+          //     : {
+          //         title,
+          //         headerShown: name === 'index',
+          //         tabBarIcon: ({ focused }) => (
+          //           <IconWrapper IconComponent={icon} focused={focused} />
+          //         ),
+          //         tabBarButtonTestID: `${name}-tab`,
+          //       }
+          // }
         />
       ))}
     </Tabs>
   );
 }
 
-const CreateNewPostLink = () => {
-  return (
-    <Link href="/feed/add-post" asChild>
-      <Pressable>
-        <Text className="px-3 text-primary-300">Create</Text>
-      </Pressable>
-    </Link>
-  );
-};
+// const CreateNewPostLink = () => {
+//   return (
+//     <Link href="/feed/add-post" asChild>
+//       <Pressable>
+//         <Text className="px-3 text-primary-300">Create</Text>
+//       </Pressable>
+//     </Link>
+//   );
+// };
 
 // 自定义 TabBar 组件
 function CustomTabBar({ state, descriptors, navigation }: any) {
