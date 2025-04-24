@@ -54,14 +54,15 @@ export const LoginForm = () => {
   // 处理登录
   const handleLogin = async () => {
     if (!username) {
-      message.error('用户名/手机号不能为空！');
+      message.info('用户名/手机号不能为空！');
       return;
     }
     if (!password) {
-      message.error('密码不能为空！');
+      message.info('密码不能为空！');
       return;
     }
-    message.loading('数据提交中...');
+    message.loading('用户验证中...');
+    setSubmitBtnDisable(true);
     const { Success, Data } = await loginApi({
       UserAccount: username,
       Password: password,
@@ -74,7 +75,7 @@ export const LoginForm = () => {
         refresh: 'refresh-token',
       });
       router.push('/');
-    }
+    } else setSubmitBtnDisable(false);
   };
 
   // 状态管理
@@ -84,6 +85,7 @@ export const LoginForm = () => {
   // 添加焦点状态
   const [usernameFocused, setUsernameFocused] = useState(false);
   const [passwordFocused, setPasswordFocused] = useState(false);
+  const [submitBtnDisable, setSubmitBtnDisable] = useState(false);
   // const [rememberMe, setRememberMe] = useState(false);
   return (
     <SafeAreaView style={styles.container}>
@@ -195,7 +197,7 @@ export const LoginForm = () => {
             <TouchableOpacity
               style={styles.loginButton}
               onPress={handleLogin}
-              disabled={!username || !password}
+              disabled={submitBtnDisable}
               // onPress={onSubmit1(1)}
             >
               <Text style={styles.loginButtonText}>登 录</Text>
