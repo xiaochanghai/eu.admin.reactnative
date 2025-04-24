@@ -1,5 +1,6 @@
 /* eslint-disable react/react-in-jsx-scope */
 // import { zodResolver } from '@hookform/resolvers/zod';
+import { Env } from '@env';
 import { FontAwesome } from '@expo/vector-icons';
 import Entypo from '@expo/vector-icons/Entypo';
 import { useRouter } from 'expo-router';
@@ -17,6 +18,7 @@ import {
 import { KeyboardAvoidingView } from 'react-native-keyboard-controller';
 import * as z from 'zod';
 
+import { loginApi } from '@/api';
 import { Image, Text, View } from '@/components/ui';
 import { signIn } from '@/lib';
 import { message } from '@/utils';
@@ -50,7 +52,7 @@ export const LoginForm = () => {
   //   router.push('/');
   // };
   // 处理登录
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (!username) {
       message.error('用户名/手机号不能为空！');
       return;
@@ -59,8 +61,20 @@ export const LoginForm = () => {
       message.error('密码不能为空！');
       return;
     }
-    signIn({ access: 'access-token', refresh: 'refresh-token' });
-    router.push('/');
+    message.loading('数据提交中...');
+    const { Success, Data } = await loginApi({
+      UserAccount: username,
+      Password: password,
+    });
+    message.hideLoading();
+    if (Success) {
+      signIn({
+        access: Data.Token,
+        userId: Data.UserId,
+        refresh: 'refresh-token',
+      });
+      router.push('/');
+    }
   };
 
   // 状态管理
@@ -91,7 +105,7 @@ export const LoginForm = () => {
                 contentFit="contain"
               />
             </View>
-            <Text style={styles.title}>优智云</Text>
+            <Text style={styles.title}>{Env.NAME}</Text>
             <Text style={styles.subtitle}>智能制造管理系统</Text>
           </View>
 
@@ -107,7 +121,7 @@ export const LoginForm = () => {
               <FontAwesome
                 name="user"
                 size={20}
-                color={usernameFocused ? '#0066ff' : '#9ca3af'}
+                color={usernameFocused || username ? '#e94538' : '#9ca3af'}
                 style={styles.inputIcon}
               />
               <TextInput
@@ -131,7 +145,7 @@ export const LoginForm = () => {
               <FontAwesome
                 name="lock"
                 size={20}
-                color={passwordFocused ? '#0066ff' : '#9ca3af'}
+                color={passwordFocused || password ? '#e94538' : '#9ca3af'}
                 style={styles.inputIcon}
               />
               <TextInput
@@ -181,6 +195,7 @@ export const LoginForm = () => {
             <TouchableOpacity
               style={styles.loginButton}
               onPress={handleLogin}
+              disabled={!username || !password}
               // onPress={onSubmit1(1)}
             >
               <Text style={styles.loginButtonText}>登 录</Text>
@@ -320,7 +335,7 @@ const styles = StyleSheet.create({
     color: '#0066ff',
   },
   loginButton: {
-    backgroundColor: '#0066ff',
+    backgroundColor: '#e94538',
     borderRadius: 12,
     height: 50,
     alignItems: 'center',
@@ -379,7 +394,7 @@ const styles = StyleSheet.create({
     color: '#6b7280',
   },
   footerLink: {
-    color: '#0066ff',
+    color: '#e94538',
     fontWeight: '500',
   },
   copyright: {
