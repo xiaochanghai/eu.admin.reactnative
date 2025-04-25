@@ -67,14 +67,16 @@ export const LoginForm = () => {
       UserAccount: username,
       Password: password,
     });
-    message.hideLoading();
     if (Success) {
       signIn({
         access: Data.Token,
         userId: Data.UserId,
         refresh: 'refresh-token',
       });
-      router.push('/');
+      message.info('登录成功！');
+      setTimeout(() => {
+        router.push('/');
+      }, 100);
     } else setSubmitBtnDisable(false);
   };
 
