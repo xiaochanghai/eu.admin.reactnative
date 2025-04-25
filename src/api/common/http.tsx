@@ -9,6 +9,7 @@ import axios, {
 
 import { type ResultData } from '@/api/interface';
 import { ResultEnum } from '@/enums/http-enum';
+import { getToken } from '@/lib/auth/utils';
 import { message } from '@/utils';
 
 import { checkStatus } from './utils';
@@ -43,11 +44,7 @@ class RequestHttp {
       (config: CustomAxiosRequestConfig) => {
         // The current request needs to display loading, which is controlled by the third parameter specified in the API service: {loading: true}
         if (config.headers && typeof config.headers.set === 'function') {
-          config.headers.set(
-            'Authorization',
-            'Bearer 1112'
-            //'Bearer ' + store.getState().user.token
-          );
+          config.headers.set('Authorization', 'Bearer ' + getToken()?.access);
           if (config.filter)
             config.headers.set(
               'filter',

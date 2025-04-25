@@ -92,7 +92,7 @@ const Home: React.FC = () => {
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
         {/* 欢迎信息 */}
         <View style={styles.welcomeSection}>
-          <Text style={styles.welcomeTitle}>你好，张经理</Text>
+          <Text style={styles.welcomeTitle}>你好，张经理 </Text>
           <Text style={styles.welcomeSubtitle}>今天是周三，祝您工作顺利</Text>
         </View>
 
