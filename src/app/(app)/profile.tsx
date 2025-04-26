@@ -23,7 +23,6 @@ import { userInfo as user } from '@/lib/user';
 export default function Settings() {
   const signOut = useAuth.use.signOut();
   const userInfo = user.use.userInfo();
-  const clearUserInfo = user.use.clear();
 
   // const { colorScheme } = useColorScheme();
   // const iconColor =
@@ -154,7 +153,6 @@ export default function Settings() {
             style={styles.logoutButton}
             onPress={() => {
               signOut();
-              clearUserInfo();
             }}
             className="m-10"
           >

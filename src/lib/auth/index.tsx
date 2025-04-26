@@ -2,7 +2,7 @@ import { create } from 'zustand';
 
 import { createSelectors } from '../utils';
 import type { TokenType } from './utils';
-import { getToken, removeToken, setToken } from './utils';
+import { getToken, removeToken, removeUserInfo, setToken } from './utils';
 
 interface AuthState {
   token: TokenType | null;
@@ -21,6 +21,7 @@ const _useAuth = create<AuthState>((set, get) => ({
   },
   signOut: () => {
     removeToken();
+    removeUserInfo();
     set({ status: 'signOut', token: null });
   },
   hydrate: () => {

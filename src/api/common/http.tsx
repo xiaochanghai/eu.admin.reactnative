@@ -6,6 +6,7 @@ import axios, {
   type AxiosResponse,
   type InternalAxiosRequestConfig,
 } from 'axios';
+import { Redirect } from 'expo-router';
 
 import { type ResultData } from '@/api/interface';
 import { ResultEnum } from '@/enums/http-enum';
@@ -91,7 +92,12 @@ class RequestHttp {
         if (error.message.indexOf('Network Error') !== -1)
           message.error('网络错误！请您稍后重试');
         // Do different processing according to the error status code of the server response
-        if (response) checkStatus(response.status);
+        if (response) {
+          checkStatus(response.status);
+          if (response.status === ResultEnum.OVERDUE)
+            return <Redirect href="/login" />;
+        }
+
         // The server does not return any results (maybe the server is wrong or the client is disconnected from the network), disconnection processing: you can jump to the disconnection page
         // if (!window.navigator.onLine) window.$navigate('/500');
         return Promise.reject(error);

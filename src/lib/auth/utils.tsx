@@ -10,4 +10,5 @@ export type TokenType = {
 
 export const getToken = () => getItem<TokenType>(TOKEN);
 export const removeToken = () => removeItem(TOKEN);
+export const removeUserInfo = () => removeItem('userInfo');
 export const setToken = (value: TokenType) => setItem<TokenType>(TOKEN, value);
