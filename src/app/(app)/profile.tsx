@@ -1,5 +1,6 @@
 /* eslint-disable react/react-in-jsx-scope */
 // import { useColorScheme } from 'nativewind';
+import { Env } from '@env';
 import { Link } from 'expo-router';
 import {
   Image,
@@ -23,7 +24,9 @@ import { userInfo as user } from '@/lib/user';
 export default function Settings() {
   const signOut = useAuth.use.signOut();
   const userInfo = user.use.userInfo();
-
+  let avatarFileUrl = 'https://randomuser.me/api/portraits/men/32.jpg';
+  if (userInfo?.AvatarFileId != null)
+    avatarFileUrl = Env.API_URL + 'api/File/Img/' + userInfo?.AvatarFileId;
   // const { colorScheme } = useColorScheme();
   // const iconColor =
   //   colorScheme === 'dark' ? colors.neutral[400] : colors.neutral[500];
@@ -49,7 +52,7 @@ export default function Settings() {
             <View style={styles.userInfoContainer}>
               <Image
                 source={{
-                  uri: 'https://randomuser.me/api/portraits/men/32.jpg',
+                  uri: avatarFileUrl,
                 }}
                 style={styles.avatar}
               />
