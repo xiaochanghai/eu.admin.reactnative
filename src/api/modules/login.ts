@@ -4,11 +4,18 @@ import http from '@/api/common/http';
 interface ResLogin {
   Token: string;
   UserId: string;
+  UserInfo: UserInfo;
 }
 export interface ReqLogin {
   UserAccount: string;
   Password: string;
 }
+
+export type UserInfo = {
+  UserName: string;
+  WeekName: string;
+  AvatarFileId: string;
+};
 /**
  * @name AuthModule
  */

@@ -21,6 +21,7 @@ import * as z from 'zod';
 import { loginApi } from '@/api';
 import { Image, Text, View } from '@/components/ui';
 import { signIn } from '@/lib';
+import { setUserInfo } from '@/lib/user';
 import { message } from '@/utils';
 
 const schema = z.object({
@@ -73,6 +74,8 @@ export const LoginForm = () => {
         userId: Data.UserId,
         refresh: 'refresh-token',
       });
+      setUserInfo(Data.UserInfo);
+
       message.info('登录成功！');
       setTimeout(() => {
         router.push('/');

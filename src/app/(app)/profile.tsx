@@ -18,10 +18,13 @@ import { FontAwesome } from '@/components/ui/icons';
 // import Help from '@/components/profile/help';
 import type { TxKeyPath } from '@/lib';
 import { useAuth } from '@/lib';
+import { userInfo as user } from '@/lib/user';
 
-// eslint-disable-next-line max-lines-per-function
 export default function Settings() {
   const signOut = useAuth.use.signOut();
+  const userInfo = user.use.userInfo();
+  const clearUserInfo = user.use.clear();
+
   // const { colorScheme } = useColorScheme();
   // const iconColor =
   //   colorScheme === 'dark' ? colors.neutral[400] : colors.neutral[500];
@@ -52,7 +55,7 @@ export default function Settings() {
                 style={styles.avatar}
               />
               <View style={styles.userInfo}>
-                <Text style={styles.userName}>张经理</Text>
+                <Text style={styles.userName}>{userInfo?.UserName}</Text>
                 <Text style={styles.userRole}>生产部门 · 经理</Text>
                 <View style={styles.badgeContainer}>
                   <View style={styles.adminBadge}>
@@ -149,7 +152,10 @@ export default function Settings() {
           {/* 退出登录按钮 */}
           <TouchableOpacity
             style={styles.logoutButton}
-            onPress={signOut}
+            onPress={() => {
+              signOut();
+              clearUserInfo();
+            }}
             className="m-10"
           >
             {/* <Text style={styles.logoutButtonText}>退出登录1</Text> */}

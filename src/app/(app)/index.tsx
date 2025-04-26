@@ -1,5 +1,5 @@
 /* eslint-disable react/react-in-jsx-scope */
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -10,6 +10,7 @@ import {
 
 import { NavHeader, Text, View } from '@/components/ui';
 import { FontAwesome } from '@/components/ui/icons';
+import { userInfo as user } from '@/lib/user';
 
 // 活动项组件
 type ActivityItemProps = {
@@ -65,6 +66,11 @@ const ModuleItem: React.FC<ModuleItemProps> = ({
 );
 
 const Home: React.FC = () => {
+  const userInfo = user.use.userInfo();
+  const setInfo = user.use.setInfo();
+  useEffect(() => {
+    if (userInfo == null) setInfo(null);
+  });
   return (
     <SafeAreaView style={styles.container}>
       {/* <StatusBar barStyle="dark-content" backgroundColor="transparent" /> */}
@@ -92,8 +98,10 @@ const Home: React.FC = () => {
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
         {/* 欢迎信息 */}
         <View style={styles.welcomeSection}>
-          <Text style={styles.welcomeTitle}>你好，张经理 </Text>
-          <Text style={styles.welcomeSubtitle}>今天是周三，祝您工作顺利</Text>
+          <Text style={styles.welcomeTitle}>你好，{userInfo?.UserName}</Text>
+          <Text style={styles.welcomeSubtitle}>
+            今天是{userInfo?.WeekName}，祝您工作顺利
+          </Text>
         </View>
 
         {/* 数据概览 */}
