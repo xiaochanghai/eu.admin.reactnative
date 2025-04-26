@@ -23,3 +23,6 @@ export type UserInfo = {
 export const loginApi = (params: ReqLogin) => {
   return http.post<ResLogin>(`api/Authorize/Login`, params);
 };
+export const currentUserApi = () => {
+  return http.get<UserInfo>(`api/Authorize/CurrentUser`);
+};

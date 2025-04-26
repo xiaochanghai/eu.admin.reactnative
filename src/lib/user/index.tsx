@@ -1,11 +1,10 @@
 import { create } from 'zustand';
 
-import http from '@/api/common/http';
+import { currentUserApi } from '@/api/modules/login';
 
-// import { currentUserApi } from '@/api/modules/login';
 import type { UserInfo } from '../../api/modules/login';
 import { createSelectors } from '../utils';
-import { clearUserInfoData, setUserInfoData } from './utils';
+import { clear as clearUserInfo, set as setUserInfoData } from './utils';
 
 interface UserInfoState {
   userInfo: UserInfo | null;
@@ -20,7 +19,7 @@ const _userInfo = create<UserInfoState>((set, get) => ({
       setUserInfoData(userInfo);
       set({ userInfo });
     } else {
-      const { Data } = await http.get<UserInfo>(`api/Authorize/CurrentUser`);
+      const { Data } = await currentUserApi();
       setUserInfoData(Data);
       set({ userInfo: Data });
     }
@@ -29,7 +28,7 @@ const _userInfo = create<UserInfoState>((set, get) => ({
     return get().userInfo;
   },
   clear: () => {
-    clearUserInfoData();
+    clearUserInfo();
   },
 }));
 

@@ -3,7 +3,6 @@ import { getItem, removeItem, setItem } from '@/lib/storage';
 
 const USERINFO = 'userInfo';
 
-export const clearUserInfoData = () => removeItem(USERINFO);
-export const setUserInfoData = (value: UserInfo) =>
-  setItem<UserInfo>('userInfo', value);
-export const getUserInfoData = () => getItem<UserInfo>(USERINFO);
+export const clear = () => removeItem(USERINFO);
+export const set = (value: UserInfo) => setItem<UserInfo>('userInfo', value);
+export const get = () => getItem<UserInfo>(USERINFO);
