@@ -1,12 +1,20 @@
 // import { useRouter } from 'expo-router';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { getUniqueId } from 'react-native-device-info';
 
 // import type { LoginFormProps } from '@/components/login-form';
 import { LoginForm } from '@/components/login-form';
 import { FocusAwareStatusBar } from '@/components/ui';
-// import { useAuth } from '@/lib';
-
+import { recordDevice } from '@/lib/device';
 export default function Login() {
+  const [uniqueId, setUniqueId] = useState('');
+
+  useEffect(() => {
+    getUniqueId().then((uniqueId) => {
+      setUniqueId(uniqueId);
+    });
+    recordDevice(uniqueId);
+  }, [uniqueId]);
   // const router = useRouter();
   // const signIn = useAuth.use.signIn();
 

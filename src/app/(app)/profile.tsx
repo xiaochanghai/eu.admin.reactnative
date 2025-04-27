@@ -1,7 +1,6 @@
-/* eslint-disable react/react-in-jsx-scope */
-// import { useColorScheme } from 'nativewind';
 import { Env } from '@env';
 import { Link } from 'expo-router';
+import { useRouter } from 'expo-router';
 import {
   Image,
   SafeAreaView,
@@ -9,17 +8,12 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-// import { Item } from '@/components/settings/item';
-// import { ItemsContainer } from '@/components/settings/items-container';
 import { NavHeader, ScrollView, Text, View } from '@/components/ui';
 import { FontAwesome } from '@/components/ui/icons';
-// import About from '@/components/profile/about';
-// import { BigDivider, Divider } from '@/components/profile/divider';
-// import Feedback from '@/components/profile/feedback';
-// import Help from '@/components/profile/help';
-import type { TxKeyPath } from '@/lib';
 import { useAuth } from '@/lib';
 import { userInfo as user } from '@/lib/user';
+
+import SettingItem from '../settings/components/setting-item';
 
 export default function Settings() {
   const signOut = useAuth.use.signOut();
@@ -30,6 +24,7 @@ export default function Settings() {
   // const { colorScheme } = useColorScheme();
   // const iconColor =
   //   colorScheme === 'dark' ? colors.neutral[400] : colors.neutral[500];
+  const router = useRouter();
 
   return (
     <>
@@ -88,25 +83,35 @@ export default function Settings() {
 
           {/* 功能菜单 */}
           <View style={styles.card}>
-            <MenuItem
+            <SettingItem
               icon="user-edit"
-              color="#3b82f6"
+              iconBgColor="#3b82f6"
+              title="测试设备信息"
+              subtitle="修改个人信息和联系方式"
+              // text="profile.about"
+              onPress={() => {
+                router.push('/test/device');
+              }}
+            />
+            <SettingItem
+              icon="user-edit"
+              iconBgColor="#3b82f6"
               title="个人资料"
               subtitle="修改个人信息和联系方式"
               // text="profile.about"
               onPress={() => {}}
             />
-            <MenuItem
+            <SettingItem
               icon="shield-alt"
-              color="#22c55e"
+              iconBgColor="#22c55e"
               title="账号安全"
               subtitle="修改密码和安全设置"
               // text="profile.about"
               onPress={() => {}}
             />
-            <MenuItem
+            <SettingItem
               icon="bell"
-              color="#a855f7"
+              iconBgColor="#a855f7"
               title="消息通知"
               subtitle="设置接收的通知类型"
               onPress={() => {}}
@@ -127,23 +132,23 @@ export default function Settings() {
 
           {/* 其他选项 */}
           <View style={styles.card}>
-            <MenuItem
+            <SettingItem
               icon="question-circle"
-              color="#eab308"
+              iconBgColor="#eab308"
               title="帮助中心"
               // text="profile.about"
               onPress={() => {}}
             />
-            <MenuItem
+            <SettingItem
               icon="headset"
-              color="#ef4444"
+              iconBgColor="#ef4444"
               title="联系客服"
               // text="profile.about"
               onPress={() => {}}
             />
-            <MenuItem
+            <SettingItem
               icon="info-circle"
-              color="#6b7280"
+              iconBgColor="#6b7280"
               title="关于我们"
               // text="profile.about"
               onPress={() => {}}
@@ -159,7 +164,6 @@ export default function Settings() {
             }}
             className="m-10"
           >
-            {/* <Text style={styles.logoutButtonText}>退出登录1</Text> */}
             <Text style={styles.logoutButtonText} tx="settings.logout" />
           </TouchableOpacity>
         </ScrollView>
@@ -167,43 +171,6 @@ export default function Settings() {
     </>
   );
 }
-
-// 菜单项组件
-type MenuItemProps = {
-  icon: string;
-  color: string;
-  title: string;
-  subtitle?: string;
-  onPress: () => void;
-  isLast?: boolean;
-  text?: TxKeyPath;
-};
-
-const MenuItem: React.FC<MenuItemProps> = ({
-  icon,
-  color,
-  title,
-  subtitle,
-  onPress,
-  isLast = false,
-  text,
-}) => (
-  <TouchableOpacity
-    style={[styles.menuItem, isLast ? styles.menuItemLast : null]}
-    onPress={onPress}
-  >
-    <View style={[styles.menuIcon, { backgroundColor: color }]}>
-      <FontAwesome name={icon as any} size={18} color="white" />
-    </View>
-    <View style={styles.menuContent}>
-      <Text style={styles.menuTitle} tx={text}>
-        {title}
-      </Text>
-      {subtitle && <Text style={styles.menuSubtitle}>{subtitle}</Text>}
-    </View>
-    <FontAwesome name="chevron-right" size={14} color="#9ca3af" />
-  </TouchableOpacity>
-);
 
 // 进度条组件
 type ProgressBarProps = {
@@ -315,35 +282,6 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#6b7280',
   },
-  menuItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
-  },
-  menuItemLast: {
-    borderBottomWidth: 0,
-  },
-  menuIcon: {
-    width: 36,
-    height: 36,
-    borderRadius: 8,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: 16,
-  },
-  menuContent: {
-    flex: 1,
-  },
-  menuTitle: {
-    fontWeight: '500',
-  },
-  menuSubtitle: {
-    fontSize: 12,
-    color: '#6b7280',
-    marginTop: 2,
-  },
   sectionTitle: {
     fontSize: 18,
     fontWeight: '600',
@@ -391,33 +329,5 @@ const styles = StyleSheet.create({
     color: '#dc2626',
     fontWeight: '500',
     fontSize: 16,
-  },
-  navBar: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    height: 70,
-    backgroundColor: 'white',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    borderTopWidth: 1,
-    borderTopColor: '#e5e7eb',
-    paddingBottom: 20, // 适配底部安全区域
-  },
-  navItem: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  navIcon: {
-    marginBottom: 4,
-  },
-  navText: {
-    fontSize: 12,
-    color: '#6b7280',
-  },
-  navTextActive: {
-    color: '#0066ff',
   },
 });
