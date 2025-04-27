@@ -1,85 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   SafeAreaView,
   ScrollView,
   StyleSheet,
-  Switch,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
 
 import { NavHeader } from '@/components/ui';
-import { FontAwesome } from '@/components/ui/icons';
 
-// 设置项组件
-type SettingItemProps = {
-  icon: string;
-  iconBgColor: string;
-  title: string;
-  subtitle?: string;
-  hasToggle?: boolean;
-  defaultToggleValue?: boolean;
-  onToggleChange?: (value: boolean) => void;
-  hasNavigation?: boolean;
-  onPress?: () => void;
-  isLast?: boolean;
-};
-
-const SettingItem: React.FC<SettingItemProps> = ({
-  icon,
-  iconBgColor,
-  title,
-  subtitle,
-  hasToggle = false,
-  defaultToggleValue = false,
-  onToggleChange,
-  hasNavigation = false,
-  onPress,
-  isLast = false,
-}) => {
-  const [isEnabled, setIsEnabled] = useState(defaultToggleValue);
-
-  const toggleSwitch = () => {
-    const newValue = !isEnabled;
-    setIsEnabled(newValue);
-    if (onToggleChange) {
-      onToggleChange(newValue);
-    }
-  };
-
-  return (
-    <TouchableOpacity
-      style={[styles.settingItem, isLast ? styles.settingItemLast : null]}
-      onPress={onPress}
-      disabled={!onPress}
-    >
-      <View style={styles.settingItemLeft}>
-        <View style={[styles.settingIcon, { backgroundColor: iconBgColor }]}>
-          <FontAwesome name={icon} size={18} color="white" />
-        </View>
-        <View>
-          <Text style={styles.settingTitle}>{title}</Text>
-          {subtitle && <Text style={styles.settingSubtitle}>{subtitle}</Text>}
-        </View>
-      </View>
-
-      {hasToggle && (
-        <Switch
-          trackColor={{ false: '#e5e7eb', true: '#0066ff' }}
-          thumbColor="#ffffff"
-          ios_backgroundColor="#e5e7eb"
-          onValueChange={toggleSwitch}
-          value={isEnabled}
-        />
-      )}
-
-      {hasNavigation && (
-        <FontAwesome name="chevron-right" size={14} color="#9ca3af" />
-      )}
-    </TouchableOpacity>
-  );
-};
+import SettingItem from './components/setting-item';
 
 const Settings: React.FC = () => {
   return (
@@ -287,39 +218,6 @@ const styles = StyleSheet.create({
     elevation: 2,
     marginBottom: 16,
     padding: 16,
-  },
-  settingItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingVertical: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
-  },
-  settingItemLast: {
-    borderBottomWidth: 0,
-  },
-  settingItemLeft: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  settingIcon: {
-    width: 36,
-    height: 36,
-    borderRadius: 8,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: 16,
-  },
-  settingTitle: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: '#333',
-  },
-  settingSubtitle: {
-    fontSize: 12,
-    color: '#9ca3af',
-    marginTop: 2,
   },
   logoutButton: {
     backgroundColor: '#ef4444',
