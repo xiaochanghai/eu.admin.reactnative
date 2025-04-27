@@ -6,10 +6,10 @@ import axios, {
   type AxiosResponse,
   type InternalAxiosRequestConfig,
 } from 'axios';
-import { Redirect } from 'expo-router';
 
 import { type ResultData } from '@/api/interface';
 import { ResultEnum } from '@/enums/http-enum';
+import { signOut } from '@/lib/auth';
 import { getToken } from '@/lib/auth/utils';
 import { message } from '@/utils';
 
@@ -94,8 +94,7 @@ class RequestHttp {
         // Do different processing according to the error status code of the server response
         if (response) {
           checkStatus(response.status);
-          if (response.status === ResultEnum.OVERDUE)
-            return <Redirect href="/login" />;
+          if (response.status === ResultEnum.OVERDUE) signOut();
         }
 
         // The server does not return any results (maybe the server is wrong or the client is disconnected from the network), disconnection processing: you can jump to the disconnection page
