@@ -1,3 +1,4 @@
+import { Platform } from 'react-native';
 import {
   getBrand,
   getBundleId,
@@ -19,7 +20,7 @@ export type DeviceInfo = {
 };
 
 export const recordDevice = async (uniqueId: string) => {
-  if (uniqueId !== '') {
+  if (uniqueId !== '' && Platform.OS === 'web') {
     let param: DeviceInfo = {
       UUID: uniqueId,
       Platform: getSystemName(),

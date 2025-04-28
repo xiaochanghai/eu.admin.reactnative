@@ -5,6 +5,7 @@
   "main": "node_modules/expo-router/entry",
   "scripts": {
     "start": "cross-env EXPO_NO_DOTENV=1 expo start",
+    "start:reset": "cross-env EXPO_NO_DOTENV=1 expo start --reset-cache",
     "prebuild": "cross-env EXPO_NO_DOTENV=1 pnpm expo prebuild",
     "android": "cross-env EXPO_NO_DOTENV=1 expo run:android",
     "ios": "cross-env EXPO_NO_DOTENV=1 expo run:ios",
