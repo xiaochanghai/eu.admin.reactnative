@@ -6,7 +6,7 @@ EU-Admin App </h1>
 
 > This Project is based on [Expo](https://docs.expo.dev/)
 
-![image-1](./doc/images/android/1.png)
+![image-1](./doc/images/android/1.png =270x480)
 ![image-2](./doc/images/android/2.png)
 ![image-3](./doc/images/android/3.png)
 ![image-4](./doc/images/android/4.png)
