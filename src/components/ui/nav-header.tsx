@@ -2,6 +2,8 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import { Stack, useRouter } from 'expo-router';
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Platform } from 'react-native';
+
 export type NavHeaderProps = {
   leftShown?: boolean;
   title?: string;
@@ -16,43 +18,46 @@ export const NavHeader = ({
 
   return (
     <>
-      <Stack.Screen
-        options={{
-          headerShadowVisible: false,
-          header: () => (
-            <View style={styles.header}>
-              <View style={styles.headerSide}>
-                {leftShown && (
-                  <TouchableOpacity onPress={() => router.back()}>
-                    <AntDesign name="left" size={24} color="black" />
-                  </TouchableOpacity>
-                )}
-              </View>
+      {Platform.OS === 'ios' ? (
+        <Stack.Screen
+          options={{
+            title,
+            headerTintColor: '#000',
+            headerBackTitle: 'Feed',
+            headerShadowVisible: leftShown,
+            headerRight: () =>
+              right && (
+                <View style={styles.headerRight1}>{right && <>{right}</>}</View>
+              ),
+          }}
+        />
+      ) : (
+        <Stack.Screen
+          options={{
+            headerShadowVisible: false,
+            header: () => (
+              <View style={styles.header}>
+                <View style={styles.headerSide}>
+                  {leftShown && (
+                    <TouchableOpacity onPress={() => router.back()}>
+                      <AntDesign name="left" size={24} color="black" />
+                    </TouchableOpacity>
+                  )}
+                </View>
 
-              {/* 中间标题 */}
-              <View style={styles.headerCenter}>
-                <Text style={styles.headerTitle}>{title}</Text>
-              </View>
+                {/* 中间标题 */}
+                <View style={styles.headerCenter}>
+                  <Text style={styles.headerTitle}>{title}</Text>
+                </View>
 
-              {/* 右侧按钮 */}
-              <View style={styles.headerRight}>
-                {right && <>{right}</>}
-
-                {/* <TouchableOpacity style={styles.headerButton}>
-                  <FontAwesome name="search" size={18} color="#666" />
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.headerButton}>
-                  <FontAwesome name="filter" size={18} color="#666" />
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.headerButton}>
-                  <FontAwesome name="plus-circle" size={22} color="#0066ff" />
-                </TouchableOpacity> */}
+                {/* 右侧按钮 */}
+                <View style={styles.headerRight}>{right && <>{right}</>}</View>
               </View>
-            </View>
-          ),
-          title,
-        }}
-      />
+            ),
+            title,
+          }}
+        />
+      )}
     </>
   );
 };
@@ -83,6 +88,14 @@ const styles = StyleSheet.create({
     color: '#333',
   },
   headerRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: 90, // 固定宽度，确保与左侧空白区域平衡
+    justifyContent: 'flex-end',
+  },
+  headerRight1: {
+    marginRight: 20,
+
     flexDirection: 'row',
     alignItems: 'center',
     width: 90, // 固定宽度，确保与左侧空白区域平衡

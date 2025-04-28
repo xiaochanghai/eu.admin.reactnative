@@ -229,7 +229,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#f5f5f5',
   },
   notificationButton: {
-    marginRight: 16,
     position: 'relative',
   },
   notificationBadge: {

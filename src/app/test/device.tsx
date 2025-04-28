@@ -1,3 +1,4 @@
+import { Stack } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import {
   getApplicationName,
@@ -10,13 +11,7 @@ import {
   getVersion,
 } from 'react-native-device-info';
 
-import {
-  FocusAwareStatusBar,
-  SafeAreaView,
-  ScrollView,
-  Text,
-  View,
-} from '@/components/ui';
+import { SafeAreaView, ScrollView, Text, View } from '@/components/ui';
 
 export default function Style() {
   const [uniqueId, setUniqueId] = useState('');
@@ -28,7 +23,13 @@ export default function Style() {
   });
   return (
     <>
-      <FocusAwareStatusBar />
+      <Stack.Screen
+        options={{
+          title: 'Add Post',
+          headerTintColor: '#000',
+          headerBackTitle: 'Feed',
+        }}
+      />
       <ScrollView className="px-4">
         <SafeAreaView className="flex-1">
           <View>
