@@ -20,7 +20,7 @@ export type DeviceInfo = {
 };
 
 export const recordDevice = async (uniqueId: string) => {
-  if (uniqueId !== '' && Platform.OS === 'web') {
+  if (uniqueId !== '' && Platform.OS !== 'web') {
     let param: DeviceInfo = {
       UUID: uniqueId,
       Platform: getSystemName(),
