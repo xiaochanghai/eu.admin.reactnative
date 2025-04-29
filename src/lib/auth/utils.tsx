@@ -12,3 +12,7 @@ export const getToken = () => getItem<TokenType>(TOKEN);
 export const removeToken = () => removeItem(TOKEN);
 export const removeUserInfo = () => removeItem('userInfo');
 export const setToken = (value: TokenType) => setItem<TokenType>(TOKEN, value);
+export const setUniqueId = (value: string) =>
+  setItem<string>('uniqueId', value);
+
+export const getUniqueId = () => getItem<string>('uniqueId');

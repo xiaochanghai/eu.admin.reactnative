@@ -10,7 +10,7 @@ import axios, {
 import { type ResultData } from '@/api/interface';
 import { ResultEnum } from '@/enums/http-enum';
 import { signOut } from '@/lib/auth';
-import { getToken } from '@/lib/auth/utils';
+import { getToken, getUniqueId } from '@/lib/auth/utils';
 import { message } from '@/utils';
 
 import { checkStatus } from './utils';
@@ -46,6 +46,7 @@ class RequestHttp {
         // The current request needs to display loading, which is controlled by the third parameter specified in the API service: {loading: true}
         if (config.headers && typeof config.headers.set === 'function') {
           config.headers.set('Authorization', 'Bearer ' + getToken()?.access);
+          config.headers.set('UUID', getUniqueId());
           if (config.filter)
             config.headers.set(
               'filter',
