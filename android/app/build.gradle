@@ -86,9 +86,9 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace 'com.eu_cloud.erp'
+    namespace 'com.eucloud.erp'
     defaultConfig {
-        applicationId 'com.eu_cloud.erp'
+        applicationId 'com.eucloud.erp'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
