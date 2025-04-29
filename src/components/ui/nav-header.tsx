@@ -7,24 +7,27 @@ import { Platform } from 'react-native';
 export type NavHeaderProps = {
   leftShown?: boolean;
   title?: string;
+  headerBackTitle?: string;
   right?: React.ReactNode;
 };
 export const NavHeader = ({
   leftShown = true,
   title = 'Demo',
+  headerBackTitle = 'Demo',
   right = null,
 }: NavHeaderProps) => {
   const router = useRouter();
 
   return (
     <>
-      {Platform.OS === 'ios' ? (
+      {Platform.OS === 'ios' || Platform.OS === 'android' ? (
         <Stack.Screen
           options={{
             title,
             headerTintColor: '#000',
-            headerBackTitle: 'Feed',
+            headerBackTitle: headerBackTitle,
             headerShadowVisible: leftShown,
+            headerTitleAlign: 'center',
             headerRight: () =>
               right && (
                 <View style={styles.headerRight1}>{right && <>{right}</>}</View>
