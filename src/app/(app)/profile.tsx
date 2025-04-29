@@ -21,7 +21,7 @@ export default function Settings() {
   let avatarFileUrl = 'https://randomuser.me/api/portraits/men/32.jpg';
   if (userInfo?.AvatarFileId != null)
     avatarFileUrl = Env.API_URL + '/api/File/Img/' + userInfo?.AvatarFileId;
-  console.log(avatarFileUrl);
+  // console.log(avatarFileUrl);
   // const { colorScheme } = useColorScheme();
   // const iconColor =
   //   colorScheme === 'dark' ? colors.neutral[400] : colors.neutral[500];
