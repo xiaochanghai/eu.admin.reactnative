@@ -27,7 +27,7 @@ EU-Admin App </h1>
 Clone the repo to your machine and install deps :
 
 ```sh
-git clone https://gitee.com/xiaochanghai520/eu.admin.reactnative
+git clone https://github.com/xiaochanghai/eu.admin.reactnative
 
 cd ./eu.admin.reactnative
 
