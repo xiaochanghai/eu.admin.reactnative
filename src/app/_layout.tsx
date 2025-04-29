@@ -7,14 +7,18 @@ import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { ThemeProvider } from '@react-navigation/native';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet } from 'react-native';
+import { Platform } from 'react-native';
+import { getUniqueId } from 'react-native-device-info';
 import FlashMessage from 'react-native-flash-message';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { KeyboardProvider } from 'react-native-keyboard-controller';
 
 import { APIProvider } from '@/api';
 import { hydrateAuth, loadSelectedTheme } from '@/lib';
+import { setUniqueId } from '@/lib/auth/utils';
+import { recordDevice } from '@/lib/device';
 import { useThemeConfig } from '@/lib/use-theme-config';
 
 export { ErrorBoundary } from 'expo-router';
@@ -35,6 +39,13 @@ SplashScreen.setOptions({
 Toast.config({ duration: 2 });
 
 export default function RootLayout() {
+  useEffect(() => {
+    if (Platform.OS !== 'web')
+      getUniqueId().then((uniqueId) => {
+        setUniqueId(uniqueId);
+        recordDevice(uniqueId);
+      });
+  });
   return (
     <Provider>
       <Providers>
