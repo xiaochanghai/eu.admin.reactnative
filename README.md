@@ -5,6 +5,7 @@ EU-Admin App </h1>
 📱 A React Native project 🚀, Made with developer experience and performance first: Expo, TypeScript, TailwindCSS, Husky, Lint-Staged, expo-router, react-query, react-hook-form, I18n.
 
 > This Project is based on [Expo](https://docs.expo.dev/)
+> 👉 Supports hot updates
 
 ![image-1](./doc/images/android/1.png)
 ![image-2](./doc/images/android/2.png)
