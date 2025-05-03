@@ -6,6 +6,8 @@ EU-Admin App </h1>
 
 > This Project is based on [Expo](https://docs.expo.dev/)
 
+> 👉 Supports hot updates
+
 ![image-1](./doc/images/android/1.png)
 ![image-2](./doc/images/android/2.png)
 ![image-3](./doc/images/android/3.png)
