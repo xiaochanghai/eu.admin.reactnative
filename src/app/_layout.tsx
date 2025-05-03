@@ -7,6 +7,7 @@ import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { ThemeProvider } from '@react-navigation/native';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
+import * as Updates from 'expo-updates';
 import React, { useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import { Platform } from 'react-native';
@@ -39,12 +40,31 @@ SplashScreen.setOptions({
 Toast.config({ duration: 2 });
 
 export default function RootLayout() {
+  const checkForUpdate = async () => {
+    try {
+      const update = await Updates.checkForUpdateAsync();
+
+      // alert('update.isAvailable:' + update.isAvailable);
+      if (update.isAvailable) {
+        await Updates.fetchUpdateAsync();
+        await Updates.reloadAsync();
+      }
+    } catch (error) {
+      // alert('检查更新失败:' + error);
+      // if (error instanceof Error) {
+      //   alert('错误信息:' + error.message);
+      //   alert('错误堆栈:' + error.stack);
+      // }
+    }
+  };
   useEffect(() => {
-    if (Platform.OS !== 'web')
+    if (Platform.OS !== 'web') {
+      checkForUpdate();
       getUniqueId().then((uniqueId) => {
         setUniqueId(uniqueId);
         recordDevice(uniqueId);
       });
+    }
   });
   return (
     <Provider>
