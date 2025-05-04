@@ -96,7 +96,7 @@ export default function Style() {
           </View>
 
           <View>
-            <Text>Updates Demo</Text>
+            <Text>Updates Demo-updateId:{Updates?.updateId}</Text>
             <Text>{runTypeMessage}</Text>
             <TouchableOpacity
               onPress={() => {

@@ -10,7 +10,7 @@ import { storage } from '../storage';
 import type { Language, resources } from './resources';
 import type { RecursiveKeyOf } from './types';
 
-type DefaultLocale = typeof resources.en.translation;
+type DefaultLocale = typeof resources.zh.translation;
 export type TxKeyPath = RecursiveKeyOf<DefaultLocale>;
 
 export const LOCAL = 'local';

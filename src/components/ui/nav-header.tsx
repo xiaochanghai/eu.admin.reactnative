@@ -4,17 +4,21 @@ import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Platform } from 'react-native';
 
+import type { TxKeyPath } from '@/lib/i18n';
+import { translate } from '@/lib/i18n';
 export type NavHeaderProps = {
   leftShown?: boolean;
   title?: string;
   headerBackTitle?: string;
   right?: React.ReactNode;
+  tx?: TxKeyPath;
 };
 export const NavHeader = ({
   leftShown = true,
   title = 'Demo',
   headerBackTitle = 'Demo',
   right = null,
+  tx,
 }: NavHeaderProps) => {
   const router = useRouter();
 
@@ -23,7 +27,7 @@ export const NavHeader = ({
       {Platform.OS === 'ios' || Platform.OS === 'android' ? (
         <Stack.Screen
           options={{
-            title,
+            title: tx ? translate(tx) : title,
             headerTintColor: '#000',
             headerBackTitle: headerBackTitle,
             headerShadowVisible: leftShown,
