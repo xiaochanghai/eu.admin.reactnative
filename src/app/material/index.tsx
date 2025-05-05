@@ -1,17 +1,27 @@
 import { FontAwesome, Ionicons, MaterialIcons } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import {
-  FlatList,
   SafeAreaView,
   StyleSheet,
   TextInput,
   TouchableOpacity,
 } from 'react-native';
 
+import { RefreshListView } from '@/components';
 import { NavHeader, ScrollView, Text, View } from '@/components/ui';
 
+type MaterialProps = {
+  id: string;
+  name: string;
+  code: string;
+  category: string;
+  stock: number;
+  unit: string;
+  status: string;
+  lastUpdated: string;
+};
 // 模拟物料数据
-const materialData = [
+const materialData: MaterialProps[] = [
   {
     id: '1',
     name: '铝合金型材',
@@ -262,7 +272,7 @@ const Materials = () => {
         </ScrollView>
       </View>
       {/* 物料列表 */}
-      <FlatList
+      <RefreshListView
         data={filteredMaterials}
         renderItem={renderMaterialItem}
         keyExtractor={(item) => item.id}
