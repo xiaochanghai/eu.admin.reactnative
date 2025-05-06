@@ -10,7 +10,7 @@ import { storage } from '../storage';
 import type { Language, resources } from './resources';
 import type { RecursiveKeyOf } from './types';
 
-type DefaultLocale = typeof resources.en.translation;
+type DefaultLocale = typeof resources.zh.translation;
 export type TxKeyPath = RecursiveKeyOf<DefaultLocale>;
 
 export const LOCAL = 'local';
@@ -26,7 +26,7 @@ export const translate = memoize(
 
 export const changeLanguage = (lang: Language) => {
   i18n.changeLanguage(lang);
-  if (lang === 'ar') {
+  if (lang === 'en') {
     I18nManager.forceRTL(true);
   } else {
     I18nManager.forceRTL(false);

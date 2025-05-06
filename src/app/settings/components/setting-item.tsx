@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { StyleSheet, Switch, Text, TouchableOpacity, View } from 'react-native';
 
 import { FontAwesome } from '@/components/ui/icons';
+import type { TxKeyPath } from '@/lib/i18n';
+import { translate } from '@/lib/i18n';
 
 /**
  * 设置项组件属性定义
@@ -19,7 +21,7 @@ import { FontAwesome } from '@/components/ui/icons';
 type SettingItemProps = {
   icon: string;
   iconBgColor: string;
-  title: string;
+  title?: string;
   subtitle?: string;
   hasToggle?: boolean;
   defaultToggleValue?: boolean;
@@ -27,6 +29,8 @@ type SettingItemProps = {
   hasNavigation?: boolean;
   onPress?: () => void;
   isLast?: boolean;
+  tx?: TxKeyPath;
+  subtx?: TxKeyPath;
 };
 
 /**
@@ -44,6 +48,8 @@ const SettingItem: React.FC<SettingItemProps> = ({
   hasNavigation = false,
   onPress,
   isLast = false,
+  tx,
+  subtx,
 }) => {
   const [isEnabled, setIsEnabled] = useState(defaultToggleValue);
 
@@ -69,8 +75,12 @@ const SettingItem: React.FC<SettingItemProps> = ({
           <FontAwesome name={icon} size={18} color="white" />
         </View>
         <View>
-          <Text style={styles.settingTitle}>{title}</Text>
-          {subtitle && <Text style={styles.settingSubtitle}>{subtitle}</Text>}
+          <Text style={styles.settingTitle}>{tx ? translate(tx) : title}</Text>
+          {(subtitle || subtx) && (
+            <Text style={styles.settingSubtitle}>
+              {subtx ? translate(subtx) : subtitle}
+            </Text>
+          )}
         </View>
       </View>
 

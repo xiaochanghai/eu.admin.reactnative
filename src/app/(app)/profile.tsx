@@ -20,7 +20,8 @@ export default function Settings() {
   const userInfo = user.use.userInfo();
   let avatarFileUrl = 'https://randomuser.me/api/portraits/men/32.jpg';
   if (userInfo?.AvatarFileId != null)
-    avatarFileUrl = Env.API_URL + 'api/File/Img/' + userInfo?.AvatarFileId;
+    avatarFileUrl = Env.API_URL + '/api/File/Img/' + userInfo?.AvatarFileId;
+  // console.log(avatarFileUrl);
   // const { colorScheme } = useColorScheme();
   // const iconColor =
   //   colorScheme === 'dark' ? colors.neutral[400] : colors.neutral[500];
@@ -130,38 +131,10 @@ export default function Settings() {
             </View>
           </View>
 
-          {/* 其他选项 */}
-          <View style={styles.card}>
-            <SettingItem
-              icon="question-circle"
-              iconBgColor="#eab308"
-              title="帮助中心"
-              // text="profile.about"
-              onPress={() => {}}
-            />
-            <SettingItem
-              icon="headset"
-              iconBgColor="#ef4444"
-              title="联系客服"
-              // text="profile.about"
-              onPress={() => {}}
-            />
-            <SettingItem
-              icon="info-circle"
-              iconBgColor="#6b7280"
-              title="关于我们"
-              // text="profile.about"
-              onPress={() => {}}
-              isLast={true}
-            />
-          </View>
-
           {/* 退出登录按钮 */}
           <TouchableOpacity
             style={styles.logoutButton}
-            onPress={() => {
-              signOut();
-            }}
+            onPress={() => signOut()}
             className="m-10"
           >
             <Text style={styles.logoutButtonText} tx="settings.logout" />
@@ -316,18 +289,18 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   logoutButton: {
-    backgroundColor: 'white',
+    backgroundColor: '#dc2626',
     borderWidth: 1,
     borderColor: '#e5e7eb',
     borderRadius: 12,
     paddingVertical: 12,
     alignItems: 'center',
     marginTop: 24,
-    marginBottom: 16,
+    marginBottom: 30,
   },
   logoutButtonText: {
-    color: '#dc2626',
+    color: '#FFFFFF',
     fontWeight: '500',
-    fontSize: 16,
+    // fontSize: 16,
   },
 });

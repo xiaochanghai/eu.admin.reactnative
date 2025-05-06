@@ -32,8 +32,16 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   icon: './assets/icon.png',
   userInterfaceStyle: 'automatic',
   newArchEnabled: true,
+  runtimeVersion: '1.0.1',
   updates: {
+    url: 'https://u.expo.dev/9d0f9588-d00f-40cf-a15c-ffd7e8bc7654', // 这里的project-id会由eas update:configure命令生成
+    enabled: true,
+    checkAutomatically: 'ON_LOAD',
     fallbackToCacheTimeout: 0,
+    requestHeaders: {
+      'expo-runtime-version': '1.0.1',
+      'expo-channel-name': 'production',
+    },
   },
   assetBundlePatterns: ['**/*'],
   ios: {
@@ -49,7 +57,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   android: {
     adaptiveIcon: {
       foregroundImage: './assets/adaptive-icon.png',
-      backgroundColor: '#2E3C4B',
+      backgroundColor: '#185A56',
     },
     package: Env.PACKAGE,
   },
@@ -61,7 +69,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     [
       'expo-splash-screen',
       {
-        backgroundColor: '#2E3C4B',
+        backgroundColor: '#185A56',
         image: './assets/splash-icon.png',
         imageWidth: 150,
       },

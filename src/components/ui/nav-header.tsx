@@ -1,33 +1,52 @@
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { Stack, useRouter } from 'expo-router';
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  StatusBar,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { Platform } from 'react-native';
 
+import type { TxKeyPath } from '@/lib/i18n';
+import { translate } from '@/lib/i18n';
 export type NavHeaderProps = {
   leftShown?: boolean;
   title?: string;
+  headerBackTitle?: string;
   right?: React.ReactNode;
+  tx?: TxKeyPath;
 };
 export const NavHeader = ({
   leftShown = true,
   title = 'Demo',
+  headerBackTitle = 'Demo',
   right = null,
+  tx,
 }: NavHeaderProps) => {
   const router = useRouter();
 
   return (
     <>
-      {Platform.OS === 'ios' ? (
+      <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
+
+      {Platform.OS === 'ios' || Platform.OS === 'android' ? (
         <Stack.Screen
           options={{
-            title,
+            title: tx ? translate(tx) : title,
             headerTintColor: '#000',
-            headerBackTitle: 'Feed',
+            headerBackTitle: headerBackTitle,
             headerShadowVisible: leftShown,
+            headerTitleAlign: 'center',
             headerRight: () =>
               right && (
-                <View style={styles.headerRight1}>{right && <>{right}</>}</View>
+                <View
+                  style={leftShown ? styles.headerRight2 : styles.headerRight1}
+                >
+                  {right && <>{right}</>}
+                </View>
               ),
           }}
         />
@@ -94,14 +113,18 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   headerRight1: {
-    marginRight: 20,
+    marginRight: 10,
 
     flexDirection: 'row',
     alignItems: 'center',
     width: 90, // 固定宽度，确保与左侧空白区域平衡
     justifyContent: 'flex-end',
   },
-  headerButton: {
-    marginLeft: 16,
+
+  headerRight2: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: 90, // 固定宽度，确保与左侧空白区域平衡
+    justifyContent: 'flex-end',
   },
 });

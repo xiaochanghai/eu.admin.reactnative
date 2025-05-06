@@ -21,6 +21,7 @@ import * as z from 'zod';
 import { loginApi } from '@/api';
 import { Image, Text, View } from '@/components/ui';
 import { signIn } from '@/lib';
+import { translate } from '@/lib/i18n';
 import { setUserInfo } from '@/lib/user';
 import { message } from '@/utils';
 
@@ -55,14 +56,14 @@ export const LoginForm = () => {
   // 处理登录
   const handleLogin = async () => {
     if (!username) {
-      message.info('用户名/手机号不能为空！');
+      message.info(translate('login.username_null'));
       return;
     }
     if (!password) {
-      message.info('密码不能为空！');
+      message.info(translate('login.password_null'));
       return;
     }
-    message.loading('用户验证中...');
+    message.loading(translate('login.login_loading'));
     setSubmitBtnDisable(true);
     const { Success, Data } = await loginApi({
       UserAccount: username,
@@ -76,7 +77,7 @@ export const LoginForm = () => {
       });
       setUserInfo(Data.UserInfo);
 
-      message.info('登录成功！');
+      message.info(translate('login.login_success'));
       setTimeout(() => {
         router.push('/');
       }, 100);
@@ -113,7 +114,7 @@ export const LoginForm = () => {
               />
             </View>
             <Text style={styles.title}>{Env.NAME}</Text>
-            <Text style={styles.subtitle}>智能制造管理系统</Text>
+            <Text style={styles.subtitle}>{translate('login.sub_title')}</Text>
           </View>
 
           {/* 登录表单 */}
@@ -133,7 +134,7 @@ export const LoginForm = () => {
               />
               <TextInput
                 style={styles.input}
-                placeholder="用户名/手机号"
+                placeholder={translate('login.username_placeholder')}
                 placeholderTextColor="#9ca3af"
                 value={username}
                 onChangeText={setUsername}
@@ -157,7 +158,7 @@ export const LoginForm = () => {
               />
               <TextInput
                 style={styles.input}
-                placeholder="密码"
+                placeholder={translate('login.password_placeholder')}
                 placeholderTextColor="#9ca3af"
                 secureTextEntry
                 value={password}
@@ -205,14 +206,14 @@ export const LoginForm = () => {
               disabled={submitBtnDisable}
               // onPress={onSubmit1(1)}
             >
-              <Text style={styles.loginButtonText}>登 录</Text>
+              <Text style={styles.loginButtonText} tx="login.login_button" />
             </TouchableOpacity>
 
             {/* 其他登录方式 */}
             <View style={styles.otherLoginContainer}>
               <View style={styles.dividerContainer}>
                 <View style={styles.divider} />
-                <Text style={styles.dividerText}>其他登录方式</Text>
+                <Text style={styles.dividerText} tx="login.other_login_way" />
                 <View style={styles.divider} />
               </View>
 
@@ -236,7 +237,7 @@ export const LoginForm = () => {
             <Text style={styles.footerText}>
               还没有账号? <Text style={styles.footerLink}>联系管理员</Text>
             </Text>
-            <Text style={styles.copyright}>© 2025 苏州优智云科技有限公司</Text>
+            <Text style={styles.copyright} tx="copyright" />
           </View>
         </ScrollView>
       </KeyboardAvoidingView>

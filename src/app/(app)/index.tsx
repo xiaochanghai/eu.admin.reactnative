@@ -1,4 +1,5 @@
 /* eslint-disable react/react-in-jsx-scope */
+import { useRouter } from 'expo-router';
 import React, { useEffect } from 'react';
 import {
   SafeAreaView,
@@ -71,6 +72,8 @@ const Home: React.FC = () => {
   useEffect(() => {
     if (userInfo == null) setInfo(null);
   });
+  const router = useRouter();
+
   return (
     <SafeAreaView style={styles.container}>
       {/* <StatusBar barStyle="dark-content" backgroundColor="transparent" /> */}
@@ -132,6 +135,12 @@ const Home: React.FC = () => {
         <View style={styles.card}>
           <Text style={styles.sectionTitle}>功能模块</Text>
           <View style={styles.moduleGrid}>
+            <ModuleItem
+              icon="cube"
+              bgColor="#3b82f6"
+              title="物料管理"
+              onPress={() => router.push('/material')}
+            />
             <ModuleItem
               icon="cogs"
               bgColor="#3b82f6"
