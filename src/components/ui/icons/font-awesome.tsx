@@ -6,12 +6,21 @@ import {
 } from '@expo/vector-icons';
 import React from 'react';
 
+/**
+ * 图标组类型枚举
+ * 用于指定使用哪个图标库
+ */
 export enum GroupEnum {
   FontAwesome = 'FontAwesome',
   Entypo = 'Entypo',
   FontAwesome5 = 'FontAwesome5',
   EvilIcons = 'EvilIcons',
 }
+
+/**
+ * 图标组类型
+ * 用于限制可用的图标库类型
+ */
 type Group =
   | GroupEnum.Entypo
   | GroupEnum.FontAwesome5
@@ -20,24 +29,24 @@ type Group =
 
 /**
  * FontAwesome图标组件的属性接口
+ * @property {string} name - 图标名称
+ * @property {number} [size=24] - 图标大小
+ * @property {string} [color] - 图标颜色
+ * @property {React.CSSProperties} [style] - 自定义样式
+ * @property {Group} [group] - 指定图标组，不指定时会自动判断
  */
 type FontAwesomeIconProps = {
   name: string;
   size?: number;
   color?: string;
-  style?: any;
+  style?: React.CSSProperties; // 使用更精确的类型替代 any
   group?: Group;
 };
 
 /**
- * 统一的FontAwesome图标组件
- * 自动识别并使用正确的图标库(FontAwesome或FontAwesome5)
- * @param name - 图标名称
- * @param size - 图标大小，默认为24
- * @param color - 图标颜色，默认为当前文本颜色
- * @param style - 自定义样式
+ * FontAwesome5专用图标列表
+ * 当图标名称在此列表中时，将自动使用FontAwesome5库
  */
-// FontAwesome5专用图标列表
 const FA5_ICONS = [
   // 原有图标
   'palette',
@@ -69,34 +78,29 @@ const FA5_ICONS = [
   // 注意：普通FontAwesome图标如'bell', 'search', 'filter', 'qrcode', 'weixin'等
   // 不需要添加到此列表，它们将自动使用FontAwesome库
 ];
-// Entypo专用图标列表
-const Entypo_ICONS = ['chevron-thin-right', 'chevron-small-right'];
 
 /**
  * 判断图标是否属于FontAwesome5
- * @param iconName - 图标名称
- * @returns 是否为FontAwesome5图标
+ * @param {string} iconName - 图标名称
+ * @returns {boolean} 是否为FontAwesome5图标
  */
 const isFA5Icon = (iconName: string): boolean => {
   return FA5_ICONS.includes(iconName);
 };
 
 /**
- * 判断图标是否属于FontAwesome5
- * @param iconName - 图标名称
- * @returns 是否为FontAwesome5图标
- */
-const isEntypoIcon = (iconName: string): boolean => {
-  return Entypo_ICONS.includes(iconName);
-};
-
-/**
- * FontAwesome组件
- * 自动识别图标类型并选择正确的图标库
- * @param name - 图标名称
- * @param size - 图标大小，默认为24
- * @param color - 图标颜色，默认为当前文本颜色
- * @param style - 自定义样式
+ * 统一的FontAwesome图标组件
+ * 根据图标名称或指定的组类型自动选择正确的图标库
+ *
+ * @example
+ * // 基本用法
+ * <FontAwesome name="user" size={20} color="#333" />
+ *
+ * // 指定图标组
+ * <FontAwesome name="chevron-thin-right" group={GroupEnum.Entypo} />
+ *
+ * @param {FontAwesomeIconProps} props - 组件属性
+ * @returns {React.ReactElement} 渲染的图标组件
  */
 export const FontAwesome: React.FC<FontAwesomeIconProps> = ({
   name,
@@ -105,24 +109,40 @@ export const FontAwesome: React.FC<FontAwesomeIconProps> = ({
   style,
   group,
 }) => {
-  // 自动判断是否使用FontAwesome5
-  if (isFA5Icon(name))
+  // 优先根据图标名称自动判断图标库
+  if (isFA5Icon(name)) {
     return <FontAwesome5 name={name} size={size} color={color} style={style} />;
+  }
 
-  if (isEntypoIcon(name))
+  // 其次根据指定的组类型选择图标库
+  if (group === GroupEnum.Entypo) {
     return (
-      <Entypo name={name as any} size={size} color={color} style={style} />
+      <Entypo
+        name={name as any}
+        size={size}
+        color={color}
+        style={style as any}
+      />
     );
-  if (group === GroupEnum.Entypo)
+  } else if (group === GroupEnum.FontAwesome5) {
     return (
-      <Entypo name={name as any} size={size} color={color} style={style} />
+      <FontAwesome5
+        name={name}
+        size={size}
+        color={color}
+        style={style as any}
+      />
     );
-  else if (group === GroupEnum.FontAwesome5)
-    return <FontAwesome5 name={name} size={size} color={color} style={style} />;
-  else if (group === GroupEnum.EvilIcons)
+  } else if (group === GroupEnum.EvilIcons) {
     return (
-      <EvilIcons name={name as any} size={size} color={color} style={style} />
+      <EvilIcons
+        name={name as any}
+        size={size}
+        color={color}
+        style={style as any}
+      />
     );
+  }
 
   // 默认使用FontAwesome
   return (
@@ -130,7 +150,7 @@ export const FontAwesome: React.FC<FontAwesomeIconProps> = ({
       name={name as any}
       size={size}
       color={color}
-      style={style}
+      style={style as any}
     />
   );
 };

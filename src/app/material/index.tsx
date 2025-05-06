@@ -193,7 +193,13 @@ const Materials = () => {
         </View>
         <View className="flex-row items-center">
           <Text className="mr-2 text-xs text-gray-400">{item.lastUpdated}</Text>
-          <FontAwesome name="chevron-small-right" size={24} color="#9CA3AF" />
+
+          <FontAwesome
+            name="chevron-small-right"
+            size={24}
+            color="#9CA3AF"
+            group={GroupEnum.Entypo}
+          />
         </View>
       </View>
     </TouchableOpacity>
