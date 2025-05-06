@@ -5,8 +5,14 @@ import { NavHeader } from '@/components/ui';
 import { FontAwesome, GroupEnum } from '@/components/ui/icons';
 // import { LineChart } from 'react-native-chart-kit';
 
+/**
+ * 标签类型定义
+ */
 type TabType = 'info' | 'records' | 'docs';
 
+/**
+ * 出入库记录项接口
+ */
 interface RecordItem {
   type: string;
   orderNumber: string;
@@ -15,6 +21,9 @@ interface RecordItem {
   isInbound: boolean;
 }
 
+/**
+ * 文档项接口
+ */
 interface DocumentItem {
   name: string;
   type: string;
@@ -23,6 +32,9 @@ interface DocumentItem {
   uploadDate: string;
 }
 
+/**
+ * 相关物料接口
+ */
 interface RelatedMaterial {
   name: string;
   code: string;
@@ -30,11 +42,45 @@ interface RelatedMaterial {
   stock: string;
 }
 
+/**
+ * 物料数据接口
+ */
+interface MaterialData {
+  id: string;
+  name: string;
+  category: string;
+  tag: string;
+  currentStock: number;
+  unit: string;
+  safetyStock: number;
+  status: string;
+  spec: string;
+  material: string;
+  price: number;
+  supplier: string;
+  location: string;
+  createDate: string;
+  remark: string;
+}
+
+/**
+ * 详情行属性接口
+ */
+interface DetailRowProps {
+  label: string;
+  value: string;
+  isLast?: boolean;
+}
+
+/**
+ * 物料详情组件
+ */
 const MaterialDetail = () => {
+  // 当前激活的标签页
   const [activeTab, setActiveTab] = useState<TabType>('info');
 
-  // 模拟数据
-  const materialData = {
+  // 模拟数据 - 物料基本信息
+  const materialData: MaterialData = {
     id: 'M10023',
     name: '铝合金型材 AL6061',
     category: '原材料',
@@ -52,6 +98,7 @@ const MaterialDetail = () => {
     remark: '用于机器框架结构，需按图纸要求切割',
   };
 
+  // 模拟数据 - 出入库记录
   const records: RecordItem[] = [
     {
       type: '入库',
@@ -83,6 +130,7 @@ const MaterialDetail = () => {
     },
   ];
 
+  // 模拟数据 - 相关文档
   const documents: DocumentItem[] = [
     {
       name: '产品规格书',
@@ -114,6 +162,7 @@ const MaterialDetail = () => {
     },
   ];
 
+  // 模拟数据 - 相关物料
   const relatedMaterials: RelatedMaterial[] = [
     {
       name: '铝合金型材 AL6063',
@@ -129,43 +178,22 @@ const MaterialDetail = () => {
     },
   ];
 
-  // 价格趋势图数据
-  // const priceData = {
-  //   labels: ['1月', '2月', '3月', '4月', '5月', '6月'],
-  //   datasets: [
-  //     {
-  //       data: [175, 180, 182, 190, 188, 185],
-  //       color: () => `rgba(59, 130, 246, 1)`,
-  //       strokeWidth: 2,
-  //     },
-  //   ],
-  // };
+  // 样式常量
+  const styles = {
+    tab: 'text-sm font-medium text-gray-600',
+    tabActive: 'text-sm font-medium text-blue-600',
+    tabTouchable: 'flex-1 items-center px-4 py-2',
+    tabTouchableActive:
+      'flex-1 items-center border-b-2 border-blue-600 px-4 py-2',
+    fastOption: 'items-center justify-center rounded-lg py-2',
+    fastOptionWithMargin: 'mr-2 items-center justify-center rounded-lg py-2',
+    listItemBorder: 'border-b border-gray-100 py-3',
+    listItemNoBorder: 'py-3',
+  };
 
-  // const chartConfig = {
-  //   backgroundGradientFrom: '#ffffff',
-  //   backgroundGradientTo: '#ffffff',
-  //   decimalPlaces: 0,
-  //   color: () => `rgba(59, 130, 246, 0.6)`,
-  //   labelColor: () => `rgba(107, 114, 128, 1)`,
-  //   style: {
-  //     borderRadius: 16,
-  //   },
-  //   propsForDots: {
-  //     r: '4',
-  //     strokeWidth: '2',
-  //     stroke: '#3b82f6',
-  //   },
-  // };
-
-  // const screenWidth = Dimensions.get('window').width - 40; // 考虑内边距
-  const tab = 'text-sm font-medium text-gray-600';
-  const tabActive = 'text-sm font-medium text-blue-600';
-  const tabTouchable = 'flex-1 items-center px-4 py-2';
-  const tabTouchableActive =
-    'flex-1 items-center border-b-2 border-blue-600 px-4 py-2';
-  const fastOption2 = 'flex-1 items-center justify-center rounded-lg py-2';
-  const fastOption1 = `mr-2 ${fastOption2}`;
-
+  /**
+   * 渲染标签页内容
+   */
   const renderTabContent = () => {
     switch (activeTab) {
       case 'info':
@@ -188,37 +216,11 @@ const MaterialDetail = () => {
         return (
           <View>
             {records.map((record, index) => (
-              <View
+              <RecordListItem
                 key={index}
-                className={
-                  index < records.length - 1
-                    ? 'border-b border-gray-100 py-3'
-                    : 'py-3'
-                }
-              >
-                <View className="flex-row items-center justify-between">
-                  <View>
-                    <Text className="font-medium">{record.type}</Text>
-                    <Text className="mt-1 text-xs text-gray-500">
-                      单号: {record.orderNumber}
-                    </Text>
-                  </View>
-                  <View className="items-end">
-                    <Text
-                      className={
-                        record.isInbound
-                          ? 'text-sm font-medium text-green-600'
-                          : 'text-sm font-medium text-red-600'
-                      }
-                    >
-                      {record.quantity}
-                    </Text>
-                    <Text className="mt-1 text-xs text-gray-500">
-                      {record.date}
-                    </Text>
-                  </View>
-                </View>
-              </View>
+                record={record}
+                isLast={index === records.length - 1}
+              />
             ))}
           </View>
         );
@@ -226,38 +228,11 @@ const MaterialDetail = () => {
         return (
           <View>
             {documents.map((doc, index) => (
-              <View
+              <DocumentListItem
                 key={index}
-                className={
-                  index < records.length - 1
-                    ? 'border-b border-gray-100 py-3'
-                    : 'py-3'
-                }
-              >
-                <View className="flex-row items-center">
-                  <FontAwesome
-                    name={doc.icon}
-                    size={20}
-                    color={
-                      doc.icon === 'file-pdf'
-                        ? '#ef4444'
-                        : doc.icon === 'file-excel'
-                          ? '#22c55e'
-                          : doc.icon === 'file-image'
-                            ? '#3b82f6'
-                            : '#6b7280'
-                    }
-                    className="mr-3"
-                    group={GroupEnum.FontAwesome5}
-                  />
-                  <View>
-                    <Text className="font-medium">{doc.name}</Text>
-                    <Text className="mt-1 text-xs text-gray-500">
-                      {doc.type} · {doc.size} · {doc.uploadDate}
-                    </Text>
-                  </View>
-                </View>
-              </View>
+                document={doc}
+                isLast={index === documents.length - 1}
+              />
             ))}
           </View>
         );
@@ -345,7 +320,7 @@ const MaterialDetail = () => {
               <View className="mt-1 flex-row items-center">
                 <View
                   className="mr-1 size-3 rounded-full"
-                  style={[{ backgroundColor: '#22c55e' }]}
+                  style={{ backgroundColor: '#22c55e' }}
                 />
                 <Text className="font-medium text-green-600">
                   {materialData.status}
@@ -356,143 +331,69 @@ const MaterialDetail = () => {
 
           {/* 快捷操作按钮 */}
           <View className="flex-row">
-            <TouchableOpacity
-              className={fastOption1}
-              style={[{ backgroundColor: '#2563eb' }]}
-            >
-              <FontAwesome
-                name="sign-in-alt"
-                size={16}
-                color="white"
-                className="mb-1"
-                group={GroupEnum.FontAwesome5}
-              />
-              <Text className="text-xs text-white">入库</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              className={fastOption1}
-              style={[{ backgroundColor: '#f97316' }]}
-            >
-              <FontAwesome
-                name="sign-out-alt"
-                size={16}
-                color="white"
-                className="mb-1"
-                group={GroupEnum.FontAwesome5}
-              />
-              <Text className="text-xs text-white">出库</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              className={fastOption1}
-              style={[{ backgroundColor: '#22c55e' }]}
-            >
-              <FontAwesome
-                name="exchange-alt"
-                size={16}
-                color="white"
-                className="mb-1"
-                group={GroupEnum.FontAwesome5}
-              />
-              <Text className="text-xs text-white">调拨</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              className={fastOption2}
-              style={[{ backgroundColor: '#a855f7' }]}
-            >
-              <FontAwesome
-                name="qrcode"
-                size={16}
-                color="white"
-                className="mb-1"
-                group={GroupEnum.FontAwesome5}
-              />
-              <Text className="text-xs text-white">扫码</Text>
-            </TouchableOpacity>
+            <ActionButton
+              icon="sign-in-alt"
+              label="入库"
+              color="#2563eb"
+              className={styles.fastOptionWithMargin}
+            />
+            <ActionButton
+              icon="sign-out-alt"
+              label="出库"
+              color="#f97316"
+              className={styles.fastOptionWithMargin}
+            />
+            <ActionButton
+              icon="exchange-alt"
+              label="调拨"
+              color="#22c55e"
+              className={styles.fastOptionWithMargin}
+            />
+            <ActionButton
+              icon="qrcode"
+              label="扫码"
+              color="#a855f7"
+              className={styles.fastOption}
+            />
           </View>
         </View>
 
         {/* 详细信息选项卡 */}
         <View className="mb-4 overflow-hidden rounded-lg bg-white">
           <View className="flex-row border-b border-gray-200">
-            <TouchableOpacity
-              className={
-                activeTab === 'info' ? tabTouchableActive : tabTouchable
-              }
+            <TabButton
+              label="基本信息"
+              isActive={activeTab === 'info'}
               onPress={() => setActiveTab('info')}
-            >
-              <Text className={activeTab === 'info' ? tabActive : tab}>
-                基本信息
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              className={
-                activeTab === 'records' ? tabTouchableActive : tabTouchable
-              }
+              styles={styles}
+            />
+            <TabButton
+              label="出入库记录"
+              isActive={activeTab === 'records'}
               onPress={() => setActiveTab('records')}
-            >
-              <Text className={activeTab === 'records' ? tabActive : tab}>
-                出入库记录
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              className={
-                activeTab === 'docs' ? tabTouchableActive : tabTouchable
-              }
+              styles={styles}
+            />
+            <TabButton
+              label="相关文档"
+              isActive={activeTab === 'docs'}
               onPress={() => setActiveTab('docs')}
-            >
-              <Text className={activeTab === 'docs' ? tabActive : tab}>
-                相关文档
-              </Text>
-            </TouchableOpacity>
+              styles={styles}
+            />
           </View>
 
           <View className="p-4">{renderTabContent()}</View>
         </View>
-
-        {/* 价格趋势图 */}
-        {/* <View style={tw('bg-white rounded-2xl shadow-sm p-4 mb-4')}>
-          <Text style={tw('text-lg font-semibold mb-3')}>价格趋势</Text>
-          <LineChart
-            data={priceData}
-            width={screenWidth}
-            height={200}
-            chartConfig={chartConfig}
-            bezier
-            style={tw('rounded-lg')}
-            fromZero={false}
-            withInnerLines={false}
-            withOuterLines={true}
-            withVerticalLines={false}
-          />
-        </View> */}
 
         {/* 相关物料 */}
         <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm">
           <Text className="mb-3 text-lg font-semibold">相关物料</Text>
 
           {relatedMaterials.map((material, index) => (
-            <TouchableOpacity
+            <RelatedMaterialItem
               key={index}
-              className={
-                index < relatedMaterials.length - 1
-                  ? 'border-b border-gray-100 py-3'
-                  : 'py-3'
-              }
-            >
-              <View className="flex-row items-center justify-between">
-                <View>
-                  <Text className="font-medium">{material.name}</Text>
-                  <Text className="mt-1 text-xs text-gray-500">
-                    编号: {material.code} | 规格: {material.spec}
-                  </Text>
-                </View>
-                <View>
-                  <Text className="text-sm font-medium">
-                    库存: {material.stock}
-                  </Text>
-                </View>
-              </View>
-            </TouchableOpacity>
+              material={material}
+              isLast={index === relatedMaterials.length - 1}
+            />
           ))}
         </View>
       </ScrollView>
@@ -500,7 +401,14 @@ const MaterialDetail = () => {
   );
 };
 
-const DetailRow = ({ label = '', value = '', isLast = false }) => (
+/**
+ * 详情行组件
+ */
+const DetailRow = ({
+  label = '',
+  value = '',
+  isLast = false,
+}: DetailRowProps) => (
   <View
     className={
       !isLast ? 'flex-row border-b border-gray-100 py-3' : 'flex-row py-3'
@@ -509,6 +417,163 @@ const DetailRow = ({ label = '', value = '', isLast = false }) => (
     <Text className="w-3/10 text-sm text-gray-500">{label}</Text>
     <Text className="w-7/10 text-sm">{value}</Text>
   </View>
+);
+
+/**
+ * 出入库记录项组件
+ */
+interface RecordListItemProps {
+  record: RecordItem;
+  isLast: boolean;
+}
+
+const RecordListItem = ({ record, isLast }: RecordListItemProps) => (
+  <View className={!isLast ? 'border-b border-gray-100 py-3' : 'py-3'}>
+    <View className="flex-row items-center justify-between">
+      <View>
+        <Text className="font-medium">{record.type}</Text>
+        <Text className="mt-1 text-xs text-gray-500">
+          单号: {record.orderNumber}
+        </Text>
+      </View>
+      <View className="items-end">
+        <Text
+          className={
+            record.isInbound
+              ? 'text-sm font-medium text-green-600'
+              : 'text-sm font-medium text-red-600'
+          }
+        >
+          {record.quantity}
+        </Text>
+        <Text className="mt-1 text-xs text-gray-500">{record.date}</Text>
+      </View>
+    </View>
+  </View>
+);
+
+/**
+ * 文档列表项组件
+ */
+interface DocumentListItemProps {
+  document: DocumentItem;
+  isLast: boolean;
+}
+
+const DocumentListItem = ({ document, isLast }: DocumentListItemProps) => {
+  /**
+   * 获取文档图标颜色
+   * @param iconName 图标名称
+   * @returns 对应的颜色代码
+   */
+  const getDocIconColor = (iconName: string): string => {
+    switch (iconName) {
+      case 'file-pdf':
+        return '#ef4444'; // 红色
+      case 'file-excel':
+        return '#22c55e'; // 绿色
+      case 'file-image':
+        return '#3b82f6'; // 蓝色
+      default:
+        return '#6b7280'; // 灰色
+    }
+  };
+  // 获取图标颜色
+  const iconColor = getDocIconColor(document.icon);
+
+  return (
+    <View className={!isLast ? 'border-b border-gray-100 py-3' : 'py-3'}>
+      <View className="flex-row items-center">
+        <FontAwesome
+          name={document.icon}
+          size={20}
+          color={iconColor}
+          className="mr-3"
+          group={GroupEnum.FontAwesome5}
+        />
+        <View>
+          <Text className="font-medium">{document.name}</Text>
+          <Text className="mt-1 text-xs text-gray-500">
+            {document.type} · {document.size} · {document.uploadDate}
+          </Text>
+        </View>
+      </View>
+    </View>
+  );
+};
+
+/**
+ * 相关物料项组件
+ */
+interface RelatedMaterialItemProps {
+  material: RelatedMaterial;
+  isLast: boolean;
+}
+
+const RelatedMaterialItem = ({
+  material,
+  isLast,
+}: RelatedMaterialItemProps) => (
+  <TouchableOpacity
+    className={!isLast ? 'border-b border-gray-100 py-3' : 'py-3'}
+  >
+    <View className="flex-row items-center justify-between">
+      <View>
+        <Text className="font-medium">{material.name}</Text>
+        <Text className="mt-1 text-xs text-gray-500">
+          编号: {material.code} | 规格: {material.spec}
+        </Text>
+      </View>
+      <View>
+        <Text className="text-sm font-medium">库存: {material.stock}</Text>
+      </View>
+    </View>
+  </TouchableOpacity>
+);
+
+/**
+ * 操作按钮组件
+ */
+interface ActionButtonProps {
+  icon: string;
+  label: string;
+  color: string;
+  className: string;
+}
+
+const ActionButton = ({ icon, label, color, className }: ActionButtonProps) => (
+  <TouchableOpacity
+    className={className}
+    style={{ backgroundColor: color, flex: 1 }}
+  >
+    <FontAwesome
+      name={icon}
+      size={16}
+      color="white"
+      className="mb-1"
+      group={GroupEnum.FontAwesome5}
+    />
+    <Text className="text-xs text-white">{label}</Text>
+  </TouchableOpacity>
+);
+
+/**
+ * 标签按钮组件
+ */
+interface TabButtonProps {
+  label: string;
+  isActive: boolean;
+  onPress: () => void;
+  styles: Record<string, string>;
+}
+
+const TabButton = ({ label, isActive, onPress, styles }: TabButtonProps) => (
+  <TouchableOpacity
+    className={isActive ? styles.tabTouchableActive : styles.tabTouchable}
+    onPress={onPress}
+  >
+    <Text className={isActive ? styles.tabActive : styles.tab}>{label}</Text>
+  </TouchableOpacity>
 );
 
 export default MaterialDetail;
