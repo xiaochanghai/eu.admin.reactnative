@@ -1,4 +1,4 @@
-import { FontAwesome, Ionicons, MaterialIcons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import {
   SafeAreaView,
@@ -9,6 +9,7 @@ import {
 
 import { RefreshListView } from '@/components';
 import { NavHeader, ScrollView, Text, View } from '@/components/ui';
+import { FontAwesome, GroupEnum } from '@/components/ui/icons';
 
 type MaterialProps = {
   id: string;
@@ -114,6 +115,8 @@ const categories = [
 ];
 
 const Materials = () => {
+  const router = useRouter();
+
   const [searchText, setSearchText] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('全部');
   const [filteredMaterials, setFilteredMaterials] = useState(materialData);
@@ -152,8 +155,7 @@ const Materials = () => {
   // 处理物料点击
   // const handleMaterialPress = (materialId: string) => {
   const handleMaterialPress = (materialId: string) => {
-    if (materialId != null) materialId = '1';
-    // navigation.navigate('MaterialDetail', { materialId });
+    router.push(`/material/${materialId}`);
   };
 
   // 渲染物料项
@@ -191,7 +193,7 @@ const Materials = () => {
         </View>
         <View className="flex-row items-center">
           <Text className="mr-2 text-xs text-gray-400">{item.lastUpdated}</Text>
-          <MaterialIcons name="chevron-right" size={24} color="#9CA3AF" />
+          <FontAwesome name="chevron-small-right" size={24} color="#9CA3AF" />
         </View>
       </View>
     </TouchableOpacity>
@@ -219,7 +221,12 @@ const Materials = () => {
       <View className="bg-white px-4 py-3 shadow-sm">
         {/* 搜索框 */}
         <View className="mt-3 flex-row items-center rounded-lg bg-gray-100 px-3 py-2">
-          <Ionicons name="search" size={20} color="#9CA3AF" />
+          <FontAwesome
+            name="search"
+            size={20}
+            color="#9CA3AF"
+            group={GroupEnum.EvilIcons}
+          />
           <TextInput
             className="ml-2 flex-1 text-gray-800"
             placeholder="搜索物料名称或编码"
@@ -229,7 +236,12 @@ const Materials = () => {
           />
           {searchText ? (
             <TouchableOpacity onPress={() => handleSearch('')}>
-              <Ionicons name="close-circle" size={20} color="#9CA3AF" />
+              <FontAwesome
+                name="close"
+                size={20}
+                color="#9CA3AF"
+                group={GroupEnum.EvilIcons}
+              />
             </TouchableOpacity>
           ) : null}
         </View>
@@ -280,7 +292,12 @@ const Materials = () => {
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={
           <View className="flex-1 items-center justify-center py-10">
-            <Ionicons name="search-outline" size={48} color="#D1D5DB" />
+            <FontAwesome
+              name="search"
+              size={48}
+              color="#D1D5DB"
+              group={GroupEnum.EvilIcons}
+            />
             <Text className="mt-4 text-center text-gray-400">
               未找到匹配的物料{'\n'}请尝试其他搜索条件
             </Text>

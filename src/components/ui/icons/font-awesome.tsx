@@ -1,6 +1,22 @@
-import { FontAwesome as FontAwesomeIcon } from '@expo/vector-icons';
-import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
+import {
+  Entypo,
+  EvilIcons,
+  FontAwesome as FontAwesomeIcon,
+  FontAwesome5,
+} from '@expo/vector-icons';
 import React from 'react';
+
+export enum GroupEnum {
+  FontAwesome = 'FontAwesome',
+  Entypo = 'Entypo',
+  FontAwesome5 = 'FontAwesome5',
+  EvilIcons = 'EvilIcons',
+}
+type Group =
+  | GroupEnum.Entypo
+  | GroupEnum.FontAwesome5
+  | GroupEnum.FontAwesome
+  | GroupEnum.EvilIcons;
 
 /**
  * FontAwesome图标组件的属性接口
@@ -10,6 +26,7 @@ type FontAwesomeIconProps = {
   size?: number;
   color?: string;
   style?: any;
+  group?: Group;
 };
 
 /**
@@ -52,6 +69,8 @@ const FA5_ICONS = [
   // 注意：普通FontAwesome图标如'bell', 'search', 'filter', 'qrcode', 'weixin'等
   // 不需要添加到此列表，它们将自动使用FontAwesome库
 ];
+// Entypo专用图标列表
+const Entypo_ICONS = ['chevron-thin-right', 'chevron-small-right'];
 
 /**
  * 判断图标是否属于FontAwesome5
@@ -60,6 +79,15 @@ const FA5_ICONS = [
  */
 const isFA5Icon = (iconName: string): boolean => {
   return FA5_ICONS.includes(iconName);
+};
+
+/**
+ * 判断图标是否属于FontAwesome5
+ * @param iconName - 图标名称
+ * @returns 是否为FontAwesome5图标
+ */
+const isEntypoIcon = (iconName: string): boolean => {
+  return Entypo_ICONS.includes(iconName);
 };
 
 /**
@@ -75,11 +103,26 @@ export const FontAwesome: React.FC<FontAwesomeIconProps> = ({
   size = 24,
   color,
   style,
+  group,
 }) => {
   // 自动判断是否使用FontAwesome5
-  if (isFA5Icon(name)) {
+  if (isFA5Icon(name))
     return <FontAwesome5 name={name} size={size} color={color} style={style} />;
-  }
+
+  if (isEntypoIcon(name))
+    return (
+      <Entypo name={name as any} size={size} color={color} style={style} />
+    );
+  if (group === GroupEnum.Entypo)
+    return (
+      <Entypo name={name as any} size={size} color={color} style={style} />
+    );
+  else if (group === GroupEnum.FontAwesome5)
+    return <FontAwesome5 name={name} size={size} color={color} style={style} />;
+  else if (group === GroupEnum.EvilIcons)
+    return (
+      <EvilIcons name={name as any} size={size} color={color} style={style} />
+    );
 
   // 默认使用FontAwesome
   return (
