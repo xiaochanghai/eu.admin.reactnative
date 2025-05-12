@@ -48,17 +48,6 @@ To run the app on Android
 npm run android
 ```
 
-## ✍️ Documentation
-
-- [Rules and Conventions](https://starter.obytes.com/getting-started/rules-and-conventions/)
-- [Project structure](https://starter.obytes.com/getting-started/project-structure)
-- [Environment vars and config](https://starter.obytes.com/getting-started/environment-vars-config)
-- [UI and Theming](https://starter.obytes.com/ui-and-theme/ui-theming)
-- [Components](https://starter.obytes.com/ui-and-theme/components)
-- [Forms](https://starter.obytes.com/ui-and-theme/Forms)
-- [Data fetching](https://starter.obytes.com/guides/data-fetching)
-- [Contribute to starter](https://starter.obytes.com/how-to-contribute/)
-
 ## 💎 Libraries used
 
 - [Expo](https://docs.expo.io/)
@@ -89,4 +78,4 @@ This project is MIT licensed.
 
 ## 🔖 Other
 
-[APi](https://gitee.com/xiaochanghai520/eu-admin)
+[APi](https://github.com/xiaochanghai/eu.admin)

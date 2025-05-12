@@ -33,13 +33,15 @@ type Group =
  * @property {number} [size=24] - 图标大小
  * @property {string} [color] - 图标颜色
  * @property {React.CSSProperties} [style] - 自定义样式
+ * @property {string} [className] - 自定义CSS类名
  * @property {Group} [group] - 指定图标组，不指定时会自动判断
  */
 type FontAwesomeIconProps = {
   name: string;
   size?: number;
   color?: string;
-  style?: React.CSSProperties; // 使用更精确的类型替代 any
+  style?: React.CSSProperties;
+  className?: string; // 添加className属性
   group?: Group;
 };
 
@@ -96,6 +98,9 @@ const isFA5Icon = (iconName: string): boolean => {
  * // 基本用法
  * <FontAwesome name="user" size={20} color="#333" />
  *
+ * // 使用className设置样式
+ * <FontAwesome name="user" className="large-icon" />
+ *
  * // 指定图标组
  * <FontAwesome name="chevron-thin-right" group={GroupEnum.Entypo} />
  *
@@ -107,11 +112,20 @@ export const FontAwesome: React.FC<FontAwesomeIconProps> = ({
   size = 24,
   color,
   style,
+  className,
   group,
 }) => {
   // 优先根据图标名称自动判断图标库
   if (isFA5Icon(name)) {
-    return <FontAwesome5 name={name} size={size} color={color} style={style} />;
+    return (
+      <FontAwesome5
+        name={name}
+        size={size}
+        color={color}
+        style={style}
+        className={className}
+      />
+    );
   }
 
   // 其次根据指定的组类型选择图标库
@@ -122,6 +136,7 @@ export const FontAwesome: React.FC<FontAwesomeIconProps> = ({
         size={size}
         color={color}
         style={style as any}
+        className={className}
       />
     );
   } else if (group === GroupEnum.FontAwesome5) {
@@ -130,7 +145,8 @@ export const FontAwesome: React.FC<FontAwesomeIconProps> = ({
         name={name}
         size={size}
         color={color}
-        style={style as any}
+        style={style}
+        className={className}
       />
     );
   } else if (group === GroupEnum.EvilIcons) {
@@ -140,6 +156,7 @@ export const FontAwesome: React.FC<FontAwesomeIconProps> = ({
         size={size}
         color={color}
         style={style as any}
+        className={className}
       />
     );
   }
@@ -151,6 +168,7 @@ export const FontAwesome: React.FC<FontAwesomeIconProps> = ({
       size={size}
       color={color}
       style={style as any}
+      className={className}
     />
   );
 };

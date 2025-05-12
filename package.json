@@ -80,7 +80,7 @@
     "react-native-edge-to-edge": "^1.1.2",
     "react-native-flash-message": "^0.4.2",
     "react-native-gesture-handler": "~2.20.2",
-    "react-native-keyboard-controller": "^1.13.2",
+    "react-native-keyboard-controller": "^1.14.2",
     "react-native-mmkv": "~3.1.0",
     "react-native-reanimated": "~3.16.7",
     "react-native-restart": "0.0.27",
