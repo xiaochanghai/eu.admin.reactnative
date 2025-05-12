@@ -78,4 +78,4 @@ This project is MIT licensed.
 
 ## 🔖 Other
 
-[APi](https://gitee.com/xiaochanghai520/eu-admin)
+[APi](https://github.com/xiaochanghai/eu.admin)
