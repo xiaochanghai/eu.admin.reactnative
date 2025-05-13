@@ -88,7 +88,7 @@ const Home: React.FC = () => {
         right={
           <TouchableOpacity
             style={styles.notificationButton}
-            // onPress={() => navigation.navigate('Notifications')}
+            onPress={() => router.push('/notification')}
           >
             <FontAwesome name="bell" size={20} color="#6b7280" />
             <View style={styles.notificationBadge}>

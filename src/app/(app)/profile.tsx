@@ -1,6 +1,5 @@
 import { Env } from '@env';
-import { Link } from 'expo-router';
-import { useRouter } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 import {
   Image,
   SafeAreaView,
@@ -90,9 +89,7 @@ export default function Settings() {
               title="测试设备信息"
               subtitle="修改个人信息和联系方式"
               // text="profile.about"
-              onPress={() => {
-                router.push('/test/device');
-              }}
+              onPress={() => router.push('/test/device')}
             />
             <SettingItem
               icon="user-edit"
@@ -115,8 +112,7 @@ export default function Settings() {
               iconBgColor="#a855f7"
               title="消息通知"
               subtitle="设置接收的通知类型"
-              onPress={() => {}}
-              // text="profile.about"
+              onPress={() => router.push('/notification')}
               isLast={true}
             />
           </View>
