@@ -100,12 +100,14 @@ const Home: React.FC = () => {
 
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
         {/* 欢迎信息 */}
-        <View style={styles.welcomeSection}>
-          <Text style={styles.welcomeTitle}>你好，{userInfo?.UserName}</Text>
-          <Text style={styles.welcomeSubtitle}>
-            今天是{userInfo?.WeekName}，祝您工作顺利
-          </Text>
-        </View>
+        {userInfo?.WeekName && (
+          <View style={styles.welcomeSection}>
+            <Text style={styles.welcomeTitle}>你好，{userInfo?.UserName}</Text>
+            <Text style={styles.welcomeSubtitle}>
+              今天是{userInfo?.WeekName}，祝您工作顺利
+            </Text>
+          </View>
+        )}
 
         {/* 数据概览 */}
         <View style={styles.statsGrid}>

@@ -1,4 +1,3 @@
-import { FontAwesome } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import {
   StatusBar,
@@ -10,6 +9,7 @@ import {
 
 import { SegmentedControl, type SegmentedControlOption } from '@/components';
 import { NavHeader, SafeAreaView, ScrollView } from '@/components/ui';
+import { FontAwesome } from '@/components/ui/icons';
 
 import ReportDateSelector from '../report-date-selector';
 
