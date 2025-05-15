@@ -45,7 +45,6 @@ const AlertItem: React.FC<AlertItemProps> = ({ name, message, type }) => {
 };
 
 const Inventory: React.FC = () => {
-  // const navigation = useNavigation<InventoryScreenNavigationProp>();
   const router = useRouter();
 
   // 分段控制器选项

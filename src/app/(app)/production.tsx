@@ -1,3 +1,4 @@
+import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import {
   StatusBar,
@@ -59,6 +60,7 @@ type PlanItemProps = {
   status: string;
   statusColor: string;
   statusBgColor: string;
+  onViewDetail?: () => void;
 };
 
 const PlanItem: React.FC<PlanItemProps> = ({
@@ -72,40 +74,43 @@ const PlanItem: React.FC<PlanItemProps> = ({
   status,
   statusColor,
   statusBgColor,
+  onViewDetail,
 }) => (
-  <View style={styles.card}>
-    <View style={styles.planItemHeader}>
-      <Text style={styles.planItemTitle}>{title}</Text>
-      <StatusBadge
-        status={status}
-        color={statusColor}
-        bgColor={statusBgColor}
-      />
-    </View>
-    <Text style={styles.planItemCode}>计划编号：{code}</Text>
-    <View style={styles.planItemInfo}>
-      <Text style={styles.planItemInfoText}>负责人：{manager}</Text>
-      <Text style={styles.planItemInfoText}>截止日期：{deadline}</Text>
-    </View>
-    <View style={styles.progressContainer}>
-      <View style={styles.progressHeader}>
-        <Text style={styles.progressLabel}>完成进度</Text>
-        <Text style={styles.progressValue}>{progress}%</Text>
+  <TouchableOpacity onPress={onViewDetail}>
+    <View style={styles.card}>
+      <View style={styles.planItemHeader}>
+        <Text style={styles.planItemTitle}>{title}</Text>
+        <StatusBadge
+          status={status}
+          color={statusColor}
+          bgColor={statusBgColor}
+        />
       </View>
-      <ProgressBar progress={progress} color={statusColor} />
-    </View>
-    <View style={styles.planItemFooter}>
-      <View style={styles.planItemStats}>
-        <Text style={styles.planItemStatsText}>计划产量：</Text>
-        <Text style={styles.planItemStatsValue}>{total}</Text>
-        <Text style={styles.planItemStatsText}>已完成：</Text>
-        <Text style={styles.planItemStatsValue}>{completed}</Text>
+      <Text style={styles.planItemCode}>计划编号：{code}</Text>
+      <View style={styles.planItemInfo}>
+        <Text style={styles.planItemInfoText}>负责人：{manager}</Text>
+        <Text style={styles.planItemInfoText}>截止日期：{deadline}</Text>
       </View>
-      <TouchableOpacity>
-        <Text style={styles.planItemLink}>详情</Text>
-      </TouchableOpacity>
+      <View style={styles.progressContainer}>
+        <View style={styles.progressHeader}>
+          <Text style={styles.progressLabel}>完成进度</Text>
+          <Text style={styles.progressValue}>{progress}%</Text>
+        </View>
+        <ProgressBar progress={progress} color={statusColor} />
+      </View>
+      <View style={styles.planItemFooter}>
+        <View style={styles.planItemStats}>
+          <Text style={styles.planItemStatsText}>计划产量：</Text>
+          <Text style={styles.planItemStatsValue}>{total}</Text>
+          <Text style={styles.planItemStatsText}>已完成：</Text>
+          <Text style={styles.planItemStatsValue}>{completed}</Text>
+        </View>
+        <TouchableOpacity>
+          <Text style={styles.planItemLink}>详情</Text>
+        </TouchableOpacity>
+      </View>
     </View>
-  </View>
+  </TouchableOpacity>
 );
 
 // 工序流程节点组件
@@ -162,7 +167,7 @@ const ProcessNode: React.FC<ProcessNodeProps> = ({ icon, label, status }) => {
 };
 
 const Production: React.FC = () => {
-  // const navigation = useNavigation<ProductionScreenNavigationProp>();
+  const router = useRouter();
 
   // 分段控制器状态
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
@@ -268,6 +273,7 @@ const Production: React.FC = () => {
                 status="进行中"
                 statusColor="#22c55e"
                 statusBgColor="#dcfce7"
+                onViewDetail={() => router.push(`/production/1`)}
               />
 
               {/* 计划项目2 */}
@@ -282,6 +288,7 @@ const Production: React.FC = () => {
                 status="进行中"
                 statusColor="#22c55e"
                 statusBgColor="#dcfce7"
+                onViewDetail={() => router.push(`/production/1`)}
               />
 
               {/* 计划项目3 */}
@@ -296,6 +303,7 @@ const Production: React.FC = () => {
                 status="待开始"
                 statusColor="#f97316"
                 statusBgColor="#ffedd5"
+                onViewDetail={() => router.push(`/production/1`)}
               />
             </View>
           )}

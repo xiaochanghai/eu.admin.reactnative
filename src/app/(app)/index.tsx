@@ -147,7 +147,7 @@ const Home: React.FC = () => {
               icon="cogs"
               bgColor="#3b82f6"
               title="生产管理"
-              // onPress={() => navigation.navigate('Production')}
+              onPress={() => router.push('/production')}
             />
             <ModuleItem
               icon="boxes"
