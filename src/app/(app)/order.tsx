@@ -1,3 +1,4 @@
+import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import {
   StatusBar,
@@ -80,7 +81,7 @@ const OrderItem: React.FC<OrderItemProps> = ({
 );
 
 const Orders: React.FC = () => {
-  // const navigation = useNavigation<OrdersScreenNavigationProp>();
+  const router = useRouter();
 
   // 分段控制器选项
   const tabOptions: SegmentedControlOption[] = [
@@ -246,9 +247,7 @@ const Orders: React.FC = () => {
                   status={item.status}
                   statusColor={item.statusColor}
                   statusBgColor={item.statusBgColor}
-                  onViewDetail={() =>
-                    console.log(`查看订单 ${item.orderNumber} 详情`)
-                  }
+                  onViewDetail={() => router.push(`/order/${item.id}`)}
                 />
               ))}
             </View>
