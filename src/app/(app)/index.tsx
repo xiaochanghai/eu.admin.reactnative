@@ -165,7 +165,7 @@ const Home: React.FC = () => {
               icon="check-circle"
               bgColor="#a855f7"
               title="质量控制"
-              // onPress={() => navigation.navigate('Quality')}
+              onPress={() => router.push('/quality')}
             />
             <ModuleItem
               icon="chart-line"

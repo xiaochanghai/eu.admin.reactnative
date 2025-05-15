@@ -1,4 +1,3 @@
-import { FontAwesome } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import {
@@ -10,6 +9,7 @@ import {
 } from 'react-native';
 
 import { NavHeader } from '@/components/ui';
+import { FontAwesome } from '@/components/ui/icons';
 
 export default function ProcessDetail() {
   const [activeTab, setActiveTab] = useState('生产记录');
