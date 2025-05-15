@@ -1,3 +1,4 @@
+import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import {
   StatusBar,
@@ -12,70 +13,7 @@ import { SegmentedControl, type SegmentedControlOption } from '@/components';
 import { NavHeader, SafeAreaView, ScrollView } from '@/components/ui';
 import { FontAwesome } from '@/components/ui/icons';
 
-// 状态徽章组件
-// type StatusBadgeProps = {
-//   status: string;
-//   color: string;
-//   bgColor: string;
-// };
-
-// const StatusBadge: React.FC<StatusBadgeProps> = ({ status, color, bgColor }) => (
-//   <View style={[styles.statusBadge, { backgroundColor: bgColor }]}>
-//     <Text style={[styles.statusBadgeText, { color }]}>{status}</Text>
-//   </View>
-// );
-
-// 库存项组件
-type InventoryItemProps = {
-  name: string;
-  code: string;
-  quantity: number;
-  safetyStock: number;
-  status: 'normal' | 'warning' | 'danger';
-};
-
-const InventoryItem: React.FC<InventoryItemProps> = ({
-  name,
-  code,
-  quantity,
-  safetyStock,
-  status,
-}) => {
-  let indicatorColor = '#22c55e'; // 绿色 - 正常
-  let textColor = 'black';
-
-  if (status === 'warning') {
-    indicatorColor = '#eab308'; // 黄色 - 警告
-  } else if (status === 'danger') {
-    indicatorColor = '#ef4444'; // 红色 - 危险
-    textColor = '#ef4444';
-  }
-
-  return (
-    <View style={styles.inventoryItem}>
-      <View style={styles.flex1}>
-        <View style={styles.flexRow}>
-          <View
-            style={[styles.stockIndicator, { backgroundColor: indicatorColor }]}
-          />
-          <Text style={styles.itemName}>{name}</Text>
-        </View>
-        <Text style={styles.itemCode}>编号：{code}</Text>
-      </View>
-      <View style={styles.textRight}>
-        <Text
-          style={[
-            styles.itemQuantity,
-            status === 'danger' ? { color: textColor } : null,
-          ]}
-        >
-          {quantity}
-        </Text>
-        <Text style={styles.safetyStockText}>安全库存：{safetyStock}</Text>
-      </View>
-    </View>
-  );
-};
+import InventoryItem from '../inventory/item';
 
 // 预警项组件
 type AlertItemProps = {
@@ -108,6 +46,7 @@ const AlertItem: React.FC<AlertItemProps> = ({ name, message, type }) => {
 
 const Inventory: React.FC = () => {
   // const navigation = useNavigation<InventoryScreenNavigationProp>();
+  const router = useRouter();
 
   // 分段控制器选项
   const tabOptions: SegmentedControlOption[] = [
@@ -364,6 +303,7 @@ const Inventory: React.FC = () => {
                     quantity={item.quantity}
                     safetyStock={item.safetyStock}
                     status={item.status}
+                    onViewDetail={() => router.push(`/order/${index}`)}
                   />
                 ))}
               </View>
@@ -404,6 +344,7 @@ const Inventory: React.FC = () => {
                     quantity={item.quantity}
                     safetyStock={item.safetyStock}
                     status={item.status}
+                    onViewDetail={() => router.push(`/order/${index}`)}
                   />
                 ))}
               </View>
@@ -444,6 +385,7 @@ const Inventory: React.FC = () => {
                     quantity={item.quantity}
                     safetyStock={item.safetyStock}
                     status={item.status}
+                    onViewDetail={() => router.push(`/order/${index}`)}
                   />
                 ))}
               </View>
@@ -482,6 +424,7 @@ const Inventory: React.FC = () => {
                     quantity={item.quantity}
                     safetyStock={item.safetyStock}
                     status={item.status}
+                    onViewDetail={() => router.push(`/order/${index}`)}
                   />
                 ))}
               </View>
