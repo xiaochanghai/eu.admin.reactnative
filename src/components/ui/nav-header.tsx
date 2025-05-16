@@ -22,7 +22,7 @@ export type NavHeaderProps = {
 export const NavHeader = ({
   leftShown = true,
   title = 'Demo',
-  headerBackTitle = 'Demo',
+  headerBackTitle = '',
   right = null,
   tx,
 }: NavHeaderProps) => {
