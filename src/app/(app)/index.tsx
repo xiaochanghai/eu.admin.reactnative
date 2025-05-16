@@ -192,6 +192,18 @@ const Home: React.FC = () => {
               onPress={() => router.push('/process')}
             />
             <ModuleItem
+              icon="truck"
+              bgColor="#7423de"
+              title="设备管理"
+              onPress={() => router.push('/equipment')}
+            />
+            <ModuleItem
+              icon="truck"
+              bgColor="#7423de"
+              title="设备管理"
+              onPress={() => router.push('/equipment')}
+            />
+            <ModuleItem
               icon="ellipsis-h"
               bgColor="#6b7280"
               title="更多功能"
