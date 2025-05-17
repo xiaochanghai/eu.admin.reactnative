@@ -1,6 +1,6 @@
 import { FontAwesome } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 
 import { ProgressBar } from './progress-bar';
 import { StatusBadge } from './status-badge';
@@ -51,10 +51,11 @@ export const PlanItem: React.FC<PlanItemProps> = ({
   onViewDetail,
 }) => (
   <TouchableOpacity onPress={onViewDetail} activeOpacity={0.7}>
-    <View style={styles.card}>
-      {/* 标题和状态区域 */}
-      <View style={styles.planItemHeader}>
-        <Text style={styles.planItemTitle}>{title}</Text>
+    {/* 计划卡片 - 使用圆角、阴影和内边距 */}
+    <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm">
+      {/* 标题和状态区域 - 使用弹性布局和对齐方式 */}
+      <View className="mb-2 flex-row items-start justify-between">
+        <Text className="text-base font-medium text-gray-800">{title}</Text>
         <StatusBadge
           status={status}
           color={statusColor}
@@ -62,42 +63,48 @@ export const PlanItem: React.FC<PlanItemProps> = ({
         />
       </View>
 
-      {/* 计划编号 */}
-      <Text style={styles.planItemCode}>计划编号：{code}</Text>
+      {/* 计划编号 - 使用灰色文本和下边距 */}
+      <Text className="mb-2 text-sm text-gray-500">计划编号：{code}</Text>
 
-      {/* 负责人和截止日期 */}
-      <View style={styles.planItemInfo}>
-        <Text style={styles.planItemInfoText}>负责人：{manager}</Text>
-        <Text style={styles.planItemInfoText}>截止日期：{deadline}</Text>
+      {/* 负责人和截止日期 - 使用弹性布局和间距 */}
+      <View className="mb-3 flex-row justify-between">
+        <Text className="text-sm text-gray-500">负责人：{manager}</Text>
+        <Text className="text-sm text-gray-500">截止日期：{deadline}</Text>
       </View>
 
-      {/* 进度条区域 */}
-      <View style={styles.progressContainer}>
-        <View style={styles.progressHeader}>
-          <Text style={styles.progressLabel}>完成进度</Text>
-          <Text style={styles.progressValue}>{progress}%</Text>
+      {/* 进度条区域 - 使用下边距和嵌套布局 */}
+      <View className="mb-2">
+        <View className="mb-1 flex-row justify-between">
+          <Text className="text-sm text-gray-500">完成进度</Text>
+          <Text className="text-sm text-gray-500">{progress}%</Text>
         </View>
         <ProgressBar progress={progress} color={statusColor} />
       </View>
 
-      {/* 底部统计和详情链接 */}
-      <View style={styles.planItemFooter}>
-        <View style={styles.planItemStats}>
-          <Text style={styles.planItemStatsText}>计划产量：</Text>
-          <Text style={styles.planItemStatsValue}>{total}</Text>
-          <Text style={styles.planItemStatsText}>已完成：</Text>
-          <Text style={styles.planItemStatsValue}>{completed}</Text>
+      {/* 底部统计和详情链接 - 使用弹性布局和对齐 */}
+      <View className="flex-row items-center justify-between">
+        <View className="flex-row items-center">
+          <Text className="text-sm text-gray-500">计划产量：</Text>
+          <Text className="mr-3 text-sm font-medium">{total}</Text>
+          <Text className="text-sm text-gray-500">已完成：</Text>
+          <Text className="mr-3 text-sm font-medium">{completed}</Text>
         </View>
         <TouchableOpacity>
-          <Text style={styles.planItemLink}>详情</Text>
+          <Text className="text-sm text-blue-600">详情</Text>
         </TouchableOpacity>
       </View>
     </View>
   </TouchableOpacity>
 );
 
+/**
+ * 生产计划列表组件
+ * 显示生产概览和多个生产计划项
+ */
 export const Plans = () => {
   const router = useRouter();
+
+  // 模拟的生产计划数据
   const planItems = [
     {
       title: '智能手表主板生产计划',
@@ -142,42 +149,54 @@ export const Plans = () => {
 
   return (
     <>
-      {/* 生产概览 */}
-      <View style={styles.card}>
-        <Text style={styles.sectionTitle}>生产概览</Text>
-        <View style={styles.statsGrid}>
-          <View style={styles.statItem}>
-            <Text style={[styles.statValue, { color: '#0066ff' }]}>15</Text>
-            <Text style={styles.statLabel}>计划总数</Text>
+      {/* 生产概览卡片 */}
+      <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm">
+        <Text className="mb-3 text-lg font-semibold text-gray-800">
+          生产概览
+        </Text>
+
+        {/* 统计数据网格 */}
+        <View className="mb-3 flex-row justify-between">
+          <View className="flex-1 items-center">
+            <Text className="text-2xl font-bold text-blue-600">15</Text>
+            <Text className="mt-1 text-xs text-gray-500">计划总数</Text>
           </View>
-          <View style={styles.statItem}>
-            <Text style={[styles.statValue, { color: '#22c55e' }]}>8</Text>
-            <Text style={styles.statLabel}>进行中</Text>
+          <View className="flex-1 items-center">
+            <Text className="text-2xl font-bold text-green-500">8</Text>
+            <Text className="mt-1 text-xs text-gray-500">进行中</Text>
           </View>
-          <View style={styles.statItem}>
-            <Text style={[styles.statValue, { color: '#f97316' }]}>3</Text>
-            <Text style={styles.statLabel}>待开始</Text>
+          <View className="flex-1 items-center">
+            <Text className="text-2xl font-bold text-orange-500">3</Text>
+            <Text className="mt-1 text-xs text-gray-500">待开始</Text>
           </View>
         </View>
-        <View style={styles.completionRateCard}>
+
+        {/* 完成率卡片 */}
+        <View className="flex-row items-center rounded-xl bg-blue-50 p-3">
           <FontAwesome
             name="line-chart"
             size={20}
             color="#0066ff"
-            style={styles.completionRateIcon}
+            className="mr-3"
           />
-          <View style={styles.completionRateContent}>
-            <Text style={styles.completionRateLabel}>本月生产完成率</Text>
-            <View style={styles.completionRateValue}>
-              <Text style={styles.completionRatePercentage}>78.5%</Text>
-              <Text style={styles.completionRateTrend}>↑ 5.2%</Text>
+          <View className="flex-1">
+            <Text className="text-sm font-medium">本月生产完成率</Text>
+            <View className="flex-row items-center">
+              <Text className="mr-2 text-lg font-bold text-blue-600">
+                78.5%
+              </Text>
+              <Text className="text-xs text-green-500">↑ 5.2%</Text>
             </View>
           </View>
         </View>
       </View>
-      <Text style={styles.sectionTitle}>生产计划列表</Text>
-      {/* 生产计划列表 */}
 
+      {/* 生产计划列表标题 */}
+      <Text className="mb-3 text-lg font-semibold text-gray-800">
+        生产计划列表
+      </Text>
+
+      {/* 生产计划列表项 */}
       {planItems.map((item) => (
         <PlanItem
           key={item.id}
@@ -197,149 +216,3 @@ export const Plans = () => {
     </>
   );
 };
-const styles = StyleSheet.create({
-  card: {
-    backgroundColor: 'white',
-    borderRadius: 16,
-    padding: 16,
-    marginBottom: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
-    elevation: 2,
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    marginBottom: 12,
-    color: '#333',
-  },
-  statsGrid: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 12,
-  },
-  statItem: {
-    alignItems: 'center',
-    flex: 1,
-  },
-  statValue: {
-    fontSize: 24,
-    fontWeight: 'bold',
-  },
-  statLabel: {
-    fontSize: 12,
-    color: '#6b7280',
-    marginTop: 4,
-  },
-  completionRateCard: {
-    backgroundColor: '#ebf5ff',
-    borderRadius: 12,
-    padding: 12,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  completionRateIcon: {
-    marginRight: 12,
-  },
-  completionRateContent: {
-    flex: 1,
-  },
-  completionRateLabel: {
-    fontSize: 14,
-    fontWeight: '500',
-  },
-  completionRateValue: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  completionRatePercentage: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#0066ff',
-    marginRight: 8,
-  },
-  completionRateTrend: {
-    fontSize: 12,
-    color: '#22c55e',
-  },
-  planItemHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    marginBottom: 8,
-  },
-  planItemTitle: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: '#333',
-  },
-  statusBadge: {
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 999,
-  },
-  statusBadgeText: {
-    fontSize: 12,
-    fontWeight: '500',
-  },
-  planItemCode: {
-    fontSize: 14,
-    color: '#6b7280',
-    marginBottom: 8,
-  },
-  planItemInfo: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 12,
-  },
-  planItemInfoText: {
-    fontSize: 14,
-    color: '#6b7280',
-  },
-  progressContainer: {
-    marginBottom: 8,
-  },
-  progressHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 4,
-  },
-  progressLabel: {
-    fontSize: 14,
-    color: '#6b7280',
-  },
-  progressBar: {
-    height: 6,
-    backgroundColor: '#e5e7eb',
-    borderRadius: 3,
-    overflow: 'hidden',
-  },
-  progressValue: {
-    height: '100%',
-    borderRadius: 3,
-  },
-  planItemFooter: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  planItemStats: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  planItemStatsText: {
-    fontSize: 14,
-    color: '#6b7280',
-  },
-  planItemStatsValue: {
-    fontSize: 14,
-    fontWeight: '500',
-    marginRight: 12,
-  },
-  planItemLink: {
-    color: '#0066ff',
-    fontSize: 14,
-  },
-});

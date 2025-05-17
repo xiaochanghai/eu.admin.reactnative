@@ -1,6 +1,6 @@
 // import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 
 import { SegmentedControl, type SegmentedControlOption } from '@/components';
 import {
@@ -27,26 +27,26 @@ const Production: React.FC = () => {
   ];
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView className="flex-1 bg-gray-100">
       {/* 顶部导航 */}
       <NavHeader
         title="生产"
         leftShown={false}
         right={
           <>
-            <TouchableOpacity style={styles.headerButton}>
+            <TouchableOpacity className="ml-4">
               <FontAwesome name="search" size={18} color="#6b7280" />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.headerButton}>
+            <TouchableOpacity className="ml-4">
               <FontAwesome name="filter" size={18} color="#6b7280" />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.headerButton}>
+            <TouchableOpacity className="ml-4">
               <FontAwesome name="plus-circle" size={22} color="#0066ff" />
             </TouchableOpacity>
           </>
         }
       />
-      <View style={styles.content}>
+      <View className="flex-1 p-4">
         {/* 分段控制器 */}
         <SegmentedControl
           options={tabOptions}
@@ -57,7 +57,7 @@ const Production: React.FC = () => {
         {/* 选项卡内容 */}
         <ScrollView
           showsVerticalScrollIndicator={false}
-          style={styles.scrollView}
+          className="mt-4 flex-1"
         >
           {selectedTabIndex === 0 && <Plans />}
 
@@ -72,48 +72,11 @@ const Production: React.FC = () => {
       </View>
 
       {/* 浮动按钮 */}
-      <TouchableOpacity style={styles.floatingButton}>
+      <TouchableOpacity className="absolute bottom-20 right-6 size-14 items-center justify-center rounded-full bg-blue-600 shadow-lg">
         <FontAwesome name="plus" size={24} color="white" />
       </TouchableOpacity>
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f5f5f5',
-  },
-  headerButton: {
-    marginLeft: 16,
-  },
-
-  scrollView: {
-    flex: 1,
-    marginTop: 16,
-  },
-  floatingButton: {
-    position: 'absolute',
-    right: 24,
-    bottom: 80,
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    backgroundColor: '#0066ff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  content: {
-    flex: 1,
-    paddingHorizontal: 16,
-    paddingTop: 16,
-    paddingBottom: 16,
-  },
-});
 
 export default Production;

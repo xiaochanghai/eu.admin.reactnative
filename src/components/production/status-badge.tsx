@@ -1,12 +1,19 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
 
 import { Text, View } from '@/components/ui';
 
-// 状态徽章组件
+/**
+ * StatusBadge 组件 - 用于显示状态标签
+ *
+ * 该组件创建一个圆角标签，用于展示各种状态信息（如：进行中、已完成、待处理等）
+ * 支持自定义文本颜色和背景颜色
+ */
 type StatusBadgeProps = {
+  /** 状态文本 */
   status: string;
+  /** 文本颜色 */
   color: string;
+  /** 背景颜色 */
   bgColor: string;
 };
 
@@ -15,19 +22,9 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({
   color,
   bgColor,
 }) => (
-  <View style={[styles.statusBadge, { backgroundColor: bgColor }]}>
-    <Text style={[styles.statusBadgeText, { color }]}>{status}</Text>
+  <View className="rounded-full px-2 py-1" style={{ backgroundColor: bgColor }}>
+    <Text className="text-xs font-medium" style={{ color }}>
+      {status}
+    </Text>
   </View>
 );
-
-const styles = StyleSheet.create({
-  statusBadge: {
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 999,
-  },
-  statusBadgeText: {
-    fontSize: 12,
-    fontWeight: '500',
-  },
-});
