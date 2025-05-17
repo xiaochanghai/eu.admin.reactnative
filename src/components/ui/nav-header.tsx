@@ -38,7 +38,7 @@ export const NavHeader = ({
             title: tx ? translate(tx) : title,
             headerTintColor: '#000',
             headerBackTitle: headerBackTitle,
-            headerShadowVisible: leftShown,
+            headerBackButtonDisplayMode: 'minimal',
             headerTitleAlign: 'center',
             headerRight: () =>
               right && (
