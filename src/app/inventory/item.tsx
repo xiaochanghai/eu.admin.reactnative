@@ -1,5 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity } from 'react-native';
+
+import { Text, View } from '@/components/ui';
 
 type InventoryItemProps = {
   name: string;
@@ -19,78 +21,39 @@ const Item = ({
   onViewDetail,
 }: InventoryItemProps) => {
   let indicatorColor = '#22c55e'; // 绿色 - 正常
-  let textColor = 'black';
+  let textColor = 'text-black';
 
   if (status === 'warning') {
     indicatorColor = '#eab308'; // 黄色 - 警告
   } else if (status === 'danger') {
     indicatorColor = '#ef4444'; // 红色 - 危险
-    textColor = '#ef4444';
+    textColor = 'text-red-500';
   }
 
   return (
     <TouchableOpacity onPress={onViewDetail}>
-      <View style={styles.inventoryItem}>
-        <View style={styles.flex1}>
-          <View style={styles.flexRow}>
+      <View className="flex-row justify-between border-b border-gray-100 py-3">
+        <View className="flex-1">
+          <View className="flex-row items-center">
             <View
-              style={[
-                styles.stockIndicator,
-                { backgroundColor: indicatorColor },
-              ]}
+              className="mr-2 size-2 rounded-full"
+              style={{ backgroundColor: indicatorColor }}
             />
-            <Text style={styles.itemName}>{name}</Text>
+            <Text className="text-base font-medium">{name}</Text>
           </View>
-          <Text className="text-base" style={styles.itemCode}>
-            编号：{code}
-          </Text>
+          <Text className="text-sm text-gray-500">编号：{code}</Text>
         </View>
         <View className="items-end">
           <Text
-            className="text-lg font-bold"
-            style={[status === 'danger' ? { color: textColor } : null]}
+            className={`text-lg font-bold ${status === 'danger' ? textColor : ''}`}
           >
             {quantity}
           </Text>
-          <Text className="text-sm" style={styles.safetyStockText}>
-            安全库存：{safetyStock}
-          </Text>
+          <Text className="text-xs text-gray-500">安全库存：{safetyStock}</Text>
         </View>
       </View>
     </TouchableOpacity>
   );
 };
 
-const styles = StyleSheet.create({
-  flex1: {
-    flex: 1,
-  },
-  flexRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  stockIndicator: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    marginRight: 8,
-  },
-  itemName: {
-    fontSize: 16,
-    fontWeight: '500',
-  },
-  inventoryItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
-  },
-  itemCode: {
-    color: '#6b7280',
-  },
-  safetyStockText: {
-    color: '#6b7280',
-  },
-});
 export default Item;
