@@ -1,11 +1,6 @@
 import { Env } from '@env';
 import { Link, useRouter } from 'expo-router';
-import {
-  Image,
-  SafeAreaView,
-  StyleSheet,
-  TouchableOpacity,
-} from 'react-native';
+import { Image, SafeAreaView, TouchableOpacity } from 'react-native';
 
 import { NavHeader, ScrollView, Text, View } from '@/components/ui';
 import { FontAwesome } from '@/components/ui/icons';
@@ -14,6 +9,15 @@ import { userInfo as user } from '@/lib/user';
 
 import SettingItem from '../settings/components/setting-item';
 
+/**
+ * 个人资料页面
+ *
+ * 展示用户信息、工作统计和功能菜单，包括：
+ * 1. 用户信息卡片：头像、姓名、角色、徽章和统计数据
+ * 2. 功能菜单：个人资料、账号安全、消息通知等
+ * 3. 工作统计：任务完成率、计划执行率、质检合格率
+ * 4. 退出登录按钮
+ */
 export default function Settings() {
   const signOut = useAuth.use.signOut();
   const userInfo = user.use.userInfo();
@@ -29,9 +33,8 @@ export default function Settings() {
   return (
     <>
       {/* <FocusAwareStatusBar /> */}
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView className="flex-1 bg-gray-100">
         {/* 顶部导航 */}
-
         <NavHeader
           title="我的"
           leftShown={false}
@@ -41,48 +44,48 @@ export default function Settings() {
             </Link>
           }
         />
-        <ScrollView style={styles.content}>
+        <ScrollView className="flex-1 p-4 pb-[86px]">
           {/* 用户信息卡片 */}
-          <View style={styles.card}>
-            <View style={styles.userInfoContainer}>
+          <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm">
+            <View className="flex-row items-center">
               <Image
                 source={{
                   uri: avatarFileUrl,
                 }}
-                style={styles.avatar}
+                className="mr-4 size-16 rounded-full"
               />
-              <View style={styles.userInfo}>
-                <Text style={styles.userName}>{userInfo?.UserName}</Text>
-                <Text style={styles.userRole}>生产部门 · 经理</Text>
-                <View style={styles.badgeContainer}>
-                  <View style={styles.adminBadge}>
-                    <Text style={styles.adminBadgeText}>管理员</Text>
+              <View className="flex-1">
+                <Text className="text-xl font-bold">{userInfo?.UserName}</Text>
+                <Text className="text-sm text-gray-500">生产部门 · 经理</Text>
+                <View className="mt-1 flex-row">
+                  <View className="rounded-xl bg-blue-100 px-2 py-0.5">
+                    <Text className="text-xs text-blue-800">管理员</Text>
                   </View>
-                  <View style={styles.verifiedBadge}>
-                    <Text style={styles.verifiedBadgeText}>已认证</Text>
+                  <View className="ml-2 rounded-xl bg-green-100 px-2 py-0.5">
+                    <Text className="text-xs text-green-800">已认证</Text>
                   </View>
                 </View>
               </View>
             </View>
 
-            <View style={styles.statsContainer}>
-              <View style={styles.statItem}>
-                <Text style={styles.statValue}>28</Text>
-                <Text style={styles.statLabel}>待处理任务</Text>
+            <View className="mt-4 flex-row border-t border-gray-100 pt-4">
+              <View className="flex-1 items-center">
+                <Text className="text-lg font-bold">28</Text>
+                <Text className="text-xs text-gray-500">待处理任务</Text>
               </View>
-              <View style={styles.statItem}>
-                <Text style={styles.statValue}>15</Text>
-                <Text style={styles.statLabel}>今日完成</Text>
+              <View className="flex-1 items-center">
+                <Text className="text-lg font-bold">15</Text>
+                <Text className="text-xs text-gray-500">今日完成</Text>
               </View>
-              <View style={styles.statItem}>
-                <Text style={styles.statValue}>98%</Text>
-                <Text style={styles.statLabel}>任务完成率</Text>
+              <View className="flex-1 items-center">
+                <Text className="text-lg font-bold">98%</Text>
+                <Text className="text-xs text-gray-500">任务完成率</Text>
               </View>
             </View>
           </View>
 
           {/* 功能菜单 */}
-          <View style={styles.card}>
+          <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm">
             <SettingItem
               icon="user-edit"
               iconBgColor="#3b82f6"
@@ -118,9 +121,9 @@ export default function Settings() {
           </View>
 
           {/* 工作统计 */}
-          <View style={styles.card}>
-            <Text style={styles.sectionTitle}>工作统计</Text>
-            <View style={styles.progressContainer}>
+          <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm">
+            <Text className="mb-3 text-lg font-semibold">工作统计</Text>
+            <View className="mt-1">
               <ProgressBar label="本月任务完成率" value={85} color="#3b82f6" />
               <ProgressBar label="生产计划执行率" value={92} color="#22c55e" />
               <ProgressBar label="质检合格率" value={98} color="#a855f7" />
@@ -129,11 +132,10 @@ export default function Settings() {
 
           {/* 退出登录按钮 */}
           <TouchableOpacity
-            style={styles.logoutButton}
+            className="mb-8 mt-6 items-center rounded-xl border border-gray-200 bg-red-600 py-3"
             onPress={() => signOut()}
-            className="m-10"
           >
-            <Text style={styles.logoutButtonText} tx="settings.logout" />
+            <Text className="font-medium text-white" tx="settings.logout" />
           </TouchableOpacity>
         </ScrollView>
       </SafeAreaView>
@@ -141,7 +143,13 @@ export default function Settings() {
   );
 }
 
-// 进度条组件
+/**
+ * 进度条组件
+ *
+ * @param label - 进度条标签
+ * @param value - 进度值（0-100）
+ * @param color - 进度条颜色
+ */
 type ProgressBarProps = {
   label: string;
   value: number;
@@ -149,154 +157,16 @@ type ProgressBarProps = {
 };
 
 const ProgressBar: React.FC<ProgressBarProps> = ({ label, value, color }) => (
-  <View style={styles.progressItem}>
-    <View style={styles.progressHeader}>
-      <Text style={styles.progressLabel}>{label}</Text>
-      <Text style={styles.progressValue}>{value}%</Text>
+  <View className="mb-3">
+    <View className="mb-1 flex-row justify-between">
+      <Text className="text-sm">{label}</Text>
+      <Text className="text-sm font-medium">{value}%</Text>
     </View>
-    <View style={styles.progressTrack}>
+    <View className="h-2 overflow-hidden rounded bg-gray-200">
       <View
-        style={[
-          styles.progressFill,
-          { width: `${value}%`, backgroundColor: color },
-        ]}
+        className="h-full rounded"
+        style={{ width: `${value}%`, backgroundColor: color }}
       />
     </View>
   </View>
 );
-// 样式
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f5f5f5',
-  },
-  content: {
-    flex: 1,
-    padding: 16,
-    paddingBottom: 86, // 为底部导航留出空间
-  },
-  card: {
-    backgroundColor: 'white',
-    borderRadius: 16,
-    padding: 16,
-    marginBottom: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 10,
-    elevation: 2,
-  },
-  userInfoContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  avatar: {
-    width: 64,
-    height: 64,
-    borderRadius: 32,
-    marginRight: 16,
-  },
-  userInfo: {
-    flex: 1,
-  },
-  userName: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  userRole: {
-    fontSize: 14,
-    color: '#6b7280',
-  },
-  badgeContainer: {
-    flexDirection: 'row',
-    marginTop: 4,
-  },
-  adminBadge: {
-    backgroundColor: '#dbeafe',
-    paddingHorizontal: 8,
-    paddingVertical: 2,
-    borderRadius: 12,
-  },
-  adminBadgeText: {
-    fontSize: 12,
-    color: '#1e40af',
-  },
-  verifiedBadge: {
-    backgroundColor: '#dcfce7',
-    paddingHorizontal: 8,
-    paddingVertical: 2,
-    borderRadius: 12,
-    marginLeft: 8,
-  },
-  verifiedBadgeText: {
-    fontSize: 12,
-    color: '#166534',
-  },
-  statsContainer: {
-    flexDirection: 'row',
-    marginTop: 16,
-    paddingTop: 16,
-    borderTopWidth: 1,
-    borderTopColor: '#f3f4f6',
-  },
-  statItem: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  statValue: {
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  statLabel: {
-    fontSize: 12,
-    color: '#6b7280',
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    marginBottom: 12,
-  },
-  progressContainer: {
-    marginTop: 4,
-  },
-  progressItem: {
-    marginBottom: 12,
-  },
-  progressHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 4,
-  },
-  progressLabel: {
-    fontSize: 14,
-  },
-  progressValue: {
-    fontSize: 14,
-    fontWeight: '500',
-  },
-  progressTrack: {
-    height: 8,
-    backgroundColor: '#e5e7eb',
-    borderRadius: 4,
-    overflow: 'hidden',
-  },
-  progressFill: {
-    height: '100%',
-    borderRadius: 4,
-  },
-  logoutButton: {
-    backgroundColor: '#dc2626',
-    borderWidth: 1,
-    borderColor: '#e5e7eb',
-    borderRadius: 12,
-    paddingVertical: 12,
-    alignItems: 'center',
-    marginTop: 24,
-    marginBottom: 30,
-  },
-  logoutButtonText: {
-    color: '#FFFFFF',
-    fontWeight: '500',
-    // fontSize: 16,
-  },
-});
