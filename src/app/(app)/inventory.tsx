@@ -302,7 +302,7 @@ const Inventory: React.FC = () => {
                     quantity={item.quantity}
                     safetyStock={item.safetyStock}
                     status={item.status}
-                    onViewDetail={() => router.push(`/order/${index}`)}
+                    onViewDetail={() => router.push(`/inventory/${index}`)}
                   />
                 ))}
               </View>

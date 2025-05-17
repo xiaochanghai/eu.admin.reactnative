@@ -153,13 +153,13 @@ const Home: React.FC = () => {
               icon="boxes"
               bgColor="#22c55e"
               title="库存管理"
-              // onPress={() => navigation.navigate('Inventory')}
+              onPress={() => router.push('/inventory')}
             />
             <ModuleItem
               icon="clipboard-list"
               bgColor="#f97316"
               title="订单管理"
-              // onPress={() => navigation.navigate('Orders')}
+              onPress={() => router.push('/order')}
             />
             <ModuleItem
               icon="check-circle"
