@@ -25,6 +25,12 @@ Android :
 ![image-4](./doc/images/android/4.png)
 ![image-5](./doc/images/android/5.png)
 
+## Installer
+
+> 👉 Android only. For iOS, please use a virtual machine.
+
+![image-1](./doc/images/android-download.png)
+
 ## Requirements
 
 - [React Native dev environment ](https://reactnative.dev/docs/environment-setup)
