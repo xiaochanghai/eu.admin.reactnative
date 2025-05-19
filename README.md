@@ -27,7 +27,7 @@ Android :
 
 ## Installer
 
-> 👉 Android only. For iOS, please use a virtual machine.
+> 👉 Android only. For iOS, please use a virtual machine. Test Account: `Admin`, Password: `1`
 
 ![image-1](./doc/images/android-download.png)
 
