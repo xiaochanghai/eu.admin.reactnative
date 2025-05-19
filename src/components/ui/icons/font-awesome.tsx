@@ -1,4 +1,5 @@
 import {
+  AntDesign,
   Entypo,
   EvilIcons,
   FontAwesome as FontAwesomeIcon,
@@ -15,6 +16,7 @@ export enum GroupEnum {
   Entypo = 'Entypo',
   FontAwesome5 = 'FontAwesome5',
   EvilIcons = 'EvilIcons',
+  AntDesign = 'AntDesign',
 }
 
 /**
@@ -25,7 +27,8 @@ type Group =
   | GroupEnum.Entypo
   | GroupEnum.FontAwesome5
   | GroupEnum.FontAwesome
-  | GroupEnum.EvilIcons;
+  | GroupEnum.EvilIcons
+  | GroupEnum.AntDesign;
 
 /**
  * FontAwesome图标组件的属性接口
@@ -152,6 +155,16 @@ export const FontAwesome: React.FC<FontAwesomeIconProps> = ({
   } else if (group === GroupEnum.EvilIcons) {
     return (
       <EvilIcons
+        name={name as any}
+        size={size}
+        color={color}
+        style={style as any}
+        className={className}
+      />
+    );
+  } else if (group === GroupEnum.AntDesign) {
+    return (
+      <AntDesign
         name={name as any}
         size={size}
         color={color}

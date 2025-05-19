@@ -1,6 +1,7 @@
-import { FontAwesome } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { Text, TouchableOpacity, View } from 'react-native';
+
+import { FontAwesome } from '@/components/ui/icons';
 
 import { ProgressBar } from './progress-bar';
 import { StatusBadge } from './status-badge';

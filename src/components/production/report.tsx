@@ -1,5 +1,6 @@
-import { FontAwesome } from '@expo/vector-icons';
 import { Text, TouchableOpacity, View } from 'react-native';
+
+import { FontAwesome } from '@/components/ui/icons';
 
 import ReportDateSelector from './report-date-selector';
 

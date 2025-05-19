@@ -1,4 +1,3 @@
-import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import {
   SafeAreaView,
@@ -16,8 +15,6 @@ const ProductionDetail = () => {
 
   return (
     <SafeAreaView className="flex-1 bg-gray-50">
-      <StatusBar style="auto" />
-
       <NavHeader
         title="生产详情"
         right={

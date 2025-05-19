@@ -1,5 +1,6 @@
-import { FontAwesome } from '@expo/vector-icons';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
+
+import { FontAwesome } from '@/components/ui/icons';
 
 import { StatusBadge } from './status-badge';
 
