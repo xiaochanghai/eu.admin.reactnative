@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 
 import { NavHeader } from '@/components/ui';
-import { FontAwesome } from '@/components/ui/icons';
+import { FontAwesome, GroupEnum } from '@/components/ui/icons';
 
 const ProductionDetail = () => {
   const [activeTab, setActiveTab] = useState('production-process');
@@ -150,9 +150,9 @@ const ProductionDetail = () => {
                 <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                   <View className="flex-row items-center py-2">
                     <View className="items-center">
-                      <View className="w-15 h-15 items-center justify-center rounded-full bg-green-100">
-                        <FontAwesome name="cut" size={20} color="#16a34a" />
-                        <View className="absolute right-0 top-0 size-5 items-center justify-center rounded-full bg-green-500">
+                      <View className="size-16 items-center justify-center rounded-full bg-green-100">
+                        <FontAwesome name="cut" size={30} color="#16a34a" />
+                        <View className="absolute right-6 top-6 size-5 items-center justify-center rounded-full bg-green-500">
                           <FontAwesome name="check" size={10} color="#fff" />
                         </View>
                       </View>
@@ -163,10 +163,20 @@ const ProductionDetail = () => {
                     <View className="mx-1 h-0.5 w-10 bg-green-500" />
 
                     <View className="items-center">
-                      <View className="w-15 h-15 items-center justify-center rounded-full bg-blue-100">
-                        <FontAwesome name="tshirt" size={20} color="#2563eb" />
-                        <View className="absolute right-0 top-0 size-5 items-center justify-center rounded-full bg-blue-500">
-                          <FontAwesome name="sync" size={10} color="#fff" />
+                      <View className="size-16 items-center justify-center rounded-full bg-blue-100">
+                        <FontAwesome
+                          name="tshirt"
+                          size={30}
+                          color="#2563eb"
+                          group={GroupEnum.FontAwesome5}
+                        />
+                        <View className="right-5.5 absolute top-6 size-5 items-center justify-center rounded-full bg-blue-500">
+                          <FontAwesome
+                            name="sync"
+                            size={10}
+                            color="#fff"
+                            group={GroupEnum.AntDesign}
+                          />
                         </View>
                       </View>
                       <Text className="mt-1 text-xs font-medium">缝制</Text>
@@ -176,10 +186,10 @@ const ProductionDetail = () => {
                     <View className="mx-1 h-0.5 w-10 bg-gray-300" />
 
                     <View className="items-center">
-                      <View className="w-15 h-15 items-center justify-center rounded-full bg-gray-100">
+                      <View className="size-16 items-center justify-center rounded-full bg-gray-100">
                         <FontAwesome
                           name="paint-brush"
-                          size={20}
+                          size={30}
                           color="#6b7280"
                         />
                       </View>
@@ -190,8 +200,8 @@ const ProductionDetail = () => {
                     <View className="mx-1 h-0.5 w-10 bg-gray-300" />
 
                     <View className="items-center">
-                      <View className="w-15 h-15 items-center justify-center rounded-full bg-gray-100">
-                        <FontAwesome name="search" size={20} color="#6b7280" />
+                      <View className="size-16 items-center justify-center rounded-full bg-gray-100">
+                        <FontAwesome name="search" size={30} color="#6b7280" />
                       </View>
                       <Text className="mt-1 text-xs font-medium">质检</Text>
                       <Text className="text-xs text-gray-500">待开始</Text>
@@ -200,8 +210,8 @@ const ProductionDetail = () => {
                     <View className="mx-1 h-0.5 w-10 bg-gray-300" />
 
                     <View className="items-center">
-                      <View className="w-15 h-15 items-center justify-center rounded-full bg-gray-100">
-                        <FontAwesome name="tags" size={20} color="#6b7280" />
+                      <View className="size-16 items-center justify-center rounded-full bg-gray-100">
+                        <FontAwesome name="tags" size={30} color="#6b7280" />
                       </View>
                       <Text className="mt-1 text-xs font-medium">包装</Text>
                       <Text className="text-xs text-gray-500">待开始</Text>
