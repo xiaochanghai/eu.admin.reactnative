@@ -1,8 +1,6 @@
 /* eslint-disable react/react-in-jsx-scope */
 // import { zodResolver } from '@hookform/resolvers/zod';
 import { Env } from '@env';
-import { FontAwesome } from '@expo/vector-icons';
-import Entypo from '@expo/vector-icons/Entypo';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import {
@@ -20,6 +18,7 @@ import * as z from 'zod';
 
 import { loginApi } from '@/api';
 import { Image, Text, View } from '@/components/ui';
+import { FontAwesome, GroupEnum } from '@/components/ui/icons';
 import { signIn } from '@/lib';
 import { translate } from '@/lib/i18n';
 import { setUserInfo } from '@/lib/user';
@@ -229,7 +228,12 @@ export const LoginForm = () => {
                   <FontAwesome name="qrcode" size={24} color="#0066ff" />
                 </TouchableOpacity>
                 <TouchableOpacity className="mx-4 size-14 items-center justify-center rounded-full border border-gray-200">
-                  <Entypo name="fingerprint" size={24} color="#a855f7" />
+                  <FontAwesome
+                    name="fingerprint"
+                    size={24}
+                    color="#a855f7"
+                    group={GroupEnum.Entypo}
+                  />
                 </TouchableOpacity>
               </View>
             </View>

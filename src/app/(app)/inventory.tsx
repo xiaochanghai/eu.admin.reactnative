@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { TextInput, TouchableOpacity } from 'react-native';
 
 import { SegmentedControl, type SegmentedControlOption } from '@/components';
+import InventoryItem from '@/components/inventory/item';
 import {
   NavHeader,
   SafeAreaView,
@@ -11,8 +12,6 @@ import {
   View,
 } from '@/components/ui';
 import { FontAwesome } from '@/components/ui/icons';
-
-import InventoryItem from '../inventory/item';
 
 // 预警项组件
 type AlertItemProps = {

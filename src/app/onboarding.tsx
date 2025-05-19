@@ -1,5 +1,4 @@
 import { Env } from '@env';
-import { FontAwesome } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useRef } from 'react';
@@ -20,6 +19,7 @@ import {
   Text,
   View,
 } from '@/components/ui';
+import { FontAwesome } from '@/components/ui/icons';
 import { useIsFirstTime } from '@/lib/hooks';
 import { translate } from '@/lib/i18n';
 

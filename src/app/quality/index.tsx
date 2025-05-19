@@ -1,6 +1,5 @@
 // import { useNavigation } from '@react-navigation/native';
 import { useRouter } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import {
   SafeAreaView,
@@ -495,8 +494,6 @@ const Quality = () => {
       >
         <FontAwesome name="plus" size={20} color="#fff" />
       </TouchableOpacity>
-
-      <StatusBar style="auto" />
     </SafeAreaView>
   );
 };

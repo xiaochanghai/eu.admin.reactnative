@@ -1,4 +1,3 @@
-import AntDesign from '@expo/vector-icons/AntDesign';
 import { Stack, useRouter } from 'expo-router';
 import React from 'react';
 import {
@@ -10,8 +9,10 @@ import {
 } from 'react-native';
 import { Platform } from 'react-native';
 
+import { FontAwesome, GroupEnum } from '@/components/ui/icons';
 import type { TxKeyPath } from '@/lib/i18n';
 import { translate } from '@/lib/i18n';
+
 export type NavHeaderProps = {
   leftShown?: boolean;
   title?: string;
@@ -59,7 +60,12 @@ export const NavHeader = ({
                 <View style={styles.headerSide}>
                   {leftShown && (
                     <TouchableOpacity onPress={() => router.back()}>
-                      <AntDesign name="left" size={24} color="black" />
+                      <FontAwesome
+                        name="left"
+                        size={24}
+                        color="black"
+                        group={GroupEnum.AntDesign}
+                      />
                     </TouchableOpacity>
                   )}
                 </View>

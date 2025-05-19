@@ -1,4 +1,3 @@
-import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import {
   SafeAreaView,
@@ -16,8 +15,6 @@ export default function ProcessDetail() {
 
   return (
     <SafeAreaView className="flex-1 bg-gray-50">
-      <StatusBar style="dark" />
-
       <NavHeader
         title="工序详情"
         right={

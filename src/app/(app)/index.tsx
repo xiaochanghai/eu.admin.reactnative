@@ -158,13 +158,13 @@ const Home: React.FC = () => {
               icon="boxes"
               bgColor="#22c55e"
               title="库存管理"
-              // onPress={() => navigation.navigate('Inventory')}
+              onPress={() => router.push('/inventory')}
             />
             <ModuleItem
               icon="clipboard-list"
               bgColor="#f97316"
               title="订单管理"
-              // onPress={() => navigation.navigate('Orders')}
+              onPress={() => router.push('/order')}
             />
             <ModuleItem
               icon="check-circle"
@@ -190,7 +190,7 @@ const Home: React.FC = () => {
               title="物流管理"
               onPress={() => {}}
             />
-            <ModuleItem
+            {/* <ModuleItem
               icon="truck"
               bgColor="#7423de"
               title="工序管理"
@@ -201,7 +201,7 @@ const Home: React.FC = () => {
               bgColor="#7423de"
               title="设备管理"
               onPress={() => router.push('/equipment')}
-            />
+            /> */}
             <ModuleItem
               icon="ellipsis-h"
               bgColor="#6b7280"

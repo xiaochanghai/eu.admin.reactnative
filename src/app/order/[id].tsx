@@ -1,4 +1,3 @@
-import { FontAwesome } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import {
   Image,
@@ -10,6 +9,7 @@ import {
 } from 'react-native';
 
 import { NavHeader } from '@/components/ui';
+import { FontAwesome } from '@/components/ui/icons';
 
 const OrderDetail = () => {
   const [activeTab, setActiveTab] = useState('product-list');
