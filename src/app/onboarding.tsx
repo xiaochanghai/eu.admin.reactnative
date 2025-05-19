@@ -1,4 +1,4 @@
-/* eslint-disable react/react-in-jsx-scope */
+import { Env } from '@env';
 import { FontAwesome } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
@@ -6,9 +6,11 @@ import React, { useEffect, useRef } from 'react';
 import {
   Animated,
   Dimensions,
+  Platform,
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
+import { getVersion } from 'react-native-device-info';
 
 import {
   FocusAwareStatusBar,
@@ -19,6 +21,7 @@ import {
   View,
 } from '@/components/ui';
 import { useIsFirstTime } from '@/lib/hooks';
+import { translate } from '@/lib/i18n';
 
 const { width, height } = Dimensions.get('window');
 
@@ -79,7 +82,7 @@ const Welcome: React.FC = () => {
         }),
       ])
     ).start();
-  }, []);
+  });
 
   // 处理开始使用按钮点击
   const handleGetStarted = () => {
@@ -92,9 +95,9 @@ const Welcome: React.FC = () => {
     <>
       <FocusAwareStatusBar />
       <ScrollView>
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView className="flex-1 bg-gray-100">
           {/* 背景粒子效果 */}
-          <View style={styles.particles}>
+          <View className="absolute inset-0 z-0 overflow-hidden">
             {particles.map((particle) => (
               <Animated.View
                 key={particle.id}
@@ -120,11 +123,17 @@ const Welcome: React.FC = () => {
             ))}
           </View>
 
-          <View style={styles.contentWrapper}>
+          <View className="relative z-10 flex-1">
             {/* 版本标识 */}
-            <Animated.View style={[styles.versionBadge, { opacity: fadeAnim }]}>
-              <Text style={styles.versionText}>v2.0.1</Text>
-            </Animated.View>
+            {(Platform.OS === 'ios' || Platform.OS === 'android') && (
+              <Animated.View
+                style={[styles.versionBadge, { opacity: fadeAnim }]}
+              >
+                <Text className="text-sm font-medium text-[#F7952B]">
+                  V{getVersion()}
+                </Text>
+              </Animated.View>
+            )}
 
             {/* 顶部空间 */}
             <View style={{ height: height * 0.08 }} />
@@ -140,12 +149,11 @@ const Welcome: React.FC = () => {
               ]}
             >
               <Animated.View
-                style={[
-                  styles.logoContainer,
-                  { transform: [{ translateY: floatAnim }] },
-                ]}
+                className="relative mb-5"
+                style={[{ transform: [{ translateY: floatAnim }] }]}
               >
                 <View style={styles.logoGlow} />
+
                 <LinearGradient
                   colors={['#EBF5FF', '#E1F0FF']}
                   style={styles.logoCircle}
@@ -157,8 +165,13 @@ const Welcome: React.FC = () => {
                   />
                 </LinearGradient>
               </Animated.View>
-              <Text style={styles.title}>优智云</Text>
-              <Text style={styles.subtitle}>智能制造管理系统</Text>
+
+              <Text className="mt-4 text-2xl font-bold text-[#333]">
+                {Env.NAME}
+              </Text>
+              <Text className="mt-4 text-xl font-bold text-[#6b7280]">
+                {translate('login.sub_title')}
+              </Text>
             </Animated.View>
 
             {/* 欢迎信息 */}
@@ -171,14 +184,16 @@ const Welcome: React.FC = () => {
                 },
               ]}
             >
-              <Text style={styles.welcomeTitle}>欢迎使用轻智造ERP系统</Text>
-              <Text style={styles.welcomeText}>
+              <Text className="mb-3 text-center text-2xl font-semibold text-gray-700">
+                欢迎使用轻智造ERP系统
+              </Text>
+              <Text className="max-w-[320px] text-center text-base leading-6 text-gray-500">
                 高效、智能的制造业管理解决方案，助力企业数字化转型，提升生产效率
               </Text>
             </Animated.View>
 
             {/* 功能特点 */}
-            <View style={styles.featuresGrid}>
+            <View className="mb-8 flex-row flex-wrap justify-between px-4">
               <FeatureCard
                 icon="cogs"
                 title="生产管理"
@@ -216,15 +231,24 @@ const Welcome: React.FC = () => {
               ]}
             >
               <TouchableOpacity
-                style={styles.startButton}
+                className="overflow-hidden rounded-2xl shadow-lg"
+                style={{
+                  shadowColor: '#F7952B',
+                  shadowOffset: { width: 0, height: 4 },
+                  shadowOpacity: 0.2,
+                  shadowRadius: 8,
+                  elevation: 4,
+                }}
                 onPress={handleGetStarted}
                 activeOpacity={0.8}
               >
                 <LinearGradient
                   colors={['#F7952B', '#E94934']}
-                  style={styles.buttonGradient}
+                  className="flex-row items-center justify-center py-4"
                 >
-                  <Text style={styles.buttonText}>开始使用</Text>
+                  <Text className="text-lg font-semibold text-white">
+                    开始使用
+                  </Text>
                   <FontAwesome
                     name="arrow-right"
                     size={16}
@@ -232,20 +256,15 @@ const Welcome: React.FC = () => {
                     style={{ marginLeft: 8 }}
                   />
                 </LinearGradient>
-                {/* <Button
-              label="Let's Get Started "
-              onPress={() => {
-                setIsFirstTime(false);
-                router.replace('/login');
-              }}
-            /> */}
               </TouchableOpacity>
-              <Text style={styles.buttonHint}>点击按钮进入登录页面</Text>
+              <Text className="mt-3 text-center text-sm text-gray-500">
+                点击按钮进入登录页面
+              </Text>
             </Animated.View>
 
             {/* 底部 */}
-            <View style={styles.footer}>
-              <Text style={styles.footerText}>
+            <View className="mt-auto items-center pb-6">
+              <Text className="text-base text-gray-500">
                 © 2025 苏州优智云科技有限公司
               </Text>
             </View>
@@ -301,39 +320,28 @@ const FeatureCard: React.FC<FeatureCardProps> = ({
         },
       ]}
     >
-      <View style={styles.featureIcon}>
-        <FontAwesome
-          name={icon as any}
-          size={24}
-          color="#fff"
-          style={styles.featureIcon1}
-        />
+      <View
+        className="mb-3 size-14 items-center justify-center rounded-2xl bg-[#F7952B] shadow-sm"
+        style={{
+          shadowColor: '#F7952B',
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.1,
+          shadowRadius: 4,
+          elevation: 2,
+        }}
+      >
+        <FontAwesome name={icon as any} size={24} color="#fff" />
       </View>
-      <Text style={styles.featureTitle}>{title}</Text>
-      <Text style={styles.featureDescription}>{description}</Text>
+      <Text className="mb-1.5 text-base font-semibold text-gray-700">
+        {title}
+      </Text>
+
+      <Text className="text-sm leading-5 text-gray-500">{description}</Text>
     </Animated.View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f5f5f5',
-  },
-  contentWrapper: {
-    flex: 1,
-    position: 'relative',
-    zIndex: 1,
-  },
-  particles: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    overflow: 'hidden',
-    zIndex: 0,
-  },
   particle: {
     position: 'absolute',
     backgroundColor: 'rgba(0,102,255,0.1)',
@@ -358,19 +366,10 @@ const styles = StyleSheet.create({
     // borderColor: 'rgba(0,102,255,0.1)',
     zIndex: 10,
   },
-  versionText: {
-    fontSize: 12,
-    color: '#F7952B',
-    fontWeight: '500',
-  },
   logoSection: {
     alignItems: 'center',
     marginBottom: 32,
     paddingHorizontal: 20,
-  },
-  logoContainer: {
-    position: 'relative',
-    marginBottom: 20,
   },
   logoGlow: {
     position: 'absolute',
@@ -395,43 +394,10 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
     elevation: 5,
   },
-  title: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#333',
-    // backgroundColor: 'rgba(255,255,255,0.8)',
-    marginTop: 16,
-  },
-  subtitle: {
-    fontSize: 18,
-    color: '#6b7280',
-    marginTop: 8,
-  },
   welcomeSection: {
     alignItems: 'center',
     marginBottom: 40,
     paddingHorizontal: 20,
-  },
-  welcomeTitle: {
-    fontSize: 20,
-    fontWeight: '600',
-    color: '#374151',
-    marginBottom: 12,
-    textAlign: 'center',
-  },
-  welcomeText: {
-    fontSize: 14,
-    color: '#6b7280',
-    textAlign: 'center',
-    lineHeight: 24,
-    maxWidth: 320,
-  },
-  featuresGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    paddingHorizontal: 16,
-    marginBottom: 32,
   },
   featureCard: {
     width: '48%',
@@ -459,58 +425,9 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 2,
   },
-  featureIcon1: {
-    // backgroundColor: 'rgba(0,102,255,0.1)',
-  },
-  featureTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#374151',
-    marginBottom: 6,
-  },
-  featureDescription: {
-    fontSize: 14,
-    color: '#6b7280',
-    lineHeight: 20,
-  },
   buttonSection: {
     paddingHorizontal: 20,
     marginBottom: 24,
-  },
-  startButton: {
-    borderRadius: 16,
-    overflow: 'hidden',
-    shadowColor: '#F7952B',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 8,
-    elevation: 4,
-  },
-  buttonGradient: {
-    paddingVertical: 16,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 18,
-    fontWeight: '600',
-  },
-  buttonHint: {
-    textAlign: 'center',
-    color: '#6b7280',
-    fontSize: 14,
-    marginTop: 12,
-  },
-  footer: {
-    marginTop: 'auto',
-    paddingBottom: 24,
-    alignItems: 'center',
-  },
-  footerText: {
-    fontSize: 14,
-    color: '#6b7280',
   },
 });
 

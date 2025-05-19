@@ -1,12 +1,6 @@
 import { useRouter } from 'expo-router';
 import React from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { SafeAreaView, ScrollView, TouchableOpacity, View } from 'react-native';
 import { getVersion } from 'react-native-device-info';
 
 import { NavHeader } from '@/components/ui';
@@ -17,16 +11,19 @@ import SettingItem from './components/setting-item';
 const Settings: React.FC = () => {
   const router = useRouter();
   return (
-    <SafeAreaView style={styles.container}>
-      {/* <StatusBar barStyle="dark-content" backgroundColor="transparent" /> */}
-
-      {/* 顶部导航 */}
+    // 安全区域视图，确保内容不会被设备的缺口遮挡
+    <SafeAreaView className="flex-1 bg-[#f5f5f5]">
+      {/* 顶部导航栏 */}
       <NavHeader tx="settings.title" />
 
-      <ScrollView style={styles.content}>
-        {/* 系统设置 */}
-        <Text style={styles.sectionTitle} tx="settings.system.title" />
-        <View style={styles.card}>
+      {/* 主要内容区域 */}
+      <ScrollView className="flex-1 p-4">
+        {/* 系统设置部分 */}
+        <Text
+          className="mb-3 mt-2 text-lg font-semibold text-[#333]"
+          tx="settings.system.title"
+        />
+        <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm">
           <SettingItem
             icon="language"
             iconBgColor="#3b82f6"
@@ -57,9 +54,12 @@ const Settings: React.FC = () => {
           />
         </View>
 
-        {/* 通知设置 */}
-        <Text style={styles.sectionTitle} tx="settings.notification.title" />
-        <View style={styles.card}>
+        {/* 通知设置部分 */}
+        <Text
+          className="mb-3 mt-2 text-lg font-semibold text-[#333]"
+          tx="settings.notification.title"
+        />
+        <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm">
           <SettingItem
             icon="bell"
             iconBgColor="#ef4444"
@@ -91,12 +91,12 @@ const Settings: React.FC = () => {
           />
         </View>
 
-        {/* 隐私与安全 */}
+        {/* 隐私与安全部分 */}
         <Text
-          style={styles.sectionTitle}
+          className="mb-3 mt-2 text-lg font-semibold text-[#333]"
           tx="settings.privacy_security.title"
         />
-        <View style={styles.card}>
+        <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm">
           <SettingItem
             icon="lock"
             iconBgColor="#6366f1"
@@ -124,9 +124,12 @@ const Settings: React.FC = () => {
           />
         </View>
 
-        {/* 数据与存储 */}
-        <Text style={styles.sectionTitle} tx="settings.data_storage.title" />
-        <View style={styles.card}>
+        {/* 数据与存储部分 */}
+        <Text
+          className="mb-3 mt-2 text-lg font-semibold text-[#333]"
+          tx="settings.data_storage.title"
+        />
+        <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm">
           <SettingItem
             icon="database"
             iconBgColor="#6b7280"
@@ -156,9 +159,12 @@ const Settings: React.FC = () => {
           />
         </View>
 
-        {/* 关于 */}
-        <Text style={styles.sectionTitle} tx="settings.about.title" />
-        <View style={styles.card}>
+        {/* 关于应用部分 */}
+        <Text
+          className="mb-3 mt-2 text-lg font-semibold text-[#333]"
+          tx="settings.about.title"
+        />
+        <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm">
           <SettingItem
             icon="info-circle"
             iconBgColor="#3b82f6"
@@ -196,56 +202,14 @@ const Settings: React.FC = () => {
 
         {/* 退出登录按钮 */}
         <TouchableOpacity
-          style={styles.logoutButton}
+          className="my-6 items-center rounded-xl bg-[#ef4444] py-3.5"
           // onPress={() => navigation.navigate('Login')}
         >
-          <Text style={styles.logoutButtonText}>退出登录</Text>
+          <Text className="text-base font-semibold text-white">退出登录</Text>
         </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f5f5f5',
-  },
-
-  content: {
-    flex: 1,
-    padding: 16,
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    marginBottom: 12,
-    marginTop: 8,
-    color: '#333',
-  },
-  card: {
-    backgroundColor: 'white',
-    borderRadius: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 10,
-    elevation: 2,
-    marginBottom: 16,
-    padding: 16,
-  },
-  logoutButton: {
-    backgroundColor: '#ef4444',
-    borderRadius: 12,
-    paddingVertical: 14,
-    alignItems: 'center',
-    marginVertical: 24,
-  },
-  logoutButtonText: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-});
 
 export default Settings;

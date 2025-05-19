@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Switch, Text, TouchableOpacity, View } from 'react-native';
+import { Switch, Text, TouchableOpacity, View } from 'react-native';
 
 import { FontAwesome } from '@/components/ui/icons';
 import type { TxKeyPath } from '@/lib/i18n';
@@ -17,6 +17,8 @@ import { translate } from '@/lib/i18n';
  * @property hasNavigation - 是否显示导航箭头(默认false)
  * @property onPress - 点击回调函数
  * @property isLast - 是否是列表最后一项(默认false)
+ * @property tx - 主标题国际化键值
+ * @property subtx - 副标题国际化键值
  */
 type SettingItemProps = {
   icon: string;
@@ -51,6 +53,7 @@ const SettingItem: React.FC<SettingItemProps> = ({
   tx,
   subtx,
 }) => {
+  // 开关状态管理
   const [isEnabled, setIsEnabled] = useState(defaultToggleValue);
 
   /**
@@ -64,20 +67,32 @@ const SettingItem: React.FC<SettingItemProps> = ({
 
   return (
     <TouchableOpacity
-      style={[styles.settingItem, isLast && styles.settingItemLast]}
+      // 使用条件类名：基础样式 + 最后一项样式（无底部边框）
+      className={`flex-row items-center justify-between py-4 ${isLast ? '' : 'border-b border-[#f0f0f0]'}`}
       onPress={onPress}
       disabled={!onPress}
       activeOpacity={0.7}
     >
-      {/* 左侧内容区域 */}
-      <View style={styles.settingItemLeft}>
-        <View style={[styles.settingIcon, { backgroundColor: iconBgColor }]}>
+      {/* 左侧内容区域：图标和文本 */}
+      <View className="flex-row items-center">
+        {/* 图标容器 */}
+        <View
+          className="mr-4 size-9 items-center justify-center rounded-lg"
+          style={{ backgroundColor: iconBgColor }} // 保留动态背景色
+        >
           <FontAwesome name={icon} size={18} color="white" />
         </View>
+
+        {/* 文本内容区域 */}
         <View>
-          <Text style={styles.settingTitle}>{tx ? translate(tx) : title}</Text>
+          {/* 主标题 - 优先使用国际化文本 */}
+          <Text className="text-base font-medium text-[#333]">
+            {tx ? translate(tx) : title}
+          </Text>
+
+          {/* 副标题（如果存在） */}
           {(subtitle || subtx) && (
-            <Text style={styles.settingSubtitle}>
+            <Text className="mt-0.5 text-xs text-[#9ca3af]">
               {subtx ? translate(subtx) : subtitle}
             </Text>
           )}
@@ -85,6 +100,7 @@ const SettingItem: React.FC<SettingItemProps> = ({
       </View>
 
       {/* 右侧功能区域 */}
+      {/* 开关控件（如果启用） */}
       {hasToggle && (
         <Switch
           trackColor={{ false: '#e5e7eb', true: '#0066ff' }}
@@ -95,48 +111,12 @@ const SettingItem: React.FC<SettingItemProps> = ({
         />
       )}
 
+      {/* 导航箭头（如果启用） */}
       {hasNavigation && (
         <FontAwesome name="chevron-right" size={14} color="#9ca3af" />
       )}
     </TouchableOpacity>
   );
 };
-
-// 样式定义
-const styles = StyleSheet.create({
-  settingItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingVertical: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
-  },
-  settingItemLast: {
-    borderBottomWidth: 0,
-  },
-  settingItemLeft: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  settingIcon: {
-    width: 36,
-    height: 36,
-    borderRadius: 8,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: 16,
-  },
-  settingTitle: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: '#333',
-  },
-  settingSubtitle: {
-    fontSize: 12,
-    color: '#9ca3af',
-    marginTop: 2,
-  },
-});
 
 export default SettingItem;

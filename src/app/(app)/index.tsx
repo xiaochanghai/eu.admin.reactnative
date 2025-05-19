@@ -5,7 +5,6 @@ import {
   SafeAreaView,
   ScrollView,
   StatusBar,
-  StyleSheet,
   TouchableOpacity,
 } from 'react-native';
 
@@ -29,16 +28,19 @@ const ActivityItem: React.FC<ActivityItemProps> = ({
   subtitle,
   time,
 }) => (
-  <View style={styles.activityItem}>
-    <View style={[styles.activityIcon, { backgroundColor: iconBgColor }]}>
+  <View className="flex-row items-start">
+    <View
+      className="mr-3 size-9 items-center justify-center rounded-lg"
+      style={{ backgroundColor: iconBgColor }}
+    >
       <FontAwesome name={icon as any} size={16} color="white" />
     </View>
-    <View style={styles.activityContent}>
-      <View style={styles.activityHeader}>
-        <Text style={styles.activityTitle}>{title}</Text>
-        <Text style={styles.activityTime}>{time}</Text>
+    <View className="flex-1">
+      <View className="mb-1 flex-row items-center justify-between">
+        <Text className="text-sm font-medium text-gray-800">{title}</Text>
+        <Text className="text-xs text-gray-500">{time}</Text>
       </View>
-      <Text style={styles.activitySubtitle}>{subtitle}</Text>
+      <Text className="text-xs text-gray-500">{subtitle}</Text>
     </View>
   </View>
 );
@@ -57,12 +59,14 @@ const ModuleItem: React.FC<ModuleItemProps> = ({
   title,
   onPress,
 }) => (
-  <TouchableOpacity style={styles.moduleItem} onPress={onPress}>
-    <View style={[styles.moduleIcon, { backgroundColor: bgColor }]}>
+  <TouchableOpacity className="mb-4 w-[23%] items-center" onPress={onPress}>
+    <View
+      className="mb-2 size-[50px] items-center justify-center rounded-xl"
+      style={{ backgroundColor: bgColor }}
+    >
       <FontAwesome name={icon as any} size={24} color="white" />
-      {/* <Entypo name={icon as any} size={24} color="white" /> */}
     </View>
-    <Text style={styles.moduleText}>{title}</Text>
+    <Text className="text-center text-xs text-gray-500">{title}</Text>
   </TouchableOpacity>
 );
 
@@ -75,66 +79,69 @@ const Home: React.FC = () => {
   const router = useRouter();
 
   return (
-    <SafeAreaView style={styles.container}>
-      {/* <StatusBar barStyle="dark-content" backgroundColor="transparent" /> */}
+    <SafeAreaView className="flex-1 bg-gray-100">
       <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
-      {/* <FocusAwareStatusBar /> */}
 
       {/* 顶部导航 */}
-
       <NavHeader
         title="首页"
         leftShown={false}
         right={
           <TouchableOpacity
-            style={styles.notificationButton}
-            // onPress={() => navigation.navigate('Notifications')}
+            className="relative"
+            onPress={() => router.push('/notification')}
           >
             <FontAwesome name="bell" size={20} color="#6b7280" />
-            <View style={styles.notificationBadge}>
-              <Text style={styles.notificationBadgeText}>3</Text>
+            <View className="absolute -right-[5px] -top-[5px] size-4 items-center justify-center rounded-full bg-red-500">
+              <Text className="text-[10px] font-bold text-white">3</Text>
             </View>
           </TouchableOpacity>
         }
       />
 
-      <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+      <ScrollView className="flex-1 p-4" showsVerticalScrollIndicator={false}>
         {/* 欢迎信息 */}
-        <View style={styles.welcomeSection}>
-          <Text style={styles.welcomeTitle}>你好，{userInfo?.UserName}</Text>
-          <Text style={styles.welcomeSubtitle}>
-            今天是{userInfo?.WeekName}，祝您工作顺利
-          </Text>
-        </View>
+        {userInfo?.WeekName && (
+          <View className="mb-6">
+            <Text className="text-2xl font-bold text-gray-800">
+              你好，{userInfo?.UserName}
+            </Text>
+            <Text className="mt-1 text-sm text-gray-500">
+              今天是{userInfo?.WeekName}，祝您工作顺利
+            </Text>
+          </View>
+        )}
 
         {/* 数据概览 */}
-        <View style={styles.statsGrid}>
-          <View style={styles.statCard}>
-            <Text style={styles.statLabel}>今日订单</Text>
-            <Text style={[styles.statValue, { color: '#0066ff' }]}>28</Text>
-            <Text style={styles.statTrend}>↑ 12.5%</Text>
+        <View className="mb-6 flex-row flex-wrap justify-between">
+          <View className="mb-3 w-[48%] rounded-2xl bg-white p-4 shadow-sm">
+            <Text className="text-sm text-gray-500">今日订单</Text>
+            <Text className="mt-2 text-2xl font-bold text-blue-600">28</Text>
+            <Text className="mt-1 text-xs text-green-500">↑ 12.5%</Text>
           </View>
-          <View style={styles.statCard}>
-            <Text style={styles.statLabel}>生产任务</Text>
-            <Text style={[styles.statValue, { color: '#f97316' }]}>15</Text>
-            <Text style={styles.statInfo}>进行中: 8</Text>
+          <View className="mb-3 w-[48%] rounded-2xl bg-white p-4 shadow-sm">
+            <Text className="text-sm text-gray-500">生产任务</Text>
+            <Text className="mt-2 text-2xl font-bold text-orange-500">15</Text>
+            <Text className="mt-1 text-xs text-gray-500">进行中: 8</Text>
           </View>
-          <View style={styles.statCard}>
-            <Text style={styles.statLabel}>库存预警</Text>
-            <Text style={[styles.statValue, { color: '#ef4444' }]}>3</Text>
-            <Text style={styles.statInfo}>点击查看详情</Text>
+          <View className="mb-3 w-[48%] rounded-2xl bg-white p-4 shadow-sm">
+            <Text className="text-sm text-gray-500">库存预警</Text>
+            <Text className="mt-2 text-2xl font-bold text-red-500">3</Text>
+            <Text className="mt-1 text-xs text-gray-500">点击查看详情</Text>
           </View>
-          <View style={styles.statCard}>
-            <Text style={styles.statLabel}>质检合格率</Text>
-            <Text style={[styles.statValue, { color: '#22c55e' }]}>98.5%</Text>
-            <Text style={styles.statTrend}>↑ 1.2%</Text>
+          <View className="mb-3 w-[48%] rounded-2xl bg-white p-4 shadow-sm">
+            <Text className="text-sm text-gray-500">质检合格率</Text>
+            <Text className="mt-2 text-2xl font-bold text-green-500">
+              98.5%
+            </Text>
+            <Text className="mt-1 text-xs text-green-500">↑ 1.2%</Text>
           </View>
         </View>
 
         {/* 功能模块 */}
-        <View style={styles.card}>
-          <Text style={styles.sectionTitle}>功能模块</Text>
-          <View style={styles.moduleGrid}>
+        <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm">
+          <Text className="mb-4 text-lg font-semibold">功能模块</Text>
+          <View className="flex-row flex-wrap justify-between">
             <ModuleItem
               icon="cube"
               bgColor="#3b82f6"
@@ -145,7 +152,7 @@ const Home: React.FC = () => {
               icon="cogs"
               bgColor="#3b82f6"
               title="生产管理"
-              // onPress={() => navigation.navigate('Production')}
+              onPress={() => router.push('/production')}
             />
             <ModuleItem
               icon="boxes"
@@ -163,7 +170,7 @@ const Home: React.FC = () => {
               icon="check-circle"
               bgColor="#a855f7"
               title="质量控制"
-              // onPress={() => navigation.navigate('Quality')}
+              onPress={() => router.push('/quality')}
             />
             <ModuleItem
               icon="chart-line"
@@ -184,6 +191,18 @@ const Home: React.FC = () => {
               onPress={() => {}}
             />
             <ModuleItem
+              icon="truck"
+              bgColor="#7423de"
+              title="工序管理"
+              onPress={() => router.push('/process')}
+            />
+            <ModuleItem
+              icon="truck"
+              bgColor="#7423de"
+              title="设备管理"
+              onPress={() => router.push('/equipment')}
+            />
+            <ModuleItem
               icon="ellipsis-h"
               bgColor="#6b7280"
               title="更多功能"
@@ -193,14 +212,14 @@ const Home: React.FC = () => {
         </View>
 
         {/* 最近活动 */}
-        <View style={styles.card}>
-          <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>最近活动</Text>
+        <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm">
+          <View className="mb-4 flex-row items-center justify-between">
+            <Text className="text-lg font-semibold">最近活动</Text>
             <TouchableOpacity>
-              <Text style={styles.sectionLink}>查看全部</Text>
+              <Text className="text-sm text-blue-600">查看全部</Text>
             </TouchableOpacity>
           </View>
-          <View style={styles.activitiesContainer}>
+          <View className="space-y-4">
             <ActivityItem
               icon="clipboard-check"
               iconBgColor="#3b82f6"
@@ -226,207 +245,10 @@ const Home: React.FC = () => {
         </View>
 
         {/* 底部空间 - 为底部导航留出空间 */}
-        <View style={styles.bottomSpace} />
+        <View className="h-[70px]" />
       </ScrollView>
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f5f5f5',
-  },
-  notificationButton: {
-    position: 'relative',
-  },
-  notificationBadge: {
-    position: 'absolute',
-    top: -5,
-    right: -5,
-    backgroundColor: '#ef4444',
-    width: 16,
-    height: 16,
-    borderRadius: 8,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  notificationBadgeText: {
-    color: 'white',
-    fontSize: 10,
-    fontWeight: 'bold',
-  },
-  content: {
-    flex: 1,
-    padding: 16,
-  },
-  welcomeSection: {
-    marginBottom: 24,
-  },
-  welcomeTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#333',
-  },
-  welcomeSubtitle: {
-    fontSize: 14,
-    color: '#6b7280',
-    marginTop: 4,
-  },
-  statsGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    marginBottom: 24,
-  },
-  statCard: {
-    width: '48%',
-    backgroundColor: 'white',
-    borderRadius: 16,
-    padding: 16,
-    marginBottom: 12,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 10,
-    elevation: 2,
-  },
-  statLabel: {
-    fontSize: 14,
-    color: '#6b7280',
-  },
-  statValue: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginTop: 8,
-  },
-  statTrend: {
-    fontSize: 12,
-    color: '#22c55e',
-    marginTop: 4,
-  },
-  statInfo: {
-    fontSize: 12,
-    color: '#6b7280',
-    marginTop: 4,
-  },
-  card: {
-    backgroundColor: 'white',
-    borderRadius: 16,
-    padding: 16,
-    marginBottom: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 10,
-    elevation: 2,
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    marginBottom: 16,
-  },
-  moduleGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-  },
-  moduleItem: {
-    width: '23%',
-    alignItems: 'center',
-    marginBottom: 16,
-  },
-  moduleIcon: {
-    width: 50,
-    height: 50,
-    borderRadius: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 8,
-  },
-  moduleText: {
-    fontSize: 12,
-    color: '#6b7280',
-    textAlign: 'center',
-  },
-  sectionHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 16,
-  },
-  sectionLink: {
-    fontSize: 14,
-    color: '#0066ff',
-  },
-  activitiesContainer: {
-    gap: 16,
-  },
-  activityItem: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-  },
-  activityIcon: {
-    width: 36,
-    height: 36,
-    borderRadius: 8,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: 12,
-  },
-  activityContent: {
-    flex: 1,
-  },
-  activityHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 4,
-  },
-  activityTitle: {
-    fontSize: 14,
-    fontWeight: '500',
-    color: '#333',
-  },
-  activityTime: {
-    fontSize: 12,
-    color: '#6b7280',
-  },
-  activitySubtitle: {
-    fontSize: 13,
-    color: '#6b7280',
-  },
-  bottomSpace: {
-    height: 70,
-  },
-  navBar: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    height: 70,
-    backgroundColor: 'white',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    borderTopWidth: 1,
-    borderTopColor: '#e5e7eb',
-    paddingBottom: 10, // 为底部安全区域留出空间
-  },
-  navItem: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  navIcon: {
-    marginBottom: 4,
-  },
-  navText: {
-    fontSize: 12,
-    color: '#6b7280',
-  },
-  navTextActive: {
-    color: '#0066ff',
-  },
-});
 
 export default Home;

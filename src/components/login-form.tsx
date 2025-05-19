@@ -94,46 +94,47 @@ export const LoginForm = () => {
   const [submitBtnDisable, setSubmitBtnDisable] = useState(false);
   // const [rememberMe, setRememberMe] = useState(false);
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView className="flex-1 bg-white">
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={styles.keyboardAvoidingView}
+        // style={styles.keyboardAvoidingView}
+        className="flex-1"
         keyboardVerticalOffset={10}
       >
         <ScrollView contentContainerStyle={styles.scrollView}>
           {/* 顶部空间 */}
-          <View style={styles.topSpace} />
+          <View className="h-[10%]" />
 
           {/* Logo和标题 */}
-          <View style={styles.logoContainer}>
-            <View style={styles.logoCircle}>
+          <View className="mb-8 items-center">
+            <View className="mb-4 size-20 items-center justify-center rounded-full bg-[#EBF5FF]">
               <Image
+                className="size-16"
                 source={require('../../assets/favicon.png')}
-                style={{ width: 60, height: 60 }}
                 contentFit="contain"
               />
             </View>
-            <Text style={styles.title}>{Env.NAME}</Text>
-            <Text style={styles.subtitle}>{translate('login.sub_title')}</Text>
+            <Text className="text-lg font-bold text-gray-800">{Env.NAME}</Text>
+
+            <Text className="mt-2 text-base text-gray-500">
+              {translate('login.sub_title')}
+            </Text>
           </View>
 
           {/* 登录表单 */}
-          <View style={styles.formContainer}>
+          <View className="w-full">
             {/* 用户名输入框 */}
             <View
-              style={[
-                styles.inputGroup,
-                usernameFocused && styles.inputGroupFocused,
-              ]}
+              className={`mb-4 h-[50px] flex-row items-center rounded-xl border px-3 ${usernameFocused ? 'border-blue-500 bg-blue-50' : 'border-gray-200'}`}
             >
               <FontAwesome
                 name="user"
                 size={20}
                 color={usernameFocused || username ? '#e94538' : '#9ca3af'}
-                style={styles.inputIcon}
+                className="mr-3"
               />
               <TextInput
-                style={styles.input}
+                className="h-full flex-1 text-base text-gray-800"
                 placeholder={translate('login.username_placeholder')}
                 placeholderTextColor="#9ca3af"
                 value={username}
@@ -145,19 +146,16 @@ export const LoginForm = () => {
 
             {/* 密码输入框 */}
             <View
-              style={[
-                styles.inputGroup,
-                passwordFocused && styles.inputGroupFocused,
-              ]}
+              className={`mb-4 h-[50px] flex-row items-center rounded-xl border px-3 ${usernameFocused ? 'border-blue-500 bg-blue-50' : 'border-gray-200'}`}
             >
               <FontAwesome
                 name="lock"
                 size={20}
                 color={passwordFocused || password ? '#e94538' : '#9ca3af'}
-                style={styles.inputIcon}
+                className="mr-3"
               />
               <TextInput
-                style={styles.input}
+                className="h-full flex-1 text-base text-gray-800"
                 placeholder={translate('login.password_placeholder')}
                 placeholderTextColor="#9ca3af"
                 secureTextEntry
@@ -201,43 +199,48 @@ export const LoginForm = () => {
 
             {/* 登录按钮 */}
             <TouchableOpacity
-              style={styles.loginButton}
+              className="h-[50px] items-center justify-center rounded-xl bg-[#e94538] shadow-sm"
               onPress={handleLogin}
               disabled={submitBtnDisable}
               // onPress={onSubmit1(1)}
             >
-              <Text style={styles.loginButtonText} tx="login.login_button" />
+              <Text
+                className="text-base font-semibold text-white"
+                tx="login.login_button"
+              />
             </TouchableOpacity>
 
             {/* 其他登录方式 */}
-            <View style={styles.otherLoginContainer}>
-              <View style={styles.dividerContainer}>
-                <View style={styles.divider} />
-                <Text style={styles.dividerText} tx="login.other_login_way" />
-                <View style={styles.divider} />
+            <View className="mt-8">
+              <View className="flex-row items-center justify-center">
+                <View className="h-px flex-1 bg-gray-200" />
+                <Text
+                  className="px-4 text-sm text-gray-500"
+                  tx="login.other_login_way"
+                />
+                <View className="h-px flex-1 bg-gray-200" />
               </View>
 
-              <View style={styles.socialButtonsContainer}>
-                <TouchableOpacity style={styles.socialButton}>
+              <View className="mt-6 flex-row justify-center">
+                <TouchableOpacity className="mx-4 size-14 items-center justify-center rounded-full border border-gray-200">
                   <FontAwesome name="weixin" size={24} color="#07C160" />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.socialButton}>
+                <TouchableOpacity className="mx-4 size-14 items-center justify-center rounded-full border border-gray-200">
                   <FontAwesome name="qrcode" size={24} color="#0066ff" />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.socialButton}>
-                  {/* <FontAwesome name="fingerprint" size={24} color="#a855f7" /> */}
+                <TouchableOpacity className="mx-4 size-14 items-center justify-center rounded-full border border-gray-200">
                   <Entypo name="fingerprint" size={24} color="#a855f7" />
                 </TouchableOpacity>
               </View>
             </View>
           </View>
-
           {/* 底部 */}
-          <View style={styles.footer}>
-            <Text style={styles.footerText}>
-              还没有账号? <Text style={styles.footerLink}>联系管理员</Text>
+          <View className="mt-auto items-center pb-6">
+            <Text className="text-sm text-gray-500">
+              还没有账号?
+              <Text className="font-medium text-[#e94538]">联系管理员</Text>
             </Text>
-            <Text style={styles.copyright} tx="copyright" />
+            <Text className="mt-2 text-sm text-gray-500" tx="copyright" />
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
@@ -246,168 +249,40 @@ export const LoginForm = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'white',
-  },
-  keyboardAvoidingView: {
-    flex: 1,
-  },
   scrollView: {
     flexGrow: 1,
     paddingHorizontal: 16,
   },
-  topSpace: {
-    height: '10%',
-  },
-  logoContainer: {
-    alignItems: 'center',
-    marginBottom: 32,
-  },
-  logoCircle: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    backgroundColor: '#EBF5FF',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 16,
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#333',
-  },
-  subtitle: {
-    fontSize: 16,
-    color: '#6b7280',
-    marginTop: 8,
-  },
-  formContainer: {
-    width: '100%',
-  },
-  inputGroup: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#e5e7eb',
-    borderRadius: 12,
-    marginBottom: 16,
-    paddingHorizontal: 12,
-    height: 50,
-  },
-  // 添加焦点样式
-  inputGroupFocused: {
-    borderColor: '#0066ff',
-    backgroundColor: '#f0f7ff',
-  },
-  inputIcon: {
-    marginRight: 12,
-  },
-  input: {
-    flex: 1,
-    height: '100%',
-    fontSize: 16,
-    color: '#333',
-  },
-  optionsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 24,
-  },
-  rememberContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  checkbox: {
-    width: 20,
-    height: 20,
-    borderRadius: 4,
-    borderWidth: 1,
-    borderColor: '#d1d5db',
-    marginRight: 8,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  checkboxChecked: {
-    backgroundColor: '#0066ff',
-    borderColor: '#0066ff',
-  },
-  rememberText: {
-    fontSize: 14,
-    color: '#6b7280',
-  },
-  forgotPassword: {
-    fontSize: 14,
-    color: '#0066ff',
-  },
-  loginButton: {
-    backgroundColor: '#e94538',
-    borderRadius: 12,
-    height: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
-  },
-  loginButtonText: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  otherLoginContainer: {
-    marginTop: 32,
-  },
-  dividerContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  divider: {
-    flex: 1,
-    height: 1,
-    backgroundColor: '#e5e7eb',
-  },
-  dividerText: {
-    paddingHorizontal: 16,
-    fontSize: 14,
-    color: '#6b7280',
-  },
-  socialButtonsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginTop: 24,
-  },
-  socialButton: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    borderWidth: 1,
-    borderColor: '#e5e7eb',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginHorizontal: 12,
-  },
-  footer: {
-    marginTop: 'auto',
-    paddingBottom: 24,
-    alignItems: 'center',
-  },
-  footerText: {
-    fontSize: 14,
-    color: '#6b7280',
-  },
-  footerLink: {
-    color: '#e94538',
-    fontWeight: '500',
-  },
-  copyright: {
-    fontSize: 14,
-    color: '#6b7280',
-    marginTop: 8,
-  },
+  // optionsContainer: {
+  //   flexDirection: 'row',
+  //   justifyContent: 'space-between',
+  //   alignItems: 'center',
+  //   marginBottom: 24,
+  // },
+  // rememberContainer: {
+  //   flexDirection: 'row',
+  //   alignItems: 'center',
+  // },
+  // checkbox: {
+  //   width: 20,
+  //   height: 20,
+  //   borderRadius: 4,
+  //   borderWidth: 1,
+  //   borderColor: '#d1d5db',
+  //   marginRight: 8,
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
+  // },
+  // checkboxChecked: {
+  //   backgroundColor: '#0066ff',
+  //   borderColor: '#0066ff',
+  // },
+  // rememberText: {
+  //   fontSize: 14,
+  //   color: '#6b7280',
+  // },
+  // forgotPassword: {
+  //   fontSize: 14,
+  //   color: '#0066ff',
+  // },
 });

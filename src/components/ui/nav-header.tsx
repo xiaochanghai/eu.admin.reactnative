@@ -22,7 +22,7 @@ export type NavHeaderProps = {
 export const NavHeader = ({
   leftShown = true,
   title = 'Demo',
-  headerBackTitle = 'Demo',
+  headerBackTitle = '',
   right = null,
   tx,
 }: NavHeaderProps) => {
@@ -38,7 +38,7 @@ export const NavHeader = ({
             title: tx ? translate(tx) : title,
             headerTintColor: '#000',
             headerBackTitle: headerBackTitle,
-            headerShadowVisible: leftShown,
+            headerBackButtonDisplayMode: 'minimal',
             headerTitleAlign: 'center',
             headerRight: () =>
               right && (

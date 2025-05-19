@@ -1,8 +1,7 @@
-import { FontAwesome } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import {
   StatusBar,
-  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
@@ -11,6 +10,7 @@ import {
 
 import { SegmentedControl, type SegmentedControlOption } from '@/components';
 import { NavHeader, SafeAreaView, ScrollView } from '@/components/ui';
+import { FontAwesome } from '@/components/ui/icons';
 
 // 状态徽章组件
 type StatusBadgeProps = {
@@ -24,8 +24,10 @@ const StatusBadge: React.FC<StatusBadgeProps> = ({
   color,
   bgColor,
 }) => (
-  <View style={[styles.statusBadge, { backgroundColor: bgColor }]}>
-    <Text style={[styles.statusBadgeText, { color }]}>{status}</Text>
+  <View className="rounded-full px-2 py-1" style={{ backgroundColor: bgColor }}>
+    <Text className="text-xs font-medium" style={{ color }}>
+      {status}
+    </Text>
   </View>
 );
 
@@ -53,34 +55,34 @@ const OrderItem: React.FC<OrderItemProps> = ({
   statusBgColor,
   onViewDetail,
 }) => (
-  <View style={styles.orderItem}>
-    <View style={styles.flexRowBetween}>
-      <Text style={styles.orderTitle}>订单 #{orderNumber}</Text>
+  <View className="border-b border-gray-100 py-4">
+    <View className="mb-2 flex-row items-center justify-between">
+      <Text className="text-base font-medium">订单 #{orderNumber}</Text>
       <StatusBadge
         status={status}
         color={statusColor}
         bgColor={statusBgColor}
       />
     </View>
-    <Text style={styles.customerText}>客户：{customer}</Text>
-    <View style={styles.flexRowBetween}>
-      <Text style={styles.dateText}>订单日期：{orderDate}</Text>
-      <Text style={styles.dateText}>交付日期：{deliveryDate}</Text>
+    <Text className="mb-2 text-sm text-gray-500">客户：{customer}</Text>
+    <View className="mb-2 flex-row items-center justify-between">
+      <Text className="text-sm text-gray-500">订单日期：{orderDate}</Text>
+      <Text className="text-sm text-gray-500">交付日期：{deliveryDate}</Text>
     </View>
-    <View style={styles.flexRowBetween}>
-      <View style={styles.flexRow}>
-        <Text style={styles.amountLabel}>订单金额：</Text>
-        <Text style={styles.amountValue}>¥{amount}</Text>
+    <View className="flex-row items-center justify-between">
+      <View className="flex-row items-center">
+        <Text className="text-sm text-gray-500">订单金额：</Text>
+        <Text className="text-sm font-medium">¥{amount}</Text>
       </View>
       <TouchableOpacity onPress={onViewDetail}>
-        <Text style={styles.detailLink}>查看详情</Text>
+        <Text className="text-sm text-blue-600">查看详情</Text>
       </TouchableOpacity>
     </View>
   </View>
 );
 
 const Orders: React.FC = () => {
-  // const navigation = useNavigation<OrdersScreenNavigationProp>();
+  const router = useRouter();
 
   // 分段控制器选项
   const tabOptions: SegmentedControlOption[] = [
@@ -169,45 +171,57 @@ const Orders: React.FC = () => {
         return (
           <>
             {/* 订单概览 */}
-            <View style={styles.card}>
-              <Text style={styles.cardTitle}>订单概览</Text>
-              <View style={styles.statsGrid}>
-                <View style={styles.statsItem}>
-                  <Text style={[styles.statsValue, { color: '#0066ff' }]}>
+            <View className="my-4 rounded-2xl bg-white p-4 shadow-sm">
+              <Text className="mb-3 text-lg font-semibold">订单概览</Text>
+              <View className="mb-3 flex-row justify-between">
+                <View className="flex-1 items-center">
+                  <Text
+                    className="text-xl font-bold"
+                    style={{ color: '#0066ff' }}
+                  >
                     {orderStats.total}
                   </Text>
-                  <Text style={styles.statsLabel}>总订单</Text>
+                  <Text className="text-xs text-gray-500">总订单</Text>
                 </View>
-                <View style={styles.statsItem}>
-                  <Text style={[styles.statsValue, { color: '#f97316' }]}>
+                <View className="flex-1 items-center">
+                  <Text
+                    className="text-xl font-bold"
+                    style={{ color: '#f97316' }}
+                  >
                     {orderStats.pending}
                   </Text>
-                  <Text style={styles.statsLabel}>待处理</Text>
+                  <Text className="text-xs text-gray-500">待处理</Text>
                 </View>
-                <View style={styles.statsItem}>
-                  <Text style={[styles.statsValue, { color: '#9333ea' }]}>
+                <View className="flex-1 items-center">
+                  <Text
+                    className="text-xl font-bold"
+                    style={{ color: '#9333ea' }}
+                  >
                     {orderStats.processing}
                   </Text>
-                  <Text style={styles.statsLabel}>生产中</Text>
+                  <Text className="text-xs text-gray-500">生产中</Text>
                 </View>
-                <View style={styles.statsItem}>
-                  <Text style={[styles.statsValue, { color: '#22c55e' }]}>
+                <View className="flex-1 items-center">
+                  <Text
+                    className="text-xl font-bold"
+                    style={{ color: '#22c55e' }}
+                  >
                     {orderStats.completed}
                   </Text>
-                  <Text style={styles.statsLabel}>已完成</Text>
+                  <Text className="text-xs text-gray-500">已完成</Text>
                 </View>
               </View>
-              <View style={styles.completionRateCard}>
-                <View style={styles.completionRateIcon}>
+              <View className="flex-row items-center rounded-lg bg-blue-50 p-3">
+                <View className="mr-3">
                   <FontAwesome name="pie-chart" size={20} color="#0066ff" />
                 </View>
                 <View>
-                  <Text style={styles.completionRateTitle}>本月订单完成率</Text>
-                  <View style={styles.flexRow}>
-                    <Text style={styles.completionRateValue}>
+                  <Text className="text-sm font-medium">本月订单完成率</Text>
+                  <View className="flex-row items-center">
+                    <Text className="mr-2 text-lg font-bold text-blue-600">
                       {orderStats.completionRate}%
                     </Text>
-                    <Text style={styles.completionRateChange}>
+                    <Text className="text-xs text-green-500">
                       ↑ {orderStats.rateChange}%
                     </Text>
                   </View>
@@ -216,16 +230,16 @@ const Orders: React.FC = () => {
             </View>
 
             {/* 搜索框 */}
-            <View style={styles.searchContainer}>
-              <View style={styles.searchInputContainer}>
+            <View className="mb-4">
+              <View className="relative flex-row items-center">
                 <FontAwesome
                   name="search"
                   size={16}
                   color="#9ca3af"
-                  style={styles.searchIcon}
+                  className="absolute left-3 z-10"
                 />
                 <TextInput
-                  style={styles.searchInput}
+                  className="flex-1 rounded-lg border border-gray-200 bg-white py-2 pl-10 pr-4 text-sm"
                   placeholder="搜索订单号、客户名称"
                   placeholderTextColor="#9ca3af"
                 />
@@ -233,8 +247,8 @@ const Orders: React.FC = () => {
             </View>
 
             {/* 订单列表 */}
-            <Text style={styles.sectionTitle}>订单列表</Text>
-            <View style={styles.card}>
+            <Text className="mb-3 text-lg font-semibold">订单列表</Text>
+            <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm">
               {orderItems.map((item) => (
                 <OrderItem
                   key={item.id}
@@ -246,9 +260,7 @@ const Orders: React.FC = () => {
                   status={item.status}
                   statusColor={item.statusColor}
                   statusBgColor={item.statusBgColor}
-                  onViewDetail={() =>
-                    console.log(`查看订单 ${item.orderNumber} 详情`)
-                  }
+                  onViewDetail={() => router.push(`/order/${item.id}`)}
                 />
               ))}
             </View>
@@ -256,30 +268,30 @@ const Orders: React.FC = () => {
         );
       case 1: // 待处理
         return (
-          <View style={styles.card}>
-            <Text style={styles.cardTitle}>待处理订单</Text>
-            <Text style={styles.placeholderText}>此处显示待处理订单信息</Text>
+          <View className="my-4 rounded-2xl bg-white p-4 shadow-sm">
+            <Text className="mb-3 text-lg font-semibold">待处理订单</Text>
+            <Text className="text-gray-500">此处显示待处理订单信息</Text>
           </View>
         );
       case 2: // 生产中
         return (
-          <View style={styles.card}>
-            <Text style={styles.cardTitle}>生产中订单</Text>
-            <Text style={styles.placeholderText}>此处显示生产中订单信息</Text>
+          <View className="my-4 rounded-2xl bg-white p-4 shadow-sm">
+            <Text className="mb-3 text-lg font-semibold">生产中订单</Text>
+            <Text className="text-gray-500">此处显示生产中订单信息</Text>
           </View>
         );
       case 3: // 已完成
         return (
-          <View style={styles.card}>
-            <Text style={styles.cardTitle}>已完成订单</Text>
-            <Text style={styles.placeholderText}>此处显示已完成订单信息</Text>
+          <View className="my-4 rounded-2xl bg-white p-4 shadow-sm">
+            <Text className="mb-3 text-lg font-semibold">已完成订单</Text>
+            <Text className="text-gray-500">此处显示已完成订单信息</Text>
           </View>
         );
       case 4: // 已取消
         return (
-          <View style={styles.card}>
-            <Text style={styles.cardTitle}>已取消订单</Text>
-            <Text style={styles.placeholderText}>此处显示已取消订单信息</Text>
+          <View className="my-4 rounded-2xl bg-white p-4 shadow-sm">
+            <Text className="mb-3 text-lg font-semibold">已取消订单</Text>
+            <Text className="text-gray-500">此处显示已取消订单信息</Text>
           </View>
         );
       default:
@@ -288,7 +300,7 @@ const Orders: React.FC = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView className="flex-1 bg-gray-100">
       <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
 
       {/* 顶部导航 */}
@@ -297,13 +309,13 @@ const Orders: React.FC = () => {
         leftShown={false}
         right={
           <>
-            <TouchableOpacity style={styles.headerButton}>
+            <TouchableOpacity className="ml-4">
               <FontAwesome name="search" size={18} color="#6b7280" />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.headerButton}>
+            <TouchableOpacity className="ml-4">
               <FontAwesome name="filter" size={18} color="#6b7280" />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.headerButton}>
+            <TouchableOpacity className="ml-4">
               <FontAwesome name="plus-circle" size={22} color="#0066ff" />
             </TouchableOpacity>
           </>
@@ -311,7 +323,7 @@ const Orders: React.FC = () => {
       />
 
       {/* 内容区域 */}
-      <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+      <ScrollView className="flex-1 p-4" showsVerticalScrollIndicator={false}>
         {/* 分段控制器 */}
         <SegmentedControl
           options={tabOptions}
@@ -323,192 +335,15 @@ const Orders: React.FC = () => {
         {renderTabContent()}
 
         {/* 底部间距 */}
-        <View style={styles.bottomSpacer} />
+        <View className="h-20" />
       </ScrollView>
 
       {/* 浮动按钮 */}
-      <TouchableOpacity style={styles.floatingButton}>
+      <TouchableOpacity className="absolute bottom-20 right-6 size-14 items-center justify-center rounded-full bg-blue-600 shadow-lg">
         <FontAwesome name="plus" size={20} color="#ffffff" />
       </TouchableOpacity>
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f5f5f5',
-  },
-  flexRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  flexRowBetween: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 8,
-  },
-  headerButton: {
-    marginLeft: 16,
-  },
-  content: {
-    flex: 1,
-    padding: 16,
-  },
-  scrollView: {
-    flex: 1,
-    marginTop: 16,
-  },
-  card: {
-    marginTop: 16,
-
-    backgroundColor: '#ffffff',
-    borderRadius: 16,
-    padding: 16,
-    marginBottom: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 10,
-    elevation: 2,
-  },
-  cardTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    marginBottom: 12,
-  },
-  statsGrid: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 12,
-  },
-  statsItem: {
-    alignItems: 'center',
-    flex: 1,
-  },
-  statsValue: {
-    fontSize: 20,
-    fontWeight: '700',
-  },
-  statsLabel: {
-    fontSize: 12,
-    color: '#6b7280',
-  },
-  completionRateCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#ebf5ff',
-    borderRadius: 8,
-    padding: 12,
-  },
-  completionRateIcon: {
-    marginRight: 12,
-  },
-  completionRateTitle: {
-    fontSize: 14,
-    fontWeight: '500',
-  },
-  completionRateValue: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: '#0066ff',
-    marginRight: 8,
-  },
-  completionRateChange: {
-    fontSize: 12,
-    color: '#22c55e',
-  },
-  searchContainer: {
-    marginBottom: 16,
-  },
-  searchInputContainer: {
-    position: 'relative',
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  searchIcon: {
-    position: 'absolute',
-    left: 12,
-    zIndex: 1,
-  },
-  searchInput: {
-    flex: 1,
-    backgroundColor: '#ffffff',
-    borderWidth: 1,
-    borderColor: '#e5e7eb',
-    borderRadius: 8,
-    paddingVertical: 8,
-    paddingLeft: 40,
-    paddingRight: 16,
-    fontSize: 14,
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    marginBottom: 12,
-  },
-  orderItem: {
-    borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
-    paddingVertical: 16,
-  },
-  orderTitle: {
-    fontSize: 16,
-    fontWeight: '500',
-  },
-  customerText: {
-    fontSize: 14,
-    color: '#6b7280',
-    marginBottom: 8,
-  },
-  dateText: {
-    fontSize: 14,
-    color: '#6b7280',
-  },
-  amountLabel: {
-    fontSize: 14,
-    color: '#6b7280',
-  },
-  amountValue: {
-    fontSize: 14,
-    fontWeight: '500',
-  },
-  detailLink: {
-    fontSize: 14,
-    color: '#0066ff',
-  },
-  statusBadge: {
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 9999,
-  },
-  statusBadgeText: {
-    fontSize: 12,
-    fontWeight: '500',
-  },
-  placeholderText: {
-    color: '#6b7280',
-  },
-  floatingButton: {
-    position: 'absolute',
-    right: 24,
-    bottom: 80,
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    backgroundColor: '#0066ff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 8,
-    elevation: 4,
-  },
-  bottomSpacer: {
-    height: 80,
-  },
-});
 
 export default Orders;

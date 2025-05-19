@@ -8,12 +8,22 @@ EU-Admin App </h1>
 
 > 👉 Supports hot updates
 
+## Screenshots
+
+IOS :
+
+![image-1](./doc/images/ios/1.png)
+![image-2](./doc/images/ios/2.png)
+![image-3](./doc/images/ios/3.png)
+![image-4](./doc/images/ios/4.png)
+
+Android :
+
 ![image-1](./doc/images/android/1.png)
 ![image-2](./doc/images/android/2.png)
 ![image-3](./doc/images/android/3.png)
 ![image-4](./doc/images/android/4.png)
 ![image-5](./doc/images/android/5.png)
-![image-6](./doc/images/android/6.png)
 
 ## Requirements
 

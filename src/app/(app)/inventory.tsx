@@ -1,81 +1,18 @@
-import { FontAwesome } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import {
-  StatusBar,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { TextInput, TouchableOpacity } from 'react-native';
 
 import { SegmentedControl, type SegmentedControlOption } from '@/components';
-import { NavHeader, SafeAreaView, ScrollView } from '@/components/ui';
+import {
+  NavHeader,
+  SafeAreaView,
+  ScrollView,
+  Text,
+  View,
+} from '@/components/ui';
+import { FontAwesome } from '@/components/ui/icons';
 
-// 状态徽章组件
-// type StatusBadgeProps = {
-//   status: string;
-//   color: string;
-//   bgColor: string;
-// };
-
-// const StatusBadge: React.FC<StatusBadgeProps> = ({ status, color, bgColor }) => (
-//   <View style={[styles.statusBadge, { backgroundColor: bgColor }]}>
-//     <Text style={[styles.statusBadgeText, { color }]}>{status}</Text>
-//   </View>
-// );
-
-// 库存项组件
-type InventoryItemProps = {
-  name: string;
-  code: string;
-  quantity: number;
-  safetyStock: number;
-  status: 'normal' | 'warning' | 'danger';
-};
-
-const InventoryItem: React.FC<InventoryItemProps> = ({
-  name,
-  code,
-  quantity,
-  safetyStock,
-  status,
-}) => {
-  let indicatorColor = '#22c55e'; // 绿色 - 正常
-  let textColor = 'black';
-
-  if (status === 'warning') {
-    indicatorColor = '#eab308'; // 黄色 - 警告
-  } else if (status === 'danger') {
-    indicatorColor = '#ef4444'; // 红色 - 危险
-    textColor = '#ef4444';
-  }
-
-  return (
-    <View style={styles.inventoryItem}>
-      <View style={styles.flex1}>
-        <View style={styles.flexRow}>
-          <View
-            style={[styles.stockIndicator, { backgroundColor: indicatorColor }]}
-          />
-          <Text style={styles.itemName}>{name}</Text>
-        </View>
-        <Text style={styles.itemCode}>编号：{code}</Text>
-      </View>
-      <View style={styles.textRight}>
-        <Text
-          style={[
-            styles.itemQuantity,
-            status === 'danger' ? { color: textColor } : null,
-          ]}
-        >
-          {quantity}
-        </Text>
-        <Text style={styles.safetyStockText}>安全库存：{safetyStock}</Text>
-      </View>
-    </View>
-  );
-};
+import InventoryItem from '../inventory/item';
 
 // 预警项组件
 type AlertItemProps = {
@@ -85,29 +22,29 @@ type AlertItemProps = {
 };
 
 const AlertItem: React.FC<AlertItemProps> = ({ name, message, type }) => {
-  const bgColor = type === 'danger' ? '#fef2f2' : '#fffbeb';
+  const bgColor = type === 'danger' ? 'bg-red-50' : 'bg-amber-50';
   const iconColor = type === 'danger' ? '#ef4444' : '#eab308';
   const icon =
     type === 'danger' ? 'exclamation-circle' : 'exclamation-triangle';
 
   return (
-    <View style={[styles.alertItem, { backgroundColor: bgColor }]}>
-      <View style={styles.alertIconContainer}>
+    <View className={`mb-2 flex-row items-center rounded-lg p-3 ${bgColor}`}>
+      <View className="mr-3 size-10 items-center justify-center rounded-full bg-black/5">
         <FontAwesome name={icon} size={20} color={iconColor} />
       </View>
-      <View style={styles.flex1}>
-        <Text style={styles.alertTitle}>{name}</Text>
-        <Text style={styles.alertMessage}>{message}</Text>
+      <View className="flex-1">
+        <Text className="mb-0.5 text-base font-medium">{name}</Text>
+        <Text className="mt-0.5 text-sm text-gray-500">{message}</Text>
       </View>
       <TouchableOpacity>
-        <Text style={styles.alertAction}>补货</Text>
+        <Text className="text-sm font-medium text-blue-600">补货</Text>
       </TouchableOpacity>
     </View>
   );
 };
 
 const Inventory: React.FC = () => {
-  // const navigation = useNavigation<InventoryScreenNavigationProp>();
+  const router = useRouter();
 
   // 分段控制器选项
   const tabOptions: SegmentedControlOption[] = [
@@ -240,29 +177,24 @@ const Inventory: React.FC = () => {
   ];
 
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
-
+    <SafeAreaView className="flex-1 bg-gray-100">
       {/* 顶部导航 */}
       <NavHeader
         title="库存"
         leftShown={false}
         right={
           <>
-            <TouchableOpacity style={styles.headerButton}>
+            <TouchableOpacity className="ml-4">
               <FontAwesome name="search" size={18} color="#6b7280" />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.headerButton}>
+            <TouchableOpacity className="ml-4">
               <FontAwesome name="filter" size={18} color="#6b7280" />
             </TouchableOpacity>
-            {/* <TouchableOpacity style={styles.headerButton}>
-              <FontAwesome name="qrcode" size={22} color="#0066ff" />
-            </TouchableOpacity> */}
           </>
         }
       />
 
-      <View style={styles.content}>
+      <View className="flex-1 px-4 pt-4">
         {/* 分段控制器 */}
         <SegmentedControl
           options={tabOptions}
@@ -271,61 +203,69 @@ const Inventory: React.FC = () => {
         />
 
         <ScrollView
-          style={styles.scrollView}
+          className="mt-4 flex-1"
           showsVerticalScrollIndicator={false}
         >
           {/* 库存概览 */}
           {selectedTabIndex === 0 && (
             <View>
               {/* 库存概览卡片 */}
-              <View style={styles.card}>
-                <Text style={styles.cardTitle}>库存概览</Text>
-                <View style={styles.statsGrid}>
-                  <View style={styles.statItem}>
-                    <Text style={[styles.statValue, { color: '#0066ff' }]}>
+              <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm">
+                <Text className="mb-3 text-lg font-semibold">库存概览</Text>
+                <View className="mb-4 flex-row justify-between">
+                  <View className="flex-1 items-center">
+                    <Text className="mb-1 text-2xl font-bold text-blue-600">
                       152
                     </Text>
-                    <Text style={styles.statLabel}>物料种类</Text>
+                    <Text className="text-sm text-gray-500">物料种类</Text>
                   </View>
-                  <View style={styles.statItem}>
-                    <Text style={[styles.statValue, { color: '#22c55e' }]}>
+                  <View className="flex-1 items-center">
+                    <Text className="mb-1 text-2xl font-bold text-green-500">
                       87%
                     </Text>
-                    <Text style={styles.statLabel}>库存健康度</Text>
+                    <Text className="text-sm text-gray-500">库存健康度</Text>
                   </View>
-                  <View style={styles.statItem}>
-                    <Text style={[styles.statValue, { color: '#ef4444' }]}>
+                  <View className="flex-1 items-center">
+                    <Text className="mb-1 text-2xl font-bold text-red-500">
                       3
                     </Text>
-                    <Text style={styles.statLabel}>库存预警</Text>
+                    <Text className="text-sm text-gray-500">库存预警</Text>
                   </View>
                 </View>
-                <View style={styles.infoBox}>
+                <View className="flex-row items-center rounded-lg bg-blue-50 p-3">
                   <FontAwesome
                     name="info-circle"
                     size={20}
                     color="#0066ff"
-                    style={styles.infoIcon}
+                    className="mr-3"
                   />
                   <View>
-                    <Text style={styles.infoTitle}>本月库存周转率</Text>
-                    <View style={styles.flexRow}>
-                      <Text style={styles.infoValue}>4.2</Text>
-                      <Text style={styles.infoTrend}>↑ 0.3</Text>
+                    <Text className="mb-0.5 text-sm text-gray-500">
+                      本月库存周转率
+                    </Text>
+                    <View className="flex-row items-center">
+                      <Text className="mr-2 text-lg font-semibold text-blue-600">
+                        4.2
+                      </Text>
+                      <Text className="text-sm font-medium text-green-500">
+                        ↑ 0.3
+                      </Text>
                     </View>
                   </View>
                 </View>
               </View>
 
               {/* 库存预警 */}
-              <View style={styles.card}>
-                <View style={styles.cardHeader}>
-                  <Text style={styles.cardTitle}>库存预警</Text>
+              <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm">
+                <View className="mb-3 flex-row items-center justify-between">
+                  <Text className="text-lg font-semibold">库存预警</Text>
                   <TouchableOpacity>
-                    <Text style={styles.cardLink}>查看全部</Text>
+                    <Text className="text-sm font-medium text-blue-600">
+                      查看全部
+                    </Text>
                   </TouchableOpacity>
                 </View>
-                <View style={styles.alertList}>
+                <View className="mt-2">
                   {alertItems.map((item, index) => (
                     <AlertItem
                       key={index}
@@ -338,12 +278,14 @@ const Inventory: React.FC = () => {
               </View>
 
               {/* 库存列表 */}
-              <Text style={styles.sectionTitle}>库存列表</Text>
+              <Text className="mb-2 mt-4 text-base font-semibold">
+                库存列表
+              </Text>
 
-              <View style={styles.card}>
-                <View style={styles.searchContainer}>
+              <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm">
+                <View className="relative mb-4">
                   <TextInput
-                    style={styles.searchInput}
+                    className="rounded-lg bg-gray-100 px-10 py-2.5 text-sm"
                     placeholder="搜索物料"
                     placeholderTextColor="#9ca3af"
                   />
@@ -351,7 +293,7 @@ const Inventory: React.FC = () => {
                     name="search"
                     size={16}
                     color="#9ca3af"
-                    style={styles.searchIcon}
+                    className="absolute left-3 top-3"
                   />
                 </View>
 
@@ -364,6 +306,7 @@ const Inventory: React.FC = () => {
                     quantity={item.quantity}
                     safetyStock={item.safetyStock}
                     status={item.status}
+                    onViewDetail={() => router.push(`/inventory/${index}`)}
                   />
                 ))}
               </View>
@@ -373,17 +316,17 @@ const Inventory: React.FC = () => {
           {/* 原材料 */}
           {selectedTabIndex === 1 && (
             <View>
-              <View style={styles.card}>
-                <Text style={styles.cardTitle}>原材料库存</Text>
-                <Text style={styles.cardDescription}>
+              <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm">
+                <Text className="mb-3 text-lg font-semibold">原材料库存</Text>
+                <Text className="mt-1 text-sm text-gray-500">
                   此处显示原材料库存信息
                 </Text>
               </View>
 
-              <View style={styles.card}>
-                <View style={styles.searchContainer}>
+              <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm">
+                <View className="relative mb-4">
                   <TextInput
-                    style={styles.searchInput}
+                    className="rounded-lg bg-gray-100 px-10 py-2.5 text-sm"
                     placeholder="搜索原材料"
                     placeholderTextColor="#9ca3af"
                   />
@@ -391,7 +334,7 @@ const Inventory: React.FC = () => {
                     name="search"
                     size={16}
                     color="#9ca3af"
-                    style={styles.searchIcon}
+                    className="absolute left-3 top-3"
                   />
                 </View>
 
@@ -404,6 +347,7 @@ const Inventory: React.FC = () => {
                     quantity={item.quantity}
                     safetyStock={item.safetyStock}
                     status={item.status}
+                    onViewDetail={() => router.push(`/inventory/${index}`)}
                   />
                 ))}
               </View>
@@ -413,17 +357,17 @@ const Inventory: React.FC = () => {
           {/* 半成品 */}
           {selectedTabIndex === 2 && (
             <View>
-              <View style={styles.card}>
-                <Text style={styles.cardTitle}>半成品库存</Text>
-                <Text style={styles.cardDescription}>
+              <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm">
+                <Text className="mb-3 text-lg font-semibold">半成品库存</Text>
+                <Text className="mt-1 text-sm text-gray-500">
                   此处显示半成品库存信息
                 </Text>
               </View>
 
-              <View style={styles.card}>
-                <View style={styles.searchContainer}>
+              <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm">
+                <View className="relative mb-4">
                   <TextInput
-                    style={styles.searchInput}
+                    className="rounded-lg bg-gray-100 px-10 py-2.5 text-sm"
                     placeholder="搜索半成品"
                     placeholderTextColor="#9ca3af"
                   />
@@ -431,7 +375,7 @@ const Inventory: React.FC = () => {
                     name="search"
                     size={16}
                     color="#9ca3af"
-                    style={styles.searchIcon}
+                    className="absolute left-3 top-3"
                   />
                 </View>
 
@@ -444,6 +388,7 @@ const Inventory: React.FC = () => {
                     quantity={item.quantity}
                     safetyStock={item.safetyStock}
                     status={item.status}
+                    onViewDetail={() => router.push(`/inventory/${index}`)}
                   />
                 ))}
               </View>
@@ -453,15 +398,17 @@ const Inventory: React.FC = () => {
           {/* 成品 */}
           {selectedTabIndex === 3 && (
             <View>
-              <View style={styles.card}>
-                <Text style={styles.cardTitle}>成品库存</Text>
-                <Text style={styles.cardDescription}>此处显示成品库存信息</Text>
+              <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm">
+                <Text className="mb-3 text-lg font-semibold">成品库存</Text>
+                <Text className="mt-1 text-sm text-gray-500">
+                  此处显示成品库存信息
+                </Text>
               </View>
 
-              <View style={styles.card}>
-                <View style={styles.searchContainer}>
+              <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm">
+                <View className="relative mb-4">
                   <TextInput
-                    style={styles.searchInput}
+                    className="rounded-lg bg-gray-100 px-10 py-2.5 text-sm"
                     placeholder="搜索成品"
                     placeholderTextColor="#9ca3af"
                   />
@@ -469,7 +416,7 @@ const Inventory: React.FC = () => {
                     name="search"
                     size={16}
                     color="#9ca3af"
-                    style={styles.searchIcon}
+                    className="absolute left-3 top-3"
                   />
                 </View>
 
@@ -482,6 +429,7 @@ const Inventory: React.FC = () => {
                     quantity={item.quantity}
                     safetyStock={item.safetyStock}
                     status={item.status}
+                    onViewDetail={() => router.push(`/inventory/${index}`)}
                   />
                 ))}
               </View>
@@ -491,43 +439,45 @@ const Inventory: React.FC = () => {
           {/* 库存报表 */}
           {selectedTabIndex === 4 && (
             <View>
-              <View style={styles.card}>
-                <Text style={styles.cardTitle}>库存报表</Text>
-                <Text style={styles.cardDescription}>此处显示库存报表信息</Text>
+              <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm">
+                <Text className="mb-3 text-lg font-semibold">库存报表</Text>
+                <Text className="mt-1 text-sm text-gray-500">
+                  此处显示库存报表信息
+                </Text>
               </View>
 
-              <View style={styles.card}>
-                <Text style={styles.cardSubtitle}>库存周转率</Text>
-                <View style={styles.reportItem}>
-                  <View style={styles.reportRow}>
-                    <Text style={styles.reportLabel}>原材料</Text>
-                    <Text style={styles.reportValue}>4.5</Text>
+              <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm">
+                <Text className="text-base font-medium">库存周转率</Text>
+                <View className="mt-3">
+                  <View className="flex-row justify-between border-b border-gray-100 py-2">
+                    <Text className="text-sm text-gray-500">原材料</Text>
+                    <Text className="text-sm font-medium">4.5</Text>
                   </View>
-                  <View style={styles.reportRow}>
-                    <Text style={styles.reportLabel}>半成品</Text>
-                    <Text style={styles.reportValue}>3.8</Text>
+                  <View className="flex-row justify-between border-b border-gray-100 py-2">
+                    <Text className="text-sm text-gray-500">半成品</Text>
+                    <Text className="text-sm font-medium">3.8</Text>
                   </View>
-                  <View style={styles.reportRow}>
-                    <Text style={styles.reportLabel}>成品</Text>
-                    <Text style={styles.reportValue}>5.2</Text>
+                  <View className="flex-row justify-between border-b border-gray-100 py-2">
+                    <Text className="text-sm text-gray-500">成品</Text>
+                    <Text className="text-sm font-medium">5.2</Text>
                   </View>
                 </View>
               </View>
 
-              <View style={styles.card}>
-                <Text style={styles.cardSubtitle}>库存价值分布</Text>
-                <View style={styles.reportItem}>
-                  <View style={styles.reportRow}>
-                    <Text style={styles.reportLabel}>原材料</Text>
-                    <Text style={styles.reportValue}>¥125,000</Text>
+              <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm">
+                <Text className="text-base font-medium">库存价值分布</Text>
+                <View className="mt-3">
+                  <View className="flex-row justify-between border-b border-gray-100 py-2">
+                    <Text className="text-sm text-gray-500">原材料</Text>
+                    <Text className="text-sm font-medium">¥125,000</Text>
                   </View>
-                  <View style={styles.reportRow}>
-                    <Text style={styles.reportLabel}>半成品</Text>
-                    <Text style={styles.reportValue}>¥85,000</Text>
+                  <View className="flex-row justify-between border-b border-gray-100 py-2">
+                    <Text className="text-sm text-gray-500">半成品</Text>
+                    <Text className="text-sm font-medium">¥85,000</Text>
                   </View>
-                  <View style={styles.reportRow}>
-                    <Text style={styles.reportLabel}>成品</Text>
-                    <Text style={styles.reportValue}>¥210,000</Text>
+                  <View className="flex-row justify-between border-b border-gray-100 py-2">
+                    <Text className="text-sm text-gray-500">成品</Text>
+                    <Text className="text-sm font-medium">¥210,000</Text>
                   </View>
                 </View>
               </View>
@@ -537,315 +487,11 @@ const Inventory: React.FC = () => {
       </View>
 
       {/* 浮动按钮 */}
-      <TouchableOpacity style={styles.floatingButton}>
+      <TouchableOpacity className="absolute bottom-4 right-4 size-14 items-center justify-center rounded-full bg-blue-600 shadow-lg">
         <FontAwesome name="plus" size={20} color="white" />
       </TouchableOpacity>
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f5f5f5',
-  },
-  headerButton: {
-    marginLeft: 16,
-  },
-  content: {
-    flex: 1,
-    paddingHorizontal: 16,
-    paddingTop: 16,
-  },
-  scrollView: {
-    flex: 1,
-    marginTop: 16,
-  },
-  flex1: {
-    flex: 1,
-  },
-  flexRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  stockIndicator: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    marginRight: 8,
-  },
-  itemName: {
-    fontSize: 16,
-    fontWeight: '500',
-  },
-  alertItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 12,
-    borderRadius: 8,
-    marginBottom: 8,
-  },
-  alertIconContainer: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: 'rgba(0, 0, 0, 0.05)',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 12,
-  },
-  alertTitle: {
-    fontSize: 16,
-    fontWeight: '500',
-    marginBottom: 2,
-  },
-  alertMessage: {
-    fontSize: 14,
-    color: '#6b7280',
-    marginTop: 2,
-  },
-  alertAction: {
-    fontSize: 14,
-    color: '#0066ff',
-    fontWeight: '500',
-  },
-  sectionTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    marginTop: 16,
-    marginBottom: 8,
-  },
-  searchContainer: {
-    position: 'relative',
-    marginBottom: 16,
-  },
-  searchInput: {
-    backgroundColor: '#f3f4f6',
-    borderRadius: 8,
-    paddingHorizontal: 40,
-    paddingVertical: 10,
-    fontSize: 14,
-  },
-  searchIcon: {
-    position: 'absolute',
-    left: 12,
-    top: 12,
-  },
-  inventoryItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
-  },
-  reportItem: {
-    marginTop: 12,
-  },
-  card: {
-    backgroundColor: 'white',
-    borderRadius: 16,
-    padding: 16,
-    marginBottom: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 2,
-    elevation: 1,
-  },
-  cardHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 12,
-  },
-  cardTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    marginBottom: 12,
-  },
-  cardSubtitle: {
-    fontSize: 16,
-    fontWeight: '500',
-  },
-  cardDescription: {
-    fontSize: 14,
-    color: '#6b7280',
-    marginTop: 4,
-  },
-  cardLink: {
-    fontSize: 14,
-    color: '#0066ff',
-    fontWeight: '500',
-  },
-  alertList: {
-    marginTop: 8,
-  },
-  statsGrid: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 16,
-  },
-  statItem: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  statValue: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 4,
-  },
-  statLabel: {
-    fontSize: 14,
-    color: '#6b7280',
-  },
-  infoBox: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#f0f9ff',
-    padding: 12,
-    borderRadius: 8,
-  },
-  infoIcon: {
-    marginRight: 12,
-  },
-  infoTitle: {
-    fontSize: 14,
-    color: '#6b7280',
-    marginBottom: 2,
-  },
-  infoValue: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#0066ff',
-    marginRight: 8,
-  },
-  infoTrend: {
-    fontSize: 14,
-    color: '#22c55e',
-    fontWeight: '500',
-  },
-  itemCode: {
-    fontSize: 14,
-    color: '#6b7280',
-  },
-  itemQuantity: {
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  safetyStockText: {
-    fontSize: 12,
-    color: '#6b7280',
-  },
-  textRight: {
-    alignItems: 'flex-end',
-  },
-  floatingButton: {
-    position: 'absolute',
-    right: 16,
-    bottom: 16,
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    backgroundColor: '#0066ff',
-    justifyContent: 'center',
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  reportContainer: {
-    marginTop: 12,
-  },
-  reportCard: {
-    backgroundColor: 'white',
-    borderRadius: 8,
-    padding: 16,
-    marginBottom: 12,
-  },
-  reportHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 12,
-  },
-  reportTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  reportDate: {
-    fontSize: 14,
-    color: '#6b7280',
-  },
-  reportRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingVertical: 8,
-    borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
-  },
-  reportLabel: {
-    fontSize: 14,
-    color: '#6b7280',
-  },
-  reportValue: {
-    fontSize: 14,
-    fontWeight: '500',
-  },
-  statusBadge: {
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 4,
-  },
-  statusBadgeText: {
-    fontSize: 12,
-    fontWeight: '500',
-  },
-  equipmentInfoGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    marginVertical: 12,
-  },
-  equipmentInfoItem: {
-    width: '50%',
-    marginBottom: 12,
-  },
-  equipmentInfoLabel: {
-    fontSize: 12,
-    color: '#6b7280',
-    marginBottom: 2,
-  },
-  equipmentInfoValue: {
-    fontSize: 16,
-    fontWeight: '500',
-  },
-  equipmentAlert: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#f0f9ff',
-    padding: 12,
-    borderRadius: 8,
-    marginBottom: 12,
-  },
-  equipmentAlertIcon: {
-    marginRight: 12,
-  },
-  equipmentAlertTitle: {
-    fontSize: 14,
-    fontWeight: '500',
-    marginRight: 8,
-  },
-  equipmentAlertText: {
-    fontSize: 14,
-    color: '#6b7280',
-  },
-  equipmentAlertError: {
-    backgroundColor: '#fef2f2',
-  },
-  equipmentAlertTitleError: {
-    color: '#ef4444',
-  },
-});
 
 export default Inventory;
