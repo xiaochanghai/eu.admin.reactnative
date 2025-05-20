@@ -6,6 +6,7 @@ import axios, {
   type AxiosResponse,
   type InternalAxiosRequestConfig,
 } from 'axios';
+import { Platform } from 'react-native';
 
 import { type ResultData } from '@/api/interface';
 import { ResultEnum } from '@/enums/http-enum';
@@ -47,6 +48,7 @@ class RequestHttp {
         if (config.headers && typeof config.headers.set === 'function') {
           config.headers.set('Authorization', 'Bearer ' + getToken()?.access);
           config.headers.set('UUID', getUniqueId());
+          config.headers.set('Platform', Platform.OS);
           if (config.filter)
             config.headers.set(
               'filter',
