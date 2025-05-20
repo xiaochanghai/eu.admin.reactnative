@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import {
+  Dimensions,
   // Dimensions,
   TouchableOpacity,
 } from 'react-native';
+import { LineChart } from 'react-native-chart-kit';
 
 import { NavHeader, ScrollView, Text, View } from '@/components/ui';
-// import { LineChart } from 'react-native-chart-kit';
 import { FontAwesome } from '@/components/ui/icons';
 
 type TabType = 'info' | 'records' | 'usage';
@@ -126,40 +127,41 @@ const InventoryDetail: React.FC = () => {
   ];
 
   // 库存趋势图数据
-  // const stockData = {
-  //   labels: ['1月', '2月', '3月', '4月', '5月', '6月'],
-  //   datasets: [
-  //     {
-  //       data: [3000, 4500, 2800, 5000, 3500, 5000],
-  //       color: () => `rgba(59, 130, 246, 1)`,
-  //       strokeWidth: 2,
-  //     },
-  //     {
-  //       data: [1000, 1000, 1000, 1000, 1000, 1000],
-  //       color: () => `rgba(239, 68, 68, 1)`,
-  //       strokeWidth: 2,
-  //       withDots: false,
-  //     },
-  //   ],
-  // };
+  const stockData = {
+    labels: ['1月', '2月', '3月', '4月', '5月', '6月'],
+    datasets: [
+      {
+        data: [3000, 4500, 2800, 5000, 3500, 5000],
+        color: () => `rgba(59, 130, 246, 1)`,
+        strokeWidth: 2,
+      },
+      {
+        data: [100, 800, 200, 1000, 800, 1000],
+        color: () => `rgba(239, 68, 68, 1)`,
+        strokeWidth: 2,
+        withDots: false,
+      },
+    ],
+    legend: ['库存量', '安全库存'],
+  };
 
-  // const chartConfig = {
-  //   backgroundGradientFrom: '#ffffff',
-  //   backgroundGradientTo: '#ffffff',
-  //   decimalPlaces: 0,
-  //   color: () => `rgba(59, 130, 246, 0.6)`,
-  //   labelColor: () => `rgba(107, 114, 128, 1)`,
-  //   style: {
-  //     borderRadius: 16,
-  //   },
-  //   propsForDots: {
-  //     r: '4',
-  //     strokeWidth: '2',
-  //     stroke: '#3b82f6',
-  //   },
-  // };
+  const chartConfig = {
+    backgroundGradientFrom: '#ffffff',
+    backgroundGradientTo: '#ffffff',
+    decimalPlaces: 0,
+    color: () => `rgba(59, 130, 246, 0.6)`,
+    labelColor: () => `rgba(107, 114, 128, 1)`,
+    style: {
+      borderRadius: 16,
+    },
+    propsForDots: {
+      r: '4',
+      strokeWidth: '2',
+      stroke: '#3b82f6',
+    },
+  };
 
-  // const screenWidth = Dimensions.get('window').width - 40; // 考虑内边距
+  const screenWidth = Dimensions.get('window').width - 40; // 考虑内边距
 
   // 详情行组件
   const DetailRow = ({ label = '', value = '', isLast = false }) => (
@@ -406,13 +408,16 @@ const InventoryDetail: React.FC = () => {
         {/* 库存趋势图 */}
         <View className="mb-4 rounded-lg bg-white p-4 shadow-sm">
           <Text className="mb-3 text-lg font-semibold">库存趋势</Text>
-          {/* <LineChart
+          <LineChart
             data={stockData}
             width={screenWidth}
             height={200}
             chartConfig={chartConfig}
             bezier
-            className="rounded-lg"
+            // yAxisLabel="$"
+            // yAxisSuffix="k"
+            // yAxisInterval={1} // optional, defaults to 1
+            // className="rounded-lg"
             withInnerLines={false}
             withOuterLines={true}
             withHorizontalLabels={true}
@@ -420,8 +425,9 @@ const InventoryDetail: React.FC = () => {
             withDots={true}
             withShadow={false}
             segments={4}
-            legend={['库存量', '安全库存']}
-          /> */}
+
+            //
+          />
         </View>
 
         {/* 详细信息选项卡 */}
