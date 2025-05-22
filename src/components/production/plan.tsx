@@ -211,7 +211,7 @@ export const Plans = () => {
           status={item.status}
           statusColor={item.statusColor}
           statusBgColor={item.statusBgColor}
-          onViewDetail={() => router.push(`/production/${item.id}`)}
+          onViewDetail={() => router.push(`/production/plan/${item.id}`)}
         />
       ))}
     </>

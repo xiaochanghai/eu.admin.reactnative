@@ -94,6 +94,7 @@ const chartConfig = {
   style: {
     borderRadius: 16,
   },
+  stackedBar: false,
   propsForDots: {
     r: '6',
     strokeWidth: '2',
@@ -247,9 +248,10 @@ export const Quality: React.FC = () => {
             chartConfig={chartConfig}
             accessor={'population'}
             backgroundColor={'transparent'}
-            paddingLeft={'15'}
+            paddingLeft={'30'}
             center={[10, 10]}
             absolute
+            hasLegend={false}
           />
           <View className="ml-4 flex-1">
             <View className="space-y-2">
@@ -300,7 +302,7 @@ export const Quality: React.FC = () => {
       </View>
 
       {/* 质量改进计划 */}
-      <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm">
+      <View className="mb-10 rounded-2xl bg-white p-4 shadow-sm">
         <View className="mb-3 flex-row items-center justify-between">
           <Text className="text-lg font-semibold">质量改进计划</Text>
           <TouchableOpacity>
