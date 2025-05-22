@@ -1,4 +1,3 @@
-import { FontAwesome } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import {
   SafeAreaView,
@@ -9,6 +8,7 @@ import {
 } from 'react-native';
 
 import { NavHeader } from '@/components/ui';
+import { FontAwesome } from '@/components/ui/icons';
 
 const ProductionPlanDetail = () => {
   const [activeTab, setActiveTab] = useState('plan-details');

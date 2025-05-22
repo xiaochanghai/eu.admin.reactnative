@@ -1,9 +1,77 @@
+import { useRouter } from 'expo-router';
 import { Text, TouchableOpacity, View } from 'react-native';
 
 import { FontAwesome } from '@/components/ui/icons';
 
 import { ProgressBar } from './progress-bar';
 import { StatusBadge } from './status-badge';
+
+/**
+ * 任务状态类型定义
+ */
+type TaskStatus = '进行中' | '待分配' | '已完成' | '已延期';
+
+/**
+ * 任务数据接口定义
+ */
+interface TaskItem {
+  id: string; // 任务ID
+  title: string; // 任务标题
+  taskNo: string; // 任务编号
+  assignee: string; // 负责人
+  deadline: string; // 截止日期
+  progress: number; // 完成进度(0-100)
+  planNo: string; // 所属计划编号
+  status: TaskStatus; // 任务状态
+}
+
+/**
+ * 状态颜色映射
+ * 为不同的任务状态定义对应的颜色
+ */
+const statusColorMap: Record<TaskStatus, { color: string; bgColor: string }> = {
+  进行中: { color: '#22c55e', bgColor: '#dcfce7' },
+  待分配: { color: '#f97316', bgColor: '#ffedd5' },
+  已完成: { color: '#0066ff', bgColor: '#e0f2fe' },
+  已延期: { color: '#ef4444', bgColor: '#fee2e2' },
+};
+
+/**
+ * 模拟任务数据
+ * 在实际应用中，这些数据通常从API获取
+ */
+const taskData: TaskItem[] = [
+  {
+    id: '1',
+    title: '主板元器件贴装任务',
+    taskNo: 'TA20231205-01',
+    assignee: '李技术员',
+    deadline: '2023-12-10',
+    progress: 70,
+    planNo: 'PP20231128-01',
+    status: '进行中',
+  },
+  {
+    id: '2',
+    title: '电路板焊接任务',
+    taskNo: 'TA20231205-02',
+    assignee: '待分配',
+    deadline: '2023-12-12',
+    progress: 0,
+    planNo: 'PP20231128-01',
+    status: '待分配',
+  },
+  {
+    id: '3',
+    title: '音箱外壳注塑任务',
+    taskNo: 'TA20231204-03',
+    assignee: '王技术员',
+    deadline: '2023-12-15',
+    progress: 45,
+    planNo: 'PP20231130-02',
+    status: '进行中',
+  },
+];
 
 /**
  * Task 组件 - 生产任务管理界面
@@ -13,6 +81,16 @@ import { StatusBadge } from './status-badge';
  * 2. 生产任务列表：展示各个生产任务的详细信息和进度
  */
 export const Task = () => {
+  const router = useRouter();
+  /**
+   * 处理任务详情点击事件
+   * @param taskId 任务ID
+   */
+  const handleTaskDetail = (taskId: string) => {
+    // 这里添加导航到任务详情页面的逻辑
+    router.push(`/production/task/${taskId}`);
+  };
+
   return (
     <View>
       {/* 任务概览 */}
@@ -59,109 +137,67 @@ export const Task = () => {
         </View>
       </View>
 
-      {/* 生产任务列表 */}
+      {/* 生产任务列表标题 */}
       <Text className="mb-3 text-lg font-semibold text-gray-800">
         生产任务列表
       </Text>
 
-      {/* 任务项目1 */}
-      <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm">
-        <View className="mb-2 flex-row items-start justify-between">
-          <Text className="text-base font-medium text-gray-800">
-            主板元器件贴装任务
-          </Text>
-          <StatusBadge status="进行中" color="#22c55e" bgColor="#dcfce7" />
-        </View>
-        <Text className="mb-2 text-sm text-gray-500">
-          任务编号：TA20231205-01
-        </Text>
-        <View className="mb-3 flex-row justify-between">
-          <Text className="text-sm text-gray-500">负责人：李技术员</Text>
-          <Text className="text-sm text-gray-500">截止日期：2023-12-10</Text>
-        </View>
-        <View className="mb-2">
-          <View className="mb-1 flex-row justify-between">
-            <Text className="text-sm text-gray-500">完成进度</Text>
-            <Text className="text-sm text-gray-500">70%</Text>
-          </View>
-          <ProgressBar progress={70} color="#22c55e" />
-        </View>
-        <View className="flex-row items-center justify-between">
-          <View className="flex-row items-center">
-            <Text className="text-sm text-gray-500">所属计划：</Text>
-            <Text className="mr-3 text-sm font-medium">PP20231128-01</Text>
-          </View>
-          <TouchableOpacity>
-            <Text className="text-sm text-blue-600">详情</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+      {/* 使用数据循环渲染任务列表 */}
+      {taskData.map((task) => (
+        <TouchableOpacity
+          key={task.id}
+          onPress={() => handleTaskDetail(task.id)}
+        >
+          <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm">
+            {/* 任务标题和状态 */}
+            <View className="mb-2 flex-row items-start justify-between">
+              <Text className="text-base font-medium text-gray-800">
+                {task.title}
+              </Text>
+              <StatusBadge
+                status={task.status}
+                color={statusColorMap[task.status].color}
+                bgColor={statusColorMap[task.status].bgColor}
+              />
+            </View>
 
-      {/* 任务项目2 */}
-      <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm">
-        <View className="mb-2 flex-row items-start justify-between">
-          <Text className="text-base font-medium text-gray-800">
-            电路板焊接任务
-          </Text>
-          <StatusBadge status="待分配" color="#f97316" bgColor="#ffedd5" />
-        </View>
-        <Text className="mb-2 text-sm text-gray-500">
-          任务编号：TA20231205-02
-        </Text>
-        <View className="mb-3 flex-row justify-between">
-          <Text className="text-sm text-gray-500">负责人：待分配</Text>
-          <Text className="text-sm text-gray-500">截止日期：2023-12-12</Text>
-        </View>
-        <View className="mb-2">
-          <View className="mb-1 flex-row justify-between">
-            <Text className="text-sm text-gray-500">完成进度</Text>
-            <Text className="text-sm text-gray-500">0%</Text>
-          </View>
-          <ProgressBar progress={0} color="#f97316" />
-        </View>
-        <View className="flex-row items-center justify-between">
-          <View className="flex-row items-center">
-            <Text className="text-sm text-gray-500">所属计划：</Text>
-            <Text className="mr-3 text-sm font-medium">PP20231128-01</Text>
-          </View>
-          <TouchableOpacity>
-            <Text className="text-sm text-blue-600">详情</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+            {/* 任务编号 */}
+            <Text className="mb-2 text-sm text-gray-500">
+              任务编号：{task.taskNo}
+            </Text>
 
-      {/* 任务项目3 */}
-      <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm">
-        <View className="mb-2 flex-row items-start justify-between">
-          <Text className="text-base font-medium text-gray-800">
-            音箱外壳注塑任务
-          </Text>
-          <StatusBadge status="进行中" color="#22c55e" bgColor="#dcfce7" />
-        </View>
-        <Text className="mb-2 text-sm text-gray-500">
-          任务编号：TA20231204-03
-        </Text>
-        <View className="mb-3 flex-row justify-between">
-          <Text className="text-sm text-gray-500">负责人：王技术员</Text>
-          <Text className="text-sm text-gray-500">截止日期：2023-12-15</Text>
-        </View>
-        <View className="mb-2">
-          <View className="mb-1 flex-row justify-between">
-            <Text className="text-sm text-gray-500">完成进度</Text>
-            <Text className="text-sm text-gray-500">45%</Text>
+            {/* 负责人和截止日期 */}
+            <View className="mb-3 flex-row justify-between">
+              <Text className="text-sm text-gray-500">
+                负责人：{task.assignee}
+              </Text>
+              <Text className="text-sm text-gray-500">
+                截止日期：{task.deadline}
+              </Text>
+            </View>
+
+            {/* 完成进度条 */}
+            <View className="mb-2">
+              <View className="mb-1 flex-row justify-between">
+                <Text className="text-sm text-gray-500">完成进度</Text>
+                <Text className="text-sm text-gray-500">{task.progress}%</Text>
+              </View>
+              <ProgressBar
+                progress={task.progress}
+                color={statusColorMap[task.status].color}
+              />
+            </View>
+
+            {/* 所属计划和详情按钮 */}
+            <View className="flex-row items-center justify-between">
+              <View className="flex-row items-center">
+                <Text className="text-sm text-gray-500">所属计划：</Text>
+                <Text className="mr-3 text-sm font-medium">{task.planNo}</Text>
+              </View>
+            </View>
           </View>
-          <ProgressBar progress={45} color="#22c55e" />
-        </View>
-        <View className="flex-row items-center justify-between">
-          <View className="flex-row items-center">
-            <Text className="text-sm text-gray-500">所属计划：</Text>
-            <Text className="mr-3 text-sm font-medium">PP20231130-02</Text>
-          </View>
-          <TouchableOpacity>
-            <Text className="text-sm text-blue-600">详情</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+        </TouchableOpacity>
+      ))}
     </View>
   );
 };
