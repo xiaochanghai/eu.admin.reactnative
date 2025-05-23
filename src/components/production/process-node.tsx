@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Text, View } from '@/components/ui';
-import { FontAwesome } from '@/components/ui/icons';
+import { FontAwesome, GroupEnum } from '@/components/ui/icons';
 
 /**
  * 工序流程节点组件属性
@@ -61,7 +61,17 @@ export const ProcessNode: React.FC<ProcessNodeProps> = ({
         className="relative mb-2 size-16 items-center justify-center rounded-full"
         style={{ backgroundColor: bgColor }}
       >
-        <FontAwesome name={icon as any} size={20} color={iconColor} />
+        {icon === 'box' ? (
+          <FontAwesome
+            name={icon as any}
+            size={20}
+            color={iconColor}
+            group={GroupEnum.Entypo}
+          />
+        ) : (
+          <FontAwesome name={icon as any} size={20} color={iconColor} />
+        )}
+
         {statusIcon}
       </View>
       {/* 节点标签 */}
