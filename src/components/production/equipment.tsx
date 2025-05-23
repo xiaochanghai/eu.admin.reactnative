@@ -1,3 +1,4 @@
+import { useRouter } from 'expo-router';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 
 import { FontAwesome } from '@/components/ui/icons';
@@ -40,6 +41,7 @@ interface MaintenancePlan {
 }
 
 export const Equipment = () => {
+  const router = useRouter();
   // 状态颜色映射
   const statusColorMap = {
     运行中: { color: '#22c55e', bgColor: '#dcfce7' },
@@ -126,7 +128,7 @@ export const Equipment = () => {
   // 处理设备详情点击事件
   const handleEquipmentDetail = (equipmentId: string) => {
     // 这里可以添加导航到设备详情页面的逻辑
-    console.log(`查看设备详情: ${equipmentId}`);
+    router.push(`/production/equipment/${equipmentId}`);
   };
 
   return (
@@ -174,9 +176,10 @@ export const Equipment = () => {
 
       {/* 设备列表 - 使用map函数循环渲染设备数据 */}
       {equipmentData.map((equipment) => (
-        <View
+        <TouchableOpacity
           key={equipment.id}
           className="mb-4 rounded-2xl bg-white p-4 shadow-sm"
+          onPress={() => handleEquipmentDetail(equipment.id)}
         >
           {/* 设备名称和状态 */}
           <View className="mb-2 flex-row items-start justify-between">
@@ -249,13 +252,8 @@ export const Equipment = () => {
                 {equipment.runningInfo.value}
               </Text>
             </View>
-            <TouchableOpacity
-              onPress={() => handleEquipmentDetail(equipment.id)}
-            >
-              <Text className="text-sm text-blue-600">详情</Text>
-            </TouchableOpacity>
           </View>
-        </View>
+        </TouchableOpacity>
       ))}
 
       {/* 设备维护计划标题 */}
