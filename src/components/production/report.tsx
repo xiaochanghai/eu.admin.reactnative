@@ -48,7 +48,7 @@ export const Report = () => {
         <View className="mb-3">
           <Text className="mb-2 text-sm font-medium">各产品线产量对比</Text>
           <View className="h-40 items-center justify-center rounded-xl bg-gray-50">
-            <FontAwesome name="bar-chart" size={40} color="#0066ff" />
+            <FontAwesome name="bar-chart-o" size={40} color="#0066ff" />
             <Text className="mt-2 text-sm text-gray-500">产量数据图表</Text>
           </View>
         </View>

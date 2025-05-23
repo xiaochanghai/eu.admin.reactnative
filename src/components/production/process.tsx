@@ -94,12 +94,6 @@ export const Process = () => {
     // 可以根据需要添加更多工序数据
   ];
 
-  // 处理工序详情点击事件
-  const handleProcessDetail = (processId: string) => {
-    // 这里可以添加导航到工序详情页面的逻辑
-    console.log(`查看工序详情: ${processId}`);
-  };
-
   return (
     <View>
       {/* 工序概览 - 显示工序总数、使用中和待优化的统计信息 */}
@@ -255,9 +249,6 @@ export const Process = () => {
                 {process.yieldRate}
               </Text>
             </View>
-            <TouchableOpacity onPress={() => handleProcessDetail(process.id)}>
-              <Text className="text-sm text-blue-600">详情</Text>
-            </TouchableOpacity>
           </View>
         </TouchableOpacity>
       ))}

@@ -90,9 +90,6 @@ export const PlanItem: React.FC<PlanItemProps> = ({
           <Text className="text-sm text-gray-500">已完成：</Text>
           <Text className="mr-3 text-sm font-medium">{completed}</Text>
         </View>
-        <TouchableOpacity>
-          <Text className="text-sm text-blue-600">详情</Text>
-        </TouchableOpacity>
       </View>
     </View>
   </TouchableOpacity>
