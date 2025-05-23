@@ -1,3 +1,4 @@
+import { useRouter } from 'expo-router';
 import React from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 
@@ -39,6 +40,8 @@ interface ProcessFlowNode {
  * 展示工序概览、工序流程图和工序列表
  */
 export const Process = () => {
+  const router = useRouter();
+
   // 状态颜色映射
   const statusColorMap = {
     使用中: { color: '#22c55e', bgColor: '#dcfce7' },
@@ -154,7 +157,7 @@ export const Process = () => {
                 {/* 如果不是最后一个节点，添加连接线 */}
                 {index < processFlowNodes.length - 1 && (
                   <View
-                    className={`h-0.5 w-12 ${node.status === 'pending' ? 'bg-gray-200' : 'bg-green-500'}`}
+                    className={`mb-10 h-0.5 w-12 ${node.status === 'pending' ? 'bg-gray-200' : 'bg-green-500'}`}
                   />
                 )}
               </React.Fragment>
@@ -185,9 +188,10 @@ export const Process = () => {
 
       {/* 工序列表 - 使用map函数循环渲染工序数据 */}
       {processData.map((process) => (
-        <View
+        <TouchableOpacity
           key={process.id}
           className="mb-4 rounded-2xl bg-white p-4 shadow-sm"
+          onPress={() => router.push(`/production/process/1`)}
         >
           {/* 工序名称和状态 */}
           <View className="mb-2 flex-row items-start justify-between">
@@ -255,7 +259,7 @@ export const Process = () => {
               <Text className="text-sm text-blue-600">详情</Text>
             </TouchableOpacity>
           </View>
-        </View>
+        </TouchableOpacity>
       ))}
     </View>
   );
