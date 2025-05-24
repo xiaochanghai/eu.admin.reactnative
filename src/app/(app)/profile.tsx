@@ -1,6 +1,6 @@
 import { Env } from '@env';
 import { Link, useRouter } from 'expo-router';
-import { Image, SafeAreaView, TouchableOpacity } from 'react-native';
+import { Alert, Image, SafeAreaView, TouchableOpacity } from 'react-native';
 
 import { NavHeader, ScrollView, Text, View } from '@/components/ui';
 import { FontAwesome } from '@/components/ui/icons';
@@ -25,6 +25,26 @@ export default function Settings() {
   if (userInfo?.AvatarFileId != null)
     avatarFileUrl = Env.API_URL + '/api/File/Img/' + userInfo?.AvatarFileId;
   const router = useRouter();
+
+  // 添加退出登录确认函数
+  const handleLogout = () => {
+    Alert.alert(
+      '退出登录',
+      '确定要退出登录吗？',
+      [
+        {
+          text: '取消',
+          style: 'cancel',
+        },
+        {
+          text: '确定',
+          onPress: () => signOut(),
+          style: 'destructive',
+        },
+      ],
+      { cancelable: true }
+    );
+  };
 
   return (
     <>
@@ -153,7 +173,7 @@ export default function Settings() {
             {/* 退出登录按钮 */}
             <TouchableOpacity
               className="mb-8 mt-6 items-center rounded-xl border border-gray-200 bg-white py-3.5 shadow-sm"
-              onPress={() => signOut()}
+              onPress={handleLogout} // 修改为使用handleLogout函数
             >
               <Text className="font-medium text-red-600" tx="settings.logout" />
             </TouchableOpacity>
