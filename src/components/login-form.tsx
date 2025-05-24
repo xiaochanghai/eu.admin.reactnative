@@ -1,20 +1,15 @@
-/* eslint-disable react/react-in-jsx-scope */
-// import { zodResolver } from '@hookform/resolvers/zod';
 import { Env } from '@env';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import {
+  ActivityIndicator,
   Platform,
   SafeAreaView,
   ScrollView,
-  StyleSheet,
   TextInput,
   TouchableOpacity,
 } from 'react-native';
-// import type { SubmitHandler } from 'react-hook-form';
-// import { useForm } from 'react-hook-form';
 import { KeyboardAvoidingView } from 'react-native-keyboard-controller';
-import * as z from 'zod';
 
 import { loginApi } from '@/api';
 import { Image, Text, View } from '@/components/ui';
@@ -24,97 +19,95 @@ import { translate } from '@/lib/i18n';
 import { setUserInfo } from '@/lib/user';
 import { message } from '@/utils';
 
-const schema = z.object({
-  name: z.string().optional(),
-  email: z
-    .string({
-      required_error: 'Email is required',
-    })
-    .email('Invalid email format'),
-  password: z
-    .string({
-      required_error: 'Password is required',
-    })
-    .min(6, 'Password must be at least 6 characters'),
-});
-
-export type FormType = z.infer<typeof schema>;
-
-// export type LoginFormProps = {
-//   onSubmit?: SubmitHandler<FormType>;
-// };
-
 export const LoginForm = () => {
   const router = useRouter();
-
-  // const onSubmit1 = (data) => {
-  //   console.log(data);
-  //   signIn({ access: 'access-token', refresh: 'refresh-token' });
-  //   router.push('/');
-  // };
-  // 处理登录
-  const handleLogin = async () => {
-    if (!username) {
-      message.info(translate('login.username_null'));
-      return;
-    }
-    if (!password) {
-      message.info(translate('login.password_null'));
-      return;
-    }
-    message.loading(translate('login.login_loading'));
-    setSubmitBtnDisable(true);
-    const { Success, Data } = await loginApi({
-      UserAccount: username,
-      Password: password,
-    });
-    if (Success) {
-      signIn({
-        access: Data.Token,
-        userId: Data.UserId,
-        refresh: 'refresh-token',
-      });
-      setUserInfo(Data.UserInfo);
-
-      message.info(translate('login.login_success'));
-      setTimeout(() => {
-        router.push('/');
-      }, 100);
-    } else setSubmitBtnDisable(false);
-  };
 
   // 状态管理
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-
-  // 添加焦点状态
   const [usernameFocused, setUsernameFocused] = useState(false);
   const [passwordFocused, setPasswordFocused] = useState(false);
-  const [submitBtnDisable, setSubmitBtnDisable] = useState(false);
-  // const [rememberMe, setRememberMe] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errors, setErrors] = useState({ username: '', password: '' });
+
+  // 表单验证
+  const validateForm = () => {
+    let isValid = true;
+    const newErrors = { username: '', password: '' };
+
+    if (!username.trim()) {
+      newErrors.username = translate('login.username_null');
+      isValid = false;
+    }
+
+    if (!password.trim()) {
+      newErrors.password = translate('login.password_null');
+      isValid = false;
+    }
+    // else if (password.length < 6) {
+    //   newErrors.password = translate('login.password_too_short');
+    //   isValid = false;
+    // }
+
+    setErrors(newErrors);
+    return isValid;
+  };
+
+  // 处理登录
+  const handleLogin = async () => {
+    if (!validateForm()) return;
+
+    setIsLoading(true);
+    message.loading(translate('login.login_loading'));
+
+    try {
+      const { Success, Data } = await loginApi({
+        UserAccount: username,
+        Password: password,
+      });
+
+      if (Success) {
+        signIn({
+          access: Data.Token,
+          userId: Data.UserId,
+          refresh: 'refresh-token',
+        });
+        setUserInfo(Data.UserInfo);
+
+        message.success(translate('login.login_success'));
+        setTimeout(() => {
+          router.push('/');
+        }, 100);
+      } else {
+        setIsLoading(false);
+      }
+    } catch (error) {
+      // message.error(translate('login.login_failed'));
+      setIsLoading(false);
+    }
+  };
+
   return (
     <SafeAreaView className="flex-1 bg-white">
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        // style={styles.keyboardAvoidingView}
         className="flex-1"
         keyboardVerticalOffset={10}
       >
-        <ScrollView contentContainerStyle={styles.scrollView}>
+        <ScrollView className="flex-1 px-4">
           {/* 顶部空间 */}
           <View className="h-[10%]" />
 
           {/* Logo和标题 */}
-          <View className="mb-8 items-center">
-            <View className="mb-4 size-20 items-center justify-center rounded-full bg-[#EBF5FF]">
+          <View className="mb-10 items-center">
+            <View className="mb-5 size-20 items-center justify-center rounded-full bg-[#EBF5FF] shadow-sm">
               <Image
                 className="size-16"
                 source={require('../../assets/favicon.png')}
                 contentFit="contain"
               />
             </View>
-            <Text className="text-lg font-bold text-gray-800">{Env.NAME}</Text>
-
+            <Text className="text-xl font-bold text-gray-800">{Env.NAME}</Text>
             <Text className="mt-2 text-base text-gray-500">
               {translate('login.sub_title')}
             </Text>
@@ -124,93 +117,88 @@ export const LoginForm = () => {
           <View className="w-full">
             {/* 用户名输入框 */}
             <View
-              className={`mb-4 h-[50px] flex-row items-center rounded-xl border px-3 ${usernameFocused ? 'border-blue-500 bg-blue-50' : 'border-gray-200'}`}
+              className={`mb-4 overflow-hidden rounded-xl border ${usernameFocused ? 'border-blue-500 bg-blue-50' : errors.username ? 'border-red-300 bg-red-50' : 'border-gray-200'}`}
             >
-              <FontAwesome
-                name="user"
-                size={20}
-                color={usernameFocused || username ? '#e94538' : '#9ca3af'}
-                className="mr-3"
-              />
-              <TextInput
-                className="h-full flex-1 text-base text-gray-800"
-                placeholder={translate('login.username_placeholder')}
-                placeholderTextColor="#9ca3af"
-                value={username}
-                onChangeText={setUsername}
-                onFocus={() => setUsernameFocused(true)}
-                onBlur={() => setUsernameFocused(false)}
-              />
+              <View className="flex-row items-center px-4 py-3">
+                <FontAwesome
+                  name="user"
+                  size={20}
+                  color={usernameFocused || username ? '#3b82f6' : '#9ca3af'}
+                  className="mr-3"
+                />
+                <TextInput
+                  className="flex-1 text-base text-gray-800"
+                  placeholder={translate('login.username_placeholder')}
+                  placeholderTextColor="#9ca3af"
+                  value={username}
+                  onChangeText={(text) => {
+                    setUsername(text);
+                    if (errors.username) setErrors({ ...errors, username: '' });
+                  }}
+                  onFocus={() => setUsernameFocused(true)}
+                  onBlur={() => setUsernameFocused(false)}
+                  returnKeyType="next"
+                />
+              </View>
+              {errors.username ? (
+                <Text className="bg-red-50 px-4 py-1 text-xs text-red-500">
+                  {errors.username}
+                </Text>
+              ) : null}
             </View>
 
             {/* 密码输入框 */}
             <View
-              className={`mb-4 h-[50px] flex-row items-center rounded-xl border px-3 ${usernameFocused ? 'border-blue-500 bg-blue-50' : 'border-gray-200'}`}
+              className={`mb-6 overflow-hidden rounded-xl border ${passwordFocused ? 'border-blue-500 bg-blue-50' : errors.password ? 'border-red-300 bg-red-50' : 'border-gray-200'}`}
             >
-              <FontAwesome
-                name="lock"
-                size={20}
-                color={passwordFocused || password ? '#e94538' : '#9ca3af'}
-                className="mr-3"
-              />
-              <TextInput
-                className="h-full flex-1 text-base text-gray-800"
-                placeholder={translate('login.password_placeholder')}
-                placeholderTextColor="#9ca3af"
-                secureTextEntry
-                value={password}
-                onChangeText={setPassword}
-                onFocus={() => setPasswordFocused(true)}
-                onBlur={() => setPasswordFocused(false)}
-              />
+              <View className="flex-row items-center px-4 py-3">
+                <FontAwesome
+                  name="lock"
+                  size={20}
+                  color={passwordFocused || password ? '#3b82f6' : '#9ca3af'}
+                  className="mr-3"
+                />
+                <TextInput
+                  className="flex-1 text-base text-gray-800"
+                  placeholder={translate('login.password_placeholder')}
+                  placeholderTextColor="#9ca3af"
+                  secureTextEntry
+                  value={password}
+                  onChangeText={(text) => {
+                    setPassword(text);
+                    if (errors.password) setErrors({ ...errors, password: '' });
+                  }}
+                  onFocus={() => setPasswordFocused(true)}
+                  onBlur={() => setPasswordFocused(false)}
+                  returnKeyType="done"
+                  onSubmitEditing={handleLogin}
+                />
+              </View>
+              {errors.password ? (
+                <Text className="bg-red-50 px-4 py-1 text-xs text-red-500">
+                  {errors.password}
+                </Text>
+              ) : null}
             </View>
-            {/* <ControlledInput
-              testID="name"
-              control={control}
-              name="name"
-              label="Name"
-            /> */}
-            {/* <ControlledInput
-              testID="password-input"
-              control={control}
-              name="password"
-              label="Password"
-              placeholder="***"
-              secureTextEntry={true}
-            /> */}
-
-            {/* 记住我和忘记密码 */}
-            {/* <View style={styles.optionsContainer}>
-              <TouchableOpacity
-                style={styles.rememberContainer}
-                onPress={() => setRememberMe(!rememberMe)}
-              >
-                <View style={[styles.checkbox, rememberMe && styles.checkboxChecked]}>
-                  {rememberMe && <FontAwesome name="check" size={12} color="white" />}
-                </View>
-                <Text style={styles.rememberText}>记住我</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity>
-                <Text style={styles.forgotPassword}>忘记密码?</Text>
-              </TouchableOpacity>
-            </View> */}
 
             {/* 登录按钮 */}
             <TouchableOpacity
-              className="h-[50px] items-center justify-center rounded-xl bg-[#e94538] shadow-sm"
+              className={`h-[50px] items-center justify-center rounded-xl shadow-sm ${isLoading ? 'bg-blue-400' : 'bg-blue-500 active:bg-blue-600'}`}
               onPress={handleLogin}
-              disabled={submitBtnDisable}
-              // onPress={onSubmit1(1)}
+              disabled={isLoading}
             >
-              <Text
-                className="text-base font-semibold text-white"
-                tx="login.login_button"
-              />
+              {isLoading ? (
+                <ActivityIndicator color="#ffffff" />
+              ) : (
+                <Text
+                  className="text-base font-semibold text-white"
+                  tx="login.login_button"
+                />
+              )}
             </TouchableOpacity>
 
             {/* 其他登录方式 */}
-            <View className="mt-8">
+            <View className="mt-10">
               <View className="flex-row items-center justify-center">
                 <View className="h-px flex-1 bg-gray-200" />
                 <Text
@@ -221,13 +209,13 @@ export const LoginForm = () => {
               </View>
 
               <View className="mt-6 flex-row justify-center">
-                <TouchableOpacity className="mx-4 size-14 items-center justify-center rounded-full border border-gray-200">
+                <TouchableOpacity className="mx-4 size-14 items-center justify-center rounded-full border border-gray-200 shadow-sm active:bg-gray-50">
                   <FontAwesome name="weixin" size={24} color="#07C160" />
                 </TouchableOpacity>
-                <TouchableOpacity className="mx-4 size-14 items-center justify-center rounded-full border border-gray-200">
-                  <FontAwesome name="qrcode" size={24} color="#0066ff" />
+                <TouchableOpacity className="mx-4 size-14 items-center justify-center rounded-full border border-gray-200 shadow-sm active:bg-gray-50">
+                  <FontAwesome name="qrcode" size={24} color="#3b82f6" />
                 </TouchableOpacity>
-                <TouchableOpacity className="mx-4 size-14 items-center justify-center rounded-full border border-gray-200">
+                <TouchableOpacity className="mx-4 size-14 items-center justify-center rounded-full border border-gray-200 shadow-sm active:bg-gray-50">
                   <FontAwesome
                     name="fingerprint"
                     size={24}
@@ -238,55 +226,17 @@ export const LoginForm = () => {
               </View>
             </View>
           </View>
+
           {/* 底部 */}
-          <View className="mt-auto items-center pb-6">
+          <View className="mt-auto items-center py-8">
             <Text className="text-sm text-gray-500">
               还没有账号?
-              <Text className="font-medium text-[#e94538]">联系管理员</Text>
+              <Text className="font-medium text-blue-500"> 联系管理员</Text>
             </Text>
-            <Text className="mt-2 text-sm text-gray-500" tx="copyright" />
+            <Text className="mt-2 text-sm text-gray-400" tx="copyright" />
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  scrollView: {
-    flexGrow: 1,
-    paddingHorizontal: 16,
-  },
-  // optionsContainer: {
-  //   flexDirection: 'row',
-  //   justifyContent: 'space-between',
-  //   alignItems: 'center',
-  //   marginBottom: 24,
-  // },
-  // rememberContainer: {
-  //   flexDirection: 'row',
-  //   alignItems: 'center',
-  // },
-  // checkbox: {
-  //   width: 20,
-  //   height: 20,
-  //   borderRadius: 4,
-  //   borderWidth: 1,
-  //   borderColor: '#d1d5db',
-  //   marginRight: 8,
-  //   alignItems: 'center',
-  //   justifyContent: 'center',
-  // },
-  // checkboxChecked: {
-  //   backgroundColor: '#0066ff',
-  //   borderColor: '#0066ff',
-  // },
-  // rememberText: {
-  //   fontSize: 14,
-  //   color: '#6b7280',
-  // },
-  // forgotPassword: {
-  //   fontSize: 14,
-  //   color: '#0066ff',
-  // },
-});
