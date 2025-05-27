@@ -90,6 +90,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     ['app-icon-badge', appIconBadgeConfig],
     ['react-native-edge-to-edge'],
     'expo-asset',
+    'react-native-compressor',
   ],
   extra: {
     ...ClientEnv,
