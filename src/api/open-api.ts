@@ -1,0 +1,338 @@
+import {
+  type BedrockMessage,
+  type DocumentContent,
+  type ImageContent,
+  type OpenAIMessage,
+  type TextContent,
+} from '@/components/chat/util/bedrock-message-convertor';
+import { ModelTag, type SystemPrompt, type Usage } from '@/types';
+import {
+  getApiUrl,
+  getDeepSeekApiKey,
+  getOpenAIApiKey,
+  getOpenAICompatApiKey,
+  getOpenAICompatApiURL,
+  getOpenAIProxyEnabled,
+  getTextModel,
+} from '@/utils/storage-utils';
+
+// import { GITHUB_LINK } from '../settings/SettingsScreen.tsx';
+// import { isDev } from './bedrock-api';
+const GITHUB_LINK = 'https://github.com/aws-samples/swift-chat';
+type CallbackFunction = (
+  result: string,
+  complete: boolean,
+  needStop: boolean,
+  usage?: Usage,
+  reasoning?: string
+) => void;
+const OpenRouterTag = ': OPENROUTER PROCESSING\n\n';
+
+export const invokeOpenAIWithCallBack = async (
+  messages: BedrockMessage[],
+  prompt: SystemPrompt | null,
+  shouldStop: () => boolean,
+  controller: AbortController,
+  callback: CallbackFunction
+  // eslint-disable-next-line max-params
+) => {
+  const isOpenRouter = isOpenRouterRequest();
+  const bodyObject = {
+    model: getTextModel().modelId,
+    messages: getOpenAIMessages(messages, prompt),
+    stream: true,
+    stream_options: {
+      include_usage: true,
+    },
+  };
+
+  const options = {
+    method: 'POST',
+    headers: {
+      accept: '*/*',
+      'content-type': 'application/json',
+      Authorization: 'Bearer ' + getApiKey(),
+    },
+    body: JSON.stringify(bodyObject),
+    signal: controller.signal,
+    reactNative: { textStreaming: true },
+  };
+  if (isOpenRouter) {
+    options.headers['HTTP-Referer' as keyof typeof options.headers] =
+      GITHUB_LINK;
+    options.headers['X-Title' as keyof typeof options.headers] = 'SwiftChat';
+  }
+  const url = getApiURL();
+  let completeMessage = '';
+  let completeReasoning = '';
+  const timeoutId = setTimeout(() => controller.abort(), 60000);
+  fetch(url!, options)
+    .then((response) => {
+      return response.body;
+    })
+    .then(async (body) => {
+      clearTimeout(timeoutId);
+      if (!body) {
+        return;
+      }
+      const reader = body.getReader();
+      const decoder = new TextDecoder();
+      let lastChunk = '';
+      while (true) {
+        if (shouldStop()) {
+          await reader.cancel();
+          if (completeMessage === '') {
+            completeMessage = '...';
+          }
+          callback(completeMessage, true, true, undefined, completeReasoning);
+          return;
+        }
+
+        try {
+          const { done, value } = await reader.read();
+          const chunk = decoder.decode(value, { stream: true });
+          if (isOpenRouter && chunk === OpenRouterTag) {
+            continue;
+          }
+          const parsed = parseStreamData(chunk, lastChunk);
+          if (parsed.error) {
+            callback(
+              completeMessage + '\n\n' + parsed.error,
+              true,
+              true,
+              undefined,
+              completeReasoning
+            );
+            return;
+          }
+          if (parsed.reason) {
+            completeReasoning += parsed.reason;
+          }
+          if (parsed.content) {
+            completeMessage += parsed.content;
+          }
+          if (parsed.dataChunk) {
+            lastChunk = parsed.dataChunk;
+          } else {
+            lastChunk = '';
+          }
+          if (parsed.usage && parsed.usage.inputTokens) {
+            callback(
+              completeMessage,
+              false,
+              false,
+              parsed.usage,
+              completeReasoning
+            );
+          } else {
+            callback(
+              completeMessage,
+              done,
+              false,
+              undefined,
+              completeReasoning
+            );
+          }
+          if (done) {
+            return;
+          }
+        } catch (readError) {
+          console.log('Error reading stream:', readError);
+          if (completeMessage === '') {
+            completeMessage = '...';
+          }
+          callback(completeMessage, true, true, undefined, completeReasoning);
+          return;
+        }
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      clearTimeout(timeoutId);
+      if (shouldStop()) {
+        if (completeMessage === '') {
+          completeMessage = '...';
+        }
+        callback(completeMessage, true, true, undefined, completeReasoning);
+      } else {
+        const errorMsg = String(error);
+        const errorInfo = 'Request error: ' + errorMsg;
+        callback(
+          completeMessage + '\n\n' + errorInfo,
+          true,
+          true,
+          undefined,
+          completeReasoning
+        );
+      }
+    });
+};
+
+const parseStreamData = (chunk: string, lastChunk: string = '') => {
+  const dataChunks = (lastChunk + chunk).split('\n\n');
+  let content = '';
+  let reason = '';
+  let usage: Usage | undefined;
+  for (let dataChunk of dataChunks) {
+    if (!dataChunk.trim()) {
+      continue;
+    }
+    if (dataChunk[0] === '\n') {
+      dataChunk = dataChunk.slice(1);
+    }
+    if (!dataChunk.startsWith('data')) {
+      continue;
+    }
+    const cleanedData = dataChunk.replace(/^data: /, '');
+    if (cleanedData.trim() === '[DONE]') {
+      continue;
+    }
+
+    try {
+      const parsedData: ChatResponse = JSON.parse(cleanedData);
+      if (parsedData.error) {
+        let errorMessage = parsedData.error?.message ?? '';
+        if (parsedData.error?.metadata?.raw) {
+          errorMessage += ':\n' + parsedData.error.metadata.raw;
+        }
+        return { error: errorMessage };
+      }
+      if (parsedData.detail) {
+        return {
+          error:
+            `Error: Please upgrade your [server API](${GITHUB_LINK}?tab=readme-ov-file#upgrade-api), API ` +
+            parsedData.detail,
+        };
+      }
+      if (parsedData.choices[0]?.delta?.content) {
+        content += parsedData.choices[0].delta.content;
+      }
+
+      if (parsedData.choices[0]?.delta?.reasoning_content) {
+        reason += parsedData.choices[0].delta.reasoning_content;
+      }
+
+      if (parsedData.usage) {
+        usage = {
+          modelName: getTextModel().modelName,
+          inputTokens:
+            parsedData.usage.prompt_tokens -
+            (parsedData.usage.prompt_cache_hit_tokens ?? 0),
+          outputTokens: parsedData.usage.completion_tokens,
+          totalTokens: parsedData.usage.total_tokens,
+        };
+      }
+    } catch (error) {
+      if (lastChunk.length > 0) {
+        return { error: error + cleanedData };
+      } else if (reason === '' && content === '') {
+        return { error: chunk };
+      }
+      if (reason || content) {
+        return { reason, content, dataChunk, usage };
+      }
+    }
+  }
+  return { reason, content, usage };
+};
+
+type ChatResponse = {
+  choices: {
+    delta: {
+      content: string;
+      reasoning_content: string;
+    };
+  }[];
+  usage?: {
+    prompt_tokens: number;
+    completion_tokens: number;
+    total_tokens: number;
+    prompt_cache_hit_tokens: number;
+  };
+  error?: {
+    message?: string;
+    metadata?: {
+      raw?: string;
+    };
+  };
+  detail?: string;
+};
+
+function getOpenAIMessages(
+  messages: BedrockMessage[],
+  prompt: SystemPrompt | null
+): OpenAIMessage[] {
+  return [
+    ...(prompt ? [{ role: 'system', content: prompt.prompt }] : []),
+    ...messages.map((message) => {
+      const hasImage = message.content.some((content) => 'image' in content);
+      if (hasImage) {
+        return {
+          role: message.role,
+          content: message.content.map((content) => {
+            if ('text' in content) {
+              return {
+                type: 'text' as const,
+                text: (content as TextContent).text,
+              };
+            } else {
+              const base64Data = (content as ImageContent).image.source.bytes;
+              return {
+                type: 'image_url' as const,
+                image_url: {
+                  url: `data:image/png;base64,${base64Data}`,
+                },
+              };
+            }
+          }),
+        };
+      }
+      const hasDoc = message.content.some((content) => 'document' in content);
+      if (hasDoc) {
+        const text = message.content.find(
+          (content) => 'text' in content
+        ) as TextContent;
+        const doc = message.content.find((content) => 'document' in content);
+        const docContent = (doc as DocumentContent).document.source.bytes;
+        return {
+          role: message.role,
+          content: text.text + '\nDocument base64 is:\n ' + docContent,
+        };
+      }
+      return {
+        role: message.role,
+        content: message.content
+          .map((content) => (content as TextContent).text)
+          .join('\n'),
+      };
+    }),
+  ];
+}
+
+function getApiKey(): string {
+  if (getTextModel().modelTag === ModelTag.OpenAICompatible) {
+    return getOpenAICompatApiKey();
+  } else if (getTextModel().modelId.includes('deepseek')) {
+    return getDeepSeekApiKey();
+  } else {
+    return getOpenAIApiKey();
+  }
+}
+
+function isOpenRouterRequest(): boolean {
+  return getOpenAICompatApiURL().startsWith('https://openrouter.ai/api');
+}
+
+function getApiURL(): string {
+  if (getTextModel().modelTag === ModelTag.OpenAICompatible) {
+    return getOpenAICompatApiURL() + '/chat/completions';
+  } else if (getTextModel().modelId.includes('deepseek')) {
+    return 'https://api.deepseek.com/chat/completions';
+  } else {
+    if (getOpenAIProxyEnabled()) {
+      return getApiUrl() + '/api/gpt';
+    } else {
+      return 'https://api.openai.com/v1/chat/completions';
+    }
+  }
+}
