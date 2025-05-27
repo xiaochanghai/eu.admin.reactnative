@@ -19,6 +19,7 @@ const tabConfig = [
   { name: 'index', title: '首页', icon: HomeIcon },
   { name: 'production', title: '生产', icon: ProductionIcon },
   // { name: 'add', title: 'add', icon: AddIcon },
+  { name: 'chat', title: '对话', icon: HomeIcon },
   { name: 'inventory', title: '库存', icon: InventoryIcon },
   { name: 'order', title: '订单', icon: OrderIcon },
   { name: 'profile', title: '我的', icon: ProfileIcon },
@@ -48,7 +49,7 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{ tabBarStyle: styles.tabBar }}
-      tabBar={(props) => <CustomTabBar {...props} />}
+      tabBar={(props: any) => <CustomTabBar {...props} />}
     >
       {tabConfig.map(({ name, title, icon }) => (
         <Tabs.Screen
@@ -57,7 +58,7 @@ export default function TabLayout() {
           options={{
             title,
             // headerShown: false,
-            tabBarIcon: ({ focused }) => (
+            tabBarIcon: ({ focused }: any) => (
               <IconWrapper IconComponent={icon} focused={focused} />
             ),
             tabBarButtonTestID: `${name}-tab`,
