@@ -1,6 +1,6 @@
 import { Platform } from 'react-native';
-import RNFS from 'react-native-fs';
 
+// import RNFS from 'react-native-fs';
 import { type FileInfo, FileType } from '@/types';
 import { getTextModel } from '@/utils/storage-utils';
 
@@ -11,8 +11,8 @@ export const saveImageToLocal = async (
 ): Promise<string> => {
   try {
     const imageName = `image_${Date.now()}.png`;
-    const filePath = `${RNFS.DocumentDirectoryPath}/${imageName}`;
-    await RNFS.writeFile(filePath, base64ImageData, 'base64');
+    const filePath = ` /${imageName}/${base64ImageData}`;
+    // await RNFS.writeFile(filePath, base64ImageData, 'base64');
     return Platform.OS === 'android' ? `file://${filePath}` : imageName;
   } catch (error) {
     console.info('Error saving image:', error);
@@ -22,14 +22,14 @@ export const saveImageToLocal = async (
 
 export const saveFile = async (sourceUrl: string, fileName: string) => {
   try {
-    const filesDir = `${RNFS.DocumentDirectoryPath}/files`;
-    const filesDirExists = await RNFS.exists(filesDir);
-    if (!filesDirExists) {
-      await RNFS.mkdir(filesDir);
-    }
+    const filesDir = `${sourceUrl}/files`;
+    // const filesDirExists = await RNFS.exists(filesDir);
+    // if (!filesDirExists) {
+    //     await RNFS.mkdir(filesDir);
+    // }
     const uniqueFileName = await getUniqueFileName(filesDir, fileName);
     const destinationPath = `${filesDir}/${uniqueFileName}`;
-    await RNFS.copyFile(sourceUrl, destinationPath);
+    // await RNFS.copyFile(sourceUrl, destinationPath);
     return Platform.OS === 'android'
       ? `file://${destinationPath}`
       : `files/${uniqueFileName}`;
@@ -42,7 +42,7 @@ export const saveFile = async (sourceUrl: string, fileName: string) => {
 export const getFileBytes = async (fileUrl: string) => {
   try {
     const fullFileUrl = getFullFileUrl(fileUrl);
-    return await RNFS.readFile(fullFileUrl, 'base64');
+    return fullFileUrl;
   } catch (error) {
     console.warn('Error reading image file:', fileUrl, error);
     throw error;
@@ -61,23 +61,23 @@ const getUniqueFileName = async (
   let finalFileName = originalFileName;
   let finalPath = `${basePath}/${finalFileName}`;
 
-  while (await RNFS.exists(finalPath)) {
-    counter++;
-    finalFileName = `${nameWithoutExt}(${counter})${extension}`;
-    finalPath = `${basePath}/${finalFileName}`;
-  }
-  return finalFileName;
+  // while (await RNFS.exists(finalPath)) {
+  counter++;
+  finalFileName = `${nameWithoutExt}(${counter})${extension}`;
+  finalPath = `${basePath}/${finalFileName}`;
+  // }
+  return finalFileName + finalPath;
 };
 
 export const getFullFileUrl = (url: string) => {
   if (Platform.OS === 'android') {
     return url;
   } else if (url.startsWith('files/')) {
-    return `${RNFS.DocumentDirectoryPath}/${url}`;
+    return `/${url}`;
   } else {
     return (
-      RNFS.DocumentDirectoryPath +
-      '/files' +
+      // RNFS.DocumentDirectoryPath +
+      // '/files' +
       url.substring(url.lastIndexOf('/'))
     );
   }

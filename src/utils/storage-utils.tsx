@@ -1,5 +1,6 @@
 import { MMKV } from 'react-native-mmkv';
-import uuid from 'uuid';
+
+import { randomStr } from '@/utils';
 
 import {
   type AllModel,
@@ -24,7 +25,7 @@ const initializeStorage = () => {
   const key = 'encryption_key';
   let encryptionKey = storage.getString(key);
   if (!encryptionKey) {
-    encryptionKey = uuid.v4();
+    encryptionKey = randomStr();
     storage.set(key, encryptionKey);
   }
 

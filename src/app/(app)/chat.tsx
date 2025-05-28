@@ -20,7 +20,6 @@ import {
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { GiftedChat } from 'react-native-gifted-chat';
 import { HapticFeedbackTypes } from 'react-native-haptic-feedback/src/types';
-import uuid from 'uuid';
 
 import { invokeBedrockWithCallBack as invokeBedrockWithCallBack } from '@/api/bedrock-api';
 import { CustomChatFooter } from '@/components/chat/custom-chat-footer';
@@ -53,6 +52,7 @@ import {
   type SystemPrompt,
   type Usage,
 } from '@/types';
+import { randomStr } from '@/utils';
 import {
   getCurrentSystemPrompt,
   getImageModel,
@@ -71,7 +71,7 @@ const BOT_ID = 2;
 
 const createBotMessage = (mode: string) => {
   return {
-    _id: uuid.v4(),
+    _id: randomStr(),
     text: mode === ChatMode.Text ? textPlaceholder : imagePlaceholder,
     createdAt: new Date(),
     user: {
@@ -689,7 +689,7 @@ export default function ChatScreen() {
               text: inputTexRef.current,
               user: { _id: 1 },
               createdAt: new Date(),
-              _id: uuid.v4(),
+              _id: randomStr(),
             };
             onSend([msg]);
           }

@@ -22,8 +22,8 @@ import { State, TapGestureHandler } from 'react-native-gesture-handler';
 import { type MessageProps } from 'react-native-gifted-chat';
 import { HapticFeedbackTypes } from 'react-native-haptic-feedback/src/types';
 import { type MarkedStyles } from 'react-native-marked/src/theme/types';
-import Share from 'react-native-share';
 
+// import Share from 'react-native-share';
 import {
   ChatStatus,
   ModelTag,
@@ -171,10 +171,10 @@ const CustomMessageComponent: React.FC<CustomMessageProps> = ({
         });
     } else if (pressMode === PressMode.LongPress) {
       trigger(HapticFeedbackTypes.notificationSuccess);
-      const shareOptions = { url: url, type: 'image/png', title: 'AI Image' };
-      Share.open(shareOptions)
-        .then((res) => console.log(res))
-        .catch((err) => err && console.log(err));
+      // const shareOptions = { url: url, type: 'image/png', title: 'AI Image' };
+      // Share.open(shareOptions)
+      //   .then((res) => console.log(res))
+      //   .catch((err) => err && console.log(err));
     }
   }, []);
 

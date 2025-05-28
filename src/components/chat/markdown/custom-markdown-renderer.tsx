@@ -26,14 +26,12 @@ import {
   View,
   type ViewStyle,
 } from 'react-native';
-import RNFS from 'react-native-fs';
+// import RNFS from 'react-native-fs';
 import type { RendererInterface } from 'react-native-marked';
 import { Renderer } from 'react-native-marked';
 import MDImage from 'react-native-marked/src/components/MDImage';
 import MDSvg from 'react-native-marked/src/components/MDSvg';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-expect-error
-import MathView from 'react-native-math-view';
+// import MathView from 'react-native-math-view';
 import { Cell, Table, TableWrapper } from 'react-native-table-component';
 import { github } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 
@@ -227,11 +225,12 @@ export class CustomMarkdownRenderer
     if (uri.endsWith('.svg')) {
       return <MDSvg uri={uri} key={key} />;
     }
-    const imgUrl = uri.startsWith('http')
-      ? uri
-      : Platform.OS === 'ios'
-        ? RNFS.DocumentDirectoryPath + '/' + uri
-        : uri;
+    // const imgUrl = uri.startsWith('http')
+    //   ? uri
+    //   : Platform.OS === 'ios'
+    //     ? RNFS.DocumentDirectoryPath + '/' + uri
+    //     : uri;
+    const imgUrl = uri;
     return (
       <TouchableOpacity
         style={customStyles.imageContainer}
@@ -368,18 +367,19 @@ export class CustomMarkdownRenderer
     if (identifier === 'latex') {
       const text = args?.text as string;
       const isDisplayMode = args?.displayMode as boolean;
-      const mathView = (
-        <MathView
-          key={getMathKey()}
-          math={text}
-          renderError={() => this.getTextView(_raw, customStyles.text)}
-          style={
-            isDisplayMode
-              ? customStyles.displayMathView
-              : customStyles.inlineMathView
-          }
-        />
-      );
+      // const mathView = (
+      //   <MathView
+      //     key={getMathKey()}
+      //     math={text}
+      //     renderError={() => this.getTextView(_raw, customStyles.text)}
+      //     style={
+      //       isDisplayMode
+      //         ? customStyles.displayMathView
+      //         : customStyles.inlineMathView
+      //     }
+      //   />
+      // );
+      const mathView = <View>{text}</View>;
 
       return (
         <View

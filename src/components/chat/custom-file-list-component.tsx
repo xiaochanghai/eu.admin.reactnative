@@ -12,8 +12,8 @@ import FileViewer from 'react-native-file-viewer';
 import ImageView from 'react-native-image-viewing';
 import { type ImageSource } from 'react-native-image-viewing/dist/@types';
 import * as Progress from 'react-native-progress';
-import Share from 'react-native-share';
 
+// import Share from 'react-native-share';
 import { type FileInfo, FileType } from '@/types';
 
 import { CustomAddFileComponent } from './custom-add-file-component';
@@ -197,12 +197,12 @@ export const CustomFileListComponent: React.FC<CustomFileProps> = ({
         <TouchableOpacity
           onLongPress={() => {
             try {
-              const options = {
-                type: 'text/plain',
-                url: fullFileUrl,
-                showAppsToView: true,
-              };
-              Share.open(options).then();
+              // const options = {
+              //   type: 'text/plain',
+              //   url: fullFileUrl,
+              //   showAppsToView: true,
+              // };
+              // Share.open(options).then();
             } catch (error) {
               console.log('Error opening file:', error);
             }
