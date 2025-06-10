@@ -109,14 +109,16 @@ export default function Settings() {
 
             {/* 功能菜单 */}
             <View className="mt-5 rounded-2xl bg-white p-4 shadow-sm">
-              <SettingItem
-                icon="mobile-alt"
-                iconBgColor="#3b82f6"
-                title="测试设备信息"
-                subtitle="查看设备和系统信息"
-                hasNavigation={true}
-                onPress={() => router.push('/test/device')}
-              />
+              {Env.APP_ENV === 'development' && (
+                <SettingItem
+                  icon="user-edit"
+                  iconBgColor="#3b82f6"
+                  title={'测试设备信息'}
+                  subtitle="查看设备和系统信息"
+                  hasNavigation={true}
+                  onPress={() => router.push('/test/device')}
+                />
+              )}
               <SettingItem
                 icon="user-edit"
                 iconBgColor="#3b82f6"
