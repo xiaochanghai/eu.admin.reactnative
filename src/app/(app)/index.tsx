@@ -176,7 +176,7 @@ const Home: React.FC = () => {
               icon="chart-line"
               bgColor="#ef4444"
               title="数据分析"
-              // onPress={() => navigation.navigate('Analytics')}
+              onPress={() => router.push('/analytics')}
             />
             <ModuleItem
               icon="users"
