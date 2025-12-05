@@ -1,10 +1,8 @@
-/* eslint-disable max-lines-per-function */
 import {
   BottomSheetFlatList,
   type BottomSheetModal,
 } from '@gorhom/bottom-sheet';
 import { FlashList } from '@shopify/flash-list';
-import { useColorScheme } from 'nativewind';
 import * as React from 'react';
 import type { FieldValues } from 'react-hook-form';
 import { useController } from 'react-hook-form';
@@ -16,10 +14,10 @@ import { tv } from 'tailwind-variants';
 
 import colors from '@/components/ui/colors';
 import { CaretDown } from '@/components/ui/icons';
+import { useAppColorScheme } from '@/lib/hooks';
 
 import type { InputControllerType } from './input';
-import { useModal } from './modal';
-import { Modal } from './modal';
+import { Modal, useModal } from './modal';
 import { Text } from './text';
 
 const selectTv = tv({
@@ -75,8 +73,7 @@ export const Options = React.forwardRef<BottomSheetModal, OptionsProps>(
   ({ options, onSelect, value, testID }, ref) => {
     const height = options.length * 70 + 100;
     const snapPoints = React.useMemo(() => [height], [height]);
-    const { colorScheme } = useColorScheme();
-    const isDark = colorScheme === 'dark';
+    const { isDark } = useAppColorScheme();
 
     const renderSelectItem = React.useCallback(
       ({ item }: { item: OptionType }) => (
@@ -145,7 +142,7 @@ export interface SelectProps {
 }
 interface ControlledSelectProps<T extends FieldValues>
   extends SelectProps,
-    InputControllerType<T> {}
+  InputControllerType<T> { }
 
 export const Select = (props: SelectProps) => {
   const {

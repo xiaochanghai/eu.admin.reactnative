@@ -60,7 +60,7 @@ export default function Style() {
     <>
       <Stack.Screen
         options={{
-          title: 'Add Post',
+          title: 'Device Info',
           headerTintColor: '#000',
           headerBackTitle: 'Feed',
         }}
@@ -89,8 +89,8 @@ export default function Style() {
             <Text>系统版本号:{getSystemVersion()}</Text>
           </View>
           {/* <View>
-            <Text>getUserAgentSync:{getUserAgentSync()}</Text>
-          </View> */}
+            <Text>getUserAgentSync:{getUserAgentSync()}</Text>
+          </View> */}
           <View>
             <Text>获取应用版本号,Android中对应versionName:{getVersion()}</Text>
           </View>

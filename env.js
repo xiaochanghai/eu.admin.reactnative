@@ -18,6 +18,7 @@ const z = require('zod');
 const packageJSON = require('./package.json');
 const path = require('path');
 const APP_ENV = process.env.APP_ENV ?? 'development';
+// eslint-disable-next-line no-undef
 const envPath = path.resolve(__dirname, `.env.${APP_ENV}`);
 
 require('dotenv').config({
@@ -29,7 +30,7 @@ require('dotenv').config({
  * Such as: bundle id, package name, app name.
  *
  * You can add them to the .env file but we think it's better to keep them here as as we use prefix to generate this values based on the APP_ENV
- * for example: if the APP_ENV is staging, the bundle id will be com.eucloud.staging
+ * for example: if the APP_ENV is staging, the bundle id will be com.obytes.staging
  */
 
 // TODO: Replace these values with your own
@@ -40,6 +41,7 @@ const NAME = '优智云'; // app name
 const EXPO_ACCOUNT_OWNER = 'hsiaosah'; // expo account owner
 const EAS_PROJECT_ID = '9d0f9588-d00f-40cf-a15c-ffd7e8bc7654'; // eas project id
 const SCHEME = 'eucloud'; // app scheme
+const BUILD_NUMBER = 2; // build number for both iOS and Android
 
 /**
  * We declare a function withEnvSuffix that will add a suffix to the variable name based on the APP_ENV
@@ -82,11 +84,13 @@ const client = z.object({
   API_URL: z.string(),
   VAR_NUMBER: z.number(),
   VAR_BOOL: z.boolean(),
+  LOGIN_REQUIRED: z.boolean(),
 });
 
 const buildTime = z.object({
   EXPO_ACCOUNT_OWNER: z.string(),
   EAS_PROJECT_ID: z.string(),
+  BUILD_NUMBER: z.number(),
   // ADD YOUR BUILD TIME ENV VARS HERE
   SECRET_KEY: z.string(),
 });
@@ -106,6 +110,7 @@ const _clientEnv = {
   API_URL: process.env.API_URL,
   VAR_NUMBER: Number(process.env.VAR_NUMBER),
   VAR_BOOL: process.env.VAR_BOOL === 'true',
+  LOGIN_REQUIRED: process.env.LOGIN_REQUIRED === 'true',
 };
 
 /**
@@ -114,6 +119,7 @@ const _clientEnv = {
 const _buildTimeEnv = {
   EXPO_ACCOUNT_OWNER,
   EAS_PROJECT_ID,
+  BUILD_NUMBER,
   // ADD YOUR ENV VARS HERE TOO
   SECRET_KEY: process.env.SECRET_KEY,
 };

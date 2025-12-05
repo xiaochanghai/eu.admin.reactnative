@@ -12,3 +12,4 @@ export function Profile({ color = '#000', ...props }: SvgProps) {
     </Svg>
   );
 }
+

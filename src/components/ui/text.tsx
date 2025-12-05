@@ -20,7 +20,7 @@ export const Text = ({
 }: Props) => {
   const textStyle = React.useMemo(
     () =>
-      twMerge('text-black  dark:text-white  font-inter font-normal', className),
+      twMerge('text-base text-black  dark:text-white font-normal', className),
     [className]
   );
 

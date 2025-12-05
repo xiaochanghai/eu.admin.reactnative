@@ -12,3 +12,4 @@ export function Inventory({ color = '#000', ...props }: SvgProps) {
     </Svg>
   );
 }
+

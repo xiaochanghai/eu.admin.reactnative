@@ -1,20 +1,23 @@
 import type { Theme } from '@react-navigation/native';
-import { DefaultTheme } from '@react-navigation/native';
-import { useColorScheme } from 'nativewind';
+import {
+  DarkTheme as _DarkTheme,
+  DefaultTheme,
+} from '@react-navigation/native';
 
 import colors from '@/components/ui/colors';
+import { useAppColorScheme } from '@/lib/hooks';
 
-// const DarkTheme: Theme = {
-//   ..._DarkTheme,
-//   colors: {
-//     ..._DarkTheme.colors,
-//     primary: colors.primary[200],
-//     background: colors.charcoal[950],
-//     text: colors.charcoal[100],
-//     border: colors.charcoal[500],
-//     card: colors.charcoal[850],
-//   },
-// };
+const DarkTheme: Theme = {
+  ..._DarkTheme,
+  colors: {
+    ..._DarkTheme.colors,
+    primary: colors.primary[200],
+    background: colors.charcoal[950],
+    text: colors.charcoal[100],
+    border: colors.charcoal[500],
+    card: colors.charcoal[850],
+  },
+};
 
 const LightTheme: Theme = {
   ...DefaultTheme,
@@ -26,9 +29,9 @@ const LightTheme: Theme = {
 };
 
 export function useThemeConfig() {
-  const { colorScheme } = useColorScheme();
+  const { isDark } = useAppColorScheme();
 
-  if (colorScheme === 'dark') return LightTheme;
+  if (isDark) return DarkTheme;
 
   return LightTheme;
 }

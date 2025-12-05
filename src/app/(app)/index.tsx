@@ -1,12 +1,6 @@
-/* eslint-disable react/react-in-jsx-scope */
 import { useRouter } from 'expo-router';
 import React, { useEffect } from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  TouchableOpacity,
-} from 'react-native';
+import { ScrollView, TouchableOpacity } from 'react-native';
 
 import { NavHeader, Text, View } from '@/components/ui';
 import { FontAwesome } from '@/components/ui/icons';
@@ -28,7 +22,7 @@ const ActivityItem: React.FC<ActivityItemProps> = ({
   subtitle,
   time,
 }) => (
-  <View className="flex-row items-start">
+  <View className="mb-4 flex-row items-start">
     <View
       className="mr-3 size-9 items-center justify-center rounded-lg"
       style={{ backgroundColor: iconBgColor }}
@@ -37,10 +31,14 @@ const ActivityItem: React.FC<ActivityItemProps> = ({
     </View>
     <View className="flex-1">
       <View className="mb-1 flex-row items-center justify-between">
-        <Text className="text-sm font-medium text-gray-800">{title}</Text>
-        <Text className="text-xs text-gray-500">{time}</Text>
+        <Text className="text-sm font-medium text-gray-800 dark:text-gray-100">
+          {title}
+        </Text>
+        <Text className="text-xs text-gray-500 dark:text-gray-400">{time}</Text>
       </View>
-      <Text className="text-xs text-gray-500">{subtitle}</Text>
+      <Text className="text-xs text-gray-500 dark:text-gray-400">
+        {subtitle}
+      </Text>
     </View>
   </View>
 );
@@ -66,22 +64,24 @@ const ModuleItem: React.FC<ModuleItemProps> = ({
     >
       <FontAwesome name={icon as any} size={24} color="white" />
     </View>
-    <Text className="text-center text-xs text-gray-500">{title}</Text>
+    <Text className="text-center text-xs text-gray-500 dark:text-gray-400">
+      {title}
+    </Text>
   </TouchableOpacity>
 );
 
 const Home: React.FC = () => {
   const userInfo = user.use.userInfo();
-  const setInfo = user.use.setInfo();
+  const fetchUserInfo = user.use.fetchUserInfo();
   useEffect(() => {
-    if (userInfo == null) setInfo(null);
-  });
+    if (userInfo == null) {
+      fetchUserInfo();
+    }
+  }, [userInfo, fetchUserInfo]);
   const router = useRouter();
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-100">
-      <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
-
+    <View className="flex-1 bg-gray-100 dark:bg-neutral-950">
       {/* 顶部导航 */}
       <NavHeader
         title="首页"
@@ -103,10 +103,10 @@ const Home: React.FC = () => {
         {/* 欢迎信息 */}
         {userInfo?.WeekName && (
           <View className="mb-6">
-            <Text className="text-2xl font-bold text-gray-800">
+            <Text className="text-2xl font-bold text-gray-800 dark:text-gray-100">
               你好，{userInfo?.UserName}
             </Text>
-            <Text className="mt-1 text-sm text-gray-500">
+            <Text className="mt-1 text-sm text-gray-500 dark:text-gray-400">
               今天是{userInfo?.WeekName}，祝您工作顺利
             </Text>
           </View>
@@ -114,24 +114,42 @@ const Home: React.FC = () => {
 
         {/* 数据概览 */}
         <View className="mb-6 flex-row flex-wrap justify-between">
-          <View className="mb-3 w-[48%] rounded-2xl bg-white p-4 shadow-sm">
-            <Text className="text-sm text-gray-500">今日订单</Text>
-            <Text className="mt-2 text-2xl font-bold text-blue-600">28</Text>
+          <View className="mb-3 w-[48%] rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
+            <Text className="text-sm text-gray-500 dark:text-gray-400">
+              今日订单
+            </Text>
+            <Text className="mt-2 text-2xl font-bold text-blue-600 dark:text-blue-400">
+              28
+            </Text>
             <Text className="mt-1 text-xs text-green-500">↑ 12.5%</Text>
           </View>
-          <View className="mb-3 w-[48%] rounded-2xl bg-white p-4 shadow-sm">
-            <Text className="text-sm text-gray-500">生产任务</Text>
-            <Text className="mt-2 text-2xl font-bold text-orange-500">15</Text>
-            <Text className="mt-1 text-xs text-gray-500">进行中: 8</Text>
+          <View className="mb-3 w-[48%] rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
+            <Text className="text-sm text-gray-500 dark:text-gray-400">
+              生产任务
+            </Text>
+            <Text className="mt-2 text-2xl font-bold text-orange-500 dark:text-orange-400">
+              15
+            </Text>
+            <Text className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+              进行中: 8
+            </Text>
           </View>
-          <View className="mb-3 w-[48%] rounded-2xl bg-white p-4 shadow-sm">
-            <Text className="text-sm text-gray-500">库存预警</Text>
-            <Text className="mt-2 text-2xl font-bold text-red-500">3</Text>
-            <Text className="mt-1 text-xs text-gray-500">点击查看详情</Text>
+          <View className="mb-3 w-[48%] rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
+            <Text className="text-sm text-gray-500 dark:text-gray-400">
+              库存预警
+            </Text>
+            <Text className="mt-2 text-2xl font-bold text-red-500 dark:text-red-400">
+              3
+            </Text>
+            <Text className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+              点击查看详情
+            </Text>
           </View>
-          <View className="mb-3 w-[48%] rounded-2xl bg-white p-4 shadow-sm">
-            <Text className="text-sm text-gray-500">质检合格率</Text>
-            <Text className="mt-2 text-2xl font-bold text-green-500">
+          <View className="mb-3 w-[48%] rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
+            <Text className="text-sm text-gray-500 dark:text-gray-400">
+              质检合格率
+            </Text>
+            <Text className="mt-2 text-2xl font-bold text-green-500 dark:text-green-400">
               98.5%
             </Text>
             <Text className="mt-1 text-xs text-green-500">↑ 1.2%</Text>
@@ -139,8 +157,10 @@ const Home: React.FC = () => {
         </View>
 
         {/* 功能模块 */}
-        <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm">
-          <Text className="mb-4 text-lg font-semibold">功能模块</Text>
+        <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
+          <Text className="mb-4 text-lg font-semibold dark:text-gray-100">
+            功能模块
+          </Text>
           <View className="flex-row flex-wrap justify-between">
             <ModuleItem
               icon="cube"
@@ -182,44 +202,48 @@ const Home: React.FC = () => {
               icon="users"
               bgColor="#eab308"
               title="人员管理"
-              onPress={() => {}}
+              onPress={() => { }}
             />
             <ModuleItem
               icon="truck"
               bgColor="#6366f1"
               title="物流管理"
-              onPress={() => {}}
+              onPress={() => { }}
             />
             {/* <ModuleItem
-              icon="truck"
-              bgColor="#7423de"
-              title="工序管理"
-              onPress={() => router.push('/process')}
-            />
-            <ModuleItem
-              icon="truck"
-              bgColor="#7423de"
-              title="设备管理"
-              onPress={() => router.push('/equipment')}
-            /> */}
+              icon="truck"
+              bgColor="#7423de"
+              title="工序管理"
+              onPress={() => router.push('/process')}
+            />
+            <ModuleItem
+              icon="truck"
+              bgColor="#7423de"
+              title="设备管理"
+              onPress={() => router.push('/equipment')}
+            /> */}
             <ModuleItem
               icon="ellipsis-h"
               bgColor="#6b7280"
               title="更多功能"
-              onPress={() => {}}
+              onPress={() => { }}
             />
           </View>
         </View>
 
         {/* 最近活动 */}
-        <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm">
+        <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
           <View className="mb-4 flex-row items-center justify-between">
-            <Text className="text-lg font-semibold">最近活动</Text>
+            <Text className="text-lg font-semibold dark:text-gray-100">
+              最近活动
+            </Text>
             <TouchableOpacity>
-              <Text className="text-sm text-blue-600">查看全部</Text>
+              <Text className="text-sm text-blue-600 dark:text-blue-400">
+                查看全部
+              </Text>
             </TouchableOpacity>
           </View>
-          <View className="space-y-4">
+          <View>
             <ActivityItem
               icon="clipboard-check"
               iconBgColor="#3b82f6"
@@ -247,7 +271,7 @@ const Home: React.FC = () => {
         {/* 底部空间 - 为底部导航留出空间 */}
         <View className="h-[70px]" />
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 };
 

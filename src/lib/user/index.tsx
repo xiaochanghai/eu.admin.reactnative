@@ -1,10 +1,14 @@
 import { create } from 'zustand';
 
+import type { UserInfo } from '@/api/modules/login';
 import { currentUserApi } from '@/api/modules/login';
 
-import type { UserInfo } from '../../api/modules/login';
 import { createSelectors } from '../utils';
-import { clear as clearUserInfo, set as setUserInfoData } from './utils';
+import {
+  clear as clearStorage,
+  get as getStoredUserInfo,
+  set as setStoredUserInfo,
+} from './utils';
 
 /**
  * 用户信息状态接口
@@ -13,82 +17,91 @@ import { clear as clearUserInfo, set as setUserInfoData } from './utils';
 interface UserInfoState {
   /** 用户信息对象 */
   userInfo: UserInfo | null;
-  /** 设置用户信息 */
-  setInfo: (userInfo: UserInfo | null) => void;
-  /** 获取用户信息 */
-  getInfo: () => UserInfo | null;
-  /** 清除用户信息 */
-  clear: () => void;
+  /** 加载状态 */
+  isLoading: boolean;
+  /** 错误信息 */
+  error: string | null;
+
+  /** 直接设置用户信息（登录成功后） */
+  setUserInfo: (userInfo: UserInfo) => void;
+  /** 从 API 获取最新用户信息 */
+  fetchUserInfo: () => Promise<void>;
+  /** 清除用户信息（登出） */
+  clearUserInfo: () => void;
 }
 
 /**
  * 创建用户信息状态管理存储
  * 使用 Zustand 管理用户信息的状态
  */
-const _userInfo = create<UserInfoState>((set, get) => ({
-  // 初始状态为空
-  userInfo: null,
+const userInfoStore = create<UserInfoState>((set) => ({
+  // 从本地存储初始化
+  userInfo: getStoredUserInfo(),
+  isLoading: false,
+  error: null,
 
   /**
-   * 设置用户信息
-   * @param userInfo - 用户信息对象或null
-   * 如果传入用户信息，直接设置；如果为null，则从API获取
+   * 直接设置用户信息
+   * @param userInfo - 用户信息对象
    */
-  setInfo: async (userInfo: UserInfo | null) => {
+  setUserInfo: (userInfo: UserInfo) => {
+    setStoredUserInfo(userInfo);
+    set({ userInfo, error: null });
+  },
+
+  /**
+   * 从 API 获取最新用户信息
+   * @throws 如果获取失败会抛出错误
+   */
+  fetchUserInfo: async () => {
+    set({ isLoading: true, error: null });
     try {
-      if (userInfo != null) {
-        // 如果提供了用户信息，直接保存
-        setUserInfoData(userInfo);
-        set({ userInfo });
-      } else {
-        // 如果没有提供用户信息，从API获取
-        const { Data } = await currentUserApi();
-        if (Data) {
-          setUserInfoData(Data);
-          set({ userInfo: Data });
-        }
+      const { Data } = await currentUserApi();
+      if (Data) {
+        setStoredUserInfo(Data);
+        set({ userInfo: Data, isLoading: false });
       }
     } catch (error) {
-      console.error('设置用户信息失败:', error);
-      // 可以在这里添加错误处理逻辑
+      const errorMessage =
+        error instanceof Error ? error.message : '获取用户信息失败';
+      set({ error: errorMessage, isLoading: false });
+      throw error; // 向上抛出，让调用者处理
     }
   },
 
   /**
-   * 获取当前用户信息
-   * @returns 当前存储的用户信息
-   */
-  getInfo: () => {
-    return get().userInfo;
-  },
-
-  /**
    * 清除用户信息
-   * 从存储中移除用户数据
+   * 从存储和状态中移除用户数据
    */
-  clear: () => {
-    clearUserInfo();
-    set({ userInfo: null }); // 同时清除状态
+  clearUserInfo: () => {
+    clearStorage();
+    set({ userInfo: null, error: null });
   },
 }));
 
 // 创建带有选择器的用户信息存储
-export const userInfo = createSelectors(_userInfo);
+export const userInfo = createSelectors(userInfoStore);
 
 /**
- * 设置用户信息的快捷方法
- * @param _userInfo - 用户信息对象或null
+ * 直接设置用户信息的快捷方法
+ * @param data - 用户信息对象
  */
-export const setUserInfo = (_userInfo: UserInfo | null) =>
-  userInfo.getState().setInfo(_userInfo);
+export const setUserInfo = (data: UserInfo) =>
+  userInfoStore.getState().setUserInfo(data);
 
 /**
- * 获取用户信息的快捷方法
+ * 从 API 获取用户信息的快捷方法
+ * @returns Promise
+ */
+export const fetchUserInfo = () => userInfoStore.getState().fetchUserInfo();
+
+/**
+ * 获取当前用户信息的快捷方法
  * @returns 当前用户信息
  */
-export const getUserInfo = () => userInfo.getState().getInfo();
+export const getUserInfo = () => userInfoStore.getState().userInfo;
 
 /**
  * 清除用户信息的快捷方法
  */
-export const clear = () => userInfo.getState().clear();
+export const clearUserInfo = () => userInfoStore.getState().clearUserInfo();

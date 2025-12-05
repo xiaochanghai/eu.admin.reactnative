@@ -1,14 +1,13 @@
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import {
-  SafeAreaView,
   StyleSheet,
   TextInput,
   TouchableOpacity,
 } from 'react-native';
 
 import { RefreshListView } from '@/components';
-import { NavHeader, ScrollView, Text, View } from '@/components/ui';
+import { NavHeader, ScrollView, Text, View, SafeAreaView } from '@/components/ui';
 import { FontAwesome, GroupEnum } from '@/components/ui/icons';
 
 type MaterialProps = {
@@ -276,11 +275,10 @@ const Materials = () => {
                 }
               /> */}
                 <Text
-                  className={`${
-                    selectedCategory === category.name
+                  className={`${selectedCategory === category.name
                       ? 'text-white'
                       : 'text-gray-600'
-                  }`}
+                    }`}
                 >
                   {category.name}
                 </Text>

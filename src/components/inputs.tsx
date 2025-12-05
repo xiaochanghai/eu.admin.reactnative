@@ -1,8 +1,15 @@
 import React from 'react';
 
 import type { OptionType } from '@/components/ui';
-import { Input, Select, View } from '@/components/ui';
-import { Checkbox, Radio, Switch } from '@/components/ui';
+import {
+  Checkbox,
+  Input,
+  NumberInput,
+  Radio,
+  Select,
+  Switch,
+  View,
+} from '@/components/ui';
 
 import { Title } from './title';
 
@@ -21,6 +28,37 @@ export const Inputs = () => {
         <Input label="Default" placeholder="Lorem ipsum dolor sit amet" />
         <Input label="Error" error="This is a message error" />
         <Input label="Focused" />
+
+        {/* 基础用法 */}
+        <NumberInput label="年龄" placeholder="请输入年龄" min={0} max={120} />
+
+        {/* 支持小数 */}
+        <NumberInput
+          label="价格"
+          placeholder="请输入价格"
+          allowDecimals={true}
+          min={0}
+        />
+
+        {/* 支持负数 */}
+        <NumberInput
+          label="温度"
+          placeholder="请输入温度"
+          allowDecimals={true}
+          allowNegative={true}
+          min={-50}
+          max={50}
+        />
+
+        {/* 与 react-hook-form 配合使用 */}
+        {/* <ControlledNumberInput
+          name="quantity"
+          control={control}
+          label="数量"
+          min={1}
+          max={100}
+        /> */}
+
         <Select
           label="Select"
           options={options}

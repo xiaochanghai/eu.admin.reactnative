@@ -12,3 +12,4 @@ export function Order({ color = '#000', ...props }: SvgProps) {
     </Svg>
   );
 }
+

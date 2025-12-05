@@ -1,6 +1,4 @@
-import { useMMKVBoolean } from 'react-native-mmkv';
-
-import { storage } from '../storage';
+import { storage, useMMKVBoolean } from '../storage';
 
 const IS_FIRST_TIME = 'IS_FIRST_TIME';
 

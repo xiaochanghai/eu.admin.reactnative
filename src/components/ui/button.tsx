@@ -7,26 +7,31 @@ import { tv } from 'tailwind-variants';
 const button = tv({
   slots: {
     container: 'my-2 flex flex-row items-center justify-center rounded-md px-4',
-    label: 'font-inter text-base font-semibold',
+    label: 'font-inter text-xl',
     indicator: 'h-6 text-white',
   },
 
   variants: {
     variant: {
       default: {
-        container: 'bg-black dark:bg-white',
-        label: 'text-white dark:text-black',
-        indicator: 'text-white dark:text-black',
+        container: 'border border-primary-600 dark:bg-white',
+        label: 'text-primary-600 dark:text-neutral-300',
+        indicator: 'text-primary-600 dark:text-black',
+      },
+      primary: {
+        container: 'bg-primary-600',
+        label: 'text-white',
+        indicator: 'text-white',
       },
       secondary: {
         container: 'bg-primary-600',
-        label: 'text-secondary-600',
+        label: 'text-white',
         indicator: 'text-white',
       },
       outline: {
         container: 'border border-neutral-400',
-        label: 'text-black dark:text-neutral-100',
-        indicator: 'text-black dark:text-neutral-100',
+        label: 'text-gray-500 dark:text-neutral-100',
+        indicator: 'text-gray dark:text-neutral-100',
       },
       destructive: {
         container: 'bg-red-600',
@@ -47,7 +52,7 @@ const button = tv({
     size: {
       default: {
         container: 'h-10 px-4',
-        label: 'text-base',
+        label: 'text-lg',
       },
       lg: {
         container: 'h-12 px-8',

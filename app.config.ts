@@ -1,4 +1,3 @@
-/* eslint-disable max-lines-per-function */
 import type { ConfigContext, ExpoConfig } from '@expo/config';
 import type { AppIconBadgeConfig } from 'app-icon-badge/types';
 
@@ -32,25 +31,28 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   icon: './assets/icon.png',
   userInterfaceStyle: 'automatic',
   newArchEnabled: true,
-  runtimeVersion: '1.0.1',
   updates: {
-    url: 'https://u.expo.dev/9d0f9588-d00f-40cf-a15c-ffd7e8bc7654', // 这里的project-id会由eas update:configure命令生成
-    enabled: true,
-    checkAutomatically: 'ON_LOAD',
     fallbackToCacheTimeout: 0,
-    requestHeaders: {
-      'expo-runtime-version': '1.0.1',
-      'expo-channel-name': 'production',
-    },
+    url: 'https://u.expo.dev/9d0f9588-d00f-40cf-a15c-ffd7e8bc7654',
   },
+  // runtimeVersion: {
+  //   policy: 'sdkVersion',
+  // },
+  runtimeVersion: Env.VERSION.toString(),
   assetBundlePatterns: ['**/*'],
   ios: {
     supportsTablet: true,
     bundleIdentifier: Env.BUNDLE_ID,
-    // config: {
-    //   usesNonExemptEncryption: false, // Avoid the export compliance warning on the app store
-    // },
-    infoPlist: { ITSAppUsesNonExemptEncryption: false },
+    buildNumber: Env.BUILD_NUMBER.toString(),
+    infoPlist: {
+      ITSAppUsesNonExemptEncryption: false,
+      NSPhotoLibraryUsageDescription:
+        '我们需要访问您的照片库，以便您选择图片用于头像、上传和分享。',
+      NSCameraUsageDescription:
+        '我们需要使用相机，以便您拍摄照片/视频用于头像或内容发布。',
+      NSMicrophoneUsageDescription: '我们需要使用您的麦克风用于录音、语音识别',
+    },
+    runtimeVersion: Env.VERSION.toString(),
   },
   experiments: {
     typedRoutes: true,
@@ -58,9 +60,13 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   android: {
     adaptiveIcon: {
       foregroundImage: './assets/adaptive-icon.png',
-      backgroundColor: '#185A56',
+      backgroundColor: '#FFFFFF',
     },
     package: Env.PACKAGE,
+    versionCode: Env.BUILD_NUMBER,
+    // runtimeVersion: {
+    //   policy: 'appVersion',
+    // },
   },
   web: {
     favicon: './assets/favicon.png',
@@ -70,7 +76,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     [
       'expo-splash-screen',
       {
-        backgroundColor: '#185A56',
+        backgroundColor: '#FFFFFF',
         image: './assets/splash-icon.png',
         imageWidth: 150,
       },
@@ -78,18 +84,39 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     [
       'expo-font',
       {
-        fonts: [
-          './assets/fonts/Inter.ttf',
-          'node_modules/@ant-design/icons-react-native/fonts/antoutline.ttf',
-          'node_modules/@ant-design/icons-react-native/fonts/antfill.ttf',
-        ],
+        fonts: ['./assets/fonts/Inter.ttf'],
       },
     ],
     'expo-localization',
     'expo-router',
     ['app-icon-badge', appIconBadgeConfig],
     ['react-native-edge-to-edge'],
-    'expo-asset',
+    [
+      'expo-image-picker',
+      {
+        photosPermission:
+          'The app accesses your photos to let you share them with your friends.',
+      },
+    ],
+    [
+      'expo-camera',
+      {
+        cameraPermission: '我们需要使用相机来扫描二维码。',
+      },
+    ],
+    // [
+    //   'expo-notifications',
+    //   {
+    //     icon: './assets/favicon.png',
+    //     color: '#ffffff',
+    //     defaultChannel: 'default',
+    //     // "sounds": [
+    //     //   "./local/assets/notification_sound.wav",
+    //     //   "./local/assets/notification_sound_other.wav"
+    //     // ],
+    //     enableBackgroundRemoteNotifications: false,
+    //   },
+    // ],
   ],
   extra: {
     ...ClientEnv,

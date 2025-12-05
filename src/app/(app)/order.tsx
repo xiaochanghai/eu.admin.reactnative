@@ -1,15 +1,9 @@
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import {
-  StatusBar,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 import { SegmentedControl, type SegmentedControlOption } from '@/components';
-import { NavHeader, SafeAreaView, ScrollView } from '@/components/ui';
+import { NavHeader, ScrollView } from '@/components/ui';
 import { FontAwesome } from '@/components/ui/icons';
 
 // 状态徽章组件
@@ -55,27 +49,41 @@ const OrderItem: React.FC<OrderItemProps> = ({
   statusBgColor,
   onViewDetail,
 }) => (
-  <View className="border-b border-gray-100 py-4">
+  <View className="border-b border-gray-100 py-4 dark:border-neutral-700">
     <View className="mb-2 flex-row items-center justify-between">
-      <Text className="text-base font-medium">订单 #{orderNumber}</Text>
+      <Text className="text-base font-medium dark:text-gray-100">
+        订单 #{orderNumber}
+      </Text>
       <StatusBadge
         status={status}
         color={statusColor}
         bgColor={statusBgColor}
       />
     </View>
-    <Text className="mb-2 text-sm text-gray-500">客户：{customer}</Text>
+    <Text className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+      客户：{customer}
+    </Text>
     <View className="mb-2 flex-row items-center justify-between">
-      <Text className="text-sm text-gray-500">订单日期：{orderDate}</Text>
-      <Text className="text-sm text-gray-500">交付日期：{deliveryDate}</Text>
+      <Text className="text-sm text-gray-500 dark:text-gray-400">
+        订单日期：{orderDate}
+      </Text>
+      <Text className="text-sm text-gray-500 dark:text-gray-400">
+        交付日期：{deliveryDate}
+      </Text>
     </View>
     <View className="flex-row items-center justify-between">
       <View className="flex-row items-center">
-        <Text className="text-sm text-gray-500">订单金额：</Text>
-        <Text className="text-sm font-medium">¥{amount}</Text>
+        <Text className="text-sm text-gray-500 dark:text-gray-400">
+          订单金额：
+        </Text>
+        <Text className="text-sm font-medium dark:text-gray-100">
+          ¥{amount}
+        </Text>
       </View>
       <TouchableOpacity onPress={onViewDetail}>
-        <Text className="text-sm text-blue-600">查看详情</Text>
+        <Text className="text-sm text-blue-600 dark:text-blue-400">
+          查看详情
+        </Text>
       </TouchableOpacity>
     </View>
   </View>
@@ -171,8 +179,10 @@ const Orders: React.FC = () => {
         return (
           <>
             {/* 订单概览 */}
-            <View className="my-4 rounded-2xl bg-white p-4 shadow-sm">
-              <Text className="mb-3 text-lg font-semibold">订单概览</Text>
+            <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
+              <Text className="mb-3 text-lg font-semibold dark:text-gray-100">
+                订单概览
+              </Text>
               <View className="mb-3 flex-row justify-between">
                 <View className="flex-1 items-center">
                   <Text
@@ -181,7 +191,9 @@ const Orders: React.FC = () => {
                   >
                     {orderStats.total}
                   </Text>
-                  <Text className="text-xs text-gray-500">总订单</Text>
+                  <Text className="text-xs text-gray-500 dark:text-gray-400">
+                    总订单
+                  </Text>
                 </View>
                 <View className="flex-1 items-center">
                   <Text
@@ -190,7 +202,9 @@ const Orders: React.FC = () => {
                   >
                     {orderStats.pending}
                   </Text>
-                  <Text className="text-xs text-gray-500">待处理</Text>
+                  <Text className="text-xs text-gray-500 dark:text-gray-400">
+                    待处理
+                  </Text>
                 </View>
                 <View className="flex-1 items-center">
                   <Text
@@ -199,7 +213,9 @@ const Orders: React.FC = () => {
                   >
                     {orderStats.processing}
                   </Text>
-                  <Text className="text-xs text-gray-500">生产中</Text>
+                  <Text className="text-xs text-gray-500 dark:text-gray-400">
+                    生产中
+                  </Text>
                 </View>
                 <View className="flex-1 items-center">
                   <Text
@@ -208,15 +224,19 @@ const Orders: React.FC = () => {
                   >
                     {orderStats.completed}
                   </Text>
-                  <Text className="text-xs text-gray-500">已完成</Text>
+                  <Text className="text-xs text-gray-500 dark:text-gray-400">
+                    已完成
+                  </Text>
                 </View>
               </View>
-              <View className="flex-row items-center rounded-lg bg-blue-50 p-3">
+              <View className="flex-row items-center rounded-lg bg-blue-50 p-3 dark:bg-blue-900/30">
                 <View className="mr-3">
                   <FontAwesome name="pie-chart" size={20} color="#0066ff" />
                 </View>
                 <View>
-                  <Text className="text-sm font-medium">本月订单完成率</Text>
+                  <Text className="text-sm font-medium dark:text-gray-100">
+                    本月订单完成率
+                  </Text>
                   <View className="flex-row items-center">
                     <Text className="mr-2 text-lg font-bold text-blue-600">
                       {orderStats.completionRate}%
@@ -232,14 +252,11 @@ const Orders: React.FC = () => {
             {/* 搜索框 */}
             <View className="mb-4">
               <View className="relative flex-row items-center">
-                <FontAwesome
-                  name="search"
-                  size={16}
-                  color="#9ca3af"
-                  className="absolute left-3 z-10"
-                />
+                <View className="absolute left-3 z-10">
+                  <FontAwesome name="search" size={16} color="#9ca3af" />
+                </View>
                 <TextInput
-                  className="flex-1 rounded-lg border border-gray-200 bg-white py-2 pl-10 pr-4 text-sm"
+                  className="flex-1 rounded-lg border border-gray-200 bg-white py-2 pl-10 pr-4 text-sm dark:border-neutral-700 dark:bg-neutral-800 dark:text-white"
                   placeholder="搜索订单号、客户名称"
                   placeholderTextColor="#9ca3af"
                 />
@@ -247,8 +264,10 @@ const Orders: React.FC = () => {
             </View>
 
             {/* 订单列表 */}
-            <Text className="mb-3 text-lg font-semibold">订单列表</Text>
-            <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm">
+            <Text className="mb-3 text-lg font-semibold dark:text-gray-100">
+              订单列表
+            </Text>
+            <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
               {orderItems.map((item) => (
                 <OrderItem
                   key={item.id}
@@ -268,30 +287,46 @@ const Orders: React.FC = () => {
         );
       case 1: // 待处理
         return (
-          <View className="my-4 rounded-2xl bg-white p-4 shadow-sm">
-            <Text className="mb-3 text-lg font-semibold">待处理订单</Text>
-            <Text className="text-gray-500">此处显示待处理订单信息</Text>
+          <View className="my-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
+            <Text className="mb-3 text-lg font-semibold dark:text-gray-100">
+              待处理订单
+            </Text>
+            <Text className="text-gray-500 dark:text-gray-400">
+              此处显示待处理订单信息
+            </Text>
           </View>
         );
       case 2: // 生产中
         return (
-          <View className="my-4 rounded-2xl bg-white p-4 shadow-sm">
-            <Text className="mb-3 text-lg font-semibold">生产中订单</Text>
-            <Text className="text-gray-500">此处显示生产中订单信息</Text>
+          <View className="my-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
+            <Text className="mb-3 text-lg font-semibold dark:text-gray-100">
+              生产中订单
+            </Text>
+            <Text className="text-gray-500 dark:text-gray-400">
+              此处显示生产中订单信息
+            </Text>
           </View>
         );
       case 3: // 已完成
         return (
-          <View className="my-4 rounded-2xl bg-white p-4 shadow-sm">
-            <Text className="mb-3 text-lg font-semibold">已完成订单</Text>
-            <Text className="text-gray-500">此处显示已完成订单信息</Text>
+          <View className="my-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
+            <Text className="mb-3 text-lg font-semibold dark:text-gray-100">
+              已完成订单
+            </Text>
+            <Text className="text-gray-500 dark:text-gray-400">
+              此处显示已完成订单信息
+            </Text>
           </View>
         );
       case 4: // 已取消
         return (
-          <View className="my-4 rounded-2xl bg-white p-4 shadow-sm">
-            <Text className="mb-3 text-lg font-semibold">已取消订单</Text>
-            <Text className="text-gray-500">此处显示已取消订单信息</Text>
+          <View className="my-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
+            <Text className="mb-3 text-lg font-semibold dark:text-gray-100">
+              已取消订单
+            </Text>
+            <Text className="text-gray-500 dark:text-gray-400">
+              此处显示已取消订单信息
+            </Text>
           </View>
         );
       default:
@@ -300,9 +335,7 @@ const Orders: React.FC = () => {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-100">
-      <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
-
+    <View className="flex-1 bg-gray-100 dark:bg-neutral-950">
       {/* 顶部导航 */}
       <NavHeader
         title="订单"
@@ -322,15 +355,21 @@ const Orders: React.FC = () => {
         }
       />
 
-      {/* 内容区域 */}
-      <ScrollView className="flex-1 p-4" showsVerticalScrollIndicator={false}>
-        {/* 分段控制器 */}
+      {/* 分段控制器 - 固定在顶部 */}
+      <View className="px-4 pt-4">
         <SegmentedControl
           options={tabOptions}
           selectedIndex={selectedTabIndex}
           onChange={setSelectedTabIndex}
         />
+      </View>
 
+      {/* 内容区域 */}
+      <ScrollView
+        className="flex-1 px-4"
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingTop: 16 }}
+      >
         {/* 选项卡内容 */}
         {renderTabContent()}
 
@@ -342,7 +381,7 @@ const Orders: React.FC = () => {
       <TouchableOpacity className="absolute bottom-20 right-6 size-14 items-center justify-center rounded-full bg-blue-600 shadow-lg">
         <FontAwesome name="plus" size={20} color="#ffffff" />
       </TouchableOpacity>
-    </SafeAreaView>
+    </View>
   );
 };
 

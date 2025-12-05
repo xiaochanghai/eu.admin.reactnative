@@ -7,8 +7,12 @@ import type {
 } from 'react-hook-form';
 import { useController } from 'react-hook-form';
 import type { TextInputProps } from 'react-native';
-import { I18nManager, StyleSheet, View } from 'react-native';
-import { TextInput as NTextInput } from 'react-native';
+import {
+  I18nManager,
+  StyleSheet,
+  TextInput as NTextInput,
+  View,
+} from 'react-native';
 import { tv } from 'tailwind-variants';
 
 import colors from './colors';
@@ -17,15 +21,18 @@ import { Text } from './text';
 const inputTv = tv({
   slots: {
     container: 'mb-2',
-    label: 'text-grey-100 mb-1 text-lg dark:text-neutral-100',
+    label: 'mb-1 text-lg text-gray-600 dark:text-neutral-100',
     input:
-      'mt-0 rounded-xl border-[0.5px] border-neutral-300 bg-neutral-100 px-4 py-3 font-inter text-base  font-medium leading-5 dark:border-neutral-700 dark:bg-neutral-800 dark:text-white',
+      'mt-0 w-full rounded-lg border-[0.5px] border-neutral-300 bg-white px-4 py-3 text-lg leading-5 dark:border-neutral-700 dark:bg-neutral-800 dark:text-white',
+    inputContainer: 'relative w-full flex-row items-center ',
+    rightElement: 'absolute right-3 z-10',
   },
 
   variants: {
     focused: {
       true: {
-        input: 'border-neutral-400 dark:border-neutral-300',
+        // input: 'border-neutral-400 dark:border-neutral-300',
+        input: 'border-2 border-[#543EF8] shadow-[0_4px_12px_rgba(84,62,248,0.7)]',
       },
     },
     error: {
@@ -50,14 +57,16 @@ const inputTv = tv({
 export interface NInputProps extends TextInputProps {
   label?: string;
   disabled?: boolean;
+  require?: boolean;
   error?: string;
+  rightElement?: React.ReactNode;
 }
 
 type TRule<T extends FieldValues> =
   | Omit<
-      RegisterOptions<T>,
-      'disabled' | 'valueAsNumber' | 'valueAsDate' | 'setValueAs'
-    >
+    RegisterOptions<T>,
+    'disabled' | 'valueAsNumber' | 'valueAsDate' | 'setValueAs'
+  >
   | undefined;
 
 export type RuleType<T extends FieldValues> = { [name in keyof T]: TRule<T> };
@@ -69,10 +78,10 @@ export type InputControllerType<T extends FieldValues> = {
 
 interface ControlledInputProps<T extends FieldValues>
   extends NInputProps,
-    InputControllerType<T> {}
+  InputControllerType<T> { }
 
 export const Input = React.forwardRef<NTextInput, NInputProps>((props, ref) => {
-  const { label, error, testID, ...inputProps } = props;
+  const { label, error, testID, rightElement, require, ...inputProps } = props;
   const [isFocussed, setIsFocussed] = React.useState(false);
   const onBlur = React.useCallback(() => setIsFocussed(false), []);
   const onFocus = React.useCallback(() => setIsFocussed(true), []);
@@ -90,27 +99,59 @@ export const Input = React.forwardRef<NTextInput, NInputProps>((props, ref) => {
   return (
     <View className={styles.container()}>
       {label && (
-        <Text
-          testID={testID ? `${testID}-label` : undefined}
-          className={styles.label()}
-        >
-          {label}
-        </Text>
+        <View className="flex-row ">
+          <Text
+            testID={testID ? `${testID}-label` : undefined}
+            className={styles.label()}
+          >
+            {label}
+          </Text>
+          <Text className={styles.label() + ' text-red-500'}>
+            {require && '*'}
+          </Text>
+        </View>
       )}
-      <NTextInput
-        testID={testID}
-        ref={ref}
-        placeholderTextColor={colors.neutral[400]}
-        className={styles.input()}
-        onBlur={onBlur}
-        onFocus={onFocus}
-        {...inputProps}
-        style={StyleSheet.flatten([
-          { writingDirection: I18nManager.isRTL ? 'rtl' : 'ltr' },
-          { textAlign: I18nManager.isRTL ? 'right' : 'left' },
-          inputProps.style,
-        ])}
-      />
+      <View className={styles.inputContainer()}>
+        <NTextInput
+          testID={testID}
+          ref={ref}
+          placeholderTextColor={colors.neutral[400]}
+          className={styles.input()}
+          onBlur={onBlur}
+          onFocus={onFocus}
+          {...inputProps}
+          style={StyleSheet.flatten([
+            { writingDirection: I18nManager.isRTL ? 'rtl' : 'ltr' },
+            { textAlign: I18nManager.isRTL ? 'right' : 'left' },
+            inputProps.style,
+            { fontSize: 16, lineHeight: 19 },
+            ...(error
+              ? [
+                {
+                  shadowColor: 'rgba(239,68,68,0.7)', // 红色阴影 (tailwind red-500)
+                  shadowOffset: { width: 0, height: 0 },
+                  shadowOpacity: 0.7,
+                  shadowRadius: 6,
+                  elevation: 8,
+                },
+              ]
+              : isFocussed
+                ? [
+                  {
+                    shadowColor: 'rgba(84,62,248,0.7)', // 紫色阴影
+                    shadowOffset: { width: 0, height: 0 },
+                    shadowOpacity: 0.7,
+                    shadowRadius: 6,
+                    elevation: 8,
+                  },
+                ]
+                : []),
+          ])}
+        />
+        {rightElement && (
+          <View className={styles.rightElement()}>{rightElement}</View>
+        )}
+      </View>
       {error && (
         <Text
           testID={testID ? `${testID}-error` : undefined}

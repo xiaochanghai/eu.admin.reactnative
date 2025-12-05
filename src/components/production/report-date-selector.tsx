@@ -27,33 +27,33 @@ const ReportDateSelector: React.FC = () => {
   };
 
   return (
-    <View className="mt-3 flex-row rounded-lg bg-gray-100 p-1">
+    <View className="mt-3 flex-row rounded-lg bg-gray-100 p-1 dark:bg-neutral-700">
       <TouchableOpacity
-        className={`flex-1 items-center rounded-md py-2 ${selectedReportType === 'daily' ? 'bg-white shadow-sm' : ''}`}
+        className={`flex-1 items-center rounded-md py-2 ${selectedReportType === 'daily' ? 'bg-white shadow-sm dark:bg-neutral-600' : ''}`}
         onPress={() => handleReportTypeChange('daily')}
       >
         <Text
-          className={`text-sm ${selectedReportType === 'daily' ? 'font-medium text-blue-600' : 'text-gray-500'}`}
+          className={`text-sm ${selectedReportType === 'daily' ? 'font-medium text-blue-600' : 'text-gray-500 dark:text-gray-400'}`}
         >
           日报
         </Text>
       </TouchableOpacity>
       <TouchableOpacity
-        className={`flex-1 items-center rounded-md py-2 ${selectedReportType === 'weekly' ? 'bg-white shadow-sm' : ''}`}
+        className={`flex-1 items-center rounded-md py-2 ${selectedReportType === 'weekly' ? 'bg-white shadow-sm dark:bg-neutral-600' : ''}`}
         onPress={() => handleReportTypeChange('weekly')}
       >
         <Text
-          className={`text-sm ${selectedReportType === 'weekly' ? 'font-medium text-blue-600' : 'text-gray-500'}`}
+          className={`text-sm ${selectedReportType === 'weekly' ? 'font-medium text-blue-600' : 'text-gray-500 dark:text-gray-400'}`}
         >
           周报
         </Text>
       </TouchableOpacity>
       <TouchableOpacity
-        className={`flex-1 items-center rounded-md py-2 ${selectedReportType === 'monthly' ? 'bg-white shadow-sm' : ''}`}
+        className={`flex-1 items-center rounded-md py-2 ${selectedReportType === 'monthly' ? 'bg-white shadow-sm dark:bg-neutral-600' : ''}`}
         onPress={() => handleReportTypeChange('monthly')}
       >
         <Text
-          className={`text-sm ${selectedReportType === 'monthly' ? 'font-medium text-blue-600' : 'text-gray-500'}`}
+          className={`text-sm ${selectedReportType === 'monthly' ? 'font-medium text-blue-600' : 'text-gray-500 dark:text-gray-400'}`}
         >
           月报
         </Text>
