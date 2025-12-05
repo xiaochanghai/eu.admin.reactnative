@@ -1,10 +1,14 @@
-import { Stack, usePathname, useRouter } from 'expo-router';
+import {
+  Stack,
+  // usePathname, 
+  useRouter
+} from 'expo-router';
 import React from 'react';
 import { StatusBar, StyleSheet, TouchableOpacity, View } from 'react-native';
 
+import { isWeb } from '@/lib';
 import { useAppColorScheme } from '@/lib/hooks';
-import type { TxKeyPath } from '@/lib/i18n';
-import { translate } from '@/lib/i18n';
+import { translate, type TxKeyPath } from '@/lib/i18n';
 
 import { FontAwesome, GroupEnum } from './icons';
 
@@ -25,7 +29,7 @@ export const NavHeader = ({
   tx,
 }: NavHeaderProps) => {
   const router = useRouter();
-  const pathName = usePathname();
+  // const pathName = usePathname();
   const { isDark } = useAppColorScheme();
 
   return (
@@ -65,7 +69,7 @@ export const NavHeader = ({
               leftShown && (
                 <TouchableOpacity
                   onPress={() => router.back()}
-                  className={pathName == '/chat' ? 'ml-4' : ''}
+                  className={isWeb ? 'ml-4' : ''}
                 >
                   <FontAwesome
                     name="left"
