@@ -1,11 +1,11 @@
 import { Env } from '@env';
 import * as Updates from 'expo-updates';
 import React, { useEffect, useState } from 'react';
-import { Platform, SafeAreaView, ScrollView } from 'react-native';
+import { Platform, ScrollView } from 'react-native';
 import { getVersion } from 'react-native-device-info';
 import { KeyboardAvoidingView } from 'react-native-keyboard-controller';
 
-import { Image, NavHeader, Text, View } from '@/components/ui';
+import { SafeAreaView, Image, NavHeader, Text, View } from '@/components/ui';
 import { translate } from '@/lib/i18n';
 
 export default function LoginForm() {
@@ -22,7 +22,7 @@ export default function LoginForm() {
 
   return (
     // 安全区域视图，确保内容不会被设备的缺口遮挡
-    <SafeAreaView className="flex-1 bg-white">
+    <SafeAreaView className="flex-1 bg-white dark:bg-neutral-900">
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         className="flex-1"
@@ -39,7 +39,7 @@ export default function LoginForm() {
           {/* Logo和标题区域 */}
           <View className="mb-8 items-center">
             {/* Logo圆形背景 */}
-            <View className="mb-4 size-20 items-center justify-center rounded-full bg-[#EBF5FF]">
+            <View className="mb-4 size-20 items-center justify-center rounded-full bg-[#EBF5FF] dark:bg-neutral-800">
               <Image
                 source={require('../../../assets/favicon.png')}
                 className="size-[60px]"
@@ -48,18 +48,18 @@ export default function LoginForm() {
             </View>
 
             {/* 应用名称和版本 */}
-            <Text className="text-lg font-bold text-[#333]">
+            <Text className="text-lg font-bold text-[#333] dark:text-neutral-100">
               {Env.NAME + ' V' + getVersion()}
             </Text>
 
             {/* 副标题 */}
-            <Text className="mt-2 text-base text-gray-500">
+            <Text className="mt-2 text-base text-gray-500 dark:text-neutral-400">
               {translate('login.sub_title')}
             </Text>
 
             {/* 版本ID（如果存在） */}
             {updateId ? (
-              <Text className="mt-2 text-base text-gray-500">
+              <Text className="mt-2 text-base text-gray-500 dark:text-neutral-400">
                 版本ID：{updateId}
               </Text>
             ) : null}

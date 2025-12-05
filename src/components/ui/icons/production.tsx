@@ -12,3 +12,4 @@ export function Production({ color = '#000', ...props }: SvgProps) {
     </Svg>
   );
 }
+

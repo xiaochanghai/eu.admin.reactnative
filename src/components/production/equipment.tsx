@@ -134,25 +134,25 @@ export const Equipment = () => {
   return (
     <View>
       {/* 设备概览 - 显示设备总数、运行状态和效率信息 */}
-      <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm">
-        <Text className="mb-3 text-lg font-semibold text-gray-800">
+      <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
+        <Text className="mb-3 text-lg font-semibold text-gray-800 dark:text-gray-100">
           设备概览
         </Text>
         <View className="mb-3 flex-row justify-between">
           <View className="flex-1 items-center">
-            <Text className="text-2xl font-bold text-blue-600">32</Text>
-            <Text className="mt-1 text-xs text-gray-500">设备总数</Text>
+            <Text className="text-2xl font-bold text-blue-600 dark:text-blue-400">32</Text>
+            <Text className="mt-1 text-xs text-gray-500 dark:text-gray-400">设备总数</Text>
           </View>
           <View className="flex-1 items-center">
-            <Text className="text-2xl font-bold text-green-500">25</Text>
-            <Text className="mt-1 text-xs text-gray-500">运行中</Text>
+            <Text className="text-2xl font-bold text-green-500 dark:text-green-400">25</Text>
+            <Text className="mt-1 text-xs text-gray-500 dark:text-gray-400">运行中</Text>
           </View>
           <View className="flex-1 items-center">
-            <Text className="text-2xl font-bold text-red-500">2</Text>
-            <Text className="mt-1 text-xs text-gray-500">故障</Text>
+            <Text className="text-2xl font-bold text-red-500 dark:text-red-400">2</Text>
+            <Text className="mt-1 text-xs text-gray-500 dark:text-gray-400">故障</Text>
           </View>
         </View>
-        <View className="flex-row items-center rounded-xl bg-blue-50 p-3">
+        <View className="flex-row items-center rounded-xl bg-blue-50 p-3 dark:bg-blue-900/30">
           <FontAwesome
             name="wrench"
             size={20}
@@ -160,7 +160,7 @@ export const Equipment = () => {
             className="mr-3"
           />
           <View className="flex-1">
-            <Text className="text-sm font-medium">设备综合效率(OEE)</Text>
+            <Text className="text-sm font-medium dark:text-gray-100">设备综合效率(OEE)</Text>
             <View className="flex-row items-center">
               <Text className="mr-2 text-lg font-bold text-blue-600">
                 87.2%
@@ -172,18 +172,18 @@ export const Equipment = () => {
       </View>
 
       {/* 设备列表标题 */}
-      <Text className="mb-3 text-lg font-semibold text-gray-800">设备列表</Text>
+      <Text className="mb-3 text-lg font-semibold text-gray-800 dark:text-gray-100">设备列表</Text>
 
       {/* 设备列表 - 使用map函数循环渲染设备数据 */}
       {equipmentData.map((equipment) => (
         <TouchableOpacity
           key={equipment.id}
-          className="mb-4 rounded-2xl bg-white p-4 shadow-sm"
+          className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800"
           onPress={() => handleEquipmentDetail(equipment.id)}
         >
           {/* 设备名称和状态 */}
           <View className="mb-2 flex-row items-start justify-between">
-            <Text className="text-base font-medium text-gray-800">
+            <Text className="text-base font-medium text-gray-800 dark:text-gray-100">
               {equipment.name}
             </Text>
             <StatusBadge
@@ -194,37 +194,37 @@ export const Equipment = () => {
           </View>
 
           {/* 设备编号 */}
-          <Text className="mb-2 text-sm text-gray-500">
+          <Text className="mb-2 text-sm text-gray-500 dark:text-gray-400">
             设备编号：{equipment.code}
           </Text>
 
           {/* 设备参数信息 - 温度、转速、电压、电流 */}
           <View className="mb-3 flex-row flex-wrap">
             <View className="mb-2 w-1/2">
-              <Text className="mb-1 text-xs text-gray-500">设备温度</Text>
-              <Text className="text-sm font-medium">
+              <Text className="mb-1 text-xs text-gray-500 dark:text-gray-400">设备温度</Text>
+              <Text className="text-sm font-medium dark:text-gray-100">
                 {equipment.temperature}
               </Text>
             </View>
             <View className="mb-2 w-1/2">
-              <Text className="mb-1 text-xs text-gray-500">电机转速</Text>
-              <Text className="text-sm font-medium">
+              <Text className="mb-1 text-xs text-gray-500 dark:text-gray-400">电机转速</Text>
+              <Text className="text-sm font-medium dark:text-gray-100">
                 {equipment.motorSpeed}
               </Text>
             </View>
             <View className="mb-2 w-1/2">
-              <Text className="mb-1 text-xs text-gray-500">电压</Text>
-              <Text className="text-sm font-medium">{equipment.voltage}</Text>
+              <Text className="mb-1 text-xs text-gray-500 dark:text-gray-400">电压</Text>
+              <Text className="text-sm font-medium dark:text-gray-100">{equipment.voltage}</Text>
             </View>
             <View className="mb-2 w-1/2">
-              <Text className="mb-1 text-xs text-gray-500">电流</Text>
-              <Text className="text-sm font-medium">{equipment.current}</Text>
+              <Text className="mb-1 text-xs text-gray-500 dark:text-gray-400">电流</Text>
+              <Text className="text-sm font-medium dark:text-gray-100">{equipment.current}</Text>
             </View>
           </View>
 
           {/* 设备警报信息 - 根据是否有警报显示不同样式 */}
           <View
-            className={`mb-3 flex-row items-start rounded-xl ${equipment.alert.hasAlert ? 'bg-red-50' : 'bg-blue-50'} p-3`}
+            className={`mb-3 flex-row items-start rounded-xl ${equipment.alert.hasAlert ? 'bg-red-50 dark:bg-red-900/30' : 'bg-blue-50'} p-3`}
           >
             <FontAwesome
               name={equipment.alert.hasAlert ? 'exclamation-triangle' : 'bell'}
@@ -245,10 +245,10 @@ export const Equipment = () => {
           {/* 运行信息和详情按钮 */}
           <View className="flex-row items-center justify-between">
             <View className="flex-row items-center">
-              <Text className="text-sm text-gray-500">
+              <Text className="text-sm text-gray-500 dark:text-gray-400">
                 {equipment.runningInfo.label}
               </Text>
-              <Text className="mr-3 text-sm font-medium">
+              <Text className="mr-3 text-sm font-medium dark:text-gray-100">
                 {equipment.runningInfo.value}
               </Text>
             </View>
@@ -257,29 +257,29 @@ export const Equipment = () => {
       ))}
 
       {/* 设备维护计划标题 */}
-      <Text className="mb-3 text-lg font-semibold text-gray-800">
+      <Text className="mb-3 text-lg font-semibold text-gray-800 dark:text-gray-100">
         设备维护计划
       </Text>
 
       {/* 设备维护计划表格 */}
-      <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm">
+      <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           <View>
             {/* 表头 - 确保宽度类名与表内容一致 */}
-            <View className="flex-row border-b border-gray-200 bg-gray-100 py-2">
-              <Text className="w-[120px] px-2 text-xs font-medium uppercase text-gray-500">
+            <View className="flex-row border-b border-gray-200 bg-gray-100 py-2 dark:bg-neutral-700">
+              <Text className="w-[120px] px-2 text-xs font-medium uppercase text-gray-500 dark:text-gray-400">
                 设备名称
               </Text>
-              <Text className="w-[120px] px-2 text-xs font-medium uppercase text-gray-500">
+              <Text className="w-[120px] px-2 text-xs font-medium uppercase text-gray-500 dark:text-gray-400">
                 维护类型
               </Text>
-              <Text className="w-[120px] px-2 text-xs font-medium uppercase text-gray-500">
+              <Text className="w-[120px] px-2 text-xs font-medium uppercase text-gray-500 dark:text-gray-400">
                 计划日期
               </Text>
-              <Text className="w-[120px] px-2 text-xs font-medium uppercase text-gray-500">
+              <Text className="w-[120px] px-2 text-xs font-medium uppercase text-gray-500 dark:text-gray-400">
                 负责人
               </Text>
-              <Text className="w-[120px] px-2 text-xs font-medium uppercase text-gray-500">
+              <Text className="w-[120px] px-2 text-xs font-medium uppercase text-gray-500 dark:text-gray-400">
                 状态
               </Text>
             </View>

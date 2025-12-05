@@ -24,7 +24,7 @@
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "astro-build.astro-vscode"
   },
-  "cSpell.words": ["eucloud", "Flashlist", "Lato", "subtx"],
+  "cSpell.words": ["Flashlist", "Lato"],
   "i18n-ally.localesPaths": ["src/translations/"],
   "i18n-ally.keystyle": "nested",
   "i18n-ally.disabled": false, // make sure to disable i18n-ally in your global setting and only enable it for such projects
@@ -33,5 +33,6 @@
   ],
   "[typescriptreact]": {
     "editor.defaultFormatter": "vscode.typescript-language-features"
-  }
+  },
+  "i18n-ally.sourceLanguage": "zh"
 }

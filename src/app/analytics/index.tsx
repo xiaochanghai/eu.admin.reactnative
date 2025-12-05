@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { SafeAreaView } from 'react-native';
 
 import { SegmentedControl, type SegmentedControlOption } from '@/components';
 import {
@@ -7,9 +6,9 @@ import {
   OverView,
   Production,
   Quality,
-  Sales,
+  Sales
 } from '@/components/analytics';
-import { NavHeader, ScrollView, View } from '@/components/ui';
+import { NavHeader, ScrollView, View, SafeAreaView } from '@/components/ui';
 
 // 图表图例项组件
 // type ChartLegendItemProps = {
@@ -44,13 +43,13 @@ const Analytics: React.FC = () => {
     <SafeAreaView className="flex-1 bg-gray-100">
       <NavHeader
         title="数据分析"
-        // right={
-        //   <>
-        //     <TouchableOpacity>
-        //       <FontAwesome name="plus" size={12} />
-        //     </TouchableOpacity>
-        //   </>
-        // }
+      // right={
+      //   <>
+      //     <TouchableOpacity>
+      //       <FontAwesome name="plus" size={12} />
+      //     </TouchableOpacity>
+      //   </>
+      // }
       />
       <ScrollView className="flex-1 p-4" showsVerticalScrollIndicator={false}>
         {/* 分段控制器 */}

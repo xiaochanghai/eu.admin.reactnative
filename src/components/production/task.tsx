@@ -94,8 +94,8 @@ export const Task = () => {
   return (
     <View>
       {/* 任务概览 */}
-      <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm">
-        <Text className="mb-3 text-lg font-semibold text-gray-800">
+      <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
+        <Text className="mb-3 text-lg font-semibold text-gray-800 dark:text-gray-100">
           任务概览
         </Text>
         <View className="mb-3 flex-row justify-between">
@@ -103,22 +103,22 @@ export const Task = () => {
             <Text className="text-2xl font-bold" style={{ color: '#0066ff' }}>
               24
             </Text>
-            <Text className="mt-1 text-xs text-gray-500">任务总数</Text>
+            <Text className="mt-1 text-xs text-gray-500 dark:text-gray-400">任务总数</Text>
           </View>
           <View className="flex-1 items-center">
             <Text className="text-2xl font-bold" style={{ color: '#22c55e' }}>
               12
             </Text>
-            <Text className="mt-1 text-xs text-gray-500">进行中</Text>
+            <Text className="mt-1 text-xs text-gray-500 dark:text-gray-400">进行中</Text>
           </View>
           <View className="flex-1 items-center">
             <Text className="text-2xl font-bold" style={{ color: '#f97316' }}>
               5
             </Text>
-            <Text className="mt-1 text-xs text-gray-500">待分配</Text>
+            <Text className="mt-1 text-xs text-gray-500 dark:text-gray-400">待分配</Text>
           </View>
         </View>
-        <View className="flex-row items-center rounded-xl bg-blue-50 p-3">
+        <View className="flex-row items-center rounded-xl bg-blue-50 p-3 dark:bg-blue-900/30">
           <FontAwesome
             name="users"
             size={20}
@@ -126,7 +126,7 @@ export const Task = () => {
             style={{ marginRight: 12 }}
           />
           <View className="flex-1">
-            <Text className="text-sm font-medium">员工任务完成率</Text>
+            <Text className="text-sm font-medium dark:text-gray-100">员工任务完成率</Text>
             <View className="flex-row items-center">
               <Text className="mr-2 text-lg font-bold text-blue-600">
                 82.3%
@@ -138,7 +138,7 @@ export const Task = () => {
       </View>
 
       {/* 生产任务列表标题 */}
-      <Text className="mb-3 text-lg font-semibold text-gray-800">
+      <Text className="mb-3 text-lg font-semibold text-gray-800 dark:text-gray-100">
         生产任务列表
       </Text>
 
@@ -148,10 +148,10 @@ export const Task = () => {
           key={task.id}
           onPress={() => handleTaskDetail(task.id)}
         >
-          <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm">
+          <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
             {/* 任务标题和状态 */}
             <View className="mb-2 flex-row items-start justify-between">
-              <Text className="text-base font-medium text-gray-800">
+              <Text className="text-base font-medium text-gray-800 dark:text-gray-100">
                 {task.title}
               </Text>
               <StatusBadge
@@ -162,16 +162,16 @@ export const Task = () => {
             </View>
 
             {/* 任务编号 */}
-            <Text className="mb-2 text-sm text-gray-500">
+            <Text className="mb-2 text-sm text-gray-500 dark:text-gray-400">
               任务编号：{task.taskNo}
             </Text>
 
             {/* 负责人和截止日期 */}
             <View className="mb-3 flex-row justify-between">
-              <Text className="text-sm text-gray-500">
+              <Text className="text-sm text-gray-500 dark:text-gray-400">
                 负责人：{task.assignee}
               </Text>
-              <Text className="text-sm text-gray-500">
+              <Text className="text-sm text-gray-500 dark:text-gray-400">
                 截止日期：{task.deadline}
               </Text>
             </View>
@@ -179,8 +179,8 @@ export const Task = () => {
             {/* 完成进度条 */}
             <View className="mb-2">
               <View className="mb-1 flex-row justify-between">
-                <Text className="text-sm text-gray-500">完成进度</Text>
-                <Text className="text-sm text-gray-500">{task.progress}%</Text>
+                <Text className="text-sm text-gray-500 dark:text-gray-400">完成进度</Text>
+                <Text className="text-sm text-gray-500 dark:text-gray-400">{task.progress}%</Text>
               </View>
               <ProgressBar
                 progress={task.progress}
@@ -191,8 +191,8 @@ export const Task = () => {
             {/* 所属计划和详情按钮 */}
             <View className="flex-row items-center justify-between">
               <View className="flex-row items-center">
-                <Text className="text-sm text-gray-500">所属计划：</Text>
-                <Text className="mr-3 text-sm font-medium">{task.planNo}</Text>
+                <Text className="text-sm text-gray-500 dark:text-gray-400">所属计划：</Text>
+                <Text className="mr-3 text-sm font-medium dark:text-gray-100">{task.planNo}</Text>
               </View>
             </View>
           </View>

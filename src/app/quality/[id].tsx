@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import {
-  SafeAreaView,
+
   ScrollView,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
 
-import { NavHeader } from '@/components/ui';
+import { SafeAreaView, NavHeader } from '@/components/ui';
 import { FontAwesome } from '@/components/ui/icons';
 const QualityDetail = () => {
   const [activeTab, setActiveTab] = useState(0);

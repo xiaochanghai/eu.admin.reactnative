@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import {
-  SafeAreaView,
   ScrollView,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
 
-import { NavHeader } from '@/components/ui';
+import { NavHeader, SafeAreaView } from '@/components/ui';
 import { FontAwesome, GroupEnum } from '@/components/ui/icons';
 
 const ProductionDetail = () => {

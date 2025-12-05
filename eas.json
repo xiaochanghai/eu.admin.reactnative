@@ -1,6 +1,7 @@
 {
   "cli": {
-    "version": ">= 3.8.1"
+    "version": ">= 3.8.1",
+    "appVersionSource": "local"
   },
   "build": {
     "production": {
@@ -8,7 +9,9 @@
       "distribution": "store",
       "pnpm": "9.12.3",
       "ios": {
-        "image": "latest"
+        "image": "latest",
+        "scheme": "EUCloud",
+        "buildConfiguration": "Release"
       },
       "android": {
         "buildType": "apk",
@@ -17,7 +20,8 @@
       "env": {
         "EXPO_NO_DOTENV": "1",
         "APP_ENV": "production",
-        "FLIPPER_DISABLE": "1"
+        "FLIPPER_DISABLE": "1",
+        "EXPO_USE_COMMUNITY_AUTOLINKING": "0"
       }
     },
     "staging": {
@@ -50,8 +54,7 @@
       "env": {
         "APP_ENV": "development",
         "EXPO_NO_DOTENV": "1"
-      },
-      "channel": "development"
+      }
     },
     "simulator": {
       "pnpm": "9.12.3",
@@ -65,8 +68,7 @@
       "env": {
         "APP_ENV": "development",
         "EXPO_NO_DOTENV": "1"
-      },
-      "channel": "simulator"
+      }
     }
   },
   "submit": {

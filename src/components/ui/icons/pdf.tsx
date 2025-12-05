@@ -1,0 +1,89 @@
+import * as React from 'react';
+import type { SvgProps } from 'react-native-svg';
+import Svg, {
+  Circle,
+  Defs,
+  G,
+  LinearGradient,
+  Mask,
+  Path,
+  Rect,
+  Stop,
+} from 'react-native-svg';
+
+export const PDF = ({ ...props }: SvgProps) => (
+  <Svg width="32" height="32" viewBox="0 0 32 32" fill="none" {...props}>
+    <Circle cx="17" cy="16" r="14" fill="url(#paint0_linear_2295_34620)" />
+    <Mask
+      id="mask0_2295_34620"
+      style={{ maskType: 'alpha' }}
+      maskUnits="userSpaceOnUse"
+      x="3"
+      y="2"
+      width="28"
+      height="28"
+    >
+      <Circle cx="17" cy="16" r="14" fill="#C4C4C4" />
+    </Mask>
+    <G mask="url(#mask0_2295_34620)">
+      <Rect
+        x="18"
+        width="17"
+        height="17"
+        fill="url(#paint1_linear_2295_34620)"
+      />
+      <Path
+        d="M6 12C6 10.3431 7.34315 9 9 9H17C18.6569 9 20 10.3431 20 12V24C20 25.6569 18.6569 27 17 27H6V12Z"
+        fill="black"
+        fillOpacity="0.3"
+      />
+      <Rect x="1" width="17" height="17" fill="#EB6C4D" />
+    </G>
+    <Rect
+      y="7"
+      width="18"
+      height="18"
+      rx="2"
+      fill="url(#paint2_linear_2295_34620)"
+    />
+    <Path
+      d="M13 14.4571C13 12.3 11.5799 11 9.32787 11H6V21H8.06557V17.9571H9.2418C11.3504 17.9571 13 16.7571 13 14.4571ZM10.9057 14.5C10.9057 15.4714 10.2889 16.1 9.28484 16.1H8.06557V12.8714H9.27049C10.2746 12.8714 10.9057 13.4 10.9057 14.5Z"
+      fill="white"
+    />
+    <Defs>
+      <LinearGradient
+        id="paint0_linear_2295_34620"
+        x1="3"
+        y1="17.931"
+        x2="31"
+        y2="17.931"
+        gradientUnits="userSpaceOnUse"
+      >
+        <Stop stop-color="#A73A24" />
+        <Stop offset="1" stop-color="#F75936" />
+      </LinearGradient>
+      <LinearGradient
+        id="paint1_linear_2295_34620"
+        x1="31.5"
+        y1="10"
+        x2="18"
+        y2="10"
+        gradientUnits="userSpaceOnUse"
+      >
+        <Stop stop-color="#FDB8A3" />
+        <Stop offset="1" stop-color="#F1876D" />
+      </LinearGradient>
+      <LinearGradient
+        id="paint2_linear_2295_34620"
+        x1="7.38325e-08"
+        y1="17.2414"
+        x2="18"
+        y2="17.2414"
+        gradientUnits="userSpaceOnUse"
+      >
+        <Stop stop-color="#A73A24" />
+        <Stop offset="1" stop-color="#F75936" />
+      </LinearGradient>
+    </Defs>
+  </Svg>
+);

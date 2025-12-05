@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { SafeAreaView, TouchableOpacity } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 
-import { NavHeader, ScrollView, Text, View } from '@/components/ui';
+import { NavHeader, ScrollView, Text, View, SafeAreaView } from '@/components/ui';
 import { FontAwesome } from '@/components/ui/icons';
 
 const EquipmentDetail = () => {

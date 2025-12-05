@@ -2,15 +2,14 @@ import type TranslateOptions from 'i18next';
 import i18n from 'i18next';
 import memoize from 'lodash.memoize';
 import { useCallback } from 'react';
-import { I18nManager, NativeModules, Platform } from 'react-native';
-import { useMMKVString } from 'react-native-mmkv';
+import { NativeModules, Platform } from 'react-native';
 import RNRestart from 'react-native-restart';
 
-import { storage } from '../storage';
+import { storage, useMMKVString } from '../storage';
 import type { Language, resources } from './resources';
 import type { RecursiveKeyOf } from './types';
 
-type DefaultLocale = typeof resources.zh.translation;
+type DefaultLocale = typeof resources.en.translation;
 export type TxKeyPath = RecursiveKeyOf<DefaultLocale>;
 
 export const LOCAL = 'local';
@@ -26,11 +25,11 @@ export const translate = memoize(
 
 export const changeLanguage = (lang: Language) => {
   i18n.changeLanguage(lang);
-  if (lang === 'en') {
-    I18nManager.forceRTL(true);
-  } else {
-    I18nManager.forceRTL(false);
-  }
+  // if (lang === 'en') {
+  //   I18nManager.forceRTL(true);
+  // } else {
+  //   I18nManager.forceRTL(false);
+  // }
   if (Platform.OS === 'ios' || Platform.OS === 'android') {
     if (__DEV__) NativeModules.DevSettings.reload();
     else RNRestart.restart();
@@ -50,5 +49,5 @@ export const useSelectedLanguage = () => {
     [setLang]
   );
 
-  return { language: language as Language, setLanguage };
+  return { language: (language ?? 'zh') as Language, setLanguage };
 };

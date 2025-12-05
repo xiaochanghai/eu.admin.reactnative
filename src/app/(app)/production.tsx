@@ -10,7 +10,7 @@ import {
   Report,
   Task,
 } from '@/components/production';
-import { NavHeader, SafeAreaView, ScrollView } from '@/components/ui';
+import { NavHeader, ScrollView } from '@/components/ui';
 import { FontAwesome } from '@/components/ui/icons';
 
 const Production: React.FC = () => {
@@ -27,7 +27,7 @@ const Production: React.FC = () => {
   ];
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-100">
+    <View className="flex-1 bg-gray-100 dark:bg-neutral-950">
       {/* 顶部导航 */}
       <NavHeader
         title="生产"
@@ -46,37 +46,43 @@ const Production: React.FC = () => {
           </>
         }
       />
-      <View className="flex-1 p-4">
-        {/* 分段控制器 */}
+
+      {/* 分段控制器 - 固定在顶部 */}
+      <View className="px-4 pt-4">
         <SegmentedControl
           options={tabOptions}
           selectedIndex={selectedTabIndex}
           onChange={setSelectedTabIndex}
         />
-
-        {/* 选项卡内容 */}
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          className="mt-4 flex-1"
-        >
-          {selectedTabIndex === 0 && <Plans />}
-
-          {selectedTabIndex === 1 && <Task />}
-
-          {selectedTabIndex === 2 && <Process />}
-
-          {selectedTabIndex === 3 && <Equipment />}
-
-          {selectedTabIndex === 4 && <Report />}
-        </ScrollView>
       </View>
 
+      {/* 选项卡内容 */}
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        className="flex-1 px-4"
+        contentContainerStyle={{ paddingTop: 16 }}
+      >
+        {selectedTabIndex === 0 && <Plans />}
+
+        {selectedTabIndex === 1 && <Task />}
+
+        {selectedTabIndex === 2 && <Process />}
+
+        {selectedTabIndex === 3 && <Equipment />}
+
+        {selectedTabIndex === 4 && <Report />}
+
+        {/* 底部间距 */}
+        <View className="h-20" />
+      </ScrollView>
+
       {/* 浮动按钮 */}
-      <TouchableOpacity className="absolute bottom-20 right-6 size-14 items-center justify-center rounded-full bg-blue-600 shadow-lg">
+      <TouchableOpacity className="absolute bottom-20 right-6 size-14 items-center justify-center rounded-full bg-blue-600 shadow-lg dark:bg-purple-600">
         <FontAwesome name="plus" size={24} color="white" />
       </TouchableOpacity>
-    </SafeAreaView>
+    </View>
   );
 };
 
 export default Production;
+

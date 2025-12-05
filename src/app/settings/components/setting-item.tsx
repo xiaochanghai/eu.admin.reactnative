@@ -68,7 +68,7 @@ const SettingItem: React.FC<SettingItemProps> = ({
   return (
     <TouchableOpacity
       // 使用条件类名：基础样式 + 最后一项样式（无底部边框）
-      className={`flex-row items-center justify-between py-4 ${isLast ? '' : 'border-b border-[#f0f0f0]'}`}
+      className={`flex-row items-center justify-between py-4 ${isLast ? '' : 'border-b border-[#f0f0f0] dark:border-neutral-700'}`}
       onPress={onPress}
       disabled={!onPress}
       activeOpacity={0.7}
@@ -86,13 +86,13 @@ const SettingItem: React.FC<SettingItemProps> = ({
         {/* 文本内容区域 */}
         <View>
           {/* 主标题 - 优先使用国际化文本 */}
-          <Text className="text-base font-medium text-[#333]">
+          <Text className="text-base font-medium text-[#333] dark:text-gray-100">
             {tx ? translate(tx) : title}
           </Text>
 
           {/* 副标题（如果存在） */}
           {(subtitle || subtx) && (
-            <Text className="mt-0.5 text-xs text-[#9ca3af]">
+            <Text className="mt-0.5 text-xs text-[#9ca3af] dark:text-gray-400">
               {subtx ? translate(subtx) : subtitle}
             </Text>
           )}

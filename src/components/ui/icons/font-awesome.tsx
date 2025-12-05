@@ -2,8 +2,10 @@ import {
   AntDesign,
   Entypo,
   EvilIcons,
+  Feather,
   FontAwesome as FontAwesomeIcon,
   FontAwesome5,
+  MaterialCommunityIcons,
 } from '@expo/vector-icons';
 import React from 'react';
 import { type StyleProp, type TextStyle } from 'react-native';
@@ -18,18 +20,22 @@ export enum GroupEnum {
   FontAwesome5 = 'FontAwesome5',
   EvilIcons = 'EvilIcons',
   AntDesign = 'AntDesign',
+  MaterialCommunityIcons = 'MaterialCommunityIcons',
+  Feather = 'Feather',
 }
 
 /**
  * 图标组类型
  * 用于限制可用的图标库类型
  */
-type Group =
+export type IconGroup =
   | GroupEnum.Entypo
   | GroupEnum.FontAwesome5
   | GroupEnum.FontAwesome
   | GroupEnum.EvilIcons
-  | GroupEnum.AntDesign;
+  | GroupEnum.AntDesign
+  | GroupEnum.MaterialCommunityIcons
+  | GroupEnum.Feather;
 
 /**
  * 各图标库的图标名称类型
@@ -42,6 +48,10 @@ type FontAwesomeIconNames = React.ComponentProps<
 >['name'];
 type EvilIconsNames = React.ComponentProps<typeof EvilIcons>['name'];
 type AntDesignIconNames = React.ComponentProps<typeof AntDesign>['name'];
+type FeatherIconNames = React.ComponentProps<typeof Feather>['name'];
+type MaterialCommunityIconNames = React.ComponentProps<
+  typeof MaterialCommunityIcons
+>['name'];
 
 /**
  * 统一的图标名称类型
@@ -70,7 +80,7 @@ type FontAwesomeIconProps = {
   color?: string;
   style?: StyleProp<TextStyle>; // 修改为React Native的样式类型
   className?: string;
-  group?: Group;
+  group?: IconGroup;
 };
 
 /**
@@ -177,6 +187,16 @@ export const FontAwesome: React.FC<FontAwesomeIconProps> = ({
       return <EvilIcons name={name as EvilIconsNames} {...iconProps} />;
     case GroupEnum.AntDesign:
       return <AntDesign name={name as AntDesignIconNames} {...iconProps} />;
+    case GroupEnum.Feather:
+      return <Feather name={name as FeatherIconNames} {...iconProps} />;
+
+    case GroupEnum.MaterialCommunityIcons:
+      return (
+        <MaterialCommunityIcons
+          name={name as MaterialCommunityIconNames}
+          {...iconProps}
+        />
+      );
     default:
       // 默认使用FontAwesome
       return (

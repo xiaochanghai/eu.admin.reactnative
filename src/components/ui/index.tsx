@@ -4,15 +4,20 @@ import Svg from 'react-native-svg';
 export * from './button';
 export * from './checkbox';
 export { default as colors } from './colors';
+export * from './date-picker';
 export * from './focus-aware-status-bar';
 export * from './image';
 export * from './input';
+export * from './input-date';
+export * from './input-with-icon';
 export * from './list';
 export * from './modal';
 export * from './nav-header';
+export * from './number-input';
 export * from './progress-bar';
 export * from './select';
 export * from './text';
+export * from './toast';
 export * from './utils';
 
 // export base components from react-native
@@ -24,7 +29,7 @@ export {
   View,
 } from 'react-native';
 export { SafeAreaView } from 'react-native-safe-area-context';
-
+//export { SafeAreaView } from 'react-native';
 //Apply cssInterop to Svg to resolve className string into style
 cssInterop(Svg, {
   className: {

@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import {
   Image,
-  SafeAreaView,
   ScrollView,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
 
-import { NavHeader } from '@/components/ui';
+import { NavHeader, SafeAreaView } from '@/components/ui';
 import { FontAwesome } from '@/components/ui/icons';
 
 const OrderDetail = () => {

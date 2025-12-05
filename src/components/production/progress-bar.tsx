@@ -21,7 +21,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
   progress,
   color,
 }) => (
-  <View className="h-1.5 overflow-hidden rounded bg-gray-200">
+  <View className="h-1.5 overflow-hidden rounded bg-gray-200 dark:bg-neutral-600">
     <View
       className="h-full rounded"
       style={{

@@ -8,11 +8,10 @@ import axios, {
 } from 'axios';
 import { Platform } from 'react-native';
 
-import { type ResultData } from '@/api/interface';
-import { ResultEnum } from '@/enums/http-enum';
+import { type ResultData, ResultEnum } from '@/api/types';
 import { signOut } from '@/lib/auth';
 import { getToken, getUniqueId } from '@/lib/auth/utils';
-import { message } from '@/utils';
+import { error, hideLoading } from '@/lib/message';
 
 import { checkStatus } from './utils';
 
@@ -33,7 +32,7 @@ const config = {
 
 class RequestHttp {
   service: AxiosInstance;
-  // eslint-disable-next-line max-lines-per-function
+
   public constructor(config: AxiosRequestConfig) {
     // instantiation
     this.service = axios.create(config);
@@ -71,29 +70,29 @@ class RequestHttp {
         const { data } = response;
         // tryHideFullScreenLoading();
         // login failure
-        message.hideLoading();
+        hideLoading();
         if (data.Status === ResultEnum.OVERDUE) {
-          message.error(data.Message);
+          error(data.Message);
           Promise.reject(data);
           return data;
         }
         // Global error information interception (to prevent data stream from being returned when downloading files, and report errors directly without code)
         if (data.Status && data.Status !== ResultEnum.SUCCESS) {
-          message.error(data.Message);
+          error(data.Message);
           Promise.reject(data);
           return data;
         }
         // Successful request (no need to handle failure logic on the page unless there are special circumstances)
         return data;
       },
-      async (error: AxiosError) => {
-        const { response } = error;
+      async (errorMessage: AxiosError) => {
+        const { response } = errorMessage;
         // tryHideFullScreenLoading();
         // Request timeout && network error judged separately, no response
-        if (error.message.indexOf('timeout') !== -1)
-          message.error('请求超时！请您稍后重试');
-        if (error.message.indexOf('Network Error') !== -1)
-          message.error('网络错误！请您稍后重试');
+        if (errorMessage.message.indexOf('timeout') !== -1)
+          error('请求超时！请您稍后重试');
+        if (errorMessage.message.indexOf('Network Error') !== -1)
+          error('网络错误！请您稍后重试');
         // Do different processing according to the error status code of the server response
         if (response) {
           checkStatus(response.status);
@@ -120,6 +119,9 @@ class RequestHttp {
     _object = {}
   ): Promise<ResultData<T>> {
     return this.service.post(url, params, _object);
+  }
+  postForm<T>(url: string, params?: object): Promise<T> {
+    return this.service.postForm(url, params);
   }
 }
 

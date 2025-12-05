@@ -33,6 +33,7 @@ const _useAuth = create<AuthState>((set, get) => ({
         get().signOut();
       }
     } catch (e) {
+      console.log(e);
       // catch error here
       // Maybe sign_out user!
     }
