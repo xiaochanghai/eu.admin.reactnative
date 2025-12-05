@@ -4,6 +4,7 @@ import { StyleSheet, TouchableOpacity } from 'react-native';
 
 import { NavHeader, ScrollView, Text, View } from '@/components/ui';
 import { FontAwesome, GroupEnum } from '@/components/ui/icons';
+import { useAppColorScheme } from '@/lib';
 
 interface RelatedNotification {
   id: string;
@@ -18,6 +19,7 @@ const NotificationDetail = () => {
   // const notificationType1 = route.params?.type || 'warning';
   const local = useLocalSearchParams<{ type: string }>();
   const notificationType = local.type;
+  const { isDark } = useAppColorScheme();
 
   // 通知详情状态
   const [notificationInfo, setNotificationInfo] = useState({
@@ -192,16 +194,24 @@ const NotificationDetail = () => {
   };
 
   return (
-    <View className="flex-1 bg-gray-50">
+    <View className="flex-1 bg-gray-50 dark:bg-neutral-900">
       <NavHeader
         title="通知详情"
         right={
           <>
             <TouchableOpacity style={styles.headerButton}>
-              <FontAwesome name="share-alt" size={18} color="#6b7280" />
+              <FontAwesome
+                name="share-alt"
+                size={18}
+                color={isDark ? '#9ca3af' : '#6b7280'}
+              />
             </TouchableOpacity>
             <TouchableOpacity style={styles.headerButton}>
-              <FontAwesome name="ellipsis-v" size={18} color="#6b7280" />
+              <FontAwesome
+                name="ellipsis-v"
+                size={18}
+                color={isDark ? '#9ca3af' : '#6b7280'}
+              />
             </TouchableOpacity>
           </>
         }
@@ -221,7 +231,7 @@ const NotificationDetail = () => {
         </View>
 
         {/* 通知详情卡片 */}
-        <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm">
+        <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
           <View className="flex-row items-start">
             <View
               className="w-15 h-15 mr-4 items-center justify-center rounded-xl"
@@ -236,35 +246,35 @@ const NotificationDetail = () => {
             </View>
             <View className="flex-1">
               <View className="flex-row items-start justify-between">
-                <Text className="text-xl font-semibold">
+                <Text className="text-xl font-semibold text-gray-900 dark:text-gray-100">
                   {notificationInfo.title}
                 </Text>
-                <Text className="text-sm text-gray-500">
+                <Text className="text-sm text-gray-500 dark:text-gray-400">
                   {notificationInfo.time}
                 </Text>
               </View>
-              <Text className="mt-1 text-sm text-gray-500">
+              <Text className="mt-1 text-sm text-gray-500 dark:text-gray-400">
                 {notificationInfo.date}
               </Text>
             </View>
           </View>
 
           <View className="mt-6">
-            <Text className="mb-3 text-lg font-medium">详细内容</Text>
-            <Text className="leading-relaxed text-gray-700">
+            <Text className="mb-3 text-lg font-medium text-gray-900 dark:text-gray-100">详细内容</Text>
+            <Text className="leading-relaxed text-gray-700 dark:text-gray-300">
               {notificationInfo.content}
             </Text>
           </View>
 
           {/* 相关信息 */}
-          <View className="mt-6 border-t border-gray-100 pt-6">
-            <Text className="mb-3 text-lg font-medium">相关信息</Text>
+          <View className="mt-6 border-t border-gray-100 pt-6 dark:border-neutral-700">
+            <Text className="mb-3 text-lg font-medium text-gray-900 dark:text-gray-100">相关信息</Text>
             {notificationInfo.relatedInfo.map((item, index) => (
-              <View key={index} className="mb-3 rounded-xl bg-gray-50 p-4">
+              <View key={index} className="mb-3 rounded-xl bg-gray-50 p-4 dark:bg-neutral-700">
                 <View className="flex-row justify-between">
-                  <Text className="font-medium">{item.label}</Text>
+                  <Text className="font-medium text-gray-900 dark:text-gray-100">{item.label}</Text>
                   <Text
-                    className={item.isAlert ? 'font-medium text-red-600' : ''}
+                    className={item.isAlert ? 'font-medium text-red-600 dark:text-red-400' : 'text-gray-900 dark:text-gray-100'}
                   >
                     {item.value}
                   </Text>
@@ -285,20 +295,20 @@ const NotificationDetail = () => {
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            className="flex-1 items-center rounded-xl bg-gray-100 py-3"
+            className="flex-1 items-center rounded-xl bg-gray-100 py-3 dark:bg-neutral-700"
             onPress={handleMarkAsRead}
           >
-            <Text className="font-medium text-gray-700">标记为已读</Text>
+            <Text className="font-medium text-gray-700 dark:text-gray-200">标记为已读</Text>
           </TouchableOpacity>
         </View>
 
         {/* 相关通知 */}
-        <Text className="mb-3 text-lg font-semibold">相关通知</Text>
-        <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm">
+        <Text className="mb-3 text-lg font-semibold text-gray-900 dark:text-gray-100">相关通知</Text>
+        <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
           {relatedNotifications.map((item, index) => (
             <View
               key={item.id}
-              className={`py-3 ${index < relatedNotifications.length - 1 ? 'border-b border-gray-100' : ''}`}
+              className={`py-3 ${index < relatedNotifications.length - 1 ? 'border-b border-gray-100 dark:border-neutral-700' : ''}`}
             >
               <View className="flex-row">
                 <View
@@ -314,10 +324,10 @@ const NotificationDetail = () => {
                 </View>
                 <View className="flex-1">
                   <View className="flex-row justify-between">
-                    <Text className="font-medium">{item.title}</Text>
-                    <Text className="text-xs text-gray-500">{item.time}</Text>
+                    <Text className="font-medium text-gray-900 dark:text-gray-100">{item.title}</Text>
+                    <Text className="text-xs text-gray-500 dark:text-gray-400">{item.time}</Text>
                   </View>
-                  <Text className="mt-1 text-sm text-gray-600">
+                  <Text className="mt-1 text-sm text-gray-600 dark:text-gray-300">
                     {item.message}
                   </Text>
                 </View>
