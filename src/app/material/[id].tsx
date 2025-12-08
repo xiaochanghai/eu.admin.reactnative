@@ -180,14 +180,14 @@ const MaterialDetail = () => {
 
   // 样式常量
   const styles = {
-    tab: 'text-sm font-medium text-gray-600',
-    tabActive: 'text-sm font-medium text-blue-600',
+    tab: 'text-sm font-medium text-gray-600 dark:text-gray-400',
+    tabActive: 'text-sm font-medium text-blue-600 dark:text-blue-400',
     tabTouchable: 'flex-1 items-center px-4 py-2',
     tabTouchableActive:
       'flex-1 items-center border-b-2 border-blue-600 px-4 py-2',
     fastOption: 'items-center justify-center rounded-lg py-2',
     fastOptionWithMargin: 'mr-2 items-center justify-center rounded-lg py-2',
-    listItemBorder: 'border-b border-gray-100 py-3',
+    listItemBorder: 'border-b border-gray-100 py-3 dark:border-gray-700',
     listItemNoBorder: 'py-3',
   };
 
@@ -242,7 +242,7 @@ const MaterialDetail = () => {
   };
 
   return (
-    <View className="flex-1 " style={{ backgroundColor: '#f5f5f5' }}>
+    <View className="flex-1 bg-gray-100 dark:bg-gray-900">
       <NavHeader
         title="物料详情"
         right={
@@ -261,9 +261,9 @@ const MaterialDetail = () => {
         contentContainerStyle={{ padding: 16, paddingBottom: 80 }}
       >
         {/* 物料基本信息卡片 */}
-        <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm">
+        <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
           <View className="mb-4 flex-row items-center">
-            <View className="mr-4 size-20 items-center justify-center rounded-lg bg-gray-200">
+            <View className="mr-4 size-20 items-center justify-center rounded-lg bg-gray-200 dark:bg-gray-700">
               <FontAwesome
                 name="cube"
                 size={30}
@@ -272,18 +272,18 @@ const MaterialDetail = () => {
               />
             </View>
             <View>
-              <Text className="text-xl font-semibold">{materialData.name}</Text>
-              <Text className="mt-1 text-sm text-gray-500">
+              <Text className="text-xl font-semibold text-gray-900 dark:text-gray-100">{materialData.name}</Text>
+              <Text className="mt-1 text-sm text-gray-500 dark:text-gray-400">
                 编号: {materialData.id}
               </Text>
               <View className="mt-2 flex-row items-center">
-                <View className="mr-2 rounded-full bg-green-100 px-2 py-1">
-                  <Text className="text-xs text-green-800">
+                <View className="mr-2 rounded-full bg-green-100 px-2 py-1 dark:bg-green-900/30">
+                  <Text className="text-xs text-green-800 dark:text-green-300">
                     {materialData.category}
                   </Text>
                 </View>
-                <View className="rounded-full bg-blue-100 px-2 py-1">
-                  <Text className="text-xs text-blue-800">
+                <View className="rounded-full bg-blue-100 px-2 py-1 dark:bg-blue-900/30">
+                  <Text className="text-xs text-blue-800 dark:text-blue-300">
                     {materialData.tag}
                   </Text>
                 </View>
@@ -292,37 +292,37 @@ const MaterialDetail = () => {
           </View>
 
           {/* 库存状态 */}
-          <View className="mb-4 flex-row items-center justify-between rounded-lg bg-blue-50 p-3">
+          <View className="mb-4 flex-row items-center justify-between rounded-lg bg-blue-50 p-3 dark:bg-blue-900/20">
             <View>
-              <Text className="text-sm text-gray-600">当前库存</Text>
+              <Text className="text-sm text-gray-600 dark:text-gray-300">当前库存</Text>
               <View className="mt-1 flex-row items-end">
-                <Text className="text-xl font-bold text-blue-600">
+                <Text className="text-xl font-bold text-blue-600 dark:text-blue-400">
                   {materialData.currentStock}
                 </Text>
-                <Text className="ml-1 text-sm font-normal text-blue-600">
+                <Text className="ml-1 text-sm font-normal text-blue-600 dark:text-blue-400">
                   {materialData.unit}
                 </Text>
               </View>
             </View>
             <View>
-              <Text className="text-sm text-gray-600">安全库存</Text>
+              <Text className="text-sm text-gray-600 dark:text-gray-300">安全库存</Text>
               <View className="mt-1 flex-row items-end">
-                <Text className="text-lg font-medium text-gray-700">
+                <Text className="text-lg font-medium text-gray-700 dark:text-gray-200">
                   {materialData.safetyStock}
                 </Text>
-                <Text className="ml-1 text-sm font-normal text-gray-700">
+                <Text className="ml-1 text-sm font-normal text-gray-700 dark:text-gray-200">
                   {materialData.unit}
                 </Text>
               </View>
             </View>
             <View>
-              <Text className="text-sm text-gray-600">状态</Text>
+              <Text className="text-sm text-gray-600 dark:text-gray-300">状态</Text>
               <View className="mt-1 flex-row items-center">
                 <View
                   className="mr-1 size-3 rounded-full"
                   style={{ backgroundColor: '#22c55e' }}
                 />
-                <Text className="font-medium text-green-600">
+                <Text className="font-medium text-green-600 dark:text-green-400">
                   {materialData.status}
                 </Text>
               </View>
@@ -359,8 +359,8 @@ const MaterialDetail = () => {
         </View>
 
         {/* 详细信息选项卡 */}
-        <View className="mb-4 overflow-hidden rounded-lg bg-white">
-          <View className="flex-row border-b border-gray-200">
+        <View className="mb-4 overflow-hidden rounded-lg bg-white dark:bg-gray-800">
+          <View className="flex-row border-b border-gray-200 dark:border-gray-700">
             <TabButton
               label="基本信息"
               isActive={activeTab === 'info'}
@@ -385,8 +385,8 @@ const MaterialDetail = () => {
         </View>
 
         {/* 相关物料 */}
-        <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm">
-          <Text className="mb-3 text-lg font-semibold">相关物料</Text>
+        <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
+          <Text className="mb-3 text-lg font-semibold text-gray-900 dark:text-gray-100">相关物料</Text>
 
           {relatedMaterials.map((material, index) => (
             <RelatedMaterialItem
@@ -411,11 +411,11 @@ const DetailRow = ({
 }: DetailRowProps) => (
   <View
     className={
-      !isLast ? 'flex-row border-b border-gray-100 py-3' : 'flex-row py-3'
+      !isLast ? 'flex-row border-b border-gray-100 py-3 dark:border-gray-700' : 'flex-row py-3'
     }
   >
-    <Text className="w-3/10 text-sm text-gray-500">{label}</Text>
-    <Text className="w-7/10 text-sm">{value}</Text>
+    <Text className="w-3/10 text-sm text-gray-500 dark:text-gray-400">{label}</Text>
+    <Text className="w-7/10 text-sm text-gray-900 dark:text-gray-100">{value}</Text>
   </View>
 );
 
@@ -428,11 +428,11 @@ interface RecordListItemProps {
 }
 
 const RecordListItem = ({ record, isLast }: RecordListItemProps) => (
-  <View className={!isLast ? 'border-b border-gray-100 py-3' : 'py-3'}>
+  <View className={!isLast ? 'border-b border-gray-100 py-3 dark:border-gray-700' : 'py-3'}>
     <View className="flex-row items-center justify-between">
       <View>
-        <Text className="font-medium">{record.type}</Text>
-        <Text className="mt-1 text-xs text-gray-500">
+        <Text className="font-medium text-gray-900 dark:text-gray-100">{record.type}</Text>
+        <Text className="mt-1 text-xs text-gray-500 dark:text-gray-400">
           单号: {record.orderNumber}
         </Text>
       </View>
@@ -440,13 +440,13 @@ const RecordListItem = ({ record, isLast }: RecordListItemProps) => (
         <Text
           className={
             record.isInbound
-              ? 'text-sm font-medium text-green-600'
-              : 'text-sm font-medium text-red-600'
+              ? 'text-sm font-medium text-green-600 dark:text-green-400'
+              : 'text-sm font-medium text-red-600 dark:text-red-400'
           }
         >
           {record.quantity}
         </Text>
-        <Text className="mt-1 text-xs text-gray-500">{record.date}</Text>
+        <Text className="mt-1 text-xs text-gray-500 dark:text-gray-400">{record.date}</Text>
       </View>
     </View>
   </View>
@@ -482,7 +482,7 @@ const DocumentListItem = ({ document, isLast }: DocumentListItemProps) => {
   const iconColor = getDocIconColor(document.icon);
 
   return (
-    <View className={!isLast ? 'border-b border-gray-100 py-3' : 'py-3'}>
+    <View className={!isLast ? 'border-b border-gray-100 py-3 dark:border-gray-700' : 'py-3'}>
       <View className="flex-row items-center">
         <FontAwesome
           name={document.icon}
@@ -492,8 +492,8 @@ const DocumentListItem = ({ document, isLast }: DocumentListItemProps) => {
           group={GroupEnum.FontAwesome5}
         />
         <View>
-          <Text className="font-medium">{document.name}</Text>
-          <Text className="mt-1 text-xs text-gray-500">
+          <Text className="font-medium text-gray-900 dark:text-gray-100">{document.name}</Text>
+          <Text className="mt-1 text-xs text-gray-500 dark:text-gray-400">
             {document.type} · {document.size} · {document.uploadDate}
           </Text>
         </View>
@@ -515,17 +515,17 @@ const RelatedMaterialItem = ({
   isLast,
 }: RelatedMaterialItemProps) => (
   <TouchableOpacity
-    className={!isLast ? 'border-b border-gray-100 py-3' : 'py-3'}
+    className={!isLast ? 'border-b border-gray-100 py-3 dark:border-gray-700' : 'py-3'}
   >
     <View className="flex-row items-center justify-between">
       <View>
-        <Text className="font-medium">{material.name}</Text>
-        <Text className="mt-1 text-xs text-gray-500">
+        <Text className="font-medium text-gray-900 dark:text-gray-100">{material.name}</Text>
+        <Text className="mt-1 text-xs text-gray-500 dark:text-gray-400">
           编号: {material.code} | 规格: {material.spec}
         </Text>
       </View>
       <View>
-        <Text className="text-sm font-medium">库存: {material.stock}</Text>
+        <Text className="text-sm font-medium text-gray-900 dark:text-gray-100">库存: {material.stock}</Text>
       </View>
     </View>
   </TouchableOpacity>

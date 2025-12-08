@@ -160,29 +160,29 @@ const Materials = () => {
   // 渲染物料项
   const renderMaterialItem = ({ item }: { item: any }) => (
     <TouchableOpacity
-      className="mx-3 mb-3 rounded-lg bg-white p-4 shadow-sm"
+      className="mx-3 mb-3 rounded-lg bg-white p-4 shadow-sm dark:bg-gray-800"
       onPress={() => handleMaterialPress(item.id)}
     >
       <View className="flex-row items-center justify-between">
         <View className={'flex-1'}>
-          <Text className={'text-lg font-bold text-gray-800'}>{item.name}</Text>
-          <Text className={'mt-1 text-sm text-gray-500'}>
+          <Text className={'text-lg font-bold text-gray-800 dark:text-gray-100'}>{item.name}</Text>
+          <Text className={'mt-1 text-sm text-gray-500 dark:text-gray-400'}>
             编码: {item.code}
           </Text>
           <View className={'mt-2 flex-row items-center'}>
-            <Text className={'text-sm text-gray-600'}>
+            <Text className={'text-sm text-gray-600 dark:text-gray-300'}>
               库存: {item.stock} {item.unit}
             </Text>
             <View
               className={
                 'ml-3 px-2 py-1 rounded-full ' +
-                (item.status === '正常' ? 'bg-green-100' : 'bg-red-100')
+                (item.status === '正常' ? 'bg-green-100 dark:bg-green-900/30' : 'bg-red-100 dark:bg-red-900/30')
               }
             >
               <Text
                 className={
                   'text-xs ' +
-                  (item.status === '正常' ? 'text-green-600' : 'text-red-600')
+                  (item.status === '正常' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400')
                 }
               >
                 {item.status}
@@ -205,7 +205,7 @@ const Materials = () => {
   );
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-100">
+    <SafeAreaView className="flex-1 bg-gray-100 dark:bg-gray-900">
       <NavHeader
         title="物料管理"
         right={
@@ -223,9 +223,9 @@ const Materials = () => {
         }
       />
       {/* 头部 */}
-      <View className="bg-white px-4 py-3 shadow-sm">
+      <View className="bg-white px-4 py-3 shadow-sm dark:bg-gray-800">
         {/* 搜索框 */}
-        <View className="mt-3 flex-row items-center rounded-lg bg-gray-100 px-3 py-2">
+        <View className="mt-3 flex-row items-center rounded-lg bg-gray-100 px-3 py-2 dark:bg-gray-700">
           <FontAwesome
             name="search"
             size={20}
@@ -233,7 +233,7 @@ const Materials = () => {
             group={GroupEnum.EvilIcons}
           />
           <TextInput
-            className="ml-2 flex-1 text-gray-800"
+            className="ml-2 flex-1 text-gray-800 dark:text-gray-100"
             placeholder="搜索物料名称或编码"
             placeholderTextColor="#9CA3AF"
             value={searchText}
@@ -257,13 +257,13 @@ const Materials = () => {
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
-          className="bg-white py-2"
+          className="bg-white py-2 dark:bg-gray-800"
           contentContainerStyle={{ paddingHorizontal: 8 }}
         >
           {categories.map((category) => (
             <TouchableOpacity
               key={category.id}
-              className={`mx-1 rounded-full px-4 py-2 ${selectedCategory === category.name ? 'bg-blue-500' : 'bg-gray-100'}`}
+              className={`mx-1 rounded-full px-4 py-2 ${selectedCategory === category.name ? 'bg-blue-500' : 'bg-gray-100 dark:bg-gray-700'}`}
               onPress={() => handleCategorySelect(category.name)}
             >
               <View>
@@ -277,7 +277,7 @@ const Materials = () => {
                 <Text
                   className={`${selectedCategory === category.name
                       ? 'text-white'
-                      : 'text-gray-600'
+                      : 'text-gray-600 dark:text-gray-300'
                     }`}
                 >
                   {category.name}

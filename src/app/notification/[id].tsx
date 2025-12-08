@@ -30,8 +30,8 @@ const NotificationDetail = () => {
       'PCB板库存低于安全库存，当前库存数量为25个，安全库存为50个，请及时补货。\n\n低库存可能导致生产计划延误，建议在3天内完成补货。',
     icon: 'exclamation-triangle',
     iconBgColor: '#ef4444', // red-500
-    badgeBg: 'bg-red-100',
-    badgeText: 'text-red-800',
+    badgeBg: 'bg-red-100 dark:bg-red-900/30',
+    badgeText: 'text-red-800 dark:text-red-300',
     badgeContent: '预警信息',
     actionText: '查看物料详情',
     relatedInfo: [
@@ -73,8 +73,8 @@ const NotificationDetail = () => {
           title: '库存预警',
           icon: 'exclamation-triangle',
           iconBgColor: '#ef4444', // red-500
-          badgeBg: 'bg-red-100',
-          badgeText: 'text-red-800',
+          badgeBg: 'bg-red-100 dark:bg-red-900/30',
+          badgeText: 'text-red-800 dark:text-red-300',
           badgeContent: '预警信息',
           actionText: '查看物料详情',
         };
@@ -87,8 +87,8 @@ const NotificationDetail = () => {
             '您有一个新的生产任务 #PT20231129-02 需要处理。请在今天下午3点前完成相关准备工作。',
           icon: 'tasks',
           iconBgColor: '#22c55e', // green-500
-          badgeBg: 'bg-green-100',
-          badgeText: 'text-green-800',
+          badgeBg: 'bg-green-100 dark:bg-green-900/30',
+          badgeText: 'text-green-800 dark:text-green-300',
           badgeContent: '任务提醒',
           actionText: '处理任务',
         };
@@ -101,8 +101,8 @@ const NotificationDetail = () => {
             '订单 #2023112801 已完成生产，等待发货。请安排物流部门进行后续处理。',
           icon: 'clipboard-check',
           iconBgColor: '#3b82f6', // blue-500
-          badgeBg: 'bg-blue-100',
-          badgeText: 'text-blue-800',
+          badgeBg: 'bg-blue-100 dark:bg-blue-900/30',
+          badgeText: 'text-blue-800 dark:text-blue-300',
           badgeContent: '订单通知',
           actionText: '查看订单',
         };
@@ -115,8 +115,8 @@ const NotificationDetail = () => {
             '系统将于今晚22:00-23:00进行例行维护，请提前做好准备。维护期间系统将暂停服务。',
           icon: 'bell',
           iconBgColor: '#eab308', // yellow-500
-          badgeBg: 'bg-yellow-100',
-          badgeText: 'text-yellow-800',
+          badgeBg: 'bg-yellow-100 dark:bg-yellow-900/30',
+          badgeText: 'text-yellow-800 dark:text-yellow-300',
           badgeContent: '系统通知',
           actionText: '了解详情',
         };
@@ -129,8 +129,8 @@ const NotificationDetail = () => {
             '11月生产效率分析报表已生成，请查看。本月生产效率较上月提升5.2%。',
           icon: 'chart-line',
           iconBgColor: '#a855f7', // purple-500
-          badgeBg: 'bg-purple-100',
-          badgeText: 'text-purple-800',
+          badgeBg: 'bg-purple-100 dark:bg-purple-900/30',
+          badgeText: 'text-purple-800 dark:text-purple-300',
           badgeContent: '数据报表',
           actionText: '查看报表',
         };
@@ -142,8 +142,8 @@ const NotificationDetail = () => {
           content: '李工程师已加入您的生产团队，请及时安排工作。',
           icon: 'user-plus',
           iconBgColor: '#6366f1', // indigo-500
-          badgeBg: 'bg-indigo-100',
-          badgeText: 'text-indigo-800',
+          badgeBg: 'bg-indigo-100 dark:bg-indigo-900/30',
+          badgeText: 'text-indigo-800 dark:text-indigo-300',
           badgeContent: '团队通知',
           actionText: '查看团队',
         };
@@ -156,8 +156,8 @@ const NotificationDetail = () => {
             '系统已更新至v1.0.5版本，新增多项功能和优化。主要更新内容包括：生产计划优化、库存预警阈值自定义、报表导出功能等。',
           icon: 'cogs',
           iconBgColor: '#f97316', // orange-500
-          badgeBg: 'bg-orange-100',
-          badgeText: 'text-orange-800',
+          badgeBg: 'bg-orange-100 dark:bg-orange-900/30',
+          badgeText: 'text-orange-800 dark:text-orange-300',
           badgeContent: '系统更新',
           actionText: '查看更新',
         };
