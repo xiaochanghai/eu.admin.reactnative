@@ -74,9 +74,7 @@ const Home: React.FC = () => {
   const userInfo = user.use.userInfo();
   const fetchUserInfo = user.use.fetchUserInfo();
   useEffect(() => {
-    if (userInfo == null) {
-      fetchUserInfo();
-    }
+    fetchUserInfo();
   }, [userInfo, fetchUserInfo]);
   const router = useRouter();
 
