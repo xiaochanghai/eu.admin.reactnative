@@ -2,6 +2,8 @@ import React from 'react';
 import { Dimensions, Text, TouchableOpacity, View } from 'react-native';
 import { BarChart, LineChart, PieChart } from 'react-native-chart-kit';
 
+import { useAppColorScheme } from '@/lib';
+
 import { KpiCard } from './kpi-card';
 import { ReportItem } from './report-item';
 
@@ -39,45 +41,45 @@ const productionOrderData = {
 };
 
 // 产品类别分布数据
-const productCategoryData = [
+const getProductCategoryData = (isDark: boolean) => [
   {
     name: '智能手表',
     population: 45,
     color: '#3b82f6',
-    legendFontColor: '#7F7F7F',
+    legendFontColor: isDark ? '#9ca3af' : '#7F7F7F',
     legendFontSize: 12,
   },
   {
     name: '智能音箱',
     population: 25,
     color: '#22c55e',
-    legendFontColor: '#7F7F7F',
+    legendFontColor: isDark ? '#9ca3af' : '#7F7F7F',
     legendFontSize: 12,
   },
   {
     name: '智能门锁',
     population: 15,
     color: '#f59e0b',
-    legendFontColor: '#7F7F7F',
+    legendFontColor: isDark ? '#9ca3af' : '#7F7F7F',
     legendFontSize: 12,
   },
   {
     name: '其他产品',
     population: 15,
     color: '#ef4444',
-    legendFontColor: '#7F7F7F',
+    legendFontColor: isDark ? '#9ca3af' : '#7F7F7F',
     legendFontSize: 12,
   },
 ];
 
 // 图表通用配置
-const chartConfig = {
-  backgroundColor: '#ffffff',
-  backgroundGradientFrom: '#ffffff',
-  backgroundGradientTo: '#ffffff',
+const getChartConfig = (isDark: boolean) => ({
+  backgroundColor: isDark ? '#1f2937' : '#ffffff',
+  backgroundGradientFrom: isDark ? '#1f2937' : '#ffffff',
+  backgroundGradientTo: isDark ? '#1f2937' : '#ffffff',
   decimalPlaces: 0,
   color: (opacity = 1) => `rgba(59, 130, 246, ${opacity})`,
-  labelColor: (opacity = 1) => `rgba(107, 114, 128, ${opacity})`,
+  labelColor: (opacity = 1) => isDark ? `rgba(156, 163, 175, ${opacity})` : `rgba(107, 114, 128, ${opacity})`,
   style: {
     borderRadius: 16,
   },
@@ -86,23 +88,27 @@ const chartConfig = {
     strokeWidth: '2',
     stroke: '#3b82f6',
   },
-};
+});
 
 export const OverView = () => {
+  const { isDark } = useAppColorScheme();
+  const chartConfig = getChartConfig(isDark);
+  const productCategoryData = getProductCategoryData(isDark);
+
   return (
     <View>
       {/* 时间选择器 */}
       <View className="mb-4 flex-row items-center justify-between">
-        <Text className="text-lg font-semibold">本月数据</Text>
-        <View className="flex-row overflow-hidden rounded-lg border border-gray-200 bg-white">
-          <TouchableOpacity className="border-r border-gray-200 px-3 py-1">
-            <Text className="text-sm text-gray-500">日</Text>
+        <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">本月数据</Text>
+        <View className="flex-row overflow-hidden rounded-lg border border-gray-200 bg-white dark:border-gray-600 dark:bg-gray-800">
+          <TouchableOpacity className="border-r border-gray-200 px-3 py-1 dark:border-gray-600">
+            <Text className="text-sm text-gray-500 dark:text-gray-400">日</Text>
           </TouchableOpacity>
-          <TouchableOpacity className="border-r border-gray-200 bg-blue-50 px-3 py-1">
-            <Text className="text-sm text-blue-600">月</Text>
+          <TouchableOpacity className="border-r border-gray-200 bg-blue-50 px-3 py-1 dark:border-gray-600 dark:bg-blue-900/30">
+            <Text className="text-sm text-blue-600 dark:text-blue-400">月</Text>
           </TouchableOpacity>
           <TouchableOpacity className="px-3 py-1">
-            <Text className="text-sm text-gray-500">年</Text>
+            <Text className="text-sm text-gray-500 dark:text-gray-400">年</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -140,11 +146,11 @@ export const OverView = () => {
       </View>
 
       {/* 销售趋势图 - 使用BarChart替换自定义图表 */}
-      <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm">
+      <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
         <View className="mb-3 flex-row items-center justify-between">
-          <Text className="text-lg font-semibold">销售趋势</Text>
+          <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">销售趋势</Text>
           <TouchableOpacity>
-            <Text className="text-sm text-blue-600">详情</Text>
+            <Text className="text-sm text-blue-600 dark:text-blue-400">详情</Text>
           </TouchableOpacity>
         </View>
         <BarChart
@@ -164,11 +170,11 @@ export const OverView = () => {
       </View>
 
       {/* 生产与订单对比 - 使用LineChart替换自定义图表 */}
-      <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm">
+      <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
         <View className="mb-3 flex-row items-center justify-between">
-          <Text className="text-lg font-semibold">生产与订单对比</Text>
+          <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">生产与订单对比</Text>
           <TouchableOpacity>
-            <Text className="text-sm text-blue-600">详情</Text>
+            <Text className="text-sm text-blue-600 dark:text-blue-400">详情</Text>
           </TouchableOpacity>
         </View>
         <LineChart
@@ -185,11 +191,11 @@ export const OverView = () => {
       </View>
 
       {/* 产品类别分布 - 使用PieChart替换自定义图表 */}
-      <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm">
+      <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
         <View className="mb-3 flex-row items-center justify-between">
-          <Text className="text-lg font-semibold">产品类别分布</Text>
+          <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">产品类别分布</Text>
           <TouchableOpacity>
-            <Text className="text-sm text-blue-600">详情</Text>
+            <Text className="text-sm text-blue-600 dark:text-blue-400">详情</Text>
           </TouchableOpacity>
         </View>
         <PieChart
@@ -206,8 +212,8 @@ export const OverView = () => {
       </View>
 
       {/* 数据报表下载 */}
-      <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm">
-        <Text className="mb-3 text-lg font-semibold">数据报表</Text>
+      <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
+        <Text className="mb-3 text-lg font-semibold text-gray-900 dark:text-gray-100">数据报表</Text>
         <View className="mt-2">
           <ReportItem
             icon="file-pdf-o"

@@ -2,6 +2,8 @@ import React from 'react';
 import { Dimensions, Text, TouchableOpacity, View } from 'react-native';
 import { BarChart, PieChart } from 'react-native-chart-kit';
 
+import { useAppColorScheme } from '@/lib';
+
 // 获取屏幕宽度用于图表响应式设计
 const screenWidth = Dimensions.get('window').width;
 
@@ -21,8 +23,8 @@ const KpiCard: React.FC<KpiCardProps> = ({
   trendUp = true,
   color,
 }) => (
-  <View className="mb-3 w-[48%] rounded-2xl bg-white p-3 shadow-sm">
-    <Text className="text-sm text-gray-600">{title}</Text>
+  <View className="mb-3 w-[48%] rounded-2xl bg-white p-3 shadow-sm dark:bg-gray-800">
+    <Text className="text-sm text-gray-600 dark:text-gray-400">{title}</Text>
     <Text className="mt-1 text-xl font-bold" style={{ color }}>
       {value}
     </Text>
@@ -36,13 +38,13 @@ const KpiCard: React.FC<KpiCardProps> = ({
 );
 
 // 图表通用配置
-const chartConfig = {
-  backgroundColor: '#ffffff',
-  backgroundGradientFrom: '#ffffff',
-  backgroundGradientTo: '#ffffff',
+const getChartConfig = (isDark: boolean) => ({
+  backgroundColor: isDark ? '#1f2937' : '#ffffff',
+  backgroundGradientFrom: isDark ? '#1f2937' : '#ffffff',
+  backgroundGradientTo: isDark ? '#1f2937' : '#ffffff',
   decimalPlaces: 0,
   color: (opacity = 1) => `rgba(59, 130, 246, ${opacity})`,
-  labelColor: (opacity = 1) => `rgba(107, 114, 128, ${opacity})`,
+  labelColor: (opacity = 1) => isDark ? `rgba(156, 163, 175, ${opacity})` : `rgba(107, 114, 128, ${opacity})`,
   style: {
     borderRadius: 16,
   },
@@ -51,9 +53,12 @@ const chartConfig = {
     strokeWidth: '2',
     stroke: '#3b82f6',
   },
-};
+});
 
 export const Sales: React.FC = () => {
+  const { isDark } = useAppColorScheme();
+  const chartConfig = getChartConfig(isDark);
+
   // 销售趋势数据
   const salesData = {
     labels: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月'],
@@ -73,28 +78,28 @@ export const Sales: React.FC = () => {
       name: '华东地区',
       population: 45,
       color: '#3b82f6',
-      legendFontColor: '#7F7F7F',
+      legendFontColor: isDark ? '#9ca3af' : '#7F7F7F',
       legendFontSize: 12,
     },
     {
       name: '华南地区',
       population: 25,
       color: '#22c55e',
-      legendFontColor: '#7F7F7F',
+      legendFontColor: isDark ? '#9ca3af' : '#7F7F7F',
       legendFontSize: 12,
     },
     {
       name: '华北地区',
       population: 15,
       color: '#f59e0b',
-      legendFontColor: '#7F7F7F',
+      legendFontColor: isDark ? '#9ca3af' : '#7F7F7F',
       legendFontSize: 12,
     },
     {
       name: '其他地区',
       population: 15,
       color: '#ef4444',
-      legendFontColor: '#7F7F7F',
+      legendFontColor: isDark ? '#9ca3af' : '#7F7F7F',
       legendFontSize: 12,
     },
   ];
@@ -103,16 +108,16 @@ export const Sales: React.FC = () => {
     <>
       {/* 时间选择器 */}
       <View className="mb-4 flex-row items-center justify-between">
-        <Text className="text-lg font-semibold">销售数据</Text>
-        <View className="flex-row overflow-hidden rounded-lg border border-gray-200 bg-white">
-          <TouchableOpacity className="border-r border-gray-200 px-3 py-1">
-            <Text className="text-sm text-gray-500">日</Text>
+        <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">销售数据</Text>
+        <View className="flex-row overflow-hidden rounded-lg border border-gray-200 bg-white dark:border-gray-600 dark:bg-gray-800">
+          <TouchableOpacity className="border-r border-gray-200 px-3 py-1 dark:border-gray-600">
+            <Text className="text-sm text-gray-500 dark:text-gray-400">日</Text>
           </TouchableOpacity>
-          <TouchableOpacity className="border-r border-gray-200 bg-blue-50 px-3 py-1">
-            <Text className="text-sm text-blue-600">月</Text>
+          <TouchableOpacity className="border-r border-gray-200 bg-blue-50 px-3 py-1 dark:border-gray-600 dark:bg-blue-900/30">
+            <Text className="text-sm text-blue-600 dark:text-blue-400">月</Text>
           </TouchableOpacity>
           <TouchableOpacity className="px-3 py-1">
-            <Text className="text-sm text-gray-500">年</Text>
+            <Text className="text-sm text-gray-500 dark:text-gray-400">年</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -150,11 +155,11 @@ export const Sales: React.FC = () => {
       </View>
 
       {/* 销售趋势图 */}
-      <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm">
+      <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
         <View className="mb-3 flex-row items-center justify-between">
-          <Text className="text-lg font-semibold">销售趋势</Text>
+          <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">销售趋势</Text>
           <TouchableOpacity>
-            <Text className="text-sm text-blue-600">详情</Text>
+            <Text className="text-sm text-blue-600 dark:text-blue-400">详情</Text>
           </TouchableOpacity>
         </View>
         <BarChart
@@ -174,11 +179,11 @@ export const Sales: React.FC = () => {
       </View>
 
       {/* 客户地区分布 */}
-      <View className="mb-10 rounded-2xl bg-white p-4 shadow-sm">
+      <View className="mb-10 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
         <View className="mb-3 flex-row items-center justify-between">
-          <Text className="text-lg font-semibold">客户地区分布</Text>
+          <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">客户地区分布</Text>
           <TouchableOpacity>
-            <Text className="text-sm text-blue-600">详情</Text>
+            <Text className="text-sm text-blue-600 dark:text-blue-400">详情</Text>
           </TouchableOpacity>
         </View>
         <View className="flex-row items-center">

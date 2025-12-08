@@ -1,9 +1,7 @@
 import React from 'react';
 import {
   Dimensions,
-  SafeAreaView,
   ScrollView,
-  StatusBar,
   Text,
   TouchableOpacity,
   View,
@@ -11,6 +9,7 @@ import {
 import { LineChart, ProgressChart } from 'react-native-chart-kit';
 
 import { FontAwesome } from '@/components/ui/icons';
+import { useAppColorScheme } from '@/lib';
 
 import { KpiCard } from './kpi-card';
 
@@ -36,34 +35,34 @@ const DeviceStatusItem: React.FC<DeviceStatusItemProps> = ({
     switch (status) {
       case 'normal':
         return {
-          container: 'bg-green-50 border-l-4 border-green-500',
-          iconBg: 'bg-green-100',
-          iconColor: 'text-green-600',
-          statusText: 'text-green-600',
+          container: 'bg-green-50 border-l-4 border-green-500 dark:bg-green-900/20',
+          iconBg: 'bg-green-100 dark:bg-green-900/30',
+          iconColor: '#16a34a',
+          statusText: 'text-green-600 dark:text-green-400',
           statusLabel: '正常',
         };
       case 'warning':
         return {
-          container: 'bg-yellow-50 border-l-4 border-yellow-500',
-          iconBg: 'bg-yellow-100',
-          iconColor: 'text-yellow-600',
-          statusText: 'text-yellow-600',
+          container: 'bg-yellow-50 border-l-4 border-yellow-500 dark:bg-yellow-900/20',
+          iconBg: 'bg-yellow-100 dark:bg-yellow-900/30',
+          iconColor: '#ca8a04',
+          statusText: 'text-yellow-600 dark:text-yellow-400',
           statusLabel: '注意',
         };
       case 'error':
         return {
-          container: 'bg-red-50 border-l-4 border-red-500',
-          iconBg: 'bg-red-100',
-          iconColor: 'text-red-600',
-          statusText: 'text-red-600',
+          container: 'bg-red-50 border-l-4 border-red-500 dark:bg-red-900/20',
+          iconBg: 'bg-red-100 dark:bg-red-900/30',
+          iconColor: '#dc2626',
+          statusText: 'text-red-600 dark:text-red-400',
           statusLabel: '故障',
         };
       default:
         return {
-          container: 'bg-gray-50 border-l-4 border-gray-500',
-          iconBg: 'bg-gray-100',
-          iconColor: 'text-gray-600',
-          statusText: 'text-gray-600',
+          container: 'bg-gray-50 border-l-4 border-gray-500 dark:bg-gray-700',
+          iconBg: 'bg-gray-100 dark:bg-gray-600',
+          iconColor: '#4b5563',
+          statusText: 'text-gray-600 dark:text-gray-400',
           statusLabel: '未知',
         };
     }
@@ -82,12 +81,12 @@ const DeviceStatusItem: React.FC<DeviceStatusItemProps> = ({
           <FontAwesome
             name={icon}
             size={20}
-            color={styles.iconColor.replace('text-', '')}
+            color={styles.iconColor}
           />
         </View>
         <View>
-          <Text className="font-medium">{name}</Text>
-          <Text className="text-xs text-gray-500">{info}</Text>
+          <Text className="font-medium text-gray-900 dark:text-gray-100">{name}</Text>
+          <Text className="text-xs text-gray-500 dark:text-gray-400">{info}</Text>
         </View>
       </View>
       <Text className={`text-sm font-medium ${styles.statusText}`}>
@@ -98,13 +97,13 @@ const DeviceStatusItem: React.FC<DeviceStatusItemProps> = ({
 };
 
 // 图表通用配置
-const chartConfig = {
-  backgroundColor: '#ffffff',
-  backgroundGradientFrom: '#ffffff',
-  backgroundGradientTo: '#ffffff',
+const getChartConfig = (isDark: boolean) => ({
+  backgroundColor: isDark ? '#1f2937' : '#ffffff',
+  backgroundGradientFrom: isDark ? '#1f2937' : '#ffffff',
+  backgroundGradientTo: isDark ? '#1f2937' : '#ffffff',
   decimalPlaces: 0,
   color: (opacity = 1) => `rgba(59, 130, 246, ${opacity})`,
-  labelColor: (opacity = 1) => `rgba(107, 114, 128, ${opacity})`,
+  labelColor: (opacity = 1) => isDark ? `rgba(156, 163, 175, ${opacity})` : `rgba(107, 114, 128, ${opacity})`,
   style: {
     borderRadius: 16,
   },
@@ -113,9 +112,12 @@ const chartConfig = {
     strokeWidth: '2',
     stroke: '#3b82f6',
   },
-};
+});
 
 export const Production: React.FC = () => {
+  const { isDark } = useAppColorScheme();
+  const chartConfig = getChartConfig(isDark);
+
   // 生产效率趋势数据
   const efficiencyData = {
     labels: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月'],
@@ -135,22 +137,20 @@ export const Production: React.FC = () => {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-50">
-      <StatusBar barStyle="dark-content" backgroundColor="transparent" />
-
+    <View className="flex-1">
       <ScrollView className="flex-1 p-4" showsVerticalScrollIndicator={false}>
         {/* 时间选择器 */}
         <View className="mb-4 flex-row items-center justify-between">
-          <Text className="text-lg font-semibold">生产数据</Text>
-          <View className="flex-row overflow-hidden rounded-lg border border-gray-200 bg-white">
-            <TouchableOpacity className="border-r border-gray-200 px-3 py-1">
-              <Text className="text-sm text-gray-500">日</Text>
+          <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">生产数据</Text>
+          <View className="flex-row overflow-hidden rounded-lg border border-gray-200 bg-white dark:border-gray-600 dark:bg-gray-800">
+            <TouchableOpacity className="border-r border-gray-200 px-3 py-1 dark:border-gray-600">
+              <Text className="text-sm text-gray-500 dark:text-gray-400">日</Text>
             </TouchableOpacity>
-            <TouchableOpacity className="border-r border-gray-200 bg-blue-50 px-3 py-1">
-              <Text className="text-sm text-blue-600">月</Text>
+            <TouchableOpacity className="border-r border-gray-200 bg-blue-50 px-3 py-1 dark:border-gray-600 dark:bg-blue-900/30">
+              <Text className="text-sm text-blue-600 dark:text-blue-400">月</Text>
             </TouchableOpacity>
             <TouchableOpacity className="px-3 py-1">
-              <Text className="text-sm text-gray-500">年</Text>
+              <Text className="text-sm text-gray-500 dark:text-gray-400">年</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -188,11 +188,11 @@ export const Production: React.FC = () => {
         </View>
 
         {/* 生产效率趋势 */}
-        <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm">
+        <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
           <View className="mb-3 flex-row items-center justify-between">
-            <Text className="text-lg font-semibold">生产效率趋势</Text>
+            <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">生产效率趋势</Text>
             <TouchableOpacity>
-              <Text className="text-sm text-blue-600">详情</Text>
+              <Text className="text-sm text-blue-600 dark:text-blue-400">详情</Text>
             </TouchableOpacity>
           </View>
           <LineChart
@@ -210,11 +210,11 @@ export const Production: React.FC = () => {
         </View>
 
         {/* 设备运行状态 */}
-        <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm">
+        <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
           <View className="mb-3 flex-row items-center justify-between">
-            <Text className="text-lg font-semibold">设备运行状态</Text>
+            <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">设备运行状态</Text>
             <TouchableOpacity>
-              <Text className="text-sm text-blue-600">详情</Text>
+              <Text className="text-sm text-blue-600 dark:text-blue-400">详情</Text>
             </TouchableOpacity>
           </View>
           <View className="space-y-3">
@@ -240,10 +240,10 @@ export const Production: React.FC = () => {
         </View>
 
         {/* 产能利用率 */}
-        <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm">
+        <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
           <View className="mb-3 flex-row items-center justify-between">
-            <Text className="text-lg font-semibold">产能利用率</Text>
-            <Text className="text-lg font-bold text-blue-600">78.5%</Text>
+            <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">产能利用率</Text>
+            <Text className="text-lg font-bold text-blue-600 dark:text-blue-400">78.5%</Text>
           </View>
           <ProgressChart
             data={capacityData}
@@ -256,6 +256,6 @@ export const Production: React.FC = () => {
           />
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 };
