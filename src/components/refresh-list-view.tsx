@@ -1,6 +1,11 @@
 import { FlashList, type FlashListProps } from '@shopify/flash-list';
 import React, { useMemo, useState } from 'react';
-import { ActivityIndicator, RefreshControl, View } from 'react-native';
+import {
+  ActivityIndicator,
+  RefreshControl,
+  View,
+  type ViewStyle,
+} from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 /**
@@ -30,6 +35,7 @@ interface RefreshListViewProps<T>
   onLoadMore?: () => void /** 是否正在刷新中 */;
   refreshing?: boolean /** 是否还有更多数据可加载 */;
   hasMore?: boolean;
+  style?: ViewStyle;
 }
 
 /**
