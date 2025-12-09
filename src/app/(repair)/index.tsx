@@ -196,7 +196,7 @@ const RepairHome: React.FC = () => {
   const fetchUserInfo = user.use.fetchUserInfo();
   const { isDark } = useAppColorScheme();
   useEffect(() => {
-    fetchUserInfo();
+    if (userInfo == null) fetchUserInfo();
   }, [userInfo, fetchUserInfo]);
 
   const router = useRouter();
