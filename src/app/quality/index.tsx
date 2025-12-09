@@ -8,9 +8,10 @@ import {
   View,
 } from 'react-native';
 
-import { NavHeader, SafeAreaView } from '@/components/ui';
+import { NavHeader, } from '@/components/ui';
 import { FontAwesome } from '@/components/ui/icons';
 import { useAppColorScheme } from '@/lib';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const Quality = () => {
   const router = useRouter();
@@ -475,9 +476,12 @@ const Quality = () => {
         return renderQualityOverview();
     }
   };
+  const insets = useSafeAreaInsets();
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-50 dark:bg-gray-900">
+    <View className="flex-1 bg-gray-50 dark:bg-gray-900"
+
+    >
       <NavHeader title="质量管理" />
 
       <ScrollView className="flex-1 p-4">
@@ -486,6 +490,9 @@ const Quality = () => {
 
         {/* 内容区域 */}
         {renderContent()}
+        <View
+          style={{ height: insets.bottom }}
+        ></View>
       </ScrollView>
 
       {/* 浮动按钮 */}
@@ -495,7 +502,8 @@ const Quality = () => {
       >
         <FontAwesome name="plus" size={20} color="#fff" />
       </TouchableOpacity>
-    </SafeAreaView>
+
+    </View>
   );
 };
 

@@ -205,7 +205,7 @@ const Materials = () => {
   );
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-100 dark:bg-gray-900">
+    <View className="flex-1 bg-gray-100 dark:bg-gray-900">
       <NavHeader
         title="物料管理"
         right={
@@ -308,7 +308,7 @@ const Materials = () => {
           </View>
         }
       />
-    </SafeAreaView>
+    </View>
   );
 };
 

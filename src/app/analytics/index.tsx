@@ -8,7 +8,7 @@ import {
   Quality,
   Sales
 } from '@/components/analytics';
-import { NavHeader, ScrollView, View, SafeAreaView } from '@/components/ui';
+import { NavHeader, ScrollView, View } from '@/components/ui';
 
 // 图表图例项组件
 // type ChartLegendItemProps = {
@@ -40,7 +40,7 @@ const Analytics: React.FC = () => {
   const [activeSegment, setActiveSegment] = useState(0);
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-100">
+    <View className="flex-1 bg-gray-100 dark:bg-gray-900">
       <NavHeader
         title="数据分析"
       // right={
@@ -68,7 +68,7 @@ const Analytics: React.FC = () => {
         {activeSegment === 3 && <Inventory />}
         {activeSegment === 4 && <Quality />}
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 };
 
