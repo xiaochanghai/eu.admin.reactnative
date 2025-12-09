@@ -1,6 +1,7 @@
 import { FlashList, type FlashListProps } from '@shopify/flash-list';
 import React, { useMemo, useState } from 'react';
 import { ActivityIndicator, RefreshControl, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 /**
  * RefreshListView 组件属性接口
@@ -60,6 +61,7 @@ export const RefreshListView = <T,>(props: RefreshListViewProps<T>) => {
     hasMore,
     ...restProps
   } = props; // 控制加载更多状态，防止重复触发
+  const insets = useSafeAreaInsets();
 
   const [isLoadMore, setIsLoadMore] = useState(false); /**
    * 处理滚动到底部的事件，触发加载更多
@@ -75,7 +77,7 @@ export const RefreshListView = <T,>(props: RefreshListViewProps<T>) => {
   };
 
   const footer = useMemo(() => {
-    if (!hasMore) return null;
+    if (!hasMore) return <View style={{ height: insets.bottom }}></View>;
     return (
       <View className="items-center justify-center p-2.5">
         <ActivityIndicator />
