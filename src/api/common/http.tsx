@@ -8,7 +8,7 @@ import axios, {
 } from 'axios';
 import { Platform } from 'react-native';
 
-import { type ResultData, ResultEnum } from '@/api/types';
+import { type ResultData, ResultEnum, type ResultPage } from '@/api/types';
 import { signOut } from '@/lib/auth';
 import { getToken, getUniqueId } from '@/lib/auth/utils';
 import { error, hideLoading } from '@/lib/message';
@@ -119,6 +119,9 @@ class RequestHttp {
     _object = {}
   ): Promise<ResultData<T>> {
     return this.service.post(url, params, _object);
+  }
+  getGridList(url: string, params?: object, _object = {}): Promise<ResultPage> {
+    return this.service.get(url, { params, ..._object });
   }
   postForm<T>(url: string, params?: object): Promise<T> {
     return this.service.postForm(url, params);

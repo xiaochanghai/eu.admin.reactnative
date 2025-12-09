@@ -32,3 +32,18 @@ export const recordDevice = async (uniqueId: string) => {
 
   return http.post('/api/SmApplicationDevice/Record', param);
 };
+/**
+ * 按过滤条件查询
+ * @param moduleCode 模块代码
+ * @param params 查询参数
+ * @param filter 过滤条件
+ * @returns 查询结果列表
+ */
+export const queryByFilter = (
+  moduleCode: string,
+  params: Record<string, any>,
+  filter: any
+) =>
+  http.getGridList(`/api/Common/QueryByFilter/${moduleCode}`, params, {
+    filter,
+  });
