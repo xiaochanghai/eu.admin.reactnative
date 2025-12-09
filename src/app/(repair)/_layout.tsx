@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { TabLayout, type TabConfig } from '@/components/tabs';
+import { type TabConfig, TabLayout } from '@/components/tabs';
 import {
   Analysis,
   Equipment,
