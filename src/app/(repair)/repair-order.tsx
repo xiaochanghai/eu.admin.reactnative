@@ -256,8 +256,7 @@ const RepairList: React.FC = () => {
         title="维修"
         leftShown={false}
         right={
-          <View className="flex-row items-center">
-            <TouchableOpacity
+           <TouchableOpacity
               className="mr-3"
               onPress={() => console.log('分享')}
             >
@@ -267,7 +266,6 @@ const RepairList: React.FC = () => {
                 color={isDark ? '#9ca3af' : '#6b7280'}
               />
             </TouchableOpacity>
-          </View>
         }
       />
 
