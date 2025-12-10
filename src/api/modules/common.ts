@@ -8,7 +8,11 @@ import {
 } from 'react-native-device-info';
 
 import http from '@/api/common/http';
-import { type DeviceInfo, type VersionInfo } from '@/api/types';
+import {
+  type DeviceInfo,
+  type ResultData,
+  type VersionInfo,
+} from '@/api/types';
 import { isWeb } from '@/lib';
 
 /** 查询最新版本信息 */
@@ -32,6 +36,7 @@ export const recordDevice = async (uniqueId: string) => {
 
   return http.post('/api/SmApplicationDevice/Record', param);
 };
+
 /**
  * 按过滤条件查询
  * @param moduleCode 模块代码
@@ -47,3 +52,17 @@ export const queryByFilter = (
   http.getGridList(`/api/Common/QueryByFilter/${moduleCode}`, params, {
     filter,
   });
+
+/**
+ * 查询详情
+ * @param url 查询URL
+ * @param id 记录ID
+ * @returns 查询结果
+ */
+
+export const queryDetail = <T>(
+  url: string,
+  id: string
+): Promise<ResultData<T>> => {
+  return http.get<T>(`${url}/${id}`);
+};
