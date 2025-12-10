@@ -1,17 +1,20 @@
+import { Env } from '@env';
 import { LinearGradient } from 'expo-linear-gradient';
-// import { useLocalSearchParams, useRouter } from 'expo-router';
-import React from 'react';
-import { ScrollView, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { ScrollView, TouchableOpacity, Image } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { queryDetail } from '@/api';
+import { useLocalSearchParams } from 'expo-router';
 
 import { NavHeader, Text, View } from '@/components/ui';
 import { FontAwesome } from '@/components/ui/icons';
 import { useAppColorScheme } from '@/lib/hooks';
+import { type Equipment } from '@/types';
 
 // 信息行组件
 type InfoRowProps = {
   label: string;
-  value: string;
+  value?: string;
   isLast?: boolean;
 };
 
@@ -223,6 +226,17 @@ const EquipmentDetail: React.FC = () => {
   // const { id } = useLocalSearchParams();
   const { isDark } = useAppColorScheme();
   const insets = useSafeAreaInsets();
+  const local = useLocalSearchParams<{ id: string }>();
+  const [data, setData] = useState<Equipment>({} as Equipment);
+
+  const loadData = async () => {
+    const { Success, Data } = await queryDetail<Equipment>("/api/EmEquipment", local.id);
+    if (Success) setData(Data)
+  };
+
+  useEffect(() => {
+    loadData();
+  }, []);
 
   // 快捷操作按钮数据
   const quickActions = [
@@ -372,33 +386,33 @@ const EquipmentDetail: React.FC = () => {
       {/* 顶部导航 */}
       <NavHeader
         title="设备详情"
-      // onBack={() => router.back()}
-      // right={
-      //   <View className="flex-row items-center">
-      //     <TouchableOpacity
-      //       className="mr-3"
-      //       onPress={() => console.log('分享')}
-      //     >
-      //       <FontAwesome
-      //         name="share-alt"
-      //         size={20}
-      //         color={isDark ? '#9ca3af' : '#6b7280'}
-      //       />
-      //     </TouchableOpacity>
-      //     <TouchableOpacity onPress={() => console.log('更多')}>
-      //       <FontAwesome
-      //         name="ellipsis-v"
-      //         size={20}
-      //         color={isDark ? '#9ca3af' : '#6b7280'}
-      //       />
-      //     </TouchableOpacity>
-      //   </View>
-      // }
+        // onBack={() => router.back()}
+        right={
+          <View className="flex-row items-center">
+            <TouchableOpacity
+              className="mr-3"
+              onPress={() => console.log('分享')}
+            >
+              <FontAwesome
+                name="share-alt"
+                size={20}
+                color={isDark ? '#9ca3af' : '#6b7280'}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => console.log('更多')}>
+              <FontAwesome
+                name="ellipsis-v"
+                size={20}
+                color={isDark ? '#9ca3af' : '#6b7280'}
+              />
+            </TouchableOpacity>
+          </View>
+        }
       />
 
       <ScrollView className="flex-1 p-4" showsVerticalScrollIndicator={false}>
         {/* 设备基本信息卡片 */}
-        <LinearGradient
+        {data && (<LinearGradient
           colors={['#3b82f6', '#2563eb']}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
@@ -415,17 +429,26 @@ const EquipmentDetail: React.FC = () => {
         >
           <View className="mb-4 flex-row items-start justify-between">
             <View className="flex-1 flex-row items-start">
-              <View className="mr-4 size-16 items-center justify-center rounded-xl bg-white/20">
-                <FontAwesome name="server" size={28} color="white" />
-              </View>
+              {/*  */}
+              {data.ImageId ? (
+                <Image
+                  source={{ uri: `${Env.API_URL}/api/File/Img/${data.ImageId}` }}
+                  className="mr-4 size-16 items-center justify-center rounded-xl bg-white/20"
+                  resizeMode="cover"
+                />
+              ) : (
+                <View className="mr-4 size-16 items-center justify-center rounded-xl bg-white/20">
+                  <FontAwesome name="server" size={28} color="white" />
+                </View>
+              )}
               <View className="flex-1">
                 <Text className="mb-2 text-2xl font-bold text-white">
-                  数控机床 CNC-01
+                  {data.MachineName}
                 </Text>
                 <Text className="mb-1 text-sm text-blue-100">
-                  设备编号：EQ-2024-001
+                  {data.MachineNo}
                 </Text>
-                <Text className="text-sm text-blue-100">位置：A车间-1号线</Text>
+                <Text className="text-sm text-blue-100">位置：{data.Location}</Text>
               </View>
             </View>
             <View className="ml-2 flex-row items-center rounded-full bg-green-500 px-3 py-1.5">
@@ -450,7 +473,7 @@ const EquipmentDetail: React.FC = () => {
               <Text className="text-sm text-blue-100">距下次保养</Text>
             </View>
           </View>
-        </LinearGradient>
+        </LinearGradient>)}
 
         {/* 快捷操作 */}
         <View className="mb-4 flex-row">
@@ -480,7 +503,7 @@ const EquipmentDetail: React.FC = () => {
         </View>
 
         {/* 设备信息 */}
-        <View className="mb-4 rounded-2xl bg-white p-5 shadow-sm dark:bg-neutral-800">
+        {data && (<View className="mb-4 rounded-2xl bg-white p-5 shadow-sm dark:bg-neutral-800">
           <View className="mb-4 flex-row items-center">
             <FontAwesome name="info-circle" size={18} color="#1890ff" />
             <Text className="ml-2 text-lg font-semibold text-gray-800 dark:text-gray-100">
@@ -488,17 +511,17 @@ const EquipmentDetail: React.FC = () => {
             </Text>
           </View>
           <View>
-            <InfoRow label="设备名称" value="数控机床 CNC-01" />
-            <InfoRow label="设备编号" value="EQ-2024-001" />
+            <InfoRow label="设备名称" value={data.MachineName} />
+            <InfoRow label="设备编号" value={data.MachineNo} />
             <InfoRow label="设备类型" value="加工设备" />
             <InfoRow label="品牌型号" value="发那科 FANUC-18i" />
             <InfoRow label="所属部门" value="生产部" />
-            <InfoRow label="安装位置" value="A车间-1号线" />
+            <InfoRow label="安装位置" value={data.Location} />
             <InfoRow label="启用日期" value="2023-05-15" />
             <InfoRow label="责任人" value="张三 (13800138000)" isLast />
           </View>
         </View>
-
+        )}
         {/* 维修统计 */}
         <View className="mb-4 rounded-2xl bg-white p-5 shadow-sm dark:bg-neutral-800">
           <View className="mb-4 flex-row items-center">
@@ -522,6 +545,7 @@ const EquipmentDetail: React.FC = () => {
             ))}
           </View>
         </View>
+
 
         {/* 维修记录 */}
         <View className="mb-4 rounded-2xl bg-white p-5 shadow-sm dark:bg-neutral-800">
