@@ -19,5 +19,8 @@ export type Equipment = {
   MachineName?: string;
   MachineType?: string;
   Status: EquipmentStatus;
+  HealthRate?: number;
+  RepairCount?: number;
+  ExtraInfo?: string;
   ID: string;
 };

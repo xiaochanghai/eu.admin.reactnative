@@ -1,7 +1,7 @@
 // ✅ 修正：LinearGradient 应从 react-native-linear-gradient 导入
 import { useRouter } from 'expo-router';
 import React, { useEffect, useRef, useState } from 'react';
-import { ScrollView, TextInput, TouchableOpacity } from 'react-native';
+import { Image, ScrollView, TextInput, TouchableOpacity } from 'react-native';
 
 import { queryByFilter } from '@/api';
 import { RefreshListView } from '@/components';
@@ -9,6 +9,7 @@ import { NavHeader, Text, View } from '@/components/ui';
 import { FontAwesome, GroupEnum } from '@/components/ui/icons';
 import { useAppColorScheme } from '@/lib/hooks';
 import { type Equipment, type EquipmentStatus } from '@/types';
+import { Env } from '@env';
 
 const PageSize = 10;
 const moduleCode = 'EM_EQUIPMENT_INFO_MNG';
@@ -47,7 +48,7 @@ const FilterButton: React.FC<FilterButtonProps> = ({
 );
 
 // ✅ 移除 EquipmentCardProps 类型定义，直接在 renderItem 中内联使用
-export default function MessagesScreen() {
+export default function Equipment() {
   const router = useRouter();
 
   const [searchText, setSearchText] = useState('');
@@ -149,7 +150,20 @@ export default function MessagesScreen() {
           {/* 顶部信息 */}
           <View className="mb-3 flex-row items-start justify-between">
             <View className="flex-1 flex-row items-start">
-              <View
+
+              {item.ImageId ? <Image
+                source={{
+                  uri: Env.API_URL + '/api/File/Img/' + item.ImageId,
+                }}
+                style={{
+                  width: 64,
+                  height: 64,
+                  borderRadius: 12,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginRight: 12,
+                }}
+              /> : <View
                 style={{
                   width: 64,
                   height: 64,
@@ -159,9 +173,7 @@ export default function MessagesScreen() {
                   marginRight: 12,
                 }}
               >
-                {/* 可选：显示图标 */}
-                {/* <FontAwesome name={item.icon as any} size={24} color="white" /> */}
-              </View>
+              </View>}
               <View className="flex-1">
                 <Text className="mb-1 text-base font-semibold text-gray-800 dark:text-gray-100">
                   {item.MachineName}
@@ -251,7 +263,7 @@ export default function MessagesScreen() {
             </View>
           </View>
         </View>
-      </TouchableOpacity>
+      </TouchableOpacity >
     );
   };
 
