@@ -1,12 +1,6 @@
 import { useRouter } from 'expo-router';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-} from 'react-native';
+import { Image, ScrollView, TextInput, TouchableOpacity } from 'react-native';
 
 import { queryByFilter } from '@/api';
 import { RefreshListView } from '@/components';
@@ -21,24 +15,39 @@ const moduleCode = 'EM_EQUIPMENT_INFO_MNG';
 
 type FilterType = 'all' | 'running' | 'repairing' | 'fault';
 
-const STATUS_COLORS = {
-  running: { bg: '#ecfdf5', text: '#059669', border: '#a7f3d0' },
-  repairing: { bg: '#fffbeb', text: '#d97706', border: '#fde68a' },
-  fault: { bg: '#fef2f2', text: '#dc2626', border: '#fecaca' },
-  default: { bg: '#f3f4f6', text: '#6b7280', border: '#e5e7eb' },
+const STATUS_CONFIG = {
+  running: {
+    bg: 'bg-emerald-50',
+    text: '#059669',
+    border: 'border-emerald-200',
+    icon: 'check-circle',
+    label: '运行中',
+  },
+  repairing: {
+    bg: 'bg-amber-50',
+    text: '#d97706',
+    border: 'border-amber-200',
+    icon: 'wrench',
+    label: '维修中',
+  },
+  fault: {
+    bg: 'bg-red-50',
+    text: '#dc2626',
+    border: 'border-red-200',
+    icon: 'exclamation-triangle',
+    label: '故障',
+  },
+  default: {
+    bg: 'bg-gray-100',
+    text: '#6b7280',
+    border: 'border-gray-200',
+    icon: 'question-circle',
+    label: '未知',
+  },
 };
 
 const getStatusConfig = (status: EquipmentStatus | null | undefined) => {
-  switch (status) {
-    case 'running':
-      return { ...STATUS_COLORS.running, icon: 'check-circle', label: '运行中' };
-    case 'repairing':
-      return { ...STATUS_COLORS.repairing, icon: 'wrench', label: '维修中' };
-    case 'fault':
-      return { ...STATUS_COLORS.fault, icon: 'exclamation-triangle', label: '故障' };
-    default:
-      return { ...STATUS_COLORS.default, icon: 'question-circle', label: '未知' };
-  }
+  return STATUS_CONFIG[status as keyof typeof STATUS_CONFIG] || STATUS_CONFIG.default;
 };
 
 type FilterButtonProps = {
@@ -46,8 +55,7 @@ type FilterButtonProps = {
   count: number;
   active: boolean;
   onPress: () => void;
-  color?: string;
-  isDark: boolean;
+  activeColor?: string;
 };
 
 const FilterButton: React.FC<FilterButtonProps> = ({
@@ -55,41 +63,29 @@ const FilterButton: React.FC<FilterButtonProps> = ({
   count,
   active,
   onPress,
-  color,
-  isDark,
+  activeColor,
 }) => (
   <TouchableOpacity
-    style={[
-      styles.filterButton,
-      isDark && styles.filterButtonDark,
-      active && { backgroundColor: color || '#3b82f6' },
-    ]}
+    className={`mr-2 flex-row items-center rounded-full px-3.5 py-2 ${active ? '' : 'bg-gray-100 dark:bg-neutral-700'
+      }`}
+    style={active ? { backgroundColor: activeColor || '#3b82f6' } : undefined}
     onPress={onPress}
     activeOpacity={0.7}
   >
     <Text
-      style={[
-        styles.filterButtonText,
-        isDark && styles.filterButtonTextDark,
-        active && styles.filterButtonTextActive,
-      ]}
+      className={`text-[13px] font-medium ${active ? 'text-white' : 'text-gray-700 dark:text-gray-300'
+        }`}
     >
       {label}
     </Text>
     <View
-      style={[
-        styles.filterBadge,
-        isDark && styles.filterBadgeDark,
-        active && styles.filterBadgeActive,
-        !active && color ? { backgroundColor: `${color}20` } : null,
-      ]}
+      className={`ml-1.5 min-w-[20px] items-center rounded-full px-1.5 py-0.5 ${active ? 'bg-white/25' : 'bg-gray-200 dark:bg-neutral-600'
+        }`}
+      style={!active && activeColor ? { backgroundColor: `${activeColor}20` } : undefined}
     >
       <Text
-        style={[
-          styles.filterBadgeText,
-          active && styles.filterBadgeTextActive,
-          !active && color ? { color } : null,
-        ]}
+        className={`text-[11px] font-semibold ${active ? 'text-white' : 'text-gray-500'}`}
+        style={!active && activeColor ? { color: activeColor } : undefined}
       >
         {count}
       </Text>
@@ -132,7 +128,7 @@ export default function Equipment() {
   }, []);
 
   const handleEquipmentPress = (item: Equipment) => {
-    console.log('Equipment pressed:', item);
+    router.push(`/equipment/${item.ID}`);
   };
 
   const onRefresh = () => {
@@ -167,46 +163,46 @@ export default function Equipment() {
 
     return (
       <TouchableOpacity
-        style={[styles.card, isDark && styles.cardDark]}
+        className="mb-3 overflow-hidden rounded-2xl bg-white shadow-sm dark:bg-neutral-800"
         onPress={() => handleEquipmentPress(item)}
         activeOpacity={0.7}
       >
         {/* 状态指示条 */}
-        <View style={[styles.statusBar, { backgroundColor: statusConfig.text }]} />
+        <View className="h-[3px] w-full" style={{ backgroundColor: statusConfig.text }} />
 
-        <View style={styles.cardContent}>
+        <View className="p-4">
           {/* 顶部区域：图片 + 信息 + 状态 */}
-          <View style={styles.cardHeader}>
+          <View className="flex-row items-start">
             {/* 设备图片 */}
-            <View style={[styles.imageContainer, isDark && styles.imageContainerDark]}>
+            <View className="size-[60px] overflow-hidden rounded-xl bg-gray-100 dark:bg-neutral-700">
               {item.ImageId ? (
                 <Image
                   source={{ uri: `${Env.API_URL}/api/File/Img/${item.ImageId}` }}
-                  style={styles.equipmentImage}
+                  className="size-full"
                   resizeMode="cover"
                 />
               ) : (
-                <View style={styles.imagePlaceholder}>
+                <View className="flex-1 items-center justify-center">
                   <FontAwesome name="cogs" size={24} color="#9ca3af" />
                 </View>
               )}
             </View>
 
             {/* 设备信息 */}
-            <View style={styles.infoContainer}>
+            <View className="ml-3 mr-2 flex-1">
               <Text
-                style={[styles.machineName, isDark && styles.textLight]}
+                className="mb-1 text-[15px] font-semibold text-gray-800 dark:text-gray-100"
                 numberOfLines={1}
               >
                 {item.MachineName}
               </Text>
-              <Text style={[styles.machineNo, isDark && styles.textMuted]}>
+              <Text className="mb-1.5 text-[13px] text-gray-500 dark:text-gray-400">
                 {item.MachineNo}
               </Text>
-              <View style={styles.locationRow}>
+              <View className="flex-row items-center">
                 <FontAwesome name="map-marker" size={11} color="#9ca3af" />
                 <Text
-                  style={[styles.locationText, isDark && styles.textMuted]}
+                  className="ml-1 flex-1 text-xs text-gray-400"
                   numberOfLines={1}
                 >
                   {item.Location || '未设置'}
@@ -216,96 +212,88 @@ export default function Equipment() {
 
             {/* 状态标签 */}
             <View
-              style={[
-                styles.statusBadge,
-                { backgroundColor: statusConfig.bg, borderColor: statusConfig.border },
-              ]}
+              className={`flex-row items-center rounded-xl border px-2.5 py-1 ${statusConfig.bg} ${statusConfig.border}`}
             >
               <FontAwesome
                 name={statusConfig.icon as any}
                 size={10}
                 color={statusConfig.text}
               />
-              <Text style={[styles.statusText, { color: statusConfig.text }]}>
+              <Text
+                className="ml-1 text-[11px] font-semibold"
+                style={{ color: statusConfig.text }}
+              >
                 {statusConfig.label}
               </Text>
             </View>
           </View>
 
           {/* 分隔线 */}
-          <View style={[styles.divider, isDark && styles.dividerDark]} />
+          <View className="my-3.5 h-px bg-gray-100 dark:bg-neutral-700" />
 
           {/* 底部统计区域 */}
-          <View style={styles.statsContainer}>
+          <View className="flex-row items-center">
             {/* 健康度 */}
-            <View style={styles.statItem}>
-              <View style={styles.statValueRow}>
+            <View className="flex-1 items-center">
+              <View className="flex-row items-baseline">
                 <Text
-                  style={[
-                    styles.statValue,
-                    { color: healthRate < 50 ? '#dc2626' : '#059669' },
-                  ]}
+                  className="text-lg font-bold"
+                  style={{ color: healthRate < 50 ? '#dc2626' : '#059669' }}
                 >
                   {healthRate}
                 </Text>
-                <Text style={styles.statUnit}>%</Text>
+                <Text className="ml-0.5 text-[11px] text-gray-400">%</Text>
               </View>
-              <Text style={[styles.statLabel, isDark && styles.textMuted]}>健康度</Text>
+              <Text className="mt-1 text-[11px] text-gray-400">健康度</Text>
               {/* 健康度进度条 */}
-              <View style={styles.progressBar}>
+              <View className="mt-1.5 h-[3px] w-[70%] overflow-hidden rounded-sm bg-gray-200">
                 <View
-                  style={[
-                    styles.progressFill,
-                    {
-                      width: `${Math.min(30, 100)}%`,
-                      backgroundColor: healthRate < 50 ? '#dc2626' : '#059669',
-                    },
-                  ]}
+                  className="h-full rounded-sm"
+                  style={{
+                    width: `${Math.min(healthRate, 100)}%`,
+                    backgroundColor: healthRate < 50 ? '#dc2626' : '#059669',
+                  }}
                 />
               </View>
             </View>
 
             {/* 分隔 */}
-            <View style={[styles.statDivider, isDark && styles.dividerDark]} />
+            <View className="h-8 w-px bg-gray-100 dark:bg-neutral-700" />
 
             {/* 维修次数 */}
-            <View style={styles.statItem}>
-              <View style={styles.statValueRow}>
-                <Text style={[styles.statValue, { color: '#3b82f6' }]}>{repairCount}</Text>
-                <Text style={styles.statUnit}>次</Text>
+            <View className="flex-1 items-center">
+              <View className="flex-row items-baseline">
+                <Text className="text-lg font-bold text-blue-500">{repairCount}</Text>
+                <Text className="ml-0.5 text-[11px] text-gray-400">次</Text>
               </View>
-              <Text style={[styles.statLabel, isDark && styles.textMuted]}>本月维修</Text>
+              <Text className="mt-1 text-[11px] text-gray-400">本月维修</Text>
             </View>
 
             {/* 分隔 */}
-            <View style={[styles.statDivider, isDark && styles.dividerDark]} />
+            <View className="h-8 w-px bg-gray-100 dark:bg-neutral-700" />
 
-            {/* 停机日期 */}
-            <View style={styles.statItem}>
-              <View style={styles.statValueRow}>
-
-                <Text
-                  style={[
-                    styles.statValueSmall,
-                    isDark && styles.textLight,
-                    {
-                      color:
-                        item.Status === 'repairing'
-                          ? '#faad14'
-                          : item.Status === 'fault'
-                            ? '#f5222d'
-                            : '#374151',
-                    },
-                  ]}
-                >
-                  xxxxxx
-                </Text>
-              </View>
-              <Text style={[styles.statLabel, isDark && styles.textMuted]}> {item.Status === 'repairing'
-                ? '维修状态'
-                : item.Status === 'fault'
-                  ? '优先级'
-                  : '距保养'}</Text>
+            {/* 状态相关信息 */}
+            <View className="flex-1 items-center">
+              <Text
+                className="text-[13px] font-semibold"
+                style={{
+                  color:
+                    item.Status === 'repairing'
+                      ? '#faad14'
+                      : item.Status === 'fault'
+                        ? '#f5222d'
+                        : '#374151',
+                }}
+              >
+                xxxxxx
+              </Text>
+              <Text className="mt-1 text-[11px] text-gray-400">
+                {item.Status === 'repairing'
+                  ? '维修状态'
+                  : item.Status === 'fault'
+                    ? '优先级'
+                    : '距保养'}
+              </Text>
             </View>
           </View>
         </View>
@@ -314,8 +302,8 @@ export default function Equipment() {
   };
 
   const EmptyState = () => (
-    <View style={styles.emptyContainer}>
-      <View style={[styles.emptyIconContainer, isDark && styles.emptyIconContainerDark]}>
+    <View className="flex-1 items-center justify-center py-16">
+      <View className="mb-4 size-20 items-center justify-center rounded-full bg-gray-100 dark:bg-neutral-700">
         <FontAwesome
           name="inbox"
           size={40}
@@ -323,97 +311,99 @@ export default function Equipment() {
           group={GroupEnum.FontAwesome}
         />
       </View>
-      <Text style={[styles.emptyTitle, isDark && styles.textLight]}>暂无设备信息</Text>
-      <Text style={[styles.emptySubtitle, isDark && styles.textMuted]}>
-        下拉刷新或添加新设备
+      <Text className="mb-2 text-[17px] font-semibold text-gray-700 dark:text-gray-100">
+        暂无设备信息
       </Text>
+      <Text className="text-sm text-gray-400">下拉刷新或添加新设备</Text>
     </View>
   );
 
   return (
-    <View style={[styles.container, isDark && styles.containerDark]}>
+    <View className="flex-1 bg-gray-50 dark:bg-neutral-900">
       {/* 顶部导航 */}
       <NavHeader
         title="设备"
         leftShown={false}
         right={
           <TouchableOpacity
-            className="mr-3"
+            className="p-2"
             onPress={() => router.push('/equipment/add')}
           >
-
-            <FontAwesome name="plus" size={20} color={isDark ? '#9ca3af' : '#6b7280'} />
+            <FontAwesome
+              name="plus"
+              size={20}
+              color={isDark ? '#9ca3af' : '#6b7280'}
+            />
           </TouchableOpacity>
         }
       />
 
       {/* 搜索和筛选区域 */}
-      <View style={[styles.searchSection, isDark && styles.searchSectionDark]}>
+      <View className="border-b border-gray-200 bg-white px-4 py-3 dark:border-neutral-700 dark:bg-neutral-800">
         {/* 搜索框 */}
-        <View style={styles.searchRow}>
-          <View style={styles.searchInputContainer}>
+        <View className="mb-3 flex-row items-center">
+          <View className="relative flex-1">
             <FontAwesome
               name="search"
               size={14}
               color="#9ca3af"
-              style={styles.searchIcon}
+              style={{ position: 'absolute', left: 12, top: 12, zIndex: 1 }}
             />
             <TextInput
-              style={[styles.searchInput, isDark && styles.searchInputDark]}
+              className="rounded-xl bg-gray-100 py-2.5 pl-10 pr-4 text-sm text-gray-700 dark:bg-neutral-700 dark:text-gray-100"
               placeholder="搜索设备名称、编号..."
               placeholderTextColor="#9ca3af"
               value={searchText}
               onChangeText={setSearchText}
             />
           </View>
-          <TouchableOpacity style={styles.searchButton} activeOpacity={0.7}>
+          <TouchableOpacity
+            className="ml-2.5 rounded-xl bg-blue-500 p-3"
+            activeOpacity={0.7}
+          >
             <FontAwesome name="search" size={16} color="white" />
           </TouchableOpacity>
         </View>
 
         {/* 筛选标签 */}
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.filterScrollContent}
-        >
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           <FilterButton
             label="全部"
             count={filterCounts.all}
             active={activeFilter === 'all'}
             onPress={() => setActiveFilter('all')}
-            isDark={isDark}
           />
           <FilterButton
             label="运行中"
             count={filterCounts.running}
             active={activeFilter === 'running'}
             onPress={() => setActiveFilter('running')}
-            color={STATUS_COLORS.running.text}
-            isDark={isDark}
+            activeColor={STATUS_CONFIG.running.text}
           />
           <FilterButton
             label="维修中"
             count={filterCounts.repairing}
             active={activeFilter === 'repairing'}
             onPress={() => setActiveFilter('repairing')}
-            color={STATUS_COLORS.repairing.text}
-            isDark={isDark}
+            activeColor={STATUS_CONFIG.repairing.text}
           />
           <FilterButton
             label="故障"
             count={filterCounts.fault}
             active={activeFilter === 'fault'}
             onPress={() => setActiveFilter('fault')}
-            color={STATUS_COLORS.fault.text}
-            isDark={isDark}
+            activeColor={STATUS_CONFIG.fault.text}
           />
           <TouchableOpacity
-            style={[styles.filterMoreButton, isDark && styles.filterMoreButtonDark]}
+            className="flex-row items-center rounded-full bg-gray-100 px-3.5 py-2 dark:bg-neutral-700"
             activeOpacity={0.7}
           >
-            <FontAwesome name="sliders" size={14} color={isDark ? '#d4d4d4' : '#374151'} />
-            <Text style={[styles.filterMoreText, isDark && styles.filterMoreTextDark]}>
+            <FontAwesome
+              name="sliders"
+              size={14}
+              color={isDark ? '#d4d4d4' : '#374151'}
+            />
+            <Text className="ml-1.5 text-[13px] font-medium text-gray-700 dark:text-gray-300">
               筛选
             </Text>
           </TouchableOpacity>
@@ -430,332 +420,8 @@ export default function Equipment() {
         ListEmptyComponent={EmptyState}
         onRefresh={onRefresh}
         onLoadMore={onLoadMore}
-        contentContainerStyle={styles.listContent}
+        contentContainerStyle={{ padding: 12 }}
       />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f9fafb',
-  },
-  containerDark: {
-    backgroundColor: '#171717',
-  },
-
-  // 搜索区域
-  searchSection: {
-    backgroundColor: '#ffffff',
-    paddingHorizontal: 16,
-    paddingTop: 12,
-    paddingBottom: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: '#e5e7eb',
-  },
-  searchSectionDark: {
-    backgroundColor: '#262626',
-    borderBottomColor: '#404040',
-  },
-  searchRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 12,
-    gap: 10,
-  },
-  searchInputContainer: {
-    flex: 1,
-    position: 'relative',
-  },
-  searchIcon: {
-    position: 'absolute',
-    left: 12,
-    top: 12,
-    zIndex: 1,
-  },
-  searchInput: {
-    backgroundColor: '#f3f4f6',
-    borderRadius: 10,
-    paddingVertical: 10,
-    paddingLeft: 40,
-    paddingRight: 16,
-    fontSize: 14,
-    color: '#374151',
-  },
-  searchInputDark: {
-    backgroundColor: '#404040',
-    color: '#f3f4f6',
-  },
-  searchButton: {
-    backgroundColor: '#3b82f6',
-    borderRadius: 10,
-    padding: 12,
-  },
-
-  // 筛选按钮
-  filterScrollContent: {
-    gap: 8,
-  },
-  filterButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#f3f4f6',
-    borderRadius: 20,
-    paddingVertical: 8,
-    paddingHorizontal: 14,
-    gap: 6,
-  },
-  filterButtonDark: {
-    backgroundColor: '#404040',
-  },
-  filterButtonText: {
-    fontSize: 13,
-    fontWeight: '500',
-    color: '#374151',
-  },
-  filterButtonTextDark: {
-    color: '#d4d4d4',
-  },
-  filterButtonTextActive: {
-    color: '#ffffff',
-  },
-  filterBadge: {
-    backgroundColor: '#e5e7eb',
-    borderRadius: 10,
-    paddingHorizontal: 6,
-    paddingVertical: 2,
-    minWidth: 20,
-    alignItems: 'center',
-  },
-  filterBadgeDark: {
-    backgroundColor: '#525252',
-  },
-  filterBadgeActive: {
-    backgroundColor: 'rgba(255,255,255,0.25)',
-  },
-  filterBadgeText: {
-    fontSize: 11,
-    fontWeight: '600',
-    color: '#6b7280',
-  },
-  filterBadgeTextActive: {
-    color: '#ffffff',
-  },
-  filterMoreButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#f3f4f6',
-    borderRadius: 20,
-    paddingVertical: 8,
-    paddingHorizontal: 14,
-    gap: 6,
-  },
-  filterMoreButtonDark: {
-    backgroundColor: '#404040',
-  },
-  filterMoreText: {
-    fontSize: 13,
-    fontWeight: '500',
-    color: '#374151',
-  },
-  filterMoreTextDark: {
-    color: '#d4d4d4',
-  },
-
-  // 列表
-  listContent: {
-    padding: 12,
-  },
-
-  // 卡片
-  card: {
-    backgroundColor: '#ffffff',
-    borderRadius: 16,
-    marginBottom: 12,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.06,
-    shadowRadius: 8,
-    elevation: 3,
-    overflow: 'hidden',
-  },
-  cardDark: {
-    backgroundColor: '#262626',
-  },
-  statusBar: {
-    height: 3,
-    width: '100%',
-  },
-  cardContent: {
-    padding: 16,
-  },
-  cardHeader: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-  },
-
-  // 设备图片
-  imageContainer: {
-    width: 60,
-    height: 60,
-    borderRadius: 12,
-    backgroundColor: '#f3f4f6',
-    overflow: 'hidden',
-  },
-  imageContainerDark: {
-    backgroundColor: '#404040',
-  },
-  equipmentImage: {
-    width: '100%',
-    height: '100%',
-  },
-  imagePlaceholder: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-
-  // 设备信息
-  infoContainer: {
-    flex: 1,
-    marginLeft: 12,
-    marginRight: 8,
-  },
-  machineName: {
-    fontSize: 15,
-    fontWeight: '600',
-    color: '#1f2937',
-    marginBottom: 4,
-  },
-  machineNo: {
-    fontSize: 13,
-    color: '#6b7280',
-    marginBottom: 6,
-  },
-  locationRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  locationText: {
-    fontSize: 12,
-    color: '#9ca3af',
-    marginLeft: 4,
-    flex: 1,
-  },
-
-  // 状态标签
-  statusBadge: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 4,
-    paddingHorizontal: 10,
-    borderRadius: 12,
-    borderWidth: 1,
-    gap: 4,
-  },
-  statusText: {
-    fontSize: 11,
-    fontWeight: '600',
-  },
-
-  // 分隔线
-  divider: {
-    height: 1,
-    backgroundColor: '#f3f4f6',
-    marginVertical: 14,
-  },
-  dividerDark: {
-    backgroundColor: '#404040',
-  },
-
-  // 底部统计
-  statsContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  statItem: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  statValueRow: {
-    flexDirection: 'row',
-    alignItems: 'baseline',
-  },
-  statValue: {
-    fontSize: 18,
-    fontWeight: '700',
-  },
-  statValueSmall: {
-    fontSize: 13,
-    fontWeight: '600',
-    color: '#374151',
-  },
-  statUnit: {
-    fontSize: 11,
-    color: '#9ca3af',
-    marginLeft: 2,
-  },
-  statLabel: {
-    fontSize: 11,
-    color: '#9ca3af',
-    marginTop: 4,
-  },
-  statDivider: {
-    width: 1,
-    height: 32,
-    backgroundColor: '#f3f4f6',
-  },
-
-  // 进度条
-  progressBar: {
-    width: '70%',
-    height: 3,
-    backgroundColor: '#e5e7eb',
-    borderRadius: 2,
-    marginTop: 6,
-    overflow: 'hidden',
-  },
-  progressFill: {
-    height: '100%',
-    borderRadius: 2,
-  },
-
-  // 文字样式
-  textLight: {
-    color: '#f3f4f6',
-  },
-  textMuted: {
-    color: '#9ca3af',
-  },
-
-  // 空状态
-  emptyContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 60,
-  },
-  emptyIconContainer: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    backgroundColor: '#f3f4f6',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 16,
-  },
-  emptyIconContainerDark: {
-    backgroundColor: '#404040',
-  },
-  emptyTitle: {
-    fontSize: 17,
-    fontWeight: '600',
-    color: '#374151',
-    marginBottom: 8,
-  },
-  emptySubtitle: {
-    fontSize: 14,
-    color: '#9ca3af',
-  },
-});
