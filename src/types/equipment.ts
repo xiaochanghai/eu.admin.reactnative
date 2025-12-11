@@ -1,3 +1,5 @@
+import { Attachment } from "./attachment";
+
 export type EquipmentStatus = 'running' | 'repairing' | 'fault';
 
 export type Equipment = {
@@ -24,4 +26,5 @@ export type Equipment = {
   RepairCount?: number;
   ExtraInfo?: string;
   ID: string;
+  Attachments?: Attachment[];
 };

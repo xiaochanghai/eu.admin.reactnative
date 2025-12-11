@@ -1,14 +1,16 @@
 import { Env } from '@env';
 import { LinearGradient } from 'expo-linear-gradient';
-import React, { useEffect, useState } from 'react';
-import { ScrollView, TouchableOpacity, Image } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { queryDetail } from '@/api';
 import { useLocalSearchParams } from 'expo-router';
+import React, { useEffect, useState } from 'react';
+import { Image, ScrollView, TouchableOpacity } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { queryDetail } from '@/api';
+import { DocumentItem } from '@/components/equipment';
 import { ImageGallery, NavHeader, Text, View } from '@/components/ui';
 import { FontAwesome } from '@/components/ui/icons';
 import { useAppColorScheme } from '@/lib/hooks';
+import { formatDateShort, formatFileSize, getFileIconInfo } from '@/lib/utils';
 import { type Equipment } from '@/types';
 
 // 信息行组件
@@ -178,49 +180,6 @@ const MaintenancePlanItem: React.FC<MaintenancePlanItemProps> = ({
   );
 };
 
-// 文档项组件
-type DocumentItemProps = {
-  icon: string;
-  iconColor: string;
-  iconBgColor: string;
-  title: string;
-  size: string;
-  date: string;
-  onPress: () => void;
-};
-
-const DocumentItem: React.FC<DocumentItemProps> = ({
-  icon,
-  iconColor,
-  iconBgColor,
-  title,
-  size,
-  date,
-  onPress,
-}) => (
-  <TouchableOpacity
-    className="mb-3 flex-row items-center rounded-lg border border-gray-200 p-3 dark:border-neutral-700"
-    onPress={onPress}
-    activeOpacity={0.7}
-  >
-    <View
-      className="mr-3 size-10 items-center justify-center rounded-lg"
-      style={{ backgroundColor: iconBgColor }}
-    >
-      <FontAwesome name={icon as any} size={18} color={iconColor} />
-    </View>
-    <View className="flex-1">
-      <Text className="text-sm font-semibold text-gray-800 dark:text-gray-100">
-        {title}
-      </Text>
-      <Text className="text-xs text-gray-500 dark:text-gray-400">
-        {size} · {date}
-      </Text>
-    </View>
-    <FontAwesome name="download" size={16} color="#1890ff" />
-  </TouchableOpacity>
-);
-
 const EquipmentDetail: React.FC = () => {
   // const router = useRouter();
   // const { id } = useLocalSearchParams();
@@ -230,8 +189,11 @@ const EquipmentDetail: React.FC = () => {
   const [data, setData] = useState<Equipment>({} as Equipment);
 
   const loadData = async () => {
-    const { Success, Data } = await queryDetail<Equipment>("/api/EmEquipment", local.id);
-    if (Success) setData(Data)
+    const { Success, Data } = await queryDetail<Equipment>(
+      '/api/EmEquipment',
+      local.id
+    );
+    if (Success) setData(Data);
   };
 
   useEffect(() => {
@@ -353,34 +315,6 @@ const EquipmentDetail: React.FC = () => {
     },
   ];
 
-  // 文档数据
-  const documents = [
-    {
-      icon: 'file-pdf-o',
-      iconColor: '#ef4444',
-      iconBgColor: '#fef2f2',
-      title: '设备说明书.pdf',
-      size: '2.5 MB',
-      date: '2023-05-15',
-    },
-    {
-      icon: 'file-word-o',
-      iconColor: '#3b82f6',
-      iconBgColor: '#eff6ff',
-      title: '维护手册.docx',
-      size: '1.8 MB',
-      date: '2023-05-15',
-    },
-    {
-      icon: 'file-excel-o',
-      iconColor: '#22c55e',
-      iconBgColor: '#f0fdf4',
-      title: '备件清单.xlsx',
-      size: '0.3 MB',
-      date: '2023-05-15',
-    },
-  ];
-
   return (
     <View className="flex-1 bg-gray-50 dark:bg-neutral-900">
       {/* 顶部导航 */}
@@ -412,68 +346,76 @@ const EquipmentDetail: React.FC = () => {
 
       <ScrollView className="flex-1 p-4" showsVerticalScrollIndicator={false}>
         {/* 设备基本信息卡片 */}
-        {data && (<LinearGradient
-          colors={['#3b82f6', '#2563eb']}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          style={{
-            borderRadius: 16,
-            padding: 24,
-            marginBottom: 16,
-            shadowColor: '#000',
-            shadowOffset: { width: 0, height: 2 },
-            shadowOpacity: 0.1,
-            shadowRadius: 8,
-            elevation: 3,
-          }}
-        >
-          <View className="mb-4 flex-row items-start justify-between">
-            <View className="flex-1 flex-row items-start">
-              {/*  */}
-              {data.ImageId ? (
-                <Image
-                  source={{ uri: `${Env.API_URL}/api/File/Img/${data.ImageId}` }}
-                  className="mr-4 size-16 items-center justify-center rounded-xl bg-white/20"
-                  resizeMode="cover"
-                />
-              ) : (
-                <View className="mr-4 size-16 items-center justify-center rounded-xl bg-white/20">
-                  <FontAwesome name="server" size={28} color="white" />
+        {data && (
+          <LinearGradient
+            colors={['#3b82f6', '#2563eb']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={{
+              borderRadius: 16,
+              padding: 24,
+              marginBottom: 16,
+              shadowColor: '#000',
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.1,
+              shadowRadius: 8,
+              elevation: 3,
+            }}
+          >
+            <View className="mb-4 flex-row items-start justify-between">
+              <View className="flex-1 flex-row items-start">
+                {/*  */}
+                {data.ImageId ? (
+                  <Image
+                    source={{
+                      uri: `${Env.API_URL}/api/File/Img/${data.ImageId}`,
+                    }}
+                    className="mr-4 size-16 items-center justify-center rounded-xl bg-white/20"
+                    resizeMode="cover"
+                  />
+                ) : (
+                  <View className="mr-4 size-16 items-center justify-center rounded-xl bg-white/20">
+                    <FontAwesome name="server" size={28} color="white" />
+                  </View>
+                )}
+                <View className="flex-1">
+                  <Text className="mb-2 text-2xl font-bold text-white">
+                    {data.MachineName}
+                  </Text>
+                  <Text className="mb-1 text-sm text-blue-100">
+                    {data.MachineNo}
+                  </Text>
+                  <Text className="text-sm text-blue-100">
+                    位置：{data.Location}
+                  </Text>
                 </View>
-              )}
-              <View className="flex-1">
-                <Text className="mb-2 text-2xl font-bold text-white">
-                  {data.MachineName}
+              </View>
+              <View className="ml-2 flex-row items-center rounded-full bg-green-500 px-3 py-1.5">
+                <FontAwesome name="circle" size={6} color="white" />
+                <Text className="ml-1 text-sm font-semibold text-white">
+                  运行中
                 </Text>
-                <Text className="mb-1 text-sm text-blue-100">
-                  {data.MachineNo}
-                </Text>
-                <Text className="text-sm text-blue-100">位置：{data.Location}</Text>
               </View>
             </View>
-            <View className="ml-2 flex-row items-center rounded-full bg-green-500 px-3 py-1.5">
-              <FontAwesome name="circle" size={6} color="white" />
-              <Text className="ml-1 text-sm font-semibold text-white">
-                运行中
-              </Text>
-            </View>
-          </View>
 
-          <View className="mt-6 flex-row">
-            <View className="flex-1 items-center">
-              <Text className="mb-1 text-3xl font-bold text-white">98%</Text>
-              <Text className="text-sm text-blue-100">健康度</Text>
+            <View className="mt-6 flex-row">
+              <View className="flex-1 items-center">
+                <Text className="mb-1 text-3xl font-bold text-white">98%</Text>
+                <Text className="text-sm text-blue-100">健康度</Text>
+              </View>
+              <View className="flex-1 items-center border-x border-white/20">
+                <Text className="mb-1 text-3xl font-bold text-white">
+                  2,845
+                </Text>
+                <Text className="text-sm text-blue-100">运行时长(h)</Text>
+              </View>
+              <View className="flex-1 items-center">
+                <Text className="mb-1 text-3xl font-bold text-white">5天</Text>
+                <Text className="text-sm text-blue-100">距下次保养</Text>
+              </View>
             </View>
-            <View className="flex-1 items-center border-x border-white/20">
-              <Text className="mb-1 text-3xl font-bold text-white">2,845</Text>
-              <Text className="text-sm text-blue-100">运行时长(h)</Text>
-            </View>
-            <View className="flex-1 items-center">
-              <Text className="mb-1 text-3xl font-bold text-white">5天</Text>
-              <Text className="text-sm text-blue-100">距下次保养</Text>
-            </View>
-          </View>
-        </LinearGradient>)}
+          </LinearGradient>
+        )}
 
         {/* 快捷操作 */}
         <View className="mb-4 flex-row">
@@ -521,24 +463,25 @@ const EquipmentDetail: React.FC = () => {
         )}
 
         {/* 设备信息 */}
-        {data && (<View className="mb-4 rounded-2xl bg-white p-5 shadow-sm dark:bg-neutral-800">
-          <View className="mb-4 flex-row items-center">
-            <FontAwesome name="info-circle" size={18} color="#1890ff" />
-            <Text className="ml-2 text-lg font-semibold text-gray-800 dark:text-gray-100">
-              设备信息
-            </Text>
+        {data && (
+          <View className="mb-4 rounded-2xl bg-white p-5 shadow-sm dark:bg-neutral-800">
+            <View className="mb-4 flex-row items-center">
+              <FontAwesome name="info-circle" size={18} color="#1890ff" />
+              <Text className="ml-2 text-lg font-semibold text-gray-800 dark:text-gray-100">
+                设备信息
+              </Text>
+            </View>
+            <View>
+              <InfoRow label="设备名称" value={data.MachineName} />
+              <InfoRow label="设备编号" value={data.MachineNo} />
+              <InfoRow label="设备类型" value="加工设备" />
+              <InfoRow label="品牌型号" value="发那科 FANUC-18i" />
+              <InfoRow label="所属部门" value="生产部" />
+              <InfoRow label="安装位置" value={data.Location} />
+              <InfoRow label="启用日期" value="2023-05-15" />
+              <InfoRow label="责任人" value="张三 (13800138000)" isLast />
+            </View>
           </View>
-          <View>
-            <InfoRow label="设备名称" value={data.MachineName} />
-            <InfoRow label="设备编号" value={data.MachineNo} />
-            <InfoRow label="设备类型" value="加工设备" />
-            <InfoRow label="品牌型号" value="发那科 FANUC-18i" />
-            <InfoRow label="所属部门" value="生产部" />
-            <InfoRow label="安装位置" value={data.Location} />
-            <InfoRow label="启用日期" value="2023-05-15" />
-            <InfoRow label="责任人" value="张三 (13800138000)" isLast />
-          </View>
-        </View>
         )}
         {/* 维修统计 */}
         <View className="mb-4 rounded-2xl bg-white p-5 shadow-sm dark:bg-neutral-800">
@@ -563,7 +506,6 @@ const EquipmentDetail: React.FC = () => {
             ))}
           </View>
         </View>
-
 
         {/* 维修记录 */}
         <View className="mb-4 rounded-2xl bg-white p-5 shadow-sm dark:bg-neutral-800">
@@ -618,23 +560,37 @@ const EquipmentDetail: React.FC = () => {
         </View>
 
         {/* 设备文档 */}
-        <View className="mb-4 rounded-2xl bg-white p-5 shadow-sm dark:bg-neutral-800">
-          <View className="mb-4 flex-row items-center">
-            <FontAwesome name="folder" size={18} color="#1890ff" />
-            <Text className="ml-2 text-lg font-semibold text-gray-800 dark:text-gray-100">
-              设备文档
-            </Text>
+        {data?.Attachments && data.Attachments.length > 0 && (
+          <View className="mb-4 rounded-2xl bg-white p-5 shadow-sm dark:bg-neutral-800">
+            <View className="mb-4 flex-row items-center">
+              <FontAwesome name="folder" size={18} color="#1890ff" />
+              <Text className="ml-2 text-lg font-semibold text-gray-800 dark:text-gray-100">
+                设备文档
+              </Text>
+            </View>
+            <View>
+              {data.Attachments.map((attachment) => {
+                const iconInfo = getFileIconInfo(attachment.FileExt);
+                return (
+                  <DocumentItem
+                    key={attachment.ID}
+                    {...iconInfo}
+                    title={
+                      attachment.OriginalFileName ||
+                      attachment.FileName ||
+                      '未知文件'
+                    }
+                    size={formatFileSize(attachment.Length)}
+                    date={formatDateShort(attachment.CreatedTime)}
+                    onPress={() =>
+                      console.log('下载', attachment.OriginalFileName)
+                    }
+                  />
+                );
+              })}
+            </View>
           </View>
-          <View>
-            {documents.map((doc, index) => (
-              <DocumentItem
-                key={index}
-                {...doc}
-                onPress={() => console.log('下载', doc.title)}
-              />
-            ))}
-          </View>
-        </View>
+        )}
 
         {/* 底部空间 */}
         <View className="h-[100px]" />

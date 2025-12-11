@@ -1,0 +1,24 @@
+export type Attachment = {
+  MasterId?: string;
+  OriginalFileName?: string;
+  FileName?: string;
+  FileExt?: string;
+  Path?: string;
+  Length?: string;
+  ImageType?: string;
+  IsDeleted?: boolean;
+  IsActive?: boolean;
+  ImportDataId?: null;
+  ModificationNum?: number;
+  Tag?: number;
+  GroupId?: string;
+  CompanyId?: string;
+  AuditStatus?: string;
+  CurrentNode?: null;
+  CreatedBy?: string;
+  CreatedTime?: Date;
+  UpdateBy?: null;
+  UpdateTime?: null;
+  ModuleCode?: null;
+  ID: string;
+}
