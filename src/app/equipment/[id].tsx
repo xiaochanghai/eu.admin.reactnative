@@ -64,34 +64,6 @@ const EquipmentDetail: React.FC = () => {
     },
   ];
 
-  // 维修统计数据
-  const repairStats = [
-    {
-      value: '12次',
-      label: '累计维修',
-      bgColor: '#eff6ff',
-      textColor: '#1890ff',
-    },
-    {
-      value: '8次',
-      label: '累计保养',
-      bgColor: '#f0fdf4',
-      textColor: '#52c41a',
-    },
-    {
-      value: '2次',
-      label: '本月维修',
-      bgColor: '#fff7ed',
-      textColor: '#faad14',
-    },
-    {
-      value: '¥8,500',
-      label: '维修成本',
-      bgColor: '#faf5ff',
-      textColor: '#a855f7',
-    },
-  ];
-
   // 维修记录数据
   const repairRecords = [
     {
@@ -331,7 +303,7 @@ const EquipmentDetail: React.FC = () => {
             </Text>
           </View>
           <View className="flex-row flex-wrap">
-            {repairStats.map((stat, index) => (
+            {data.RepairStats?.map((stat, index) => (
               <View
                 key={index}
                 className="w-[48%]"
