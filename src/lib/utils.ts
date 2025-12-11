@@ -243,3 +243,51 @@ export function compareVersions(
 
   return 0; // 完全相等
 }
+
+// 根据文件扩展名获取图标信息
+export const getFileIconInfo = (fileExt?: string) => {
+  const ext = fileExt?.toLowerCase()?.replace('.', '') || '';
+  switch (ext) {
+    case 'pdf':
+      return { icon: 'file-pdf-o', iconColor: '#ef4444', iconBgColor: '#fef2f2' };
+    case 'doc':
+    case 'docx':
+      return { icon: 'file-word-o', iconColor: '#3b82f6', iconBgColor: '#eff6ff' };
+    case 'xls':
+    case 'xlsx':
+      return { icon: 'file-excel-o', iconColor: '#22c55e', iconBgColor: '#f0fdf4' };
+    case 'ppt':
+    case 'pptx':
+      return { icon: 'file-powerpoint-o', iconColor: '#f97316', iconBgColor: '#fff7ed' };
+    case 'jpg':
+    case 'jpeg':
+    case 'png':
+    case 'gif':
+      return { icon: 'file-image-o', iconColor: '#8b5cf6', iconBgColor: '#f5f3ff' };
+    case 'zip':
+    case 'rar':
+    case '7z':
+      return { icon: 'file-archive-o', iconColor: '#eab308', iconBgColor: '#fefce8' };
+    case 'txt':
+      return { icon: 'file-text-o', iconColor: '#6b7280', iconBgColor: '#f9fafb' };
+    default:
+      return { icon: 'file-o', iconColor: '#6b7280', iconBgColor: '#f9fafb' };
+  }
+};
+
+// 格式化文件大小
+export const formatFileSize = (size?: string) => {
+  if (!size) return '';
+  const bytes = parseInt(size, 10);
+  if (isNaN(bytes)) return size;
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+};
+
+// 格式化日期（简短格式）
+export const formatDateShort = (date?: Date) => {
+  if (!date) return '';
+  const d = new Date(date);
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+};
