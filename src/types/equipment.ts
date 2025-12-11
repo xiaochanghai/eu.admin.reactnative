@@ -5,6 +5,7 @@ export type Equipment = {
   BrandModel?: string;
   StopDate?: string;
   ImageId?: string;
+  ImageIds?: string[];
   AnnualInspectionDate?: string;
   UseDeptId?: string;
   MachineStatus?: string;
