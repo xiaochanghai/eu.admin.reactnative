@@ -7,6 +7,7 @@ export { default as colors } from './colors';
 export * from './date-picker';
 export * from './focus-aware-status-bar';
 export * from './image';
+export * from './image-gallery';
 export * from './input';
 export * from './input-date';
 export * from './input-with-icon';
