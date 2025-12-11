@@ -1,18 +1,12 @@
 import { Env } from '@env';
 import { LinearGradient } from 'expo-linear-gradient';
 import React, { useEffect, useState } from 'react';
-import {
-  ScrollView,
-  TouchableOpacity,
-  Image,
-  Dimensions,
-  Modal,
-} from 'react-native';
+import { ScrollView, TouchableOpacity, Image } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { queryDetail } from '@/api';
 import { useLocalSearchParams } from 'expo-router';
 
-import { NavHeader, Text, View } from '@/components/ui';
+import { ImageGallery, NavHeader, Text, View } from '@/components/ui';
 import { FontAwesome } from '@/components/ui/icons';
 import { useAppColorScheme } from '@/lib/hooks';
 import { type Equipment } from '@/types';
@@ -226,123 +220,6 @@ const DocumentItem: React.FC<DocumentItemProps> = ({
     <FontAwesome name="download" size={16} color="#1890ff" />
   </TouchableOpacity>
 );
-
-// 图片画廊组件
-type ImageGalleryProps = {
-  imageIds: string[];
-};
-
-const { width: screenWidth } = Dimensions.get('window');
-// 屏幕宽度 - 外层padding(16*2) - 卡片padding(20*2) - 图片间距(12*2)
-const imageSize = (screenWidth - 32 - 40 - 24) / 3;
-
-const ImageGallery: React.FC<ImageGalleryProps> = ({ imageIds }) => {
-  const [modalVisible, setModalVisible] = useState(false);
-  const [selectedIndex, setSelectedIndex] = useState(0);
-
-  const openImage = (index: number) => {
-    setSelectedIndex(index);
-    setModalVisible(true);
-  };
-
-  if (!imageIds || imageIds.length === 0) {
-    return null;
-  }
-
-  return (
-    <>
-      <View className="mb-4 rounded-2xl bg-white p-5 shadow-sm dark:bg-neutral-800">
-        <View className="mb-4 flex-row items-center justify-between">
-          <View className="flex-row items-center">
-            <FontAwesome name="image" size={18} color="#1890ff" />
-            <Text className="ml-2 text-lg font-semibold text-gray-800 dark:text-gray-100">
-              设备图片
-            </Text>
-          </View>
-          <Text className="text-sm text-gray-500 dark:text-gray-400">
-            共 {imageIds.length} 张
-          </Text>
-        </View>
-        <View className="flex-row flex-wrap">
-          {imageIds.map((imageId, index) => (
-            <TouchableOpacity
-              key={imageId}
-              onPress={() => openImage(index)}
-              activeOpacity={0.8}
-              style={{
-                marginRight: (index + 1) % 3 === 0 ? 0 : 12,
-                marginBottom: 12,
-              }}
-            >
-              <Image
-                source={{ uri: `${Env.API_URL}/api/File/Img/${imageId}` }}
-                style={{
-                  width: imageSize,
-                  height: imageSize,
-                  borderRadius: 8,
-                }}
-                resizeMode="cover"
-              />
-            </TouchableOpacity>
-          ))}
-        </View>
-      </View>
-
-      {/* 图片预览 Modal */}
-      <Modal
-        visible={modalVisible}
-        transparent
-        animationType="fade"
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <View className="flex-1 items-center justify-center bg-black/90">
-          <TouchableOpacity
-            className="absolute right-4 top-12 z-10 size-10 items-center justify-center rounded-full bg-white/20"
-            onPress={() => setModalVisible(false)}
-          >
-            <FontAwesome name="times" size={20} color="white" />
-          </TouchableOpacity>
-
-          <ScrollView
-            horizontal
-            pagingEnabled
-            showsHorizontalScrollIndicator={false}
-            contentOffset={{ x: selectedIndex * screenWidth, y: 0 }}
-          >
-            {imageIds.map((imageId) => (
-              <View
-                key={imageId}
-                style={{ width: screenWidth }}
-                className="items-center justify-center"
-              >
-                <Image
-                  source={{ uri: `${Env.API_URL}/api/File/Img/${imageId}` }}
-                  style={{
-                    width: screenWidth - 32,
-                    height: screenWidth - 32,
-                    borderRadius: 12,
-                  }}
-                  resizeMode="contain"
-                />
-              </View>
-            ))}
-          </ScrollView>
-
-          <View className="absolute bottom-12 flex-row">
-            {imageIds.map((_, index) => (
-              <View
-                key={index}
-                className={`mx-1 size-2 rounded-full ${
-                  index === selectedIndex ? 'bg-white' : 'bg-white/40'
-                }`}
-              />
-            ))}
-          </View>
-        </View>
-      </Modal>
-    </>
-  );
-};
 
 const EquipmentDetail: React.FC = () => {
   // const router = useRouter();
@@ -627,7 +504,20 @@ const EquipmentDetail: React.FC = () => {
 
         {/* 设备图片 */}
         {data?.ImageIds && data.ImageIds.length > 0 && (
-          <ImageGallery imageIds={data.ImageIds} />
+          <View className="mb-4 rounded-2xl bg-white p-5 shadow-sm dark:bg-neutral-800">
+            <View className="mb-4 flex-row items-center justify-between">
+              <View className="flex-row items-center">
+                <FontAwesome name="image" size={18} color="#1890ff" />
+                <Text className="ml-2 text-lg font-semibold text-gray-800 dark:text-gray-100">
+                  设备图片
+                </Text>
+              </View>
+              <Text className="text-sm text-gray-500 dark:text-gray-400">
+                共 {data.ImageIds.length} 张
+              </Text>
+            </View>
+            <ImageGallery imageIds={data.ImageIds} />
+          </View>
         )}
 
         {/* 设备信息 */}
@@ -655,7 +545,7 @@ const EquipmentDetail: React.FC = () => {
           <View className="mb-4 flex-row items-center">
             <FontAwesome name="bar-chart-o" size={18} color="#1890ff" />
             <Text className="ml-2 text-lg font-semibold text-gray-800 dark:text-gray-100">
-              维修统计1
+              维修统计
             </Text>
           </View>
           <View className="flex-row flex-wrap">
