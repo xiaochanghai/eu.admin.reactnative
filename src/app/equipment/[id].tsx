@@ -197,7 +197,7 @@ const EquipmentDetail: React.FC = () => {
                     {data.MachineNo}
                   </Text>
                   <Text className="text-sm text-blue-100">
-                    位置：{data.Location}
+                    位置：{data.Location ?? '未设置'}
                   </Text>
                 </View>
               </View>
@@ -285,12 +285,12 @@ const EquipmentDetail: React.FC = () => {
             <View>
               <InfoRow label="设备名称" value={data.MachineName} />
               <InfoRow label="设备编号" value={data.MachineNo} />
-              <InfoRow label="设备类型" value="加工设备" />
-              <InfoRow label="品牌型号" value="发那科 FANUC-18i" />
-              <InfoRow label="所属部门" value="生产部" />
+              <InfoRow label="设备类型" value={data.MachineType} />
+              <InfoRow label="品牌型号" value={data.BrandModel} />
+              <InfoRow label="所属部门" value={data.DeptName} />
               <InfoRow label="安装位置" value={data.Location} />
-              <InfoRow label="启用日期" value="2023-05-15" />
-              <InfoRow label="责任人" value="张三 (13800138000)" isLast />
+              <InfoRow label="启用日期" value={data.StartDate1} />
+              <InfoRow label="责任人" value={data.UseManagerName} isLast />
             </View>
           </View>
         )}

@@ -1,3 +1,4 @@
+import { Env } from '@env';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Image, ScrollView, TextInput, TouchableOpacity } from 'react-native';
@@ -8,7 +9,6 @@ import { NavHeader, Text, View } from '@/components/ui';
 import { FontAwesome, GroupEnum } from '@/components/ui/icons';
 import { useAppColorScheme } from '@/lib/hooks';
 import { type Equipment, type EquipmentStatus } from '@/types';
-import { Env } from '@env';
 
 const PageSize = 10;
 const moduleCode = 'EM_EQUIPMENT_INFO_MNG';
@@ -47,7 +47,9 @@ const STATUS_CONFIG = {
 };
 
 const getStatusConfig = (status: EquipmentStatus | null | undefined) => {
-  return STATUS_CONFIG[status as keyof typeof STATUS_CONFIG] || STATUS_CONFIG.default;
+  return (
+    STATUS_CONFIG[status as keyof typeof STATUS_CONFIG] || STATUS_CONFIG.default
+  );
 };
 
 type FilterButtonProps = {
@@ -66,22 +68,23 @@ const FilterButton: React.FC<FilterButtonProps> = ({
   activeColor,
 }) => (
   <TouchableOpacity
-    className={`mr-2 flex-row items-center rounded-full px-3.5 py-2 ${active ? '' : 'bg-gray-100 dark:bg-neutral-700'
-      }`}
+    className={`mr-2 flex-row items-center rounded-full px-3.5 py-2 ${active ? '' : 'bg-gray-100 dark:bg-neutral-700'}`}
     style={active ? { backgroundColor: activeColor || '#3b82f6' } : undefined}
     onPress={onPress}
     activeOpacity={0.7}
   >
     <Text
-      className={`text-[13px] font-medium ${active ? 'text-white' : 'text-gray-700 dark:text-gray-300'
-        }`}
+      className={`text-[13px] font-medium ${active ? 'text-white' : 'text-gray-700 dark:text-gray-300'}`}
     >
       {label}
     </Text>
     <View
-      className={`ml-1.5 min-w-[20px] items-center rounded-full px-1.5 py-0.5 ${active ? 'bg-white/25' : 'bg-gray-200 dark:bg-neutral-600'
-        }`}
-      style={!active && activeColor ? { backgroundColor: `${activeColor}20` } : undefined}
+      className={`ml-1.5 min-w-[20px] items-center rounded-full px-1.5 py-0.5 ${active ? 'bg-white/25' : 'bg-gray-200 dark:bg-neutral-600'}`}
+      style={
+        !active && activeColor
+          ? { backgroundColor: `${activeColor}20` }
+          : undefined
+      }
     >
       <Text
         className={`text-[11px] font-semibold ${active ? 'text-white' : 'text-gray-500'}`}
@@ -93,7 +96,7 @@ const FilterButton: React.FC<FilterButtonProps> = ({
   </TouchableOpacity>
 );
 
-export default function Equipment() {
+export default function EquipmentView() {
   const router = useRouter();
   const [searchText, setSearchText] = useState('');
   const [activeFilter, setActiveFilter] = useState<FilterType>('all');
@@ -112,7 +115,11 @@ export default function Equipment() {
       Conditions: '',
     };
 
-    const { success, data, total } = await queryByFilter(moduleCode, {}, filter);
+    const { success, data, total } = await queryByFilter(
+      moduleCode,
+      {},
+      filter
+    );
 
     if (success && Array.isArray(data)) {
       const newHasMore = list.length + data.length < (total || 0);
@@ -158,7 +165,7 @@ export default function Equipment() {
 
   const renderEquipmentCard = ({ item }: { item: Equipment }) => {
     const statusConfig = getStatusConfig(item.Status);
-    const healthRate = item.HealthRate ?? 0;
+    const healthRate = item.Health ?? 0;
     const repairCount = item.RepairCount ?? 0;
 
     return (
@@ -168,7 +175,10 @@ export default function Equipment() {
         activeOpacity={0.7}
       >
         {/* 状态指示条 */}
-        <View className="h-[3px] w-full" style={{ backgroundColor: statusConfig.text }} />
+        <View
+          className="h-[3px] w-full"
+          style={{ backgroundColor: statusConfig.text }}
+        />
 
         <View className="p-4">
           {/* 顶部区域：图片 + 信息 + 状态 */}
@@ -177,7 +187,9 @@ export default function Equipment() {
             <View className="size-[60px] overflow-hidden rounded-xl bg-gray-100 dark:bg-neutral-700">
               {item.ImageId ? (
                 <Image
-                  source={{ uri: `${Env.API_URL}/api/File/Img/${item.ImageId}` }}
+                  source={{
+                    uri: `${Env.API_URL}/api/File/Img/${item.ImageId}`,
+                  }}
                   className="size-full"
                   resizeMode="cover"
                 />
@@ -263,7 +275,9 @@ export default function Equipment() {
             {/* 维修次数 */}
             <View className="flex-1 items-center">
               <View className="flex-row items-baseline">
-                <Text className="text-lg font-bold text-blue-500">{repairCount}</Text>
+                <Text className="text-lg font-bold text-blue-500">
+                  {repairCount}
+                </Text>
                 <Text className="ml-0.5 text-[11px] text-gray-400">次</Text>
               </View>
               <Text className="mt-1 text-[11px] text-gray-400">本月维修</Text>

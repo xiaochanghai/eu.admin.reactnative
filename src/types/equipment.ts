@@ -1,4 +1,4 @@
-import { Attachment } from "./attachment";
+import { type Attachment } from './attachment';
 
 export type EquipmentStatus = 'running' | 'repairing' | 'fault';
 
@@ -8,21 +8,21 @@ export type Equipment = {
   RepairCount?: number;
   CurrentMonthRepairCount?: number;
   MaintenanceCount?: number;
-  MaintenanceOrder?: null;
-  RepairOrder?: null;
-  UseManagerName?: null;
-  StartDate1?: null;
-  DeptName?: null;
-  Runtime?: null;
+  MaintenanceOrder?: string;
+  RepairOrder?: string;
+  UseManagerName?: string;
+  StartDate1?: string;
+  DeptName?: string;
+  Runtime?: string;
   Health?: number;
-  StatusText?: null;
-  MachineType?: string;
+  StatusText?: string;
+  MachineTypeId?: string;
   MachineNo?: string;
   MachineName?: string;
-  MachineStatus?: null;
-  UseDeptId?: null;
-  UseManeageId?: null;
-  RepairManeageId?: null;
+  Status: EquipmentStatus;
+  UseDeptId?: string;
+  UseManeageId?: string;
+  RepairManeageId?: string;
   BrandModel?: string;
   Manufacturer?: string;
   Supplier?: string;
@@ -32,27 +32,28 @@ export type Equipment = {
   CommissioningDate?: Date;
   StopDate?: Date;
   ImageId?: string;
-  Remark?: null;
+  Remark?: string;
   IsDeleted?: boolean;
   IsActive?: boolean;
-  ImportDataId?: null;
+  ImportDataId?: string;
   ModificationNum?: number;
   Tag?: number;
-  GroupId?: null;
-  CompanyId?: null;
+  GroupId?: string;
+  CompanyId?: string;
   AuditStatus?: string;
-  CurrentNode?: null;
+  CurrentNode?: string;
   CreatedBy?: string;
   CreatedTime?: Date;
   UpdateBy?: string;
   UpdateTime?: Date;
-  ModuleCode?: null;
+  ModuleCode?: string;
+  MachineType?: string;
   ID: string;
   RepairStats: EquipmentRepairStats[];
-}
+};
 export type EquipmentRepairStats = {
   value: string;
   label: string;
   bgColor: string;
   textColor: string;
-}
+};
