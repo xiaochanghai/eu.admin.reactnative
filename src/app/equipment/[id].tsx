@@ -6,179 +6,18 @@ import { Image, ScrollView, TouchableOpacity } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { queryDetail } from '@/api';
-import { DocumentItem } from '@/components/equipment';
+import {
+  DocumentItem,
+  InfoRow,
+  MaintenancePlanItem,
+  RepairRecordItem,
+  StatCard,
+} from '@/components/equipment';
 import { ImageGallery, NavHeader, Text, View } from '@/components/ui';
 import { FontAwesome } from '@/components/ui/icons';
 import { useAppColorScheme } from '@/lib/hooks';
 import { formatDateShort, formatFileSize, getFileIconInfo } from '@/lib/utils';
 import { type Equipment } from '@/types';
-
-// 信息行组件
-type InfoRowProps = {
-  label: string;
-  value?: string;
-  isLast?: boolean;
-};
-
-const InfoRow: React.FC<InfoRowProps> = ({ label, value, isLast = false }) => (
-  <View
-    className={`flex-row items-center justify-between py-2 ${!isLast ? 'border-b border-gray-100 dark:border-neutral-700' : ''}`}
-  >
-    <Text className="text-sm text-gray-500 dark:text-gray-400">{label}</Text>
-    <Text className="text-sm font-semibold text-gray-800 dark:text-gray-100">
-      {value}
-    </Text>
-  </View>
-);
-
-// 统计卡片组件
-type StatCardProps = {
-  value: string;
-  label: string;
-  bgColor: string;
-  textColor: string;
-  isDark: boolean;
-};
-
-const StatCard: React.FC<StatCardProps> = ({
-  value,
-  label,
-  bgColor,
-  textColor,
-  isDark,
-}) => {
-  // 在暗黑模式下使用半透明的深色背景
-  const darkBgColor = isDark ? 'rgba(64, 64, 64, 0.5)' : bgColor;
-
-  return (
-    <View
-      className="rounded-xl p-4 text-center"
-      style={{ backgroundColor: darkBgColor }}
-    >
-      <Text className="mb-1 text-2xl font-bold" style={{ color: textColor }}>
-        {value}
-      </Text>
-      <Text className="text-sm text-gray-600 dark:text-gray-400">{label}</Text>
-    </View>
-  );
-};
-
-// 维修记录项组件
-type RepairRecordItemProps = {
-  title: string;
-  description: string;
-  assignee: string;
-  date: string;
-  status: string;
-  statusColor: string;
-  borderColor: string;
-  bgColor: string;
-  isDark: boolean;
-};
-
-const RepairRecordItem: React.FC<RepairRecordItemProps> = ({
-  title,
-  description,
-  assignee,
-  date,
-  status,
-  statusColor,
-  borderColor,
-  bgColor,
-  isDark,
-}) => {
-  // 在暗黑模式下使用半透明的深色背景
-  const darkBgColor = isDark ? 'rgba(64, 64, 64, 0.3)' : bgColor;
-
-  return (
-    <View
-      className="mb-3 rounded-lg p-3"
-      style={{
-        backgroundColor: darkBgColor,
-        borderLeftWidth: 4,
-        borderLeftColor: borderColor,
-      }}
-    >
-      <View className="mb-2 flex-row items-start justify-between">
-        <View className="flex-1">
-          <Text className="mb-1 text-sm font-semibold text-gray-800 dark:text-gray-100">
-            {title}
-          </Text>
-          <Text className="text-xs text-gray-600 dark:text-gray-400">
-            {description}
-          </Text>
-        </View>
-        <View
-          className="ml-2 rounded px-2 py-1"
-          style={{ backgroundColor: statusColor }}
-        >
-          <Text className="text-xs text-white">{status}</Text>
-        </View>
-      </View>
-      <View className="flex-row items-center justify-between">
-        <View className="flex-row items-center">
-          <FontAwesome name="user" size={10} color="#9ca3af" />
-          <Text className="ml-1 text-xs text-gray-500 dark:text-gray-400">
-            {assignee}
-          </Text>
-        </View>
-        <View className="flex-row items-center">
-          <FontAwesome name="clock-o" size={10} color="#9ca3af" />
-          <Text className="ml-1 text-xs text-gray-500 dark:text-gray-400">
-            {date}
-          </Text>
-        </View>
-      </View>
-    </View>
-  );
-};
-
-// 保养计划项组件
-type MaintenancePlanItemProps = {
-  title: string;
-  date: string;
-  daysLeft: string;
-  borderColor: string;
-  bgColor: string;
-  textColor: string;
-  isDark: boolean;
-};
-
-const MaintenancePlanItem: React.FC<MaintenancePlanItemProps> = ({
-  title,
-  date,
-  daysLeft,
-  borderColor,
-  bgColor,
-  textColor,
-  isDark,
-}) => {
-  // 在暗黑模式下使用半透明的深色背景
-  const darkBgColor = isDark ? 'rgba(64, 64, 64, 0.3)' : bgColor;
-
-  return (
-    <View
-      className="mb-3 flex-row items-center rounded-lg p-3"
-      style={{
-        backgroundColor: darkBgColor,
-        borderLeftWidth: 4,
-        borderLeftColor: borderColor,
-      }}
-    >
-      <View className="flex-1">
-        <Text className="mb-1 text-sm font-semibold text-gray-800 dark:text-gray-100">
-          {title}
-        </Text>
-        <Text className="text-xs text-gray-600 dark:text-gray-400">
-          下次保养时间：{date}
-        </Text>
-      </View>
-      <Text className="text-xs font-semibold" style={{ color: textColor }}>
-        {daysLeft}
-      </Text>
-    </View>
-  );
-};
 
 const EquipmentDetail: React.FC = () => {
   // const router = useRouter();
