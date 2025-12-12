@@ -256,16 +256,16 @@ const RepairList: React.FC = () => {
         title="维修"
         leftShown={false}
         right={
-           <TouchableOpacity
-              className="mr-3"
-              onPress={() => console.log('分享')}
-            >
-              <FontAwesome
-                name="plus"
-                size={20}
-                color={isDark ? '#9ca3af' : '#6b7280'}
-              />
-            </TouchableOpacity>
+          <TouchableOpacity
+            className="mr-3"
+            onPress={() => router.push('/repair-order/add')}
+          >
+            <FontAwesome
+              name="plus"
+              size={20}
+              color={isDark ? '#9ca3af' : '#6b7280'}
+            />
+          </TouchableOpacity>
         }
       />
 

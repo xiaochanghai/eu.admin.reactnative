@@ -1,5 +1,5 @@
 import { useRouter } from 'expo-router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Alert,
   ScrollView,
@@ -8,10 +8,11 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
+import { queryLov } from '@/api';
 import { NavHeader, Text, View } from '@/components/ui';
 import { FontAwesome } from '@/components/ui/icons';
-import { useAppColorScheme } from '@/lib/hooks';
 import { error, info } from '@/lib/message';
+import { type SmLov } from '@/types';
 
 // 设备选项类型
 type Equipment = {
@@ -62,10 +63,7 @@ const RadioButton: React.FC<RadioButtonProps> = ({
 }) => (
   <TouchableOpacity
     onPress={onPress}
-    className={`flex-row items-center rounded-lg border-2 p-3 ${selected
-        ? 'border-primary-500 bg-blue-50 dark:bg-blue-950/30'
-        : 'border-gray-200 dark:border-neutral-700'
-      }`}
+    className={`flex-row items-center rounded-lg border-2 p-3 ${selected ? 'border-primary-500 bg-blue-50 dark:bg-blue-950/30' : 'border-gray-200 dark:border-neutral-700'}`}
     activeOpacity={0.7}
   >
     {icon && (
@@ -102,8 +100,7 @@ const PriorityButton: React.FC<PriorityButtonProps> = ({
 }) => (
   <TouchableOpacity
     onPress={onPress}
-    className={`flex-1 items-center justify-center rounded-lg border-2 py-4 ${selected ? `border-[${color}]` : 'border-gray-200 dark:border-neutral-700'
-      }`}
+    className={`flex-1 items-center justify-center rounded-lg border-2 py-4 ${selected ? `border-[${color}]` : 'border-gray-200 dark:border-neutral-700'}`}
     style={
       selected
         ? { borderColor: color, backgroundColor: `${color}10` }
@@ -127,15 +124,15 @@ const PriorityButton: React.FC<PriorityButtonProps> = ({
 
 const AddRepairOrder: React.FC = () => {
   const router = useRouter();
-  const { isDark } = useAppColorScheme();
 
   // 表单状态
   const [selectedEquipment, setSelectedEquipment] = useState<string>('');
   const [faultType, setFaultType] = useState<string>('');
+  const [faultTypes, setFaultTypes] = useState<SmLov[]>([]);
   const [priority, setPriority] = useState<string>('');
   const [impact, setImpact] = useState<string>('');
   const [faultDescription, setFaultDescription] = useState<string>('');
-  const [expectedTime, setExpectedTime] = useState<string>('');
+  const [expectedTime] = useState<string>('');
   const [assignedTechnician, setAssignedTechnician] = useState<string>('');
   const [remarks, setRemarks] = useState<string>('');
   const [needShutdown, setNeedShutdown] = useState<boolean>(false);
@@ -161,6 +158,15 @@ const AddRepairOrder: React.FC = () => {
       ? `${technician.name} - ${technician.level}`
       : '系统自动分配';
   };
+
+  const loadData = async () => {
+    const { Success, Data } = await queryLov('EquipmentFaultType');
+    if (Success) setFaultTypes(Data);
+  };
+
+  useEffect(() => {
+    loadData();
+  }, []);
 
   // 验证表单
   const validateForm = () => {
@@ -189,20 +195,6 @@ const AddRepairOrder: React.FC = () => {
       return false;
     }
     return true;
-  };
-
-  // 保存草稿
-  const handleSaveDraft = () => {
-    Alert.alert('保存草稿', '是否保存为草稿？', [
-      { text: '取消', style: 'cancel' },
-      {
-        text: '确定',
-        onPress: () => {
-          info('已保存为草稿');
-          router.back();
-        },
-      },
-    ]);
   };
 
   // 提交表单
@@ -270,10 +262,7 @@ const AddRepairOrder: React.FC = () => {
                           setSelectedEquipment(equipment.id);
                           setShowEquipmentPicker(false);
                         }}
-                        className={`border-b border-gray-100 p-3 dark:border-neutral-600 ${selectedEquipment === equipment.id
-                            ? 'bg-blue-50 dark:bg-blue-950/30'
-                            : ''
-                          }`}
+                        className={`border-b border-gray-100 p-3 dark:border-neutral-600 ${selectedEquipment === equipment.id ? 'bg-blue-50 dark:bg-blue-950/30' : ''}`}
                         activeOpacity={0.7}
                       >
                         <Text className="text-sm font-medium text-gray-800 dark:text-gray-100">
@@ -314,45 +303,26 @@ const AddRepairOrder: React.FC = () => {
 
           <View className="space-y-4">
             {/* 故障类型 */}
-            <View>
-              <Text className="mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-                故障类型 <Text className="text-red-500">*</Text>
-              </Text>
-              <View className="gap-2">
-                <View className="flex-row gap-2">
-                  <View className="flex-1">
-                    <RadioButton
-                      label="机械故障"
-                      selected={faultType === 'mechanical'}
-                      onPress={() => setFaultType('mechanical')}
-                    />
-                  </View>
-                  <View className="flex-1">
-                    <RadioButton
-                      label="电气故障"
-                      selected={faultType === 'electrical'}
-                      onPress={() => setFaultType('electrical')}
-                    />
-                  </View>
-                </View>
-                <View className="flex-row gap-2">
-                  <View className="flex-1">
-                    <RadioButton
-                      label="液压故障"
-                      selected={faultType === 'hydraulic'}
-                      onPress={() => setFaultType('hydraulic')}
-                    />
-                  </View>
-                  <View className="flex-1">
-                    <RadioButton
-                      label="其他故障"
-                      selected={faultType === 'other'}
-                      onPress={() => setFaultType('other')}
-                    />
+            {faultTypes && faultTypes.length > 0 && (
+              <View>
+                <Text className="mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                  故障类型 <Text className="text-red-500">*</Text>
+                </Text>
+                <View className="gap-2">
+                  <View className="flex-row gap-2">
+                    {faultTypes.map((faultType1, index) => (
+                      <View className="flex-1" key={index}>
+                        <RadioButton
+                          label={faultType1.label}
+                          selected={faultType === faultType1.value}
+                          onPress={() => setFaultType(faultType1.value)}
+                        />
+                      </View>
+                    ))}
                   </View>
                 </View>
               </View>
-            </View>
+            )}
 
             {/* 优先级 */}
             <View>
@@ -519,10 +489,7 @@ const AddRepairOrder: React.FC = () => {
                       setAssignedTechnician('');
                       setShowTechnicianPicker(false);
                     }}
-                    className={`border-b border-gray-100 p-3 dark:border-neutral-600 ${!assignedTechnician
-                        ? 'bg-blue-50 dark:bg-blue-950/30'
-                        : ''
-                      }`}
+                    className={`border-b border-gray-100 p-3 dark:border-neutral-600 ${!assignedTechnician ? 'bg-blue-50 dark:bg-blue-950/30' : ''}`}
                     activeOpacity={0.7}
                   >
                     <Text className="text-sm text-gray-800 dark:text-gray-100">
@@ -536,10 +503,7 @@ const AddRepairOrder: React.FC = () => {
                         setAssignedTechnician(technician.id);
                         setShowTechnicianPicker(false);
                       }}
-                      className={`border-b border-gray-100 p-3 dark:border-neutral-600 ${assignedTechnician === technician.id
-                          ? 'bg-blue-50 dark:bg-blue-950/30'
-                          : ''
-                        }`}
+                      className={`border-b border-gray-100 p-3 dark:border-neutral-600 ${assignedTechnician === technician.id ? 'bg-blue-50 dark:bg-blue-950/30' : ''}`}
                       activeOpacity={0.7}
                     >
                       <Text className="text-sm text-gray-800 dark:text-gray-100">
@@ -642,7 +606,7 @@ const AddRepairOrder: React.FC = () => {
               • 上传故障图片可帮助维修人员提前准备工具和备件
             </Text>
             <Text className="text-xs text-gray-600 dark:text-gray-300">
-              • 维修工单创建后可在"维修管理"中查看进度
+              • 维修工单创建后可在&quot;维修管理&quot;中查看进度
             </Text>
           </View>
         </View>
@@ -651,18 +615,6 @@ const AddRepairOrder: React.FC = () => {
       {/* 底部固定操作栏 */}
       <View className="border-t border-gray-200 bg-white p-4 shadow-lg dark:border-neutral-700 dark:bg-neutral-800">
         <View className="flex-row gap-3">
-          <TouchableOpacity
-            className="flex-1 items-center rounded-lg border-2 border-gray-300 py-3 dark:border-neutral-600"
-            onPress={handleSaveDraft}
-            activeOpacity={0.7}
-          >
-            <View className="flex-row items-center">
-              <FontAwesome name="save" size={16} color="#6b7280" />
-              <Text className="ml-2 font-semibold text-gray-700 dark:text-gray-300">
-                存为草稿
-              </Text>
-            </View>
-          </TouchableOpacity>
           <TouchableOpacity
             className="flex-1 items-center rounded-lg bg-primary-500 py-3"
             onPress={handleSubmit}
