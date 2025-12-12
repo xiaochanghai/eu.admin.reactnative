@@ -14,6 +14,7 @@ import {
   type VersionInfo,
 } from '@/api/types';
 import { isWeb } from '@/lib';
+import { type SmLov } from '@/types';
 
 /** 查询最新版本信息 */
 export const queryLatestVersion = () => {
@@ -65,4 +66,8 @@ export const queryDetail = <T>(
   id: string
 ): Promise<ResultData<T>> => {
   return http.get<T>(`${url}/${id}`);
+};
+
+export const queryLov = (code: string) => {
+  return http.get<SmLov[]>(`/api/SmLov/QueryByCode/${code}`);
 };

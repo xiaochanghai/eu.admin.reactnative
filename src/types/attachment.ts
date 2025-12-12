@@ -21,4 +21,4 @@ export type Attachment = {
   UpdateTime?: null;
   ModuleCode?: null;
   ID: string;
-}
+};
