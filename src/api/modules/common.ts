@@ -71,3 +71,12 @@ export const queryDetail = <T>(
 export const queryLov = (code: string) => {
   return http.get<SmLov[]>(`/api/SmLov/QueryByCode/${code}`);
 };
+
+/**
+ * 获取下拉表格数据
+ * @param params 查询参数
+ * @returns 下拉表格数据
+ */
+export const getComboGridData = (params: Record<string, any>) => {
+  return http.post<SmLov[]>('/api/Common/GetComboGridData', params);
+};
