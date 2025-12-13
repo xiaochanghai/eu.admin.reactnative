@@ -133,7 +133,7 @@ const ImageUpload: React.FC = () => {
 
 export default function AddEquipment() {
   const router = useRouter();
-  const { isDark } = useAppColorScheme();
+  // const { isDark } = useAppColorScheme();
   const [equipmentType, setEquipmentType] = useState('');
   const [department, setDepartment] = useState('');
   const insets = useSafeAreaInsets();

@@ -9,32 +9,11 @@ import {
 } from 'react-native';
 
 import { queryLov } from '@/api';
-import { NavHeader, Text, View } from '@/components/ui';
+import http from '@/api/common/http';
+import { DatePickerInput, NavHeader, Text, View } from '@/components/ui';
 import { FontAwesome } from '@/components/ui/icons';
 import { error, info } from '@/lib/message';
-import { type SmLov } from '@/types';
-
-// 设备选项类型
-type Equipment = {
-  id: string;
-  name: string;
-  code: string;
-  location: string;
-};
-
-// 设备数据
-const equipmentList: Equipment[] = [
-  { id: '1', name: '数控机床', code: 'CNC-01', location: 'A车间-1号线' },
-  { id: '2', name: '数控机床', code: 'CNC-03', location: 'A车间-3号线' },
-  { id: '3', name: '注塑机', code: 'IM-03', location: 'B车间-2号线' },
-  { id: '4', name: '注塑机', code: 'IM-05', location: 'B车间-5号线' },
-  { id: '5', name: '空压机', code: 'AC-01', location: '动力车间' },
-  { id: '6', name: '空压机', code: 'AC-02', location: '动力车间' },
-  { id: '7', name: '空压机', code: 'AC-05', location: '动力车间' },
-  { id: '8', name: '传送带', code: 'CB-01', location: 'C车间-包装区' },
-  { id: '9', name: '传送带', code: 'CB-02', location: 'C车间-包装区' },
-  { id: '10', name: '混料机', code: 'MX-08', location: 'C车间-配料区' },
-];
+import { type Equipment, type SmLov } from '@/types';
 
 // 维修人员数据
 const technicianList = [
@@ -129,10 +108,11 @@ const AddRepairOrder: React.FC = () => {
   const [selectedEquipment, setSelectedEquipment] = useState<string>('');
   const [faultType, setFaultType] = useState<string>('');
   const [faultTypes, setFaultTypes] = useState<SmLov[]>([]);
+  const [equipmentList, setEquipmentList] = useState<Equipment[]>([]);
   const [priority, setPriority] = useState<string>('');
   const [impact, setImpact] = useState<string>('');
   const [faultDescription, setFaultDescription] = useState<string>('');
-  const [expectedTime] = useState<string>('');
+  const [expectedTime, setExpectedTime] = useState<Date>();
   const [assignedTechnician, setAssignedTechnician] = useState<string>('');
   const [remarks, setRemarks] = useState<string>('');
   const [needShutdown, setNeedShutdown] = useState<boolean>(false);
@@ -144,9 +124,9 @@ const AddRepairOrder: React.FC = () => {
   // 获取选中的设备
   const getSelectedEquipmentText = () => {
     if (!selectedEquipment) return '请选择需要维修的设备';
-    const equipment = equipmentList.find((e) => e.id === selectedEquipment);
+    const equipment = equipmentList.find((e) => e.ID === selectedEquipment);
     return equipment
-      ? `${equipment.name} ${equipment.code} (${equipment.location})`
+      ? `${equipment.MachineName} ${equipment.MachineNo} (${equipment.Location})`
       : '请选择需要维修的设备';
   };
 
@@ -159,13 +139,20 @@ const AddRepairOrder: React.FC = () => {
       : '系统自动分配';
   };
 
-  const loadData = async () => {
+  const loadFaultType = async () => {
     const { Success, Data } = await queryLov('EquipmentFaultType');
     if (Success) setFaultTypes(Data);
   };
+  const loadEquipment = async () => {
+    const { Success, Data } = await http.get<Equipment[]>(
+      '/api/EmRepairOrder/GetEquipment'
+    );
+    if (Success) setEquipmentList(Data);
+  };
 
   useEffect(() => {
-    loadData();
+    loadFaultType();
+    loadEquipment();
   }, []);
 
   // 验证表单
@@ -257,19 +244,19 @@ const AddRepairOrder: React.FC = () => {
                   <ScrollView>
                     {equipmentList.map((equipment) => (
                       <TouchableOpacity
-                        key={equipment.id}
+                        key={equipment.ID}
                         onPress={() => {
-                          setSelectedEquipment(equipment.id);
+                          setSelectedEquipment(equipment.ID);
                           setShowEquipmentPicker(false);
                         }}
-                        className={`border-b border-gray-100 p-3 dark:border-neutral-600 ${selectedEquipment === equipment.id ? 'bg-blue-50 dark:bg-blue-950/30' : ''}`}
+                        className={`border-b border-gray-100 p-3 dark:border-neutral-600 ${selectedEquipment === equipment.ID ? 'bg-blue-50 dark:bg-blue-950/30' : ''}`}
                         activeOpacity={0.7}
                       >
                         <Text className="text-sm font-medium text-gray-800 dark:text-gray-100">
-                          {equipment.name} {equipment.code}
+                          {equipment.MachineName} {equipment.MachineNo}
                         </Text>
                         <Text className="text-xs text-gray-500 dark:text-gray-400">
-                          {equipment.location}
+                          {equipment.Location}
                         </Text>
                       </TouchableOpacity>
                     ))}
@@ -453,15 +440,19 @@ const AddRepairOrder: React.FC = () => {
                 期望完成时间 <Text className="text-red-500">*</Text>
               </Text>
               <TouchableOpacity
-                className="rounded-lg border border-gray-300 px-4 py-3 dark:border-neutral-600"
+                // className="rounded-lg border border-gray-300 px-4 py-3 dark:border-neutral-600"
                 onPress={() => info('日期选择器开发中')}
                 activeOpacity={0.7}
               >
-                <Text
+                {/* <Text
                   className={`text-sm ${expectedTime ? 'text-gray-800 dark:text-gray-100' : 'text-gray-400 dark:text-gray-500'}`}
                 >
                   {expectedTime || '请选择期望完成时间'}
-                </Text>
+                </Text> */}
+                <DatePickerInput
+                  value={expectedTime}
+                  onChange={(date) => setExpectedTime(date)}
+                />
               </TouchableOpacity>
             </View>
 
