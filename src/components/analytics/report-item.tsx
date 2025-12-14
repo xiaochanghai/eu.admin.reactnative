@@ -33,12 +33,20 @@ export const ReportItem: React.FC<ReportItemProps> = ({
           style={{ marginRight: 12 }}
         />
         <View>
-          <Text className="text-sm font-medium text-gray-900 dark:text-gray-100">{title}</Text>
-          <Text className="mt-0.5 text-xs text-gray-500 dark:text-gray-400">{date}</Text>
+          <Text className="text-sm font-medium text-gray-900 dark:text-gray-100">
+            {title}
+          </Text>
+          <Text className="mt-0.5 text-xs text-gray-500 dark:text-gray-400">
+            {date}
+          </Text>
         </View>
       </View>
       <TouchableOpacity onPress={onPress}>
-        <FontAwesome name="download" size={16} color={isDark ? '#60a5fa' : '#0066ff'} />
+        <FontAwesome
+          name="download"
+          size={16}
+          color={isDark ? '#60a5fa' : '#0066ff'}
+        />
       </TouchableOpacity>
     </View>
   );

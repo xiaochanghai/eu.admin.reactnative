@@ -6,7 +6,7 @@ import {
   OverView,
   Production,
   Quality,
-  Sales
+  Sales,
 } from '@/components/analytics';
 import { NavHeader, ScrollView, View } from '@/components/ui';
 
@@ -41,16 +41,7 @@ const Analytics: React.FC = () => {
 
   return (
     <View className="flex-1 bg-gray-100 dark:bg-gray-900">
-      <NavHeader
-        title="数据分析"
-      // right={
-      //   <>
-      //     <TouchableOpacity>
-      //       <FontAwesome name="plus" size={12} />
-      //     </TouchableOpacity>
-      //   </>
-      // }
-      />
+      <NavHeader title="数据分析" />
       <ScrollView className="flex-1 p-4" showsVerticalScrollIndicator={false}>
         {/* 分段控制器 */}
         <View className="mb-4">

@@ -120,7 +120,9 @@ export const Report = () => {
     <View>
       {/* 报表概览 - 标题和日期选择器 */}
       <View className="mb-3 flex-row items-center justify-between">
-        <Text className="text-lg font-semibold text-gray-800 dark:text-gray-100">生产报表</Text>
+        <Text className="text-lg font-semibold text-gray-800 dark:text-gray-100">
+          生产报表
+        </Text>
         <ReportDateSelector />
       </View>
 
@@ -128,26 +130,44 @@ export const Report = () => {
       <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
         <View className="mb-3 flex-row items-center justify-between">
           <Text className="text-base font-semibold">生产数据</Text>
-          <Text className="text-sm text-gray-500 dark:text-gray-400">2023-12-05</Text>
+          <Text className="text-sm text-gray-500 dark:text-gray-400">
+            2023-12-05
+          </Text>
         </View>
 
         {/* 生产数据统计网格 */}
         <View className="mb-4 flex-row flex-wrap">
           <View className="mb-3 w-1/2">
-            <Text className="mb-1 text-lg font-bold text-blue-600 dark:text-blue-400">1,250</Text>
-            <Text className="text-xs text-gray-500 dark:text-gray-400">计划产量</Text>
+            <Text className="mb-1 text-lg font-bold text-blue-600 dark:text-blue-400">
+              1,250
+            </Text>
+            <Text className="text-xs text-gray-500 dark:text-gray-400">
+              计划产量
+            </Text>
           </View>
           <View className="mb-3 w-1/2">
-            <Text className="mb-1 text-lg font-bold text-blue-600 dark:text-blue-400">1,180</Text>
-            <Text className="text-xs text-gray-500 dark:text-gray-400">实际产量</Text>
+            <Text className="mb-1 text-lg font-bold text-blue-600 dark:text-blue-400">
+              1,180
+            </Text>
+            <Text className="text-xs text-gray-500 dark:text-gray-400">
+              实际产量
+            </Text>
           </View>
           <View className="mb-3 w-1/2">
-            <Text className="mb-1 text-lg font-bold text-blue-600 dark:text-blue-400">94.4%</Text>
-            <Text className="text-xs text-gray-500 dark:text-gray-400">计划完成率</Text>
+            <Text className="mb-1 text-lg font-bold text-blue-600 dark:text-blue-400">
+              94.4%
+            </Text>
+            <Text className="text-xs text-gray-500 dark:text-gray-400">
+              计划完成率
+            </Text>
           </View>
           <View className="mb-3 w-1/2">
-            <Text className="mb-1 text-lg font-bold text-blue-600 dark:text-blue-400">98.3%</Text>
-            <Text className="text-xs text-gray-500 dark:text-gray-400">良品率</Text>
+            <Text className="mb-1 text-lg font-bold text-blue-600 dark:text-blue-400">
+              98.3%
+            </Text>
+            <Text className="text-xs text-gray-500 dark:text-gray-400">
+              良品率
+            </Text>
           </View>
         </View>
 
@@ -165,11 +185,15 @@ export const Report = () => {
               <View className="flex-row items-center">
                 <View className="mr-4 flex-row items-center">
                   <View className="mr-1 size-3 rounded-sm bg-blue-500" />
-                  <Text className="text-xs text-gray-600 dark:text-gray-400">计划</Text>
+                  <Text className="text-xs text-gray-600 dark:text-gray-400">
+                    计划
+                  </Text>
                 </View>
                 <View className="flex-row items-center">
                   <View className="mr-1 size-3 rounded-sm bg-green-500" />
-                  <Text className="text-xs text-gray-600 dark:text-gray-400">实际</Text>
+                  <Text className="text-xs text-gray-600 dark:text-gray-400">
+                    实际
+                  </Text>
                 </View>
               </View>
             </View>
@@ -254,26 +278,44 @@ export const Report = () => {
       <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
         <View className="mb-3 flex-row items-center justify-between">
           <Text className="text-base font-semibold">设备运行报表</Text>
-          <Text className="text-sm text-gray-500 dark:text-gray-400">2023-12-05</Text>
+          <Text className="text-sm text-gray-500 dark:text-gray-400">
+            2023-12-05
+          </Text>
         </View>
 
         {/* 设备运行数据统计网格 */}
         <View className="mb-4 flex-row flex-wrap">
           <View className="mb-3 w-1/2">
-            <Text className="mb-1 text-lg font-bold text-blue-600 dark:text-blue-400">32</Text>
-            <Text className="text-xs text-gray-500 dark:text-gray-400">设备总数</Text>
+            <Text className="mb-1 text-lg font-bold text-blue-600 dark:text-blue-400">
+              32
+            </Text>
+            <Text className="text-xs text-gray-500 dark:text-gray-400">
+              设备总数
+            </Text>
           </View>
           <View className="mb-3 w-1/2">
-            <Text className="mb-1 text-lg font-bold text-blue-600 dark:text-blue-400">28</Text>
-            <Text className="text-xs text-gray-500 dark:text-gray-400">运行设备</Text>
+            <Text className="mb-1 text-lg font-bold text-blue-600 dark:text-blue-400">
+              28
+            </Text>
+            <Text className="text-xs text-gray-500 dark:text-gray-400">
+              运行设备
+            </Text>
           </View>
           <View className="mb-3 w-1/2">
-            <Text className="mb-1 text-lg font-bold text-blue-600 dark:text-blue-400">87.5%</Text>
-            <Text className="text-xs text-gray-500 dark:text-gray-400">设备利用率</Text>
+            <Text className="mb-1 text-lg font-bold text-blue-600 dark:text-blue-400">
+              87.5%
+            </Text>
+            <Text className="text-xs text-gray-500 dark:text-gray-400">
+              设备利用率
+            </Text>
           </View>
           <View className="mb-3 w-1/2">
-            <Text className="mb-1 text-lg font-bold text-blue-600 dark:text-blue-400">4.2h</Text>
-            <Text className="text-xs text-gray-500 dark:text-gray-400">平均运行</Text>
+            <Text className="mb-1 text-lg font-bold text-blue-600 dark:text-blue-400">
+              4.2h
+            </Text>
+            <Text className="text-xs text-gray-500 dark:text-gray-400">
+              平均运行
+            </Text>
           </View>
         </View>
 
@@ -331,8 +373,12 @@ export const Report = () => {
 
                 {/* 中心白色圆 */}
                 <View className="size-16 items-center justify-center rounded-full bg-white">
-                  <Text className="text-xs font-bold text-gray-800 dark:text-gray-100">32台</Text>
-                  <Text className="text-xs text-gray-500 dark:text-gray-400">设备</Text>
+                  <Text className="text-xs font-bold text-gray-800 dark:text-gray-100">
+                    32台
+                  </Text>
+                  <Text className="text-xs text-gray-500 dark:text-gray-400">
+                    设备
+                  </Text>
                 </View>
               </View>
             </View>
@@ -393,7 +439,9 @@ export const Report = () => {
             color="#ef4444"
             style={{ marginRight: 12 }}
           />
-          <Text className="text-sm text-gray-800 dark:text-gray-100">下载本月生产报表</Text>
+          <Text className="text-sm text-gray-800 dark:text-gray-100">
+            下载本月生产报表
+          </Text>
         </TouchableOpacity>
       </View>
     </View>

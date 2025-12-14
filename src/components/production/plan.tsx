@@ -56,7 +56,9 @@ export const PlanItem: React.FC<PlanItemProps> = ({
     <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
       {/* 标题和状态区域 - 使用弹性布局和对齐方式 */}
       <View className="mb-2 flex-row items-start justify-between">
-        <Text className="text-base font-medium text-gray-800 dark:text-gray-100">{title}</Text>
+        <Text className="text-base font-medium text-gray-800 dark:text-gray-100">
+          {title}
+        </Text>
         <StatusBadge
           status={status}
           color={statusColor}
@@ -65,19 +67,29 @@ export const PlanItem: React.FC<PlanItemProps> = ({
       </View>
 
       {/* 计划编号 - 使用灰色文本和下边距 */}
-      <Text className="mb-2 text-sm text-gray-500 dark:text-gray-400">计划编号：{code}</Text>
+      <Text className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+        计划编号：{code}
+      </Text>
 
       {/* 负责人和截止日期 - 使用弹性布局和间距 */}
       <View className="mb-3 flex-row justify-between">
-        <Text className="text-sm text-gray-500 dark:text-gray-400">负责人：{manager}</Text>
-        <Text className="text-sm text-gray-500 dark:text-gray-400">截止日期：{deadline}</Text>
+        <Text className="text-sm text-gray-500 dark:text-gray-400">
+          负责人：{manager}
+        </Text>
+        <Text className="text-sm text-gray-500 dark:text-gray-400">
+          截止日期：{deadline}
+        </Text>
       </View>
 
       {/* 进度条区域 - 使用下边距和嵌套布局 */}
       <View className="mb-2">
         <View className="mb-1 flex-row justify-between">
-          <Text className="text-sm text-gray-500 dark:text-gray-400">完成进度</Text>
-          <Text className="text-sm text-gray-500 dark:text-gray-400">{progress}%</Text>
+          <Text className="text-sm text-gray-500 dark:text-gray-400">
+            完成进度
+          </Text>
+          <Text className="text-sm text-gray-500 dark:text-gray-400">
+            {progress}%
+          </Text>
         </View>
         <ProgressBar progress={progress} color={statusColor} />
       </View>
@@ -85,10 +97,18 @@ export const PlanItem: React.FC<PlanItemProps> = ({
       {/* 底部统计和详情链接 - 使用弹性布局和对齐 */}
       <View className="flex-row items-center justify-between">
         <View className="flex-row items-center">
-          <Text className="text-sm text-gray-500 dark:text-gray-400">计划产量：</Text>
-          <Text className="mr-3 text-sm font-medium dark:text-gray-100">{total}</Text>
-          <Text className="text-sm text-gray-500 dark:text-gray-400">已完成：</Text>
-          <Text className="mr-3 text-sm font-medium dark:text-gray-100">{completed}</Text>
+          <Text className="text-sm text-gray-500 dark:text-gray-400">
+            计划产量：
+          </Text>
+          <Text className="mr-3 text-sm font-medium dark:text-gray-100">
+            {total}
+          </Text>
+          <Text className="text-sm text-gray-500 dark:text-gray-400">
+            已完成：
+          </Text>
+          <Text className="mr-3 text-sm font-medium dark:text-gray-100">
+            {completed}
+          </Text>
         </View>
       </View>
     </View>
@@ -156,16 +176,28 @@ export const Plans = () => {
         {/* 统计数据网格 */}
         <View className="mb-3 flex-row justify-between">
           <View className="flex-1 items-center">
-            <Text className="text-2xl font-bold text-blue-600 dark:text-blue-400">15</Text>
-            <Text className="mt-1 text-xs text-gray-500 dark:text-gray-400">计划总数</Text>
+            <Text className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+              15
+            </Text>
+            <Text className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+              计划总数
+            </Text>
           </View>
           <View className="flex-1 items-center">
-            <Text className="text-2xl font-bold text-green-500 dark:text-green-400">8</Text>
-            <Text className="mt-1 text-xs text-gray-500 dark:text-gray-400">进行中</Text>
+            <Text className="text-2xl font-bold text-green-500 dark:text-green-400">
+              8
+            </Text>
+            <Text className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+              进行中
+            </Text>
           </View>
           <View className="flex-1 items-center">
-            <Text className="text-2xl font-bold text-orange-500 dark:text-orange-400">3</Text>
-            <Text className="mt-1 text-xs text-gray-500 dark:text-gray-400">待开始</Text>
+            <Text className="text-2xl font-bold text-orange-500 dark:text-orange-400">
+              3
+            </Text>
+            <Text className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+              待开始
+            </Text>
           </View>
         </View>
 
@@ -178,7 +210,9 @@ export const Plans = () => {
             className="mr-3"
           />
           <View className="flex-1">
-            <Text className="text-sm font-medium dark:text-gray-100">本月生产完成率</Text>
+            <Text className="text-sm font-medium dark:text-gray-100">
+              本月生产完成率
+            </Text>
             <View className="flex-row items-center">
               <Text className="mr-2 text-lg font-bold text-blue-600">
                 78.5%

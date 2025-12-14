@@ -79,7 +79,9 @@ const InventoryAlertItem: React.FC<InventoryAlertItemProps> = ({
       className={`flex-row items-center justify-between p-3 ${bgColor} rounded-lg border-l-4 ${borderColor} mb-2`}
     >
       <View>
-        <Text className="font-medium text-gray-900 dark:text-gray-100">{name}</Text>
+        <Text className="font-medium text-gray-900 dark:text-gray-100">
+          {name}
+        </Text>
         <Text className="text-xs text-gray-500 dark:text-gray-400">
           当前库存: {currentStock} | 安全库存: {safetyStock}
         </Text>
@@ -96,7 +98,10 @@ const getChartConfig = (isDark: boolean) => ({
   backgroundGradientTo: isDark ? '#1f2937' : '#ffffff',
   decimalPlaces: 0,
   color: (opacity = 1) => `rgba(59, 130, 246, ${opacity})`,
-  labelColor: (opacity = 1) => isDark ? `rgba(156, 163, 175, ${opacity})` : `rgba(107, 114, 128, ${opacity})`,
+  labelColor: (opacity = 1) =>
+    isDark
+      ? `rgba(156, 163, 175, ${opacity})`
+      : `rgba(107, 114, 128, ${opacity})`,
   style: {
     borderRadius: 16,
   },
@@ -154,16 +159,24 @@ export const Inventory: React.FC = () => {
       <ScrollView className="flex-1 p-4" showsVerticalScrollIndicator={false}>
         {/* 时间选择器 */}
         <View className="mb-4 flex-row items-center justify-between">
-          <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">库存数据</Text>
+          <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+            库存数据
+          </Text>
           <View className="flex-row overflow-hidden rounded-lg border border-gray-200 bg-white dark:border-gray-600 dark:bg-gray-800">
             <TouchableOpacity className="border-r border-gray-200 px-3 py-1 dark:border-gray-600">
-              <Text className="text-sm text-gray-500 dark:text-gray-400">日</Text>
+              <Text className="text-sm text-gray-500 dark:text-gray-400">
+                日
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity className="border-r border-gray-200 bg-blue-50 px-3 py-1 dark:border-gray-600 dark:bg-blue-900/30">
-              <Text className="text-sm text-blue-600 dark:text-blue-400">月</Text>
+              <Text className="text-sm text-blue-600 dark:text-blue-400">
+                月
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity className="px-3 py-1">
-              <Text className="text-sm text-gray-500 dark:text-gray-400">年</Text>
+              <Text className="text-sm text-gray-500 dark:text-gray-400">
+                年
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -203,9 +216,13 @@ export const Inventory: React.FC = () => {
         {/* 库存周转率趋势 */}
         <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
           <View className="mb-3 flex-row items-center justify-between">
-            <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">库存周转率趋势</Text>
+            <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+              库存周转率趋势
+            </Text>
             <TouchableOpacity>
-              <Text className="text-sm text-blue-600 dark:text-blue-400">详情</Text>
+              <Text className="text-sm text-blue-600 dark:text-blue-400">
+                详情
+              </Text>
             </TouchableOpacity>
           </View>
           <LineChart
@@ -224,9 +241,13 @@ export const Inventory: React.FC = () => {
         {/* 库存状态分布 */}
         <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
           <View className="mb-3 flex-row items-center justify-between">
-            <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">库存状态分布</Text>
+            <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+              库存状态分布
+            </Text>
             <TouchableOpacity>
-              <Text className="text-sm text-blue-600 dark:text-blue-400">详情</Text>
+              <Text className="text-sm text-blue-600 dark:text-blue-400">
+                详情
+              </Text>
             </TouchableOpacity>
           </View>
           <View className="flex-row items-center">
@@ -245,18 +266,30 @@ export const Inventory: React.FC = () => {
               <View className="space-y-2">
                 <View className="flex-row items-center">
                   <View className="mr-2 size-3 rounded-full bg-green-500" />
-                  <Text className="mr-2 text-sm text-gray-600 dark:text-gray-400">正常</Text>
-                  <Text className="text-sm font-medium text-gray-900 dark:text-gray-100">65%</Text>
+                  <Text className="mr-2 text-sm text-gray-600 dark:text-gray-400">
+                    正常
+                  </Text>
+                  <Text className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                    65%
+                  </Text>
                 </View>
                 <View className="flex-row items-center">
                   <View className="mr-2 size-3 rounded-full bg-yellow-500" />
-                  <Text className="mr-2 text-sm text-gray-600 dark:text-gray-400">偏低</Text>
-                  <Text className="text-sm font-medium text-gray-900 dark:text-gray-100">20%</Text>
+                  <Text className="mr-2 text-sm text-gray-600 dark:text-gray-400">
+                    偏低
+                  </Text>
+                  <Text className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                    20%
+                  </Text>
                 </View>
                 <View className="flex-row items-center">
                   <View className="mr-2 size-3 rounded-full bg-red-500" />
-                  <Text className="mr-2 text-sm text-gray-600 dark:text-gray-400">预警</Text>
-                  <Text className="text-sm font-medium text-gray-900 dark:text-gray-100">15%</Text>
+                  <Text className="mr-2 text-sm text-gray-600 dark:text-gray-400">
+                    预警
+                  </Text>
+                  <Text className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                    15%
+                  </Text>
                 </View>
               </View>
             </View>
@@ -266,9 +299,13 @@ export const Inventory: React.FC = () => {
         {/* 库存预警列表 */}
         <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
           <View className="mb-3 flex-row items-center justify-between">
-            <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">库存预警</Text>
+            <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+              库存预警
+            </Text>
             <TouchableOpacity>
-              <Text className="text-sm text-blue-600 dark:text-blue-400">查看全部</Text>
+              <Text className="text-sm text-blue-600 dark:text-blue-400">
+                查看全部
+              </Text>
             </TouchableOpacity>
           </View>
           <View className="space-y-3">

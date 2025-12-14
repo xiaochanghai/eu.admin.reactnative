@@ -1,7 +1,6 @@
 import { Redirect } from 'expo-router';
-import {
-  get as getUserInfoData,
-} from '@/lib/user/utils';
+
+import { get as getUserInfoData } from '@/lib/user/utils';
 
 export default function Index() {
   const userInfo = getUserInfoData();

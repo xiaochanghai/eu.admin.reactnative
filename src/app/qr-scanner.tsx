@@ -29,7 +29,7 @@ export default function QRScannerScreen() {
         let parts = data.split('_');
         if (parts.length !== 2) {
           Alert.alert('扫描成功', `检测到: ${data}`, [
-            { text: '确定', onPress: () => {} },
+            { text: '确定', onPress: () => { } },
           ]);
         } else {
           console.log('parts[0]:' + parts[0]);
@@ -47,7 +47,7 @@ export default function QRScannerScreen() {
                   // });
                 },
               },
-              { text: '取消', onPress: () => {} },
+              { text: '取消', onPress: () => { } },
             ]);
           } else if (Number(parts[0]) === 2) {
             Alert.alert('扫描成功', `检测到排料单，是否确认提交？`, [
@@ -63,7 +63,7 @@ export default function QRScannerScreen() {
                   // });
                 },
               },
-              { text: '取消', onPress: () => {} },
+              { text: '取消', onPress: () => { } },
             ]);
           }
           //

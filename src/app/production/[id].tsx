@@ -1,10 +1,5 @@
 import React, { useState } from 'react';
-import {
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 
 import { NavHeader, SafeAreaView } from '@/components/ui';
 import { FontAwesome, GroupEnum } from '@/components/ui/icons';
@@ -21,10 +16,18 @@ const ProductionDetail = () => {
         right={
           <>
             <TouchableOpacity className="mr-4">
-              <FontAwesome name="share-alt" size={18} color={isDark ? '#9ca3af' : '#4b5563'} />
+              <FontAwesome
+                name="share-alt"
+                size={18}
+                color={isDark ? '#9ca3af' : '#4b5563'}
+              />
             </TouchableOpacity>
             <TouchableOpacity>
-              <FontAwesome name="ellipsis-v" size={18} color={isDark ? '#9ca3af' : '#4b5563'} />
+              <FontAwesome
+                name="ellipsis-v"
+                size={18}
+                color={isDark ? '#9ca3af' : '#4b5563'}
+              />
             </TouchableOpacity>
           </>
         }
@@ -56,35 +59,63 @@ const ProductionDetail = () => {
 
           <View className="mb-4 flex-row flex-wrap">
             <View className="mb-3 w-1/2">
-              <Text className="mb-1 text-xs text-gray-500 dark:text-gray-400">负责人</Text>
-              <Text className="text-sm font-medium text-gray-900 dark:text-gray-100">张经理</Text>
+              <Text className="mb-1 text-xs text-gray-500 dark:text-gray-400">
+                负责人
+              </Text>
+              <Text className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                张经理
+              </Text>
             </View>
             <View className="mb-3 w-1/2">
-              <Text className="mb-1 text-xs text-gray-500 dark:text-gray-400">所属订单</Text>
-              <Text className="text-sm font-medium text-gray-900 dark:text-gray-100">ORD20230520</Text>
+              <Text className="mb-1 text-xs text-gray-500 dark:text-gray-400">
+                所属订单
+              </Text>
+              <Text className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                ORD20230520
+              </Text>
             </View>
             <View className="mb-3 w-1/2">
-              <Text className="mb-1 text-xs text-gray-500 dark:text-gray-400">开始日期</Text>
-              <Text className="text-sm font-medium text-gray-900 dark:text-gray-100">2023-06-01</Text>
+              <Text className="mb-1 text-xs text-gray-500 dark:text-gray-400">
+                开始日期
+              </Text>
+              <Text className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                2023-06-01
+              </Text>
             </View>
             <View className="mb-3 w-1/2">
-              <Text className="mb-1 text-xs text-gray-500 dark:text-gray-400">截止日期</Text>
-              <Text className="text-sm font-medium text-gray-900 dark:text-gray-100">2023-06-30</Text>
+              <Text className="mb-1 text-xs text-gray-500 dark:text-gray-400">
+                截止日期
+              </Text>
+              <Text className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                2023-06-30
+              </Text>
             </View>
             <View className="mb-3 w-1/2">
-              <Text className="mb-1 text-xs text-gray-500 dark:text-gray-400">计划产量</Text>
-              <Text className="text-sm font-medium text-gray-900 dark:text-gray-100">2,500件</Text>
+              <Text className="mb-1 text-xs text-gray-500 dark:text-gray-400">
+                计划产量
+              </Text>
+              <Text className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                2,500件
+              </Text>
             </View>
             <View className="mb-3 w-1/2">
-              <Text className="mb-1 text-xs text-gray-500 dark:text-gray-400">已完成</Text>
-              <Text className="text-sm font-medium text-gray-900 dark:text-gray-100">1,875件 (75%)</Text>
+              <Text className="mb-1 text-xs text-gray-500 dark:text-gray-400">
+                已完成
+              </Text>
+              <Text className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                1,875件 (75%)
+              </Text>
             </View>
           </View>
 
           <View className="mb-3">
             <View className="mb-1 flex-row justify-between">
-              <Text className="text-xs text-gray-900 dark:text-gray-100">生产进度</Text>
-              <Text className="text-xs font-medium text-gray-900 dark:text-gray-100">75%</Text>
+              <Text className="text-xs text-gray-900 dark:text-gray-100">
+                生产进度
+              </Text>
+              <Text className="text-xs font-medium text-gray-900 dark:text-gray-100">
+                75%
+              </Text>
             </View>
             <View className="h-1.5 overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700">
               <View
@@ -103,7 +134,9 @@ const ProductionDetail = () => {
                 style={{ marginTop: 2, marginRight: 8 }}
               />
               <View>
-                <Text className="mb-1 text-sm font-medium text-gray-900 dark:text-gray-100">生产说明</Text>
+                <Text className="mb-1 text-sm font-medium text-gray-900 dark:text-gray-100">
+                  生产说明
+                </Text>
                 <Text className="text-sm text-gray-900 dark:text-gray-100">
                   本批次连衣裙采用新型面料，需特别注意缝制工艺和质量控制。
                 </Text>
@@ -147,18 +180,28 @@ const ProductionDetail = () => {
             <View>
               {/* 工序流程图 */}
               <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
-                <Text className="mb-3 text-base font-semibold text-gray-900 dark:text-gray-100">生产流程</Text>
+                <Text className="mb-3 text-base font-semibold text-gray-900 dark:text-gray-100">
+                  生产流程
+                </Text>
                 <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                   <View className="flex-row items-center py-2">
                     <View className="items-center">
                       <View className="size-16 items-center justify-center rounded-full bg-green-100 dark:bg-green-900/30">
-                        <FontAwesome name="cut" size={30} color={isDark ? '#4ade80' : '#16a34a'} />
+                        <FontAwesome
+                          name="cut"
+                          size={30}
+                          color={isDark ? '#4ade80' : '#16a34a'}
+                        />
                         <View className="absolute right-6 top-6 size-5 items-center justify-center rounded-full bg-green-500">
                           <FontAwesome name="check" size={10} color="#fff" />
                         </View>
                       </View>
-                      <Text className="mt-1 text-xs font-medium text-gray-900 dark:text-gray-100">裁剪</Text>
-                      <Text className="text-xs text-gray-500 dark:text-gray-400">已完成</Text>
+                      <Text className="mt-1 text-xs font-medium text-gray-900 dark:text-gray-100">
+                        裁剪
+                      </Text>
+                      <Text className="text-xs text-gray-500 dark:text-gray-400">
+                        已完成
+                      </Text>
                     </View>
 
                     <View className="mx-1 h-0.5 w-10 bg-green-500" />
@@ -180,8 +223,12 @@ const ProductionDetail = () => {
                           />
                         </View>
                       </View>
-                      <Text className="mt-1 text-xs font-medium text-gray-900 dark:text-gray-100">缝制</Text>
-                      <Text className="text-xs text-gray-500 dark:text-gray-400">进行中</Text>
+                      <Text className="mt-1 text-xs font-medium text-gray-900 dark:text-gray-100">
+                        缝制
+                      </Text>
+                      <Text className="text-xs text-gray-500 dark:text-gray-400">
+                        进行中
+                      </Text>
                     </View>
 
                     <View className="mx-1 h-0.5 w-10 bg-gray-300 dark:bg-gray-600" />
@@ -194,28 +241,48 @@ const ProductionDetail = () => {
                           color={isDark ? '#9ca3af' : '#6b7280'}
                         />
                       </View>
-                      <Text className="mt-1 text-xs font-medium text-gray-900 dark:text-gray-100">装饰</Text>
-                      <Text className="text-xs text-gray-500 dark:text-gray-400">待开始</Text>
+                      <Text className="mt-1 text-xs font-medium text-gray-900 dark:text-gray-100">
+                        装饰
+                      </Text>
+                      <Text className="text-xs text-gray-500 dark:text-gray-400">
+                        待开始
+                      </Text>
                     </View>
 
                     <View className="mx-1 h-0.5 w-10 bg-gray-300 dark:bg-gray-600" />
 
                     <View className="items-center">
                       <View className="size-16 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700">
-                        <FontAwesome name="search" size={30} color={isDark ? '#9ca3af' : '#6b7280'} />
+                        <FontAwesome
+                          name="search"
+                          size={30}
+                          color={isDark ? '#9ca3af' : '#6b7280'}
+                        />
                       </View>
-                      <Text className="mt-1 text-xs font-medium text-gray-900 dark:text-gray-100">质检</Text>
-                      <Text className="text-xs text-gray-500 dark:text-gray-400">待开始</Text>
+                      <Text className="mt-1 text-xs font-medium text-gray-900 dark:text-gray-100">
+                        质检
+                      </Text>
+                      <Text className="text-xs text-gray-500 dark:text-gray-400">
+                        待开始
+                      </Text>
                     </View>
 
                     <View className="mx-1 h-0.5 w-10 bg-gray-300 dark:bg-gray-600" />
 
                     <View className="items-center">
                       <View className="size-16 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700">
-                        <FontAwesome name="tags" size={30} color={isDark ? '#9ca3af' : '#6b7280'} />
+                        <FontAwesome
+                          name="tags"
+                          size={30}
+                          color={isDark ? '#9ca3af' : '#6b7280'}
+                        />
                       </View>
-                      <Text className="mt-1 text-xs font-medium text-gray-900 dark:text-gray-100">包装</Text>
-                      <Text className="text-xs text-gray-500 dark:text-gray-400">待开始</Text>
+                      <Text className="mt-1 text-xs font-medium text-gray-900 dark:text-gray-100">
+                        包装
+                      </Text>
+                      <Text className="text-xs text-gray-500 dark:text-gray-400">
+                        待开始
+                      </Text>
                     </View>
                   </View>
                 </ScrollView>
@@ -223,7 +290,9 @@ const ProductionDetail = () => {
 
               {/* 生产时间线 */}
               <View className="rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
-                <Text className="mb-3 text-base font-semibold text-gray-900 dark:text-gray-100">生产时间线</Text>
+                <Text className="mb-3 text-base font-semibold text-gray-900 dark:text-gray-100">
+                  生产时间线
+                </Text>
 
                 <View className="ml-2">
                   {[
@@ -303,7 +372,9 @@ const ProductionDetail = () => {
                         {item.time}
                       </Text>
                       {item.desc && (
-                        <Text className="mt-1 text-sm text-gray-900 dark:text-gray-100">{item.desc}</Text>
+                        <Text className="mt-1 text-sm text-gray-900 dark:text-gray-100">
+                          {item.desc}
+                        </Text>
                       )}
                     </View>
                   ))}
@@ -359,7 +430,9 @@ const ProductionDetail = () => {
                 >
                   <View className="mb-2 flex-row items-start justify-between">
                     <View>
-                      <Text className="font-semibold text-gray-900 dark:text-gray-100">{task.title}</Text>
+                      <Text className="font-semibold text-gray-900 dark:text-gray-100">
+                        {task.title}
+                      </Text>
                       <Text className="text-sm text-gray-500 dark:text-gray-400">
                         任务编号: {task.id}
                       </Text>
@@ -375,10 +448,16 @@ const ProductionDetail = () => {
                           size={12}
                           color={
                             task.statusColor === 'green'
-                              ? (isDark ? '#86efac' : '#15803d')
+                              ? isDark
+                                ? '#86efac'
+                                : '#15803d'
                               : task.statusColor === 'blue'
-                                ? (isDark ? '#93c5fd' : '#1d4ed8')
-                                : (isDark ? '#9ca3af' : '#4b5563')
+                                ? isDark
+                                  ? '#93c5fd'
+                                  : '#1d4ed8'
+                                : isDark
+                                  ? '#9ca3af'
+                                  : '#4b5563'
                           }
                           style={{ marginRight: 4 }}
                         />
@@ -389,8 +468,12 @@ const ProductionDetail = () => {
 
                   <View className="my-3 flex-row flex-wrap">
                     <View className="mb-2 w-1/2">
-                      <Text className="text-xs text-gray-500 dark:text-gray-400">负责人</Text>
-                      <Text className="font-medium text-gray-900 dark:text-gray-100">{task.manager}</Text>
+                      <Text className="text-xs text-gray-500 dark:text-gray-400">
+                        负责人
+                      </Text>
+                      <Text className="font-medium text-gray-900 dark:text-gray-100">
+                        {task.manager}
+                      </Text>
                     </View>
                     <View className="mb-2 w-1/2">
                       <Text className="text-xs text-gray-500 dark:text-gray-400">
@@ -409,8 +492,12 @@ const ProductionDetail = () => {
                       </Text>
                     </View>
                     <View className="mb-2 w-1/2">
-                      <Text className="text-xs text-gray-500 dark:text-gray-400">计划工时</Text>
-                      <Text className="font-medium text-gray-900 dark:text-gray-100">{task.planHours}</Text>
+                      <Text className="text-xs text-gray-500 dark:text-gray-400">
+                        计划工时
+                      </Text>
+                      <Text className="font-medium text-gray-900 dark:text-gray-100">
+                        {task.planHours}
+                      </Text>
                     </View>
                     <View className="mb-2 w-1/2">
                       <Text className="text-xs text-gray-500 dark:text-gray-400">
@@ -433,8 +520,12 @@ const ProductionDetail = () => {
                   {task.status === '进行中' && (
                     <View className="mb-2">
                       <View className="mb-1 flex-row justify-between text-xs">
-                        <Text className="text-gray-900 dark:text-gray-100">任务进度</Text>
-                        <Text className="font-medium text-gray-900 dark:text-gray-100">{task.progress}%</Text>
+                        <Text className="text-gray-900 dark:text-gray-100">
+                          任务进度
+                        </Text>
+                        <Text className="font-medium text-gray-900 dark:text-gray-100">
+                          {task.progress}%
+                        </Text>
                       </View>
                       <View className="h-1.5 overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700">
                         <View
@@ -539,8 +630,12 @@ const ProductionDetail = () => {
 
                 <View className="mb-4">
                   <View className="mb-1 flex-row justify-between text-sm">
-                    <Text className="text-gray-900 dark:text-gray-100">面料利用率</Text>
-                    <Text className="text-gray-900 dark:text-gray-100">92.5%</Text>
+                    <Text className="text-gray-900 dark:text-gray-100">
+                      面料利用率
+                    </Text>
+                    <Text className="text-gray-900 dark:text-gray-100">
+                      92.5%
+                    </Text>
                   </View>
                   <View className="h-1.5 overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700">
                     <View
@@ -552,8 +647,12 @@ const ProductionDetail = () => {
 
                 <View className="mb-4">
                   <View className="mb-1 flex-row justify-between text-sm">
-                    <Text className="text-gray-900 dark:text-gray-100">辅料消耗率</Text>
-                    <Text className="text-gray-900 dark:text-gray-100">75%</Text>
+                    <Text className="text-gray-900 dark:text-gray-100">
+                      辅料消耗率
+                    </Text>
+                    <Text className="text-gray-900 dark:text-gray-100">
+                      75%
+                    </Text>
                   </View>
                   <View className="h-1.5 overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700">
                     <View
@@ -575,21 +674,27 @@ const ProductionDetail = () => {
                 </Text>
 
                 <View className="mb-4">
-                  <Text className="mb-1 text-sm font-medium text-gray-900 dark:text-gray-100">面料质量</Text>
+                  <Text className="mb-1 text-sm font-medium text-gray-900 dark:text-gray-100">
+                    面料质量
+                  </Text>
                   <Text className="text-sm text-gray-700 dark:text-gray-300">
                     面料平整度≥95%，色差≤±2%，接缝强度≥4.5kg/cm
                   </Text>
                 </View>
 
                 <View className="mb-4">
-                  <Text className="mb-1 text-sm font-medium text-gray-900 dark:text-gray-100">缝制质量</Text>
+                  <Text className="mb-1 text-sm font-medium text-gray-900 dark:text-gray-100">
+                    缝制质量
+                  </Text>
                   <Text className="text-sm text-gray-700 dark:text-gray-300">
                     针距均匀度≥98%，接缝平整，无跳针、断线现象
                   </Text>
                 </View>
 
                 <View>
-                  <Text className="mb-1 text-sm font-medium text-gray-900 dark:text-gray-100">外观质量</Text>
+                  <Text className="mb-1 text-sm font-medium text-gray-900 dark:text-gray-100">
+                    外观质量
+                  </Text>
                   <Text className="text-sm text-gray-700 dark:text-gray-300">
                     无明显瑕疵，装饰部件牢固，整体外观符合设计要求
                   </Text>
@@ -651,11 +756,15 @@ const ProductionDetail = () => {
                         <Text className="w-24 px-3 text-sm text-gray-900 dark:text-gray-100">
                           {record.batch}
                         </Text>
-                        <Text className="w-24 px-3 text-sm text-gray-900 dark:text-gray-100">{record.date}</Text>
+                        <Text className="w-24 px-3 text-sm text-gray-900 dark:text-gray-100">
+                          {record.date}
+                        </Text>
                         <Text className="w-20 px-3 text-sm text-gray-900 dark:text-gray-100">
                           {record.count}
                         </Text>
-                        <Text className="w-20 px-3 text-sm text-gray-900 dark:text-gray-100">{record.rate}</Text>
+                        <Text className="w-20 px-3 text-sm text-gray-900 dark:text-gray-100">
+                          {record.rate}
+                        </Text>
                         <Text className="w-24 px-3 text-sm text-gray-900 dark:text-gray-100">
                           {record.inspector}
                         </Text>

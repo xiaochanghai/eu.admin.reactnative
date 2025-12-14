@@ -32,8 +32,7 @@ export default function Login() {
       });
       setUserInfo(Data.UserInfo);
 
-      router.replace("/");
-
+      router.replace('/');
     } else error(Message!);
   };
   return (

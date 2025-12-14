@@ -154,8 +154,10 @@ const InventoryDetail: React.FC = () => {
       backgroundGradientFrom: isDark ? '#0b1220' : '#ffffff',
       backgroundGradientTo: isDark ? '#0b1220' : '#ffffff',
       decimalPlaces: 0,
-      color: () => (isDark ? `rgba(96, 165, 250, 0.8)` : `rgba(59, 130, 246, 0.6)`),
-      labelColor: () => (isDark ? `rgba(156, 163, 175, 1)` : `rgba(107, 114, 128, 1)`),
+      color: () =>
+        isDark ? `rgba(96, 165, 250, 0.8)` : `rgba(59, 130, 246, 0.6)`,
+      labelColor: () =>
+        isDark ? `rgba(156, 163, 175, 1)` : `rgba(107, 114, 128, 1)`,
       style: {
         borderRadius: 16,
       },
@@ -174,8 +176,12 @@ const InventoryDetail: React.FC = () => {
     <View
       className={`flex-row py-3 ${!isLast ? 'border-b border-gray-100 dark:border-gray-800' : ''}`}
     >
-      <Text className="w-1/3 text-sm text-gray-500 dark:text-gray-400">{label}</Text>
-      <Text className="w-2/3 text-sm text-gray-900 dark:text-gray-100">{value}</Text>
+      <Text className="w-1/3 text-sm text-gray-500 dark:text-gray-400">
+        {label}
+      </Text>
+      <Text className="w-2/3 text-sm text-gray-900 dark:text-gray-100">
+        {value}
+      </Text>
     </View>
   );
 
@@ -226,8 +232,12 @@ const InventoryDetail: React.FC = () => {
                 className={`py-3 ${index < records.length - 1 ? 'border-b border-gray-100 dark:border-gray-700' : ''}`}
               >
                 <View className="mb-1 flex-row items-center justify-between">
-                  <Text className="font-medium text-gray-900 dark:text-gray-100">{record.type}</Text>
-                  <Text className="text-sm text-gray-500 dark:text-gray-400">{record.date}</Text>
+                  <Text className="font-medium text-gray-900 dark:text-gray-100">
+                    {record.type}
+                  </Text>
+                  <Text className="text-sm text-gray-500 dark:text-gray-400">
+                    {record.date}
+                  </Text>
                 </View>
                 <Text
                   className={`mb-1 text-sm ${record.isInbound ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}
@@ -247,7 +257,9 @@ const InventoryDetail: React.FC = () => {
       case 'usage':
         return (
           <View>
-            <Text className="text-md mb-3 font-semibold text-gray-900 dark:text-gray-100">近期使用产品</Text>
+            <Text className="text-md mb-3 font-semibold text-gray-900 dark:text-gray-100">
+              近期使用产品
+            </Text>
             <View className="space-y-3">
               {usageProducts.map((product, index) => (
                 <View
@@ -261,30 +273,48 @@ const InventoryDetail: React.FC = () => {
                       className="mr-2 text-blue-500"
                     />
                     <View>
-                      <Text className="font-medium text-gray-900 dark:text-gray-100">{product.name}</Text>
+                      <Text className="font-medium text-gray-900 dark:text-gray-100">
+                        {product.name}
+                      </Text>
                       <Text className="text-xs text-gray-500 dark:text-gray-400">
                         {product.quantityPerUnit}
                       </Text>
                     </View>
                   </View>
-                  <Text className="text-sm text-gray-900 dark:text-gray-100">{product.monthlyConsumption}</Text>
+                  <Text className="text-sm text-gray-900 dark:text-gray-100">
+                    {product.monthlyConsumption}
+                  </Text>
                 </View>
               ))}
             </View>
 
-            <Text className="text-md mb-3 mt-4 font-semibold text-gray-900 dark:text-gray-100">消耗预测</Text>
+            <Text className="text-md mb-3 mt-4 font-semibold text-gray-900 dark:text-gray-100">
+              消耗预测
+            </Text>
             <View className="rounded-lg bg-blue-50 p-3 dark:bg-blue-900/20">
               <View className="mb-2 flex-row items-center justify-between">
-                <Text className="text-sm text-gray-600 dark:text-gray-300">预计月消耗</Text>
-                <Text className="font-medium text-gray-900 dark:text-gray-100">约4,500个</Text>
+                <Text className="text-sm text-gray-600 dark:text-gray-300">
+                  预计月消耗
+                </Text>
+                <Text className="font-medium text-gray-900 dark:text-gray-100">
+                  约4,500个
+                </Text>
               </View>
               <View className="mb-2 flex-row items-center justify-between">
-                <Text className="text-sm text-gray-600 dark:text-gray-300">当前库存可用</Text>
-                <Text className="font-medium text-gray-900 dark:text-gray-100">约1.1个月</Text>
+                <Text className="text-sm text-gray-600 dark:text-gray-300">
+                  当前库存可用
+                </Text>
+                <Text className="font-medium text-gray-900 dark:text-gray-100">
+                  约1.1个月
+                </Text>
               </View>
               <View className="flex-row items-center justify-between">
-                <Text className="text-sm text-gray-600 dark:text-gray-300">建议补货时间</Text>
-                <Text className="font-medium text-orange-600 dark:text-orange-400">2周内</Text>
+                <Text className="text-sm text-gray-600 dark:text-gray-300">
+                  建议补货时间
+                </Text>
+                <Text className="font-medium text-orange-600 dark:text-orange-400">
+                  2周内
+                </Text>
               </View>
             </View>
           </View>
@@ -318,7 +348,9 @@ const InventoryDetail: React.FC = () => {
               <FontAwesome name="microchip" size={32} color="#9ca3af" />
             </View>
             <View>
-              <Text className="text-xl font-semibold text-gray-900 dark:text-gray-100">{materialData.name}</Text>
+              <Text className="text-xl font-semibold text-gray-900 dark:text-gray-100">
+                {materialData.name}
+              </Text>
               <Text className="mt-1 text-sm text-gray-500 dark:text-gray-400">
                 编号: {materialData.id}
               </Text>
@@ -340,7 +372,9 @@ const InventoryDetail: React.FC = () => {
           {/* 库存状态 */}
           <View className="mb-4 flex-row items-center justify-between rounded-lg bg-blue-50 p-3 dark:bg-blue-900/20">
             <View>
-              <Text className="text-sm text-gray-600 dark:text-gray-300">当前库存</Text>
+              <Text className="text-sm text-gray-600 dark:text-gray-300">
+                当前库存
+              </Text>
               <Text className="mt-1 text-xl font-bold text-blue-600 dark:text-blue-400">
                 {materialData.currentStock.toLocaleString()}
                 <Text className="ml-1 text-sm font-normal">
@@ -349,7 +383,9 @@ const InventoryDetail: React.FC = () => {
               </Text>
             </View>
             <View>
-              <Text className="text-sm text-gray-600 dark:text-gray-300">安全库存</Text>
+              <Text className="text-sm text-gray-600 dark:text-gray-300">
+                安全库存
+              </Text>
               <Text className="mt-1 text-lg font-medium text-gray-700 dark:text-gray-200">
                 {materialData.safetyStock.toLocaleString()}
                 <Text className="ml-1 text-sm font-normal">
@@ -358,7 +394,9 @@ const InventoryDetail: React.FC = () => {
               </Text>
             </View>
             <View>
-              <Text className="text-sm text-gray-600 dark:text-gray-300">状态</Text>
+              <Text className="text-sm text-gray-600 dark:text-gray-300">
+                状态
+              </Text>
               <View className="mt-1 flex-row items-center">
                 <View
                   className={`mr-1 size-3 rounded-full ${statusColor.bg}`}
@@ -413,7 +451,9 @@ const InventoryDetail: React.FC = () => {
 
         {/* 库存趋势图 */}
         <View className="mb-4 rounded-lg bg-white p-4 shadow-sm dark:bg-gray-800">
-          <Text className="mb-3 text-lg font-semibold text-gray-900 dark:text-gray-100">库存趋势</Text>
+          <Text className="mb-3 text-lg font-semibold text-gray-900 dark:text-gray-100">
+            库存趋势
+          </Text>
           <LineChart
             data={stockData}
             width={screenWidth}
@@ -431,8 +471,6 @@ const InventoryDetail: React.FC = () => {
             withDots={true}
             withShadow={false}
             segments={4}
-
-          //
           />
         </View>
 
@@ -477,9 +515,13 @@ const InventoryDetail: React.FC = () => {
         {/* 相关物料 */}
         <View className="mb-4 rounded-lg bg-white p-4 shadow-sm dark:bg-gray-800">
           <View className="mb-3 flex-row items-center justify-between">
-            <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">相关物料</Text>
+            <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+              相关物料
+            </Text>
             <TouchableOpacity>
-              <Text className="text-sm text-blue-600 dark:text-blue-400">查看全部</Text>
+              <Text className="text-sm text-blue-600 dark:text-blue-400">
+                查看全部
+              </Text>
             </TouchableOpacity>
           </View>
 
@@ -502,7 +544,9 @@ const InventoryDetail: React.FC = () => {
                       className={`mr-2 size-2 rounded-full ${indicatorColor}`}
                     />
                     <View>
-                      <Text className="font-medium text-gray-900 dark:text-gray-100">{material.name}</Text>
+                      <Text className="font-medium text-gray-900 dark:text-gray-100">
+                        {material.name}
+                      </Text>
                       <Text className="text-xs text-gray-500 dark:text-gray-400">
                         编号: {material.code}
                       </Text>

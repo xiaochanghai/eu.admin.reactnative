@@ -260,7 +260,9 @@ const NotificationDetail = () => {
           </View>
 
           <View className="mt-6">
-            <Text className="mb-3 text-lg font-medium text-gray-900 dark:text-gray-100">详细内容</Text>
+            <Text className="mb-3 text-lg font-medium text-gray-900 dark:text-gray-100">
+              详细内容
+            </Text>
             <Text className="leading-relaxed text-gray-700 dark:text-gray-300">
               {notificationInfo.content}
             </Text>
@@ -268,13 +270,24 @@ const NotificationDetail = () => {
 
           {/* 相关信息 */}
           <View className="mt-6 border-t border-gray-100 pt-6 dark:border-neutral-700">
-            <Text className="mb-3 text-lg font-medium text-gray-900 dark:text-gray-100">相关信息</Text>
+            <Text className="mb-3 text-lg font-medium text-gray-900 dark:text-gray-100">
+              相关信息
+            </Text>
             {notificationInfo.relatedInfo.map((item, index) => (
-              <View key={index} className="mb-3 rounded-xl bg-gray-50 p-4 dark:bg-neutral-700">
+              <View
+                key={index}
+                className="mb-3 rounded-xl bg-gray-50 p-4 dark:bg-neutral-700"
+              >
                 <View className="flex-row justify-between">
-                  <Text className="font-medium text-gray-900 dark:text-gray-100">{item.label}</Text>
+                  <Text className="font-medium text-gray-900 dark:text-gray-100">
+                    {item.label}
+                  </Text>
                   <Text
-                    className={item.isAlert ? 'font-medium text-red-600 dark:text-red-400' : 'text-gray-900 dark:text-gray-100'}
+                    className={
+                      item.isAlert
+                        ? 'font-medium text-red-600 dark:text-red-400'
+                        : 'text-gray-900 dark:text-gray-100'
+                    }
                   >
                     {item.value}
                   </Text>
@@ -298,12 +311,16 @@ const NotificationDetail = () => {
             className="flex-1 items-center rounded-xl bg-gray-100 py-3 dark:bg-neutral-700"
             onPress={handleMarkAsRead}
           >
-            <Text className="font-medium text-gray-700 dark:text-gray-200">标记为已读</Text>
+            <Text className="font-medium text-gray-700 dark:text-gray-200">
+              标记为已读
+            </Text>
           </TouchableOpacity>
         </View>
 
         {/* 相关通知 */}
-        <Text className="mb-3 text-lg font-semibold text-gray-900 dark:text-gray-100">相关通知</Text>
+        <Text className="mb-3 text-lg font-semibold text-gray-900 dark:text-gray-100">
+          相关通知
+        </Text>
         <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
           {relatedNotifications.map((item, index) => (
             <View
@@ -324,8 +341,12 @@ const NotificationDetail = () => {
                 </View>
                 <View className="flex-1">
                   <View className="flex-row justify-between">
-                    <Text className="font-medium text-gray-900 dark:text-gray-100">{item.title}</Text>
-                    <Text className="text-xs text-gray-500 dark:text-gray-400">{item.time}</Text>
+                    <Text className="font-medium text-gray-900 dark:text-gray-100">
+                      {item.title}
+                    </Text>
+                    <Text className="text-xs text-gray-500 dark:text-gray-400">
+                      {item.time}
+                    </Text>
                   </View>
                   <Text className="mt-1 text-sm text-gray-600 dark:text-gray-300">
                     {item.message}

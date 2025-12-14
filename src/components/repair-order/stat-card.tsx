@@ -1,5 +1,6 @@
-import React from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
+import React from 'react';
+
 import { Text, View } from '@/components/ui';
 
 type StatCardProps = {
@@ -13,7 +14,11 @@ export type StatCardData = {
   value: number;
   gradientColors: [string, string];
 };
-export const StatCard: React.FC<StatCardProps> = ({ label, value, gradientColors }) => (
+export const StatCard: React.FC<StatCardProps> = ({
+  label,
+  value,
+  gradientColors,
+}) => (
   <View className="w-[23%]">
     <LinearGradient
       colors={gradientColors}

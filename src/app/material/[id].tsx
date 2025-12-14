@@ -272,7 +272,9 @@ const MaterialDetail = () => {
               />
             </View>
             <View>
-              <Text className="text-xl font-semibold text-gray-900 dark:text-gray-100">{materialData.name}</Text>
+              <Text className="text-xl font-semibold text-gray-900 dark:text-gray-100">
+                {materialData.name}
+              </Text>
               <Text className="mt-1 text-sm text-gray-500 dark:text-gray-400">
                 编号: {materialData.id}
               </Text>
@@ -294,7 +296,9 @@ const MaterialDetail = () => {
           {/* 库存状态 */}
           <View className="mb-4 flex-row items-center justify-between rounded-lg bg-blue-50 p-3 dark:bg-blue-900/20">
             <View>
-              <Text className="text-sm text-gray-600 dark:text-gray-300">当前库存</Text>
+              <Text className="text-sm text-gray-600 dark:text-gray-300">
+                当前库存
+              </Text>
               <View className="mt-1 flex-row items-end">
                 <Text className="text-xl font-bold text-blue-600 dark:text-blue-400">
                   {materialData.currentStock}
@@ -305,7 +309,9 @@ const MaterialDetail = () => {
               </View>
             </View>
             <View>
-              <Text className="text-sm text-gray-600 dark:text-gray-300">安全库存</Text>
+              <Text className="text-sm text-gray-600 dark:text-gray-300">
+                安全库存
+              </Text>
               <View className="mt-1 flex-row items-end">
                 <Text className="text-lg font-medium text-gray-700 dark:text-gray-200">
                   {materialData.safetyStock}
@@ -316,7 +322,9 @@ const MaterialDetail = () => {
               </View>
             </View>
             <View>
-              <Text className="text-sm text-gray-600 dark:text-gray-300">状态</Text>
+              <Text className="text-sm text-gray-600 dark:text-gray-300">
+                状态
+              </Text>
               <View className="mt-1 flex-row items-center">
                 <View
                   className="mr-1 size-3 rounded-full"
@@ -386,7 +394,9 @@ const MaterialDetail = () => {
 
         {/* 相关物料 */}
         <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
-          <Text className="mb-3 text-lg font-semibold text-gray-900 dark:text-gray-100">相关物料</Text>
+          <Text className="mb-3 text-lg font-semibold text-gray-900 dark:text-gray-100">
+            相关物料
+          </Text>
 
           {relatedMaterials.map((material, index) => (
             <RelatedMaterialItem
@@ -411,11 +421,17 @@ const DetailRow = ({
 }: DetailRowProps) => (
   <View
     className={
-      !isLast ? 'flex-row border-b border-gray-100 py-3 dark:border-gray-700' : 'flex-row py-3'
+      !isLast
+        ? 'flex-row border-b border-gray-100 py-3 dark:border-gray-700'
+        : 'flex-row py-3'
     }
   >
-    <Text className="w-3/10 text-sm text-gray-500 dark:text-gray-400">{label}</Text>
-    <Text className="w-7/10 text-sm text-gray-900 dark:text-gray-100">{value}</Text>
+    <Text className="w-3/10 text-sm text-gray-500 dark:text-gray-400">
+      {label}
+    </Text>
+    <Text className="w-7/10 text-sm text-gray-900 dark:text-gray-100">
+      {value}
+    </Text>
   </View>
 );
 
@@ -428,10 +444,16 @@ interface RecordListItemProps {
 }
 
 const RecordListItem = ({ record, isLast }: RecordListItemProps) => (
-  <View className={!isLast ? 'border-b border-gray-100 py-3 dark:border-gray-700' : 'py-3'}>
+  <View
+    className={
+      !isLast ? 'border-b border-gray-100 py-3 dark:border-gray-700' : 'py-3'
+    }
+  >
     <View className="flex-row items-center justify-between">
       <View>
-        <Text className="font-medium text-gray-900 dark:text-gray-100">{record.type}</Text>
+        <Text className="font-medium text-gray-900 dark:text-gray-100">
+          {record.type}
+        </Text>
         <Text className="mt-1 text-xs text-gray-500 dark:text-gray-400">
           单号: {record.orderNumber}
         </Text>
@@ -446,7 +468,9 @@ const RecordListItem = ({ record, isLast }: RecordListItemProps) => (
         >
           {record.quantity}
         </Text>
-        <Text className="mt-1 text-xs text-gray-500 dark:text-gray-400">{record.date}</Text>
+        <Text className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+          {record.date}
+        </Text>
       </View>
     </View>
   </View>
@@ -482,7 +506,11 @@ const DocumentListItem = ({ document, isLast }: DocumentListItemProps) => {
   const iconColor = getDocIconColor(document.icon);
 
   return (
-    <View className={!isLast ? 'border-b border-gray-100 py-3 dark:border-gray-700' : 'py-3'}>
+    <View
+      className={
+        !isLast ? 'border-b border-gray-100 py-3 dark:border-gray-700' : 'py-3'
+      }
+    >
       <View className="flex-row items-center">
         <FontAwesome
           name={document.icon}
@@ -492,7 +520,9 @@ const DocumentListItem = ({ document, isLast }: DocumentListItemProps) => {
           group={GroupEnum.FontAwesome5}
         />
         <View>
-          <Text className="font-medium text-gray-900 dark:text-gray-100">{document.name}</Text>
+          <Text className="font-medium text-gray-900 dark:text-gray-100">
+            {document.name}
+          </Text>
           <Text className="mt-1 text-xs text-gray-500 dark:text-gray-400">
             {document.type} · {document.size} · {document.uploadDate}
           </Text>
@@ -515,17 +545,23 @@ const RelatedMaterialItem = ({
   isLast,
 }: RelatedMaterialItemProps) => (
   <TouchableOpacity
-    className={!isLast ? 'border-b border-gray-100 py-3 dark:border-gray-700' : 'py-3'}
+    className={
+      !isLast ? 'border-b border-gray-100 py-3 dark:border-gray-700' : 'py-3'
+    }
   >
     <View className="flex-row items-center justify-between">
       <View>
-        <Text className="font-medium text-gray-900 dark:text-gray-100">{material.name}</Text>
+        <Text className="font-medium text-gray-900 dark:text-gray-100">
+          {material.name}
+        </Text>
         <Text className="mt-1 text-xs text-gray-500 dark:text-gray-400">
           编号: {material.code} | 规格: {material.spec}
         </Text>
       </View>
       <View>
-        <Text className="text-sm font-medium text-gray-900 dark:text-gray-100">库存: {material.stock}</Text>
+        <Text className="text-sm font-medium text-gray-900 dark:text-gray-100">
+          库存: {material.stock}
+        </Text>
       </View>
     </View>
   </TouchableOpacity>

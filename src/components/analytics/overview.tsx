@@ -79,7 +79,10 @@ const getChartConfig = (isDark: boolean) => ({
   backgroundGradientTo: isDark ? '#1f2937' : '#ffffff',
   decimalPlaces: 0,
   color: (opacity = 1) => `rgba(59, 130, 246, ${opacity})`,
-  labelColor: (opacity = 1) => isDark ? `rgba(156, 163, 175, ${opacity})` : `rgba(107, 114, 128, ${opacity})`,
+  labelColor: (opacity = 1) =>
+    isDark
+      ? `rgba(156, 163, 175, ${opacity})`
+      : `rgba(107, 114, 128, ${opacity})`,
   style: {
     borderRadius: 16,
   },
@@ -99,7 +102,9 @@ export const OverView = () => {
     <View>
       {/* 时间选择器 */}
       <View className="mb-4 flex-row items-center justify-between">
-        <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">本月数据</Text>
+        <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+          本月数据
+        </Text>
         <View className="flex-row overflow-hidden rounded-lg border border-gray-200 bg-white dark:border-gray-600 dark:bg-gray-800">
           <TouchableOpacity className="border-r border-gray-200 px-3 py-1 dark:border-gray-600">
             <Text className="text-sm text-gray-500 dark:text-gray-400">日</Text>
@@ -148,9 +153,13 @@ export const OverView = () => {
       {/* 销售趋势图 - 使用BarChart替换自定义图表 */}
       <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
         <View className="mb-3 flex-row items-center justify-between">
-          <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">销售趋势</Text>
+          <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+            销售趋势
+          </Text>
           <TouchableOpacity>
-            <Text className="text-sm text-blue-600 dark:text-blue-400">详情</Text>
+            <Text className="text-sm text-blue-600 dark:text-blue-400">
+              详情
+            </Text>
           </TouchableOpacity>
         </View>
         <BarChart
@@ -172,9 +181,13 @@ export const OverView = () => {
       {/* 生产与订单对比 - 使用LineChart替换自定义图表 */}
       <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
         <View className="mb-3 flex-row items-center justify-between">
-          <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">生产与订单对比</Text>
+          <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+            生产与订单对比
+          </Text>
           <TouchableOpacity>
-            <Text className="text-sm text-blue-600 dark:text-blue-400">详情</Text>
+            <Text className="text-sm text-blue-600 dark:text-blue-400">
+              详情
+            </Text>
           </TouchableOpacity>
         </View>
         <LineChart
@@ -193,9 +206,13 @@ export const OverView = () => {
       {/* 产品类别分布 - 使用PieChart替换自定义图表 */}
       <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
         <View className="mb-3 flex-row items-center justify-between">
-          <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">产品类别分布</Text>
+          <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+            产品类别分布
+          </Text>
           <TouchableOpacity>
-            <Text className="text-sm text-blue-600 dark:text-blue-400">详情</Text>
+            <Text className="text-sm text-blue-600 dark:text-blue-400">
+              详情
+            </Text>
           </TouchableOpacity>
         </View>
         <PieChart
@@ -213,28 +230,30 @@ export const OverView = () => {
 
       {/* 数据报表下载 */}
       <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
-        <Text className="mb-3 text-lg font-semibold text-gray-900 dark:text-gray-100">数据报表</Text>
+        <Text className="mb-3 text-lg font-semibold text-gray-900 dark:text-gray-100">
+          数据报表
+        </Text>
         <View className="mt-2">
           <ReportItem
             icon="file-pdf-o"
             iconColor="#ef4444"
             title="月度销售报表"
             date="2023年11月"
-            onPress={() => {}}
+            onPress={() => { }}
           />
           <ReportItem
             icon="file-excel-o"
             iconColor="#22c55e"
             title="生产效率分析"
             date="2023年11月"
-            onPress={() => {}}
+            onPress={() => { }}
           />
           <ReportItem
             icon="file-powerpoint-o"
             iconColor="#f97316"
             title="质量控制报告"
             date="2023年11月"
-            onPress={() => {}}
+            onPress={() => { }}
           />
         </View>
       </View>

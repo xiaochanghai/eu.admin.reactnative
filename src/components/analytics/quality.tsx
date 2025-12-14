@@ -77,11 +77,16 @@ const QualityImprovementItem: React.FC<QualityImprovementItemProps> = ({
     }
   };
 
-  const iconColor = color === 'blue' ? '#0066ff' : color === 'green' ? '#22c55e' : '#8b5cf6';
+  const iconColor =
+    color === 'blue' ? '#0066ff' : color === 'green' ? '#22c55e' : '#8b5cf6';
 
   return (
-    <View className={`flex-row items-center p-3 ${getBgClass()} mb-3 rounded-lg`}>
-      <View className={`size-10 ${getIconBgClass()} mr-3 items-center justify-center rounded-full`}>
+    <View
+      className={`flex-row items-center p-3 ${getBgClass()} mb-3 rounded-lg`}
+    >
+      <View
+        className={`size-10 ${getIconBgClass()} mr-3 items-center justify-center rounded-full`}
+      >
         <FontAwesome
           name={icon}
           size={18}
@@ -96,7 +101,9 @@ const QualityImprovementItem: React.FC<QualityImprovementItemProps> = ({
         />
       </View>
       <View className="flex-1">
-        <Text className="font-medium text-gray-900 dark:text-gray-100">{title}</Text>
+        <Text className="font-medium text-gray-900 dark:text-gray-100">
+          {title}
+        </Text>
         <Text className="text-xs text-gray-500 dark:text-gray-400">
           进度: {progress} | 预计完成: {dueDate}
         </Text>
@@ -115,7 +122,10 @@ const getChartConfig = (isDark: boolean) => ({
   backgroundGradientTo: isDark ? '#1f2937' : '#ffffff',
   decimalPlaces: 1,
   color: (opacity = 1) => `rgba(59, 130, 246, ${opacity})`,
-  labelColor: (opacity = 1) => isDark ? `rgba(156, 163, 175, ${opacity})` : `rgba(107, 114, 128, ${opacity})`,
+  labelColor: (opacity = 1) =>
+    isDark
+      ? `rgba(156, 163, 175, ${opacity})`
+      : `rgba(107, 114, 128, ${opacity})`,
   style: {
     borderRadius: 16,
   },
@@ -187,7 +197,9 @@ export const Quality: React.FC = () => {
     <>
       {/* 时间选择器 */}
       <View className="mb-4 flex-row items-center justify-between">
-        <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">质量数据</Text>
+        <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+          质量数据
+        </Text>
         <View className="flex-row overflow-hidden rounded-lg border border-gray-200 bg-white dark:border-gray-600 dark:bg-gray-800">
           <TouchableOpacity className="border-r border-gray-200 px-3 py-1 dark:border-gray-600">
             <Text className="text-sm text-gray-500 dark:text-gray-400">日</Text>
@@ -236,9 +248,13 @@ export const Quality: React.FC = () => {
       {/* 质量合格率趋势 */}
       <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
         <View className="mb-3 flex-row items-center justify-between">
-          <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">质量合格率趋势</Text>
+          <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+            质量合格率趋势
+          </Text>
           <TouchableOpacity>
-            <Text className="text-sm text-blue-600 dark:text-blue-400">详情</Text>
+            <Text className="text-sm text-blue-600 dark:text-blue-400">
+              详情
+            </Text>
           </TouchableOpacity>
         </View>
         <LineChart
@@ -263,9 +279,13 @@ export const Quality: React.FC = () => {
       {/* 不良品分析 */}
       <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
         <View className="mb-3 flex-row items-center justify-between">
-          <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">不良品分析</Text>
+          <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+            不良品分析
+          </Text>
           <TouchableOpacity>
-            <Text className="text-sm text-blue-600 dark:text-blue-400">详情</Text>
+            <Text className="text-sm text-blue-600 dark:text-blue-400">
+              详情
+            </Text>
           </TouchableOpacity>
         </View>
         <View className="flex-row items-center">
@@ -285,28 +305,48 @@ export const Quality: React.FC = () => {
             <View className="space-y-2">
               <View className="flex-row items-center">
                 <View className="mr-2 size-3 rounded-full bg-red-500" />
-                <Text className="mr-2 text-sm text-gray-600 dark:text-gray-400">组装不良</Text>
-                <Text className="text-sm font-medium text-gray-900 dark:text-gray-100">35%</Text>
+                <Text className="mr-2 text-sm text-gray-600 dark:text-gray-400">
+                  组装不良
+                </Text>
+                <Text className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                  35%
+                </Text>
               </View>
               <View className="flex-row items-center">
                 <View className="mr-2 size-3 rounded-full bg-yellow-500" />
-                <Text className="mr-2 text-sm text-gray-600 dark:text-gray-400">材料缺陷</Text>
-                <Text className="text-sm font-medium text-gray-900 dark:text-gray-100">20%</Text>
+                <Text className="mr-2 text-sm text-gray-600 dark:text-gray-400">
+                  材料缺陷
+                </Text>
+                <Text className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                  20%
+                </Text>
               </View>
               <View className="flex-row items-center">
                 <View className="mr-2 size-3 rounded-full bg-blue-500" />
-                <Text className="mr-2 text-sm text-gray-600 dark:text-gray-400">功能异常</Text>
-                <Text className="text-sm font-medium text-gray-900 dark:text-gray-100">20%</Text>
+                <Text className="mr-2 text-sm text-gray-600 dark:text-gray-400">
+                  功能异常
+                </Text>
+                <Text className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                  20%
+                </Text>
               </View>
               <View className="flex-row items-center">
                 <View className="mr-2 size-3 rounded-full bg-green-500" />
-                <Text className="mr-2 text-sm text-gray-600 dark:text-gray-400">外观瑕疵</Text>
-                <Text className="text-sm font-medium text-gray-900 dark:text-gray-100">15%</Text>
+                <Text className="mr-2 text-sm text-gray-600 dark:text-gray-400">
+                  外观瑕疵
+                </Text>
+                <Text className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                  15%
+                </Text>
               </View>
               <View className="flex-row items-center">
                 <View className="mr-2 size-3 rounded-full bg-gray-500" />
-                <Text className="mr-2 text-sm text-gray-600 dark:text-gray-400">其他问题</Text>
-                <Text className="text-sm font-medium text-gray-900 dark:text-gray-100">10%</Text>
+                <Text className="mr-2 text-sm text-gray-600 dark:text-gray-400">
+                  其他问题
+                </Text>
+                <Text className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                  10%
+                </Text>
               </View>
             </View>
           </View>
@@ -316,9 +356,13 @@ export const Quality: React.FC = () => {
       {/* 产品质量对比 */}
       <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
         <View className="mb-3 flex-row items-center justify-between">
-          <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">产品质量对比</Text>
+          <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+            产品质量对比
+          </Text>
           <TouchableOpacity>
-            <Text className="text-sm text-blue-600 dark:text-blue-400">详情</Text>
+            <Text className="text-sm text-blue-600 dark:text-blue-400">
+              详情
+            </Text>
           </TouchableOpacity>
         </View>
         <View className="space-y-3">
@@ -332,9 +376,13 @@ export const Quality: React.FC = () => {
       {/* 质量改进计划 */}
       <View className="mb-10 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
         <View className="mb-3 flex-row items-center justify-between">
-          <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">质量改进计划</Text>
+          <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+            质量改进计划
+          </Text>
           <TouchableOpacity>
-            <Text className="text-sm text-blue-600 dark:text-blue-400">详情</Text>
+            <Text className="text-sm text-blue-600 dark:text-blue-400">
+              详情
+            </Text>
           </TouchableOpacity>
         </View>
         <View className="space-y-3">

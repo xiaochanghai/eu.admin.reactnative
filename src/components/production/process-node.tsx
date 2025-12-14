@@ -75,7 +75,9 @@ export const ProcessNode: React.FC<ProcessNodeProps> = ({
         {statusIcon}
       </View>
       {/* 节点标签 */}
-      <Text className="mb-0.5 text-xs font-medium dark:text-gray-100">{label}</Text>
+      <Text className="mb-0.5 text-xs font-medium dark:text-gray-100">
+        {label}
+      </Text>
       {/* 节点状态文本 - 根据状态显示不同颜色 */}
       <Text
         className={`text-xs ${status === 'inProgress' ? 'text-blue-600' : 'text-gray-500 dark:text-gray-400'}`}

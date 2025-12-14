@@ -2,11 +2,8 @@
 import { Stack, useRouter } from 'expo-router';
 import React from 'react';
 import { Pressable, ScrollView } from 'react-native';
-import {
-  SafeAreaView,
-  Text,
-  View,
-} from '@/components/ui';
+
+import { SafeAreaView, Text, View } from '@/components/ui';
 
 export default function PrivacyPolicyScreen() {
   const router = useRouter();

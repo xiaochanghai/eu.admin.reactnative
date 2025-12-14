@@ -7,7 +7,7 @@ import {
   StatusBar,
   TouchableOpacity,
   useWindowDimensions,
-  ViewToken,
+  type ViewToken,
 } from 'react-native';
 
 import { Text, View } from '@/components/ui';
@@ -33,12 +33,7 @@ const onboardingData: OnboardingItem[] = [
     description: '数字化生产管控，实时掌握生产全流程',
     icon: 'industry',
     gradientColors: ['#3b82f6', '#2563eb'],
-    features: [
-      '实时生产监控',
-      '生产计划排程',
-      '工单进度跟踪',
-      '产能分析优化',
-    ],
+    features: ['实时生产监控', '生产计划排程', '工单进度跟踪', '产能分析优化'],
   },
   {
     id: '2',
@@ -46,12 +41,7 @@ const onboardingData: OnboardingItem[] = [
     description: '全流程质量管控，确保产品卓越品质',
     icon: 'check-circle',
     gradientColors: ['#22c55e', '#16a34a'],
-    features: [
-      '质检流程管理',
-      '不良品追溯',
-      '质量数据分析',
-      '质量报告生成',
-    ],
+    features: ['质检流程管理', '不良品追溯', '质量数据分析', '质量报告生成'],
   },
   {
     id: '3',
@@ -59,12 +49,7 @@ const onboardingData: OnboardingItem[] = [
     description: '预防性维护，保障设备高效运转',
     icon: 'cogs',
     gradientColors: ['#a855f7', '#9333ea'],
-    features: [
-      '设备状态监控',
-      '预防性维护',
-      '故障快速响应',
-      '维修记录管理',
-    ],
+    features: ['设备状态监控', '预防性维护', '故障快速响应', '维修记录管理'],
   },
   {
     id: '4',
@@ -147,11 +132,7 @@ const Paginator: React.FC<PaginatorProps> = ({ data, currentIndex }) => (
     {data.map((_, index) => (
       <View
         key={index}
-        className={`mx-1 h-2 rounded-full ${
-          index === currentIndex
-            ? 'w-8 bg-primary-500'
-            : 'w-2 bg-gray-300 dark:bg-neutral-600'
-        }`}
+        className={`mx-1 h-2 rounded-full ${index === currentIndex ? 'w-8 bg-primary-500' : 'w-2 bg-gray-300 dark:bg-neutral-600'}`}
       />
     ))}
   </View>
@@ -214,9 +195,7 @@ export default function Onboarding() {
           className="absolute right-6 top-12 z-10"
           activeOpacity={0.7}
         >
-          <Text className="text-base font-semibold text-primary-500">
-            跳过
-          </Text>
+          <Text className="text-base font-semibold text-primary-500">跳过</Text>
         </TouchableOpacity>
       )}
 

@@ -35,7 +35,8 @@ const DeviceStatusItem: React.FC<DeviceStatusItemProps> = ({
     switch (status) {
       case 'normal':
         return {
-          container: 'bg-green-50 border-l-4 border-green-500 dark:bg-green-900/20',
+          container:
+            'bg-green-50 border-l-4 border-green-500 dark:bg-green-900/20',
           iconBg: 'bg-green-100 dark:bg-green-900/30',
           iconColor: '#16a34a',
           statusText: 'text-green-600 dark:text-green-400',
@@ -43,7 +44,8 @@ const DeviceStatusItem: React.FC<DeviceStatusItemProps> = ({
         };
       case 'warning':
         return {
-          container: 'bg-yellow-50 border-l-4 border-yellow-500 dark:bg-yellow-900/20',
+          container:
+            'bg-yellow-50 border-l-4 border-yellow-500 dark:bg-yellow-900/20',
           iconBg: 'bg-yellow-100 dark:bg-yellow-900/30',
           iconColor: '#ca8a04',
           statusText: 'text-yellow-600 dark:text-yellow-400',
@@ -78,15 +80,15 @@ const DeviceStatusItem: React.FC<DeviceStatusItemProps> = ({
         <View
           className={`size-10 ${styles.iconBg} mr-3 flex items-center justify-center rounded-full`}
         >
-          <FontAwesome
-            name={icon}
-            size={20}
-            color={styles.iconColor}
-          />
+          <FontAwesome name={icon} size={20} color={styles.iconColor} />
         </View>
         <View>
-          <Text className="font-medium text-gray-900 dark:text-gray-100">{name}</Text>
-          <Text className="text-xs text-gray-500 dark:text-gray-400">{info}</Text>
+          <Text className="font-medium text-gray-900 dark:text-gray-100">
+            {name}
+          </Text>
+          <Text className="text-xs text-gray-500 dark:text-gray-400">
+            {info}
+          </Text>
         </View>
       </View>
       <Text className={`text-sm font-medium ${styles.statusText}`}>
@@ -103,7 +105,10 @@ const getChartConfig = (isDark: boolean) => ({
   backgroundGradientTo: isDark ? '#1f2937' : '#ffffff',
   decimalPlaces: 0,
   color: (opacity = 1) => `rgba(59, 130, 246, ${opacity})`,
-  labelColor: (opacity = 1) => isDark ? `rgba(156, 163, 175, ${opacity})` : `rgba(107, 114, 128, ${opacity})`,
+  labelColor: (opacity = 1) =>
+    isDark
+      ? `rgba(156, 163, 175, ${opacity})`
+      : `rgba(107, 114, 128, ${opacity})`,
   style: {
     borderRadius: 16,
   },
@@ -141,16 +146,24 @@ export const Production: React.FC = () => {
       <ScrollView className="flex-1 p-4" showsVerticalScrollIndicator={false}>
         {/* 时间选择器 */}
         <View className="mb-4 flex-row items-center justify-between">
-          <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">生产数据</Text>
+          <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+            生产数据
+          </Text>
           <View className="flex-row overflow-hidden rounded-lg border border-gray-200 bg-white dark:border-gray-600 dark:bg-gray-800">
             <TouchableOpacity className="border-r border-gray-200 px-3 py-1 dark:border-gray-600">
-              <Text className="text-sm text-gray-500 dark:text-gray-400">日</Text>
+              <Text className="text-sm text-gray-500 dark:text-gray-400">
+                日
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity className="border-r border-gray-200 bg-blue-50 px-3 py-1 dark:border-gray-600 dark:bg-blue-900/30">
-              <Text className="text-sm text-blue-600 dark:text-blue-400">月</Text>
+              <Text className="text-sm text-blue-600 dark:text-blue-400">
+                月
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity className="px-3 py-1">
-              <Text className="text-sm text-gray-500 dark:text-gray-400">年</Text>
+              <Text className="text-sm text-gray-500 dark:text-gray-400">
+                年
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -190,9 +203,13 @@ export const Production: React.FC = () => {
         {/* 生产效率趋势 */}
         <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
           <View className="mb-3 flex-row items-center justify-between">
-            <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">生产效率趋势</Text>
+            <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+              生产效率趋势
+            </Text>
             <TouchableOpacity>
-              <Text className="text-sm text-blue-600 dark:text-blue-400">详情</Text>
+              <Text className="text-sm text-blue-600 dark:text-blue-400">
+                详情
+              </Text>
             </TouchableOpacity>
           </View>
           <LineChart
@@ -212,9 +229,13 @@ export const Production: React.FC = () => {
         {/* 设备运行状态 */}
         <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
           <View className="mb-3 flex-row items-center justify-between">
-            <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">设备运行状态</Text>
+            <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+              设备运行状态
+            </Text>
             <TouchableOpacity>
-              <Text className="text-sm text-blue-600 dark:text-blue-400">详情</Text>
+              <Text className="text-sm text-blue-600 dark:text-blue-400">
+                详情
+              </Text>
             </TouchableOpacity>
           </View>
           <View className="space-y-3">
@@ -242,8 +263,12 @@ export const Production: React.FC = () => {
         {/* 产能利用率 */}
         <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
           <View className="mb-3 flex-row items-center justify-between">
-            <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">产能利用率</Text>
-            <Text className="text-lg font-bold text-blue-600 dark:text-blue-400">78.5%</Text>
+            <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+              产能利用率
+            </Text>
+            <Text className="text-lg font-bold text-blue-600 dark:text-blue-400">
+              78.5%
+            </Text>
           </View>
           <ProgressChart
             data={capacityData}

@@ -44,7 +44,10 @@ const getChartConfig = (isDark: boolean) => ({
   backgroundGradientTo: isDark ? '#1f2937' : '#ffffff',
   decimalPlaces: 0,
   color: (opacity = 1) => `rgba(59, 130, 246, ${opacity})`,
-  labelColor: (opacity = 1) => isDark ? `rgba(156, 163, 175, ${opacity})` : `rgba(107, 114, 128, ${opacity})`,
+  labelColor: (opacity = 1) =>
+    isDark
+      ? `rgba(156, 163, 175, ${opacity})`
+      : `rgba(107, 114, 128, ${opacity})`,
   style: {
     borderRadius: 16,
   },
@@ -108,7 +111,9 @@ export const Sales: React.FC = () => {
     <>
       {/* 时间选择器 */}
       <View className="mb-4 flex-row items-center justify-between">
-        <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">销售数据</Text>
+        <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+          销售数据
+        </Text>
         <View className="flex-row overflow-hidden rounded-lg border border-gray-200 bg-white dark:border-gray-600 dark:bg-gray-800">
           <TouchableOpacity className="border-r border-gray-200 px-3 py-1 dark:border-gray-600">
             <Text className="text-sm text-gray-500 dark:text-gray-400">日</Text>
@@ -157,9 +162,13 @@ export const Sales: React.FC = () => {
       {/* 销售趋势图 */}
       <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
         <View className="mb-3 flex-row items-center justify-between">
-          <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">销售趋势</Text>
+          <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+            销售趋势
+          </Text>
           <TouchableOpacity>
-            <Text className="text-sm text-blue-600 dark:text-blue-400">详情</Text>
+            <Text className="text-sm text-blue-600 dark:text-blue-400">
+              详情
+            </Text>
           </TouchableOpacity>
         </View>
         <BarChart
@@ -181,9 +190,13 @@ export const Sales: React.FC = () => {
       {/* 客户地区分布 */}
       <View className="mb-10 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
         <View className="mb-3 flex-row items-center justify-between">
-          <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">客户地区分布</Text>
+          <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+            客户地区分布
+          </Text>
           <TouchableOpacity>
-            <Text className="text-sm text-blue-600 dark:text-blue-400">详情</Text>
+            <Text className="text-sm text-blue-600 dark:text-blue-400">
+              详情
+            </Text>
           </TouchableOpacity>
         </View>
         <View className="flex-row items-center">

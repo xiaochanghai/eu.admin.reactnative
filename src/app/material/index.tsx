@@ -1,13 +1,9 @@
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import {
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-} from 'react-native';
+import { StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 
 import { RefreshListView } from '@/components';
-import { NavHeader, ScrollView, Text, View, SafeAreaView } from '@/components/ui';
+import { NavHeader, ScrollView, Text, View } from '@/components/ui';
 import { FontAwesome, GroupEnum } from '@/components/ui/icons';
 
 type MaterialProps = {
@@ -165,7 +161,11 @@ const Materials = () => {
     >
       <View className="flex-row items-center justify-between">
         <View className={'flex-1'}>
-          <Text className={'text-lg font-bold text-gray-800 dark:text-gray-100'}>{item.name}</Text>
+          <Text
+            className={'text-lg font-bold text-gray-800 dark:text-gray-100'}
+          >
+            {item.name}
+          </Text>
           <Text className={'mt-1 text-sm text-gray-500 dark:text-gray-400'}>
             编码: {item.code}
           </Text>
@@ -176,13 +176,17 @@ const Materials = () => {
             <View
               className={
                 'ml-3 px-2 py-1 rounded-full ' +
-                (item.status === '正常' ? 'bg-green-100 dark:bg-green-900/30' : 'bg-red-100 dark:bg-red-900/30')
+                (item.status === '正常'
+                  ? 'bg-green-100 dark:bg-green-900/30'
+                  : 'bg-red-100 dark:bg-red-900/30')
               }
             >
               <Text
                 className={
                   'text-xs ' +
-                  (item.status === '正常' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400')
+                  (item.status === '正常'
+                    ? 'text-green-600 dark:text-green-400'
+                    : 'text-red-600 dark:text-red-400')
                 }
               >
                 {item.status}
@@ -275,10 +279,7 @@ const Materials = () => {
                 }
               /> */}
                 <Text
-                  className={`${selectedCategory === category.name
-                      ? 'text-white'
-                      : 'text-gray-600 dark:text-gray-300'
-                    }`}
+                  className={`${selectedCategory === category.name ? 'text-white' : 'text-gray-600 dark:text-gray-300'}`}
                 >
                   {category.name}
                 </Text>
