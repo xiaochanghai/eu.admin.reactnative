@@ -6,9 +6,9 @@ import {
   Modal,
   ScrollView,
   TouchableOpacity,
+  View,
 } from 'react-native';
 
-import { View } from '@/components/ui';
 import { FontAwesome } from '@/components/ui/icons';
 
 export type ImageGalleryProps = {
@@ -102,9 +102,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({ imageIds }) => {
             {imageIds.map((_, index) => (
               <View
                 key={index}
-                className={`mx-1 size-2 rounded-full ${
-                  index === selectedIndex ? 'bg-white' : 'bg-white/40'
-                }`}
+                className={`mx-1 size-2 rounded-full ${index === selectedIndex ? 'bg-white' : 'bg-white/40'}`}
               />
             ))}
           </View>

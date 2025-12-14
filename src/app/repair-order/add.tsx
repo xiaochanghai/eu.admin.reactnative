@@ -11,8 +11,13 @@ import {
 import { queryLov } from '@/api';
 import http from '@/api/common/http';
 import { PriorityButton, RadioButton } from '@/components/repair-order';
-import { DatePickerInput, NavHeader, Text, View } from '@/components/ui';
-import { FontAwesome } from '@/components/ui/icons';
+import {
+  DatePickerInput,
+  FontAwesome,
+  NavHeader,
+  Text,
+  View,
+} from '@/components/ui';
 import { error, info } from '@/lib/message';
 import { type Equipment, type SmLov } from '@/types';
 

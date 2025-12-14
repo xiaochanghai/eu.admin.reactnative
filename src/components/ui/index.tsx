@@ -6,6 +6,7 @@ export * from './checkbox';
 export { default as colors } from './colors';
 export * from './date-picker';
 export * from './focus-aware-status-bar';
+export * from './icons/font-awesome';
 export * from './image';
 export * from './image-gallery';
 export * from './input';
