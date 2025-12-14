@@ -1,159 +1,20 @@
-import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { ScrollView, TouchableOpacity } from 'react-native';
 
-import { NavHeader, Text, View } from '@/components/ui';
+import {
+  FilterButton,
+  StatCard,
+  type StatCardData,
+  type WorkOrder,
+  WorkOrderCard,
+  type WorkOrderStatus,
+} from '@/components/repair-order';
+import { NavHeader, View } from '@/components/ui';
 import { FontAwesome } from '@/components/ui/icons';
 import { useAppColorScheme } from '@/lib/hooks';
 
-// 工单状态类型
-type WorkOrderStatus = 'urgent' | 'processing' | 'review' | 'completed' | 'all';
-
-// 统计卡片数据类型
-type StatCardData = {
-  label: string;
-  value: number;
-  gradientColors: [string, string];
-};
-
-// 工单数据类型
-type WorkOrder = {
-  id: string;
-  status: WorkOrderStatus;
-  statusLabel: string;
-  statusColor: string;
-  title: string;
-  equipmentName: string;
-  description: string;
-  assignee: string;
-  timeAgo: string;
-  deadline?: string;
-};
-
-// 统计卡片组件
-type StatCardProps = {
-  label: string;
-  value: number;
-  gradientColors: [string, string];
-};
-
-const StatCard: React.FC<StatCardProps> = ({
-  label,
-  value,
-  gradientColors,
-}) => (
-  <View className="w-[23%]">
-    <LinearGradient
-      colors={gradientColors}
-      start={{ x: 0, y: 0 }}
-      end={{ x: 1, y: 1 }}
-      style={{
-        borderRadius: 12,
-        padding: 12,
-        alignItems: 'center',
-      }}
-    >
-      <Text className="text-2xl font-bold text-white">{value}</Text>
-      <Text className="mt-0.5 text-[10px] text-white opacity-90">{label}</Text>
-    </LinearGradient>
-  </View>
-);
-
-// 筛选按钮组件
-type FilterButtonProps = {
-  label: string;
-  count: number;
-  isActive: boolean;
-  onPress: () => void;
-};
-
-const FilterButton: React.FC<FilterButtonProps> = ({
-  label,
-  count,
-  isActive,
-  onPress,
-}) => (
-  <TouchableOpacity
-    onPress={onPress}
-    activeOpacity={0.7}
-    className={`mr-2 rounded-full px-3 py-1.5 ${isActive ? 'bg-primary-500' : 'bg-gray-100 dark:bg-neutral-700'}`}
-  >
-    <Text
-      className={`whitespace-nowrap text-sm ${isActive ? 'text-white' : 'text-gray-700 dark:text-gray-200'}`}
-    >
-      {label} {count}
-    </Text>
-  </TouchableOpacity>
-);
-
-// 工单卡片组件
-type WorkOrderCardProps = {
-  order: WorkOrder;
-  onPress: () => void;
-};
-
-const WorkOrderCard: React.FC<WorkOrderCardProps> = ({ order, onPress }) => (
-  <TouchableOpacity
-    onPress={onPress}
-    activeOpacity={0.7}
-    className="mb-3 rounded-xl bg-white p-4 shadow-sm dark:bg-neutral-800"
-  >
-    {/* 标题部分 */}
-    <View className="mb-3 flex-1">
-      <View className="mb-2 flex-row items-center">
-        <View
-          className="mr-2 rounded px-2 py-1"
-          style={{ backgroundColor: order.statusColor }}
-        >
-          <Text className="text-xs font-semibold text-white">
-            {order.statusLabel}
-          </Text>
-        </View>
-        <Text
-          className="flex-1 text-base font-semibold text-gray-800 dark:text-gray-100"
-          numberOfLines={1}
-        >
-          {order.title}
-        </Text>
-      </View>
-      <Text className="mb-2 text-sm text-gray-600 dark:text-gray-400">
-        设备：{order.equipmentName}
-      </Text>
-      <Text className="text-sm text-gray-500 dark:text-gray-400">
-        故障描述：{order.description}
-      </Text>
-    </View>
-
-    {/* 底部信息 */}
-    <View className="flex-row items-center justify-between border-t border-gray-100 pt-3 dark:border-neutral-700">
-      <View className="flex-row items-center space-x-4">
-        <View className="flex-row items-center">
-          <FontAwesome name="user" size={12} color="#9ca3af" />
-          <Text className="ml-1 text-xs text-gray-500 dark:text-gray-400">
-            {order.assignee}
-          </Text>
-        </View>
-        <View className="flex-row items-center">
-          <FontAwesome name="clock-o" size={12} color="#9ca3af" />
-          <Text className="ml-1 text-xs text-gray-500 dark:text-gray-400">
-            {order.timeAgo}
-          </Text>
-        </View>
-      </View>
-      {order.deadline && (
-        <Text
-          className="text-sm font-semibold"
-          style={{ color: order.statusColor }}
-        >
-          {order.deadline}
-        </Text>
-      )}
-    </View>
-  </TouchableOpacity>
-);
-
-const RepairList: React.FC = () => {
+const RepairOrder: React.FC = () => {
   const router = useRouter();
   const [activeFilter, setActiveFilter] = useState<WorkOrderStatus>('all');
   const { isDark } = useAppColorScheme();
@@ -340,4 +201,4 @@ const RepairList: React.FC = () => {
   );
 };
 
-export default RepairList;
+export default RepairOrder;

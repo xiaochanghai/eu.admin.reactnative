@@ -10,6 +10,7 @@ import {
 
 import { queryLov } from '@/api';
 import http from '@/api/common/http';
+import { PriorityButton, RadioButton } from '@/components/repair-order';
 import { DatePickerInput, NavHeader, Text, View } from '@/components/ui';
 import { FontAwesome } from '@/components/ui/icons';
 import { error, info } from '@/lib/message';
@@ -23,83 +24,6 @@ const technicianList = [
   { id: '4', name: '赵六', level: '中级技师' },
   { id: '5', name: '孙七', level: '初级技师' },
 ];
-
-// 单选按钮组件
-type RadioButtonProps = {
-  label: string;
-  selected: boolean;
-  onPress: () => void;
-  icon?: string;
-  color?: string;
-};
-
-const RadioButton: React.FC<RadioButtonProps> = ({
-  label,
-  selected,
-  onPress,
-  icon,
-  color = '#1890ff',
-}) => (
-  <TouchableOpacity
-    onPress={onPress}
-    className={`flex-row items-center rounded-lg border-2 p-3 ${selected ? 'border-primary-500 bg-blue-50 dark:bg-blue-950/30' : 'border-gray-200 dark:border-neutral-700'}`}
-    activeOpacity={0.7}
-  >
-    {icon && (
-      <View
-        className="mr-2 size-6 items-center justify-center"
-        style={{ opacity: selected ? 1 : 0.5 }}
-      >
-        <FontAwesome name={icon as any} size={16} color={color} />
-      </View>
-    )}
-    <Text
-      className={`text-sm ${selected ? 'font-semibold text-gray-800 dark:text-gray-100' : 'text-gray-700 dark:text-gray-400'}`}
-    >
-      {label}
-    </Text>
-  </TouchableOpacity>
-);
-
-// 优先级按钮组件
-type PriorityButtonProps = {
-  label: string;
-  icon: string;
-  color: string;
-  selected: boolean;
-  onPress: () => void;
-};
-
-const PriorityButton: React.FC<PriorityButtonProps> = ({
-  label,
-  icon,
-  color,
-  selected,
-  onPress,
-}) => (
-  <TouchableOpacity
-    onPress={onPress}
-    className={`flex-1 items-center justify-center rounded-lg border-2 py-4 ${selected ? `border-[${color}]` : 'border-gray-200 dark:border-neutral-700'}`}
-    style={
-      selected
-        ? { borderColor: color, backgroundColor: `${color}10` }
-        : undefined
-    }
-    activeOpacity={0.7}
-  >
-    <FontAwesome
-      name={icon as any}
-      size={24}
-      color={selected ? color : '#9ca3af'}
-    />
-    <Text
-      className="mt-1 text-sm font-semibold"
-      style={{ color: selected ? color : '#9ca3af' }}
-    >
-      {label}
-    </Text>
-  </TouchableOpacity>
-);
 
 const AddRepairOrder: React.FC = () => {
   const router = useRouter();

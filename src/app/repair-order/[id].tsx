@@ -4,112 +4,11 @@ import React from 'react';
 import { Image, ScrollView, TouchableOpacity } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { InfoRow } from '@/components/equipment';
+import { ProgressItem, SparePartItem } from '@/components/repair-order';
 import { NavHeader, Text, View } from '@/components/ui';
 import { FontAwesome } from '@/components/ui/icons';
 import { useAppColorScheme } from '@/lib/hooks';
-
-// 信息行组件
-type InfoRowProps = {
-  label: string;
-  value: string;
-  isLast?: boolean;
-};
-
-const InfoRow: React.FC<InfoRowProps> = ({ label, value, isLast = false }) => (
-  <View
-    className={`flex-row justify-between py-2 ${!isLast ? 'border-b border-gray-100 dark:border-neutral-700' : ''}`}
-  >
-    <Text className="text-sm text-gray-500 dark:text-gray-400">{label}</Text>
-    <Text className="text-sm font-semibold text-gray-800 dark:text-gray-100">
-      {value}
-    </Text>
-  </View>
-);
-
-// 进度项组件
-type ProgressItemProps = {
-  icon: string;
-  iconColor: string;
-  bgColor: string;
-  title: string;
-  time?: string;
-  description?: string;
-  isCompleted: boolean;
-};
-
-const ProgressItem: React.FC<ProgressItemProps> = ({
-  icon,
-  iconColor,
-  bgColor,
-  title,
-  time,
-  description,
-  isCompleted,
-}) => (
-  <View className="mb-4 flex-row items-start">
-    <View
-      className="size-8 shrink-0 items-center justify-center rounded-full"
-      style={{ backgroundColor: bgColor }}
-    >
-      <FontAwesome
-        name={icon as any}
-        size={12}
-        color={isCompleted ? 'white' : iconColor}
-      />
-    </View>
-    <View className="ml-3 flex-1">
-      <View className="mb-1 flex-row items-center justify-between">
-        <Text
-          className={`text-sm font-semibold ${isCompleted ? 'text-gray-800 dark:text-gray-100' : 'text-gray-400 dark:text-gray-500'}`}
-        >
-          {title}
-        </Text>
-        {time && (
-          <Text className="text-xs text-gray-500 dark:text-gray-400">
-            {time}
-          </Text>
-        )}
-      </View>
-      {description && (
-        <Text className="text-xs text-gray-600 dark:text-gray-400">
-          {description}
-        </Text>
-      )}
-    </View>
-  </View>
-);
-
-// 备件项组件
-type SparePartItemProps = {
-  name: string;
-  model: string;
-  quantity: number;
-  price: string;
-};
-
-const SparePartItem: React.FC<SparePartItemProps> = ({
-  name,
-  model,
-  quantity,
-  price,
-}) => (
-  <View className="mb-3 flex-row items-center justify-between rounded-lg bg-gray-50 p-3 dark:bg-neutral-700/50">
-    <View>
-      <Text className="text-sm font-semibold text-gray-800 dark:text-gray-100">
-        {name}
-      </Text>
-      <Text className="text-xs text-gray-500 dark:text-gray-400">
-        型号：{model}
-      </Text>
-    </View>
-    <View className="items-end">
-      <Text className="text-sm font-semibold text-gray-800 dark:text-gray-100">
-        ×{quantity}
-      </Text>
-      <Text className="text-xs text-gray-500 dark:text-gray-400">{price}</Text>
-    </View>
-  </View>
-);
 
 const RepairOrderDetail: React.FC = () => {
   // const router = useRouter();
