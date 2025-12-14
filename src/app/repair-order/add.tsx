@@ -18,6 +18,7 @@ import {
   Text,
   View,
 } from '@/components/ui';
+import { isWeb } from '@/lib';
 import { error, info } from '@/lib/message';
 import { type Equipment, type SmLov } from '@/types';
 
@@ -114,20 +115,36 @@ const AddRepairOrder: React.FC = () => {
   };
 
   // 提交表单
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!validateForm()) return;
 
-    Alert.alert('提交工单', '确认提交维修工单吗？', [
-      { text: '取消', style: 'cancel' },
-      {
-        text: '确定',
-        onPress: () => {
-          const workOrderNo = `WO-${Date.now()}`;
-          info(`维修工单提交成功！工单号：${workOrderNo}`);
-          router.back();
+    let data = {
+      EquipmentId: selectedEquipment,
+      faultType,
+      priority,
+      impact,
+      FaultDesc: faultDescription,
+      ExpectedCompleteTime: expectedTime,
+      remark: remarks,
+    };
+    if (isWeb) {
+      const confirmed = window.confirm('确认提交维修工单吗？');
+      if (confirmed) {
+        const { Success } = await http.post<any>('/api/EmRepairOrder', data);
+        if (Success) info(`维修工单提交成功！`);
+      }
+    } else
+      Alert.alert('提交工单', '确认提交维修工单吗？', [
+        { text: '取消', style: 'cancel' },
+        {
+          text: '确定',
+          onPress: () => {
+            const workOrderNo = `WO-${Date.now()}`;
+            info(`维修工单提交成功！工单号：${workOrderNo}`);
+            router.back();
+          },
         },
-      },
-    ]);
+      ]);
   };
 
   return (
