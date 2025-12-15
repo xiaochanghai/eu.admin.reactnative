@@ -24,6 +24,16 @@ export enum GroupEnum {
   Feather = 'Feather',
 }
 
+export enum IconGroupEnum {
+  FontAwesome = 'FontAwesome',
+  Entypo = 'Entypo',
+  FontAwesome5 = 'FontAwesome5',
+  EvilIcons = 'EvilIcons',
+  AntDesign = 'AntDesign',
+  MaterialCommunityIcons = 'MaterialCommunityIcons',
+  Feather = 'Feather',
+}
+
 /**
  * 图标组类型
  * 用于限制可用的图标库类型
@@ -35,7 +45,14 @@ export type IconGroup =
   | GroupEnum.EvilIcons
   | GroupEnum.AntDesign
   | GroupEnum.MaterialCommunityIcons
-  | GroupEnum.Feather;
+  | GroupEnum.Feather
+  | IconGroupEnum.Entypo
+  | IconGroupEnum.FontAwesome5
+  | IconGroupEnum.FontAwesome
+  | IconGroupEnum.EvilIcons
+  | IconGroupEnum.AntDesign
+  | IconGroupEnum.MaterialCommunityIcons
+  | IconGroupEnum.Feather;
 
 /**
  * 各图标库的图标名称类型
@@ -178,19 +195,25 @@ export const FontAwesome: React.FC<FontAwesomeIconProps> = ({
   // 其次根据指定的组类型选择图标库
   switch (group) {
     case GroupEnum.Entypo:
+    case IconGroupEnum.Entypo:
       return <Entypo name={name as EntypoIconNames} {...iconProps} />;
     case GroupEnum.FontAwesome5:
+    case IconGroupEnum.FontAwesome5:
       return (
         <FontAwesome5 name={name as FontAwesome5IconNames} {...iconProps} />
       );
     case GroupEnum.EvilIcons:
+    case IconGroupEnum.EvilIcons:
       return <EvilIcons name={name as EvilIconsNames} {...iconProps} />;
     case GroupEnum.AntDesign:
+    case IconGroupEnum.AntDesign:
       return <AntDesign name={name as AntDesignIconNames} {...iconProps} />;
-    case GroupEnum.Feather:
+    case GroupEnum.AntDesign:
+    case IconGroupEnum.Feather:
       return <Feather name={name as FeatherIconNames} {...iconProps} />;
 
     case GroupEnum.MaterialCommunityIcons:
+    case IconGroupEnum.MaterialCommunityIcons:
       return (
         <MaterialCommunityIcons
           name={name as MaterialCommunityIconNames}

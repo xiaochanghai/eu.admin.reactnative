@@ -4,6 +4,7 @@ import { StyleSheet, TouchableOpacity } from 'react-native';
 
 import { NavHeader, ScrollView, Text, View } from '@/components/ui';
 import { FontAwesome, GroupEnum } from '@/components/ui/icons';
+import { useAppColorScheme } from '@/lib';
 
 interface RelatedNotification {
   id: string;
@@ -18,6 +19,7 @@ const NotificationDetail = () => {
   // const notificationType1 = route.params?.type || 'warning';
   const local = useLocalSearchParams<{ type: string }>();
   const notificationType = local.type;
+  const { isDark } = useAppColorScheme();
 
   // 通知详情状态
   const [notificationInfo, setNotificationInfo] = useState({
@@ -28,8 +30,8 @@ const NotificationDetail = () => {
       'PCB板库存低于安全库存，当前库存数量为25个，安全库存为50个，请及时补货。\n\n低库存可能导致生产计划延误，建议在3天内完成补货。',
     icon: 'exclamation-triangle',
     iconBgColor: '#ef4444', // red-500
-    badgeBg: 'bg-red-100',
-    badgeText: 'text-red-800',
+    badgeBg: 'bg-red-100 dark:bg-red-900/30',
+    badgeText: 'text-red-800 dark:text-red-300',
     badgeContent: '预警信息',
     actionText: '查看物料详情',
     relatedInfo: [
@@ -71,8 +73,8 @@ const NotificationDetail = () => {
           title: '库存预警',
           icon: 'exclamation-triangle',
           iconBgColor: '#ef4444', // red-500
-          badgeBg: 'bg-red-100',
-          badgeText: 'text-red-800',
+          badgeBg: 'bg-red-100 dark:bg-red-900/30',
+          badgeText: 'text-red-800 dark:text-red-300',
           badgeContent: '预警信息',
           actionText: '查看物料详情',
         };
@@ -85,8 +87,8 @@ const NotificationDetail = () => {
             '您有一个新的生产任务 #PT20231129-02 需要处理。请在今天下午3点前完成相关准备工作。',
           icon: 'tasks',
           iconBgColor: '#22c55e', // green-500
-          badgeBg: 'bg-green-100',
-          badgeText: 'text-green-800',
+          badgeBg: 'bg-green-100 dark:bg-green-900/30',
+          badgeText: 'text-green-800 dark:text-green-300',
           badgeContent: '任务提醒',
           actionText: '处理任务',
         };
@@ -99,8 +101,8 @@ const NotificationDetail = () => {
             '订单 #2023112801 已完成生产，等待发货。请安排物流部门进行后续处理。',
           icon: 'clipboard-check',
           iconBgColor: '#3b82f6', // blue-500
-          badgeBg: 'bg-blue-100',
-          badgeText: 'text-blue-800',
+          badgeBg: 'bg-blue-100 dark:bg-blue-900/30',
+          badgeText: 'text-blue-800 dark:text-blue-300',
           badgeContent: '订单通知',
           actionText: '查看订单',
         };
@@ -113,8 +115,8 @@ const NotificationDetail = () => {
             '系统将于今晚22:00-23:00进行例行维护，请提前做好准备。维护期间系统将暂停服务。',
           icon: 'bell',
           iconBgColor: '#eab308', // yellow-500
-          badgeBg: 'bg-yellow-100',
-          badgeText: 'text-yellow-800',
+          badgeBg: 'bg-yellow-100 dark:bg-yellow-900/30',
+          badgeText: 'text-yellow-800 dark:text-yellow-300',
           badgeContent: '系统通知',
           actionText: '了解详情',
         };
@@ -127,8 +129,8 @@ const NotificationDetail = () => {
             '11月生产效率分析报表已生成，请查看。本月生产效率较上月提升5.2%。',
           icon: 'chart-line',
           iconBgColor: '#a855f7', // purple-500
-          badgeBg: 'bg-purple-100',
-          badgeText: 'text-purple-800',
+          badgeBg: 'bg-purple-100 dark:bg-purple-900/30',
+          badgeText: 'text-purple-800 dark:text-purple-300',
           badgeContent: '数据报表',
           actionText: '查看报表',
         };
@@ -140,8 +142,8 @@ const NotificationDetail = () => {
           content: '李工程师已加入您的生产团队，请及时安排工作。',
           icon: 'user-plus',
           iconBgColor: '#6366f1', // indigo-500
-          badgeBg: 'bg-indigo-100',
-          badgeText: 'text-indigo-800',
+          badgeBg: 'bg-indigo-100 dark:bg-indigo-900/30',
+          badgeText: 'text-indigo-800 dark:text-indigo-300',
           badgeContent: '团队通知',
           actionText: '查看团队',
         };
@@ -154,8 +156,8 @@ const NotificationDetail = () => {
             '系统已更新至v1.0.5版本，新增多项功能和优化。主要更新内容包括：生产计划优化、库存预警阈值自定义、报表导出功能等。',
           icon: 'cogs',
           iconBgColor: '#f97316', // orange-500
-          badgeBg: 'bg-orange-100',
-          badgeText: 'text-orange-800',
+          badgeBg: 'bg-orange-100 dark:bg-orange-900/30',
+          badgeText: 'text-orange-800 dark:text-orange-300',
           badgeContent: '系统更新',
           actionText: '查看更新',
         };
@@ -192,16 +194,24 @@ const NotificationDetail = () => {
   };
 
   return (
-    <View className="flex-1 bg-gray-50">
+    <View className="flex-1 bg-gray-50 dark:bg-neutral-900">
       <NavHeader
         title="通知详情"
         right={
           <>
             <TouchableOpacity style={styles.headerButton}>
-              <FontAwesome name="share-alt" size={18} color="#6b7280" />
+              <FontAwesome
+                name="share-alt"
+                size={18}
+                color={isDark ? '#9ca3af' : '#6b7280'}
+              />
             </TouchableOpacity>
             <TouchableOpacity style={styles.headerButton}>
-              <FontAwesome name="ellipsis-v" size={18} color="#6b7280" />
+              <FontAwesome
+                name="ellipsis-v"
+                size={18}
+                color={isDark ? '#9ca3af' : '#6b7280'}
+              />
             </TouchableOpacity>
           </>
         }
@@ -221,7 +231,7 @@ const NotificationDetail = () => {
         </View>
 
         {/* 通知详情卡片 */}
-        <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm">
+        <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
           <View className="flex-row items-start">
             <View
               className="w-15 h-15 mr-4 items-center justify-center rounded-xl"
@@ -236,35 +246,48 @@ const NotificationDetail = () => {
             </View>
             <View className="flex-1">
               <View className="flex-row items-start justify-between">
-                <Text className="text-xl font-semibold">
+                <Text className="text-xl font-semibold text-gray-900 dark:text-gray-100">
                   {notificationInfo.title}
                 </Text>
-                <Text className="text-sm text-gray-500">
+                <Text className="text-sm text-gray-500 dark:text-gray-400">
                   {notificationInfo.time}
                 </Text>
               </View>
-              <Text className="mt-1 text-sm text-gray-500">
+              <Text className="mt-1 text-sm text-gray-500 dark:text-gray-400">
                 {notificationInfo.date}
               </Text>
             </View>
           </View>
 
           <View className="mt-6">
-            <Text className="mb-3 text-lg font-medium">详细内容</Text>
-            <Text className="leading-relaxed text-gray-700">
+            <Text className="mb-3 text-lg font-medium text-gray-900 dark:text-gray-100">
+              详细内容
+            </Text>
+            <Text className="leading-relaxed text-gray-700 dark:text-gray-300">
               {notificationInfo.content}
             </Text>
           </View>
 
           {/* 相关信息 */}
-          <View className="mt-6 border-t border-gray-100 pt-6">
-            <Text className="mb-3 text-lg font-medium">相关信息</Text>
+          <View className="mt-6 border-t border-gray-100 pt-6 dark:border-neutral-700">
+            <Text className="mb-3 text-lg font-medium text-gray-900 dark:text-gray-100">
+              相关信息
+            </Text>
             {notificationInfo.relatedInfo.map((item, index) => (
-              <View key={index} className="mb-3 rounded-xl bg-gray-50 p-4">
+              <View
+                key={index}
+                className="mb-3 rounded-xl bg-gray-50 p-4 dark:bg-neutral-700"
+              >
                 <View className="flex-row justify-between">
-                  <Text className="font-medium">{item.label}</Text>
+                  <Text className="font-medium text-gray-900 dark:text-gray-100">
+                    {item.label}
+                  </Text>
                   <Text
-                    className={item.isAlert ? 'font-medium text-red-600' : ''}
+                    className={
+                      item.isAlert
+                        ? 'font-medium text-red-600 dark:text-red-400'
+                        : 'text-gray-900 dark:text-gray-100'
+                    }
                   >
                     {item.value}
                   </Text>
@@ -285,20 +308,24 @@ const NotificationDetail = () => {
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            className="flex-1 items-center rounded-xl bg-gray-100 py-3"
+            className="flex-1 items-center rounded-xl bg-gray-100 py-3 dark:bg-neutral-700"
             onPress={handleMarkAsRead}
           >
-            <Text className="font-medium text-gray-700">标记为已读</Text>
+            <Text className="font-medium text-gray-700 dark:text-gray-200">
+              标记为已读
+            </Text>
           </TouchableOpacity>
         </View>
 
         {/* 相关通知 */}
-        <Text className="mb-3 text-lg font-semibold">相关通知</Text>
-        <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm">
+        <Text className="mb-3 text-lg font-semibold text-gray-900 dark:text-gray-100">
+          相关通知
+        </Text>
+        <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
           {relatedNotifications.map((item, index) => (
             <View
               key={item.id}
-              className={`py-3 ${index < relatedNotifications.length - 1 ? 'border-b border-gray-100' : ''}`}
+              className={`py-3 ${index < relatedNotifications.length - 1 ? 'border-b border-gray-100 dark:border-neutral-700' : ''}`}
             >
               <View className="flex-row">
                 <View
@@ -314,10 +341,14 @@ const NotificationDetail = () => {
                 </View>
                 <View className="flex-1">
                   <View className="flex-row justify-between">
-                    <Text className="font-medium">{item.title}</Text>
-                    <Text className="text-xs text-gray-500">{item.time}</Text>
+                    <Text className="font-medium text-gray-900 dark:text-gray-100">
+                      {item.title}
+                    </Text>
+                    <Text className="text-xs text-gray-500 dark:text-gray-400">
+                      {item.time}
+                    </Text>
                   </View>
-                  <Text className="mt-1 text-sm text-gray-600">
+                  <Text className="mt-1 text-sm text-gray-600 dark:text-gray-300">
                     {item.message}
                   </Text>
                 </View>

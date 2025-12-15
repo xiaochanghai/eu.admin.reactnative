@@ -1,25 +1,31 @@
 import http from '@/api/common/http';
-// import { ReqLogin, ResLogin } from "@/api/interface/index";
-interface ResLogin {
-  Token: string;
-  UserId: string;
-  UserInfo: UserInfo;
-}
-export interface ReqLogin {
-  UserAccount: string;
-  Password: string;
-}
 
-export type UserInfo = {
+/** 用户信息 */
+export interface UserInfo {
   UserName: string;
   WeekName: string;
   UserId: string;
   UserType: string;
   AvatarFileId: string;
-};
-export const loginApi = (params: ReqLogin) => {
-  return http.post<ResLogin>(`api/Authorize/Login`, params);
-};
-export const currentUserApi = () => {
-  return http.get<UserInfo>(`api/Authorize/CurrentUser`);
-};
+}
+
+/** 登录请求参数 */
+export interface ReqLogin {
+  UserAccount: string;
+  Password: string;
+}
+
+/** 登录响应结果 */
+interface ResLogin {
+  Token: string;
+  UserId: string;
+  UserInfo: UserInfo;
+}
+
+/** 用户登录 */
+export const loginApi = (params: ReqLogin) =>
+  http.post<ResLogin>('/api/Authorize/Login', params);
+
+/** 获取当前用户信息 */
+export const currentUserApi = () =>
+  http.get<UserInfo>('/api/Authorize/CurrentUser');

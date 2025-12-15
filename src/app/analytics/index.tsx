@@ -6,9 +6,9 @@ import {
   OverView,
   Production,
   Quality,
-  Sales
+  Sales,
 } from '@/components/analytics';
-import { NavHeader, ScrollView, View, SafeAreaView } from '@/components/ui';
+import { NavHeader, ScrollView, View } from '@/components/ui';
 
 // 图表图例项组件
 // type ChartLegendItemProps = {
@@ -40,17 +40,8 @@ const Analytics: React.FC = () => {
   const [activeSegment, setActiveSegment] = useState(0);
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-100">
-      <NavHeader
-        title="数据分析"
-      // right={
-      //   <>
-      //     <TouchableOpacity>
-      //       <FontAwesome name="plus" size={12} />
-      //     </TouchableOpacity>
-      //   </>
-      // }
-      />
+    <View className="flex-1 bg-gray-100 dark:bg-gray-900">
+      <NavHeader title="数据分析" />
       <ScrollView className="flex-1 p-4" showsVerticalScrollIndicator={false}>
         {/* 分段控制器 */}
         <View className="mb-4">
@@ -68,7 +59,7 @@ const Analytics: React.FC = () => {
         {activeSegment === 3 && <Inventory />}
         {activeSegment === 4 && <Quality />}
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 };
 

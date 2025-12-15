@@ -1,5 +1,5 @@
 import { useRouter } from 'expo-router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Alert,
   ScrollView,
@@ -8,32 +8,21 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-import { NavHeader, Text, View } from '@/components/ui';
-import { FontAwesome } from '@/components/ui/icons';
-import { useAppColorScheme } from '@/lib/hooks';
+import { queryLov } from '@/api';
+import http from '@/api/common/http';
+import { PriorityButton, RadioButton } from '@/components/repair-order';
+import {
+  DatePickerInput,
+  FontAwesome,
+  NavHeader,
+  Text,
+  View,
+} from '@/components/ui';
+import { QRCodeScanner } from '@/components/ui/qr-code-scanner';
+import { isWeb } from '@/lib';
 import { error, info } from '@/lib/message';
-
-// 设备选项类型
-type Equipment = {
-  id: string;
-  name: string;
-  code: string;
-  location: string;
-};
-
-// 设备数据
-const equipmentList: Equipment[] = [
-  { id: '1', name: '数控机床', code: 'CNC-01', location: 'A车间-1号线' },
-  { id: '2', name: '数控机床', code: 'CNC-03', location: 'A车间-3号线' },
-  { id: '3', name: '注塑机', code: 'IM-03', location: 'B车间-2号线' },
-  { id: '4', name: '注塑机', code: 'IM-05', location: 'B车间-5号线' },
-  { id: '5', name: '空压机', code: 'AC-01', location: '动力车间' },
-  { id: '6', name: '空压机', code: 'AC-02', location: '动力车间' },
-  { id: '7', name: '空压机', code: 'AC-05', location: '动力车间' },
-  { id: '8', name: '传送带', code: 'CB-01', location: 'C车间-包装区' },
-  { id: '9', name: '传送带', code: 'CB-02', location: 'C车间-包装区' },
-  { id: '10', name: '混料机', code: 'MX-08', location: 'C车间-配料区' },
-];
+import { type Equipment, type SmLov } from '@/types';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 // 维修人员数据
 const technicianList = [
@@ -44,98 +33,19 @@ const technicianList = [
   { id: '5', name: '孙七', level: '初级技师' },
 ];
 
-// 单选按钮组件
-type RadioButtonProps = {
-  label: string;
-  selected: boolean;
-  onPress: () => void;
-  icon?: string;
-  color?: string;
-};
-
-const RadioButton: React.FC<RadioButtonProps> = ({
-  label,
-  selected,
-  onPress,
-  icon,
-  color = '#1890ff',
-}) => (
-  <TouchableOpacity
-    onPress={onPress}
-    className={`flex-row items-center rounded-lg border-2 p-3 ${selected
-        ? 'border-primary-500 bg-blue-50 dark:bg-blue-950/30'
-        : 'border-gray-200 dark:border-neutral-700'
-      }`}
-    activeOpacity={0.7}
-  >
-    {icon && (
-      <View
-        className="mr-2 size-6 items-center justify-center"
-        style={{ opacity: selected ? 1 : 0.5 }}
-      >
-        <FontAwesome name={icon as any} size={16} color={color} />
-      </View>
-    )}
-    <Text
-      className={`text-sm ${selected ? 'font-semibold text-gray-800 dark:text-gray-100' : 'text-gray-700 dark:text-gray-400'}`}
-    >
-      {label}
-    </Text>
-  </TouchableOpacity>
-);
-
-// 优先级按钮组件
-type PriorityButtonProps = {
-  label: string;
-  icon: string;
-  color: string;
-  selected: boolean;
-  onPress: () => void;
-};
-
-const PriorityButton: React.FC<PriorityButtonProps> = ({
-  label,
-  icon,
-  color,
-  selected,
-  onPress,
-}) => (
-  <TouchableOpacity
-    onPress={onPress}
-    className={`flex-1 items-center justify-center rounded-lg border-2 py-4 ${selected ? `border-[${color}]` : 'border-gray-200 dark:border-neutral-700'
-      }`}
-    style={
-      selected
-        ? { borderColor: color, backgroundColor: `${color}10` }
-        : undefined
-    }
-    activeOpacity={0.7}
-  >
-    <FontAwesome
-      name={icon as any}
-      size={24}
-      color={selected ? color : '#9ca3af'}
-    />
-    <Text
-      className="mt-1 text-sm font-semibold"
-      style={{ color: selected ? color : '#9ca3af' }}
-    >
-      {label}
-    </Text>
-  </TouchableOpacity>
-);
-
 const AddRepairOrder: React.FC = () => {
   const router = useRouter();
-  const { isDark } = useAppColorScheme();
+  const insets = useSafeAreaInsets();
 
   // 表单状态
   const [selectedEquipment, setSelectedEquipment] = useState<string>('');
   const [faultType, setFaultType] = useState<string>('');
+  const [faultTypes, setFaultTypes] = useState<SmLov[]>([]);
+  const [equipmentList, setEquipmentList] = useState<Equipment[]>([]);
   const [priority, setPriority] = useState<string>('');
   const [impact, setImpact] = useState<string>('');
   const [faultDescription, setFaultDescription] = useState<string>('');
-  const [expectedTime, setExpectedTime] = useState<string>('');
+  const [expectedTime, setExpectedTime] = useState<Date>();
   const [assignedTechnician, setAssignedTechnician] = useState<string>('');
   const [remarks, setRemarks] = useState<string>('');
   const [needShutdown, setNeedShutdown] = useState<boolean>(false);
@@ -143,13 +53,14 @@ const AddRepairOrder: React.FC = () => {
   // 显示设备选择器
   const [showEquipmentPicker, setShowEquipmentPicker] = useState(false);
   const [showTechnicianPicker, setShowTechnicianPicker] = useState(false);
+  const [showScanner, setShowScanner] = useState(false);
 
   // 获取选中的设备
   const getSelectedEquipmentText = () => {
     if (!selectedEquipment) return '请选择需要维修的设备';
-    const equipment = equipmentList.find((e) => e.id === selectedEquipment);
+    const equipment = equipmentList.find((e) => e.ID === selectedEquipment);
     return equipment
-      ? `${equipment.name} ${equipment.code} (${equipment.location})`
+      ? `${equipment.MachineName} ${equipment.MachineNo} (${equipment.Location})`
       : '请选择需要维修的设备';
   };
 
@@ -160,6 +71,49 @@ const AddRepairOrder: React.FC = () => {
     return technician
       ? `${technician.name} - ${technician.level}`
       : '系统自动分配';
+  };
+
+  const loadFaultType = async () => {
+    const { Success, Data } = await queryLov('EquipmentFaultType');
+    if (Success) setFaultTypes(Data);
+  };
+  const loadEquipment = async () => {
+    const { Success, Data } = await http.get<Equipment[]>(
+      '/api/EmRepairOrder/GetEquipment'
+    );
+    if (Success) setEquipmentList(Data);
+  };
+
+  useEffect(() => {
+    loadFaultType();
+    loadEquipment();
+  }, []);
+
+  // 处理扫码结果
+  const handleScanResult = (data: string) => {
+    setShowScanner(false);
+    let parts = data.split('_');
+    console.log()
+    if (parts.length !== 2) {
+      info(`无效的设备二维码！`);
+      return;
+    }
+
+    // 根据扫描结果查找设备
+    const equipment = equipmentList.find(
+      (e) => e.MachineNo === parts[1] || e.ID === parts[1]
+    );
+    if (equipment) {
+      setSelectedEquipment(equipment.ID);
+      info(`已选择设备: ${equipment.MachineName}`);
+    } else {
+      error(`无效的设备二维码！`);
+    }
+  };
+
+  // 取消扫码
+  const handleCancelScan = () => {
+    setShowScanner(false);
   };
 
   // 验证表单
@@ -191,36 +145,53 @@ const AddRepairOrder: React.FC = () => {
     return true;
   };
 
-  // 保存草稿
-  const handleSaveDraft = () => {
-    Alert.alert('保存草稿', '是否保存为草稿？', [
-      { text: '取消', style: 'cancel' },
-      {
-        text: '确定',
-        onPress: () => {
-          info('已保存为草稿');
-          router.back();
-        },
-      },
-    ]);
-  };
-
   // 提交表单
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!validateForm()) return;
 
-    Alert.alert('提交工单', '确认提交维修工单吗？', [
-      { text: '取消', style: 'cancel' },
-      {
-        text: '确定',
-        onPress: () => {
-          const workOrderNo = `WO-${Date.now()}`;
-          info(`维修工单提交成功！工单号：${workOrderNo}`);
+    let data = {
+      EquipmentId: selectedEquipment,
+      faultType,
+      priority,
+      impact,
+      FaultDesc: faultDescription,
+      ExpectedCompleteTime: expectedTime,
+      remark: remarks,
+    };
+    if (isWeb) {
+      const confirmed = window.confirm('确认提交维修工单吗？');
+      if (confirmed) {
+        const { Success } = await http.post<any>('/api/EmRepairOrder', data);
+        if (Success) {
           router.back();
+          info(`维修工单提交成功！`);
+        }
+      }
+    } else
+      Alert.alert('提交工单', '确认提交维修工单吗？', [
+        { text: '取消', style: 'cancel' },
+        {
+          text: '确定',
+          onPress: async () => {
+            const { Success } = await http.post<any>(
+              '/api/EmRepairOrder',
+              data
+            );
+            if (Success) {
+              router.back();
+              info(`维修工单提交成功！`);
+            }
+          },
         },
-      },
-    ]);
+      ]);
   };
+
+  // 如果显示扫码界面，渲染 QRCodeScanner
+  if (showScanner) {
+    return (
+      <QRCodeScanner onScan={handleScanResult} onCancel={handleCancelScan} />
+    );
+  }
 
   return (
     <View className="flex-1 bg-gray-50 dark:bg-neutral-900">
@@ -265,22 +236,19 @@ const AddRepairOrder: React.FC = () => {
                   <ScrollView>
                     {equipmentList.map((equipment) => (
                       <TouchableOpacity
-                        key={equipment.id}
+                        key={equipment.ID}
                         onPress={() => {
-                          setSelectedEquipment(equipment.id);
+                          setSelectedEquipment(equipment.ID);
                           setShowEquipmentPicker(false);
                         }}
-                        className={`border-b border-gray-100 p-3 dark:border-neutral-600 ${selectedEquipment === equipment.id
-                            ? 'bg-blue-50 dark:bg-blue-950/30'
-                            : ''
-                          }`}
+                        className={`border-b border-gray-100 p-3 dark:border-neutral-600 ${selectedEquipment === equipment.ID ? 'bg-blue-50 dark:bg-blue-950/30' : ''}`}
                         activeOpacity={0.7}
                       >
                         <Text className="text-sm font-medium text-gray-800 dark:text-gray-100">
-                          {equipment.name} {equipment.code}
+                          {equipment.MachineName} {equipment.MachineNo}
                         </Text>
                         <Text className="text-xs text-gray-500 dark:text-gray-400">
-                          {equipment.location}
+                          {equipment.Location}
                         </Text>
                       </TouchableOpacity>
                     ))}
@@ -291,8 +259,8 @@ const AddRepairOrder: React.FC = () => {
 
             {/* 或扫码选择 */}
             <TouchableOpacity
-              className="flex-row items-center justify-center space-x-2 rounded-lg border-2 border-dashed border-primary-500 py-3"
-              onPress={() => info('扫码功能开发中')}
+              className="flex-row items-center justify-center space-x-2 rounded-lg border-2 border-dashed border-primary-500 py-3 mt-4"
+              onPress={() => setShowScanner(true)}
               activeOpacity={0.7}
             >
               <FontAwesome name="qrcode" size={20} color="#1890ff" />
@@ -314,45 +282,26 @@ const AddRepairOrder: React.FC = () => {
 
           <View className="space-y-4">
             {/* 故障类型 */}
-            <View>
-              <Text className="mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-                故障类型 <Text className="text-red-500">*</Text>
-              </Text>
-              <View className="gap-2">
-                <View className="flex-row gap-2">
-                  <View className="flex-1">
-                    <RadioButton
-                      label="机械故障"
-                      selected={faultType === 'mechanical'}
-                      onPress={() => setFaultType('mechanical')}
-                    />
-                  </View>
-                  <View className="flex-1">
-                    <RadioButton
-                      label="电气故障"
-                      selected={faultType === 'electrical'}
-                      onPress={() => setFaultType('electrical')}
-                    />
-                  </View>
-                </View>
-                <View className="flex-row gap-2">
-                  <View className="flex-1">
-                    <RadioButton
-                      label="液压故障"
-                      selected={faultType === 'hydraulic'}
-                      onPress={() => setFaultType('hydraulic')}
-                    />
-                  </View>
-                  <View className="flex-1">
-                    <RadioButton
-                      label="其他故障"
-                      selected={faultType === 'other'}
-                      onPress={() => setFaultType('other')}
-                    />
+            {faultTypes && faultTypes.length > 0 && (
+              <View>
+                <Text className="mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                  故障类型 <Text className="text-red-500">*</Text>
+                </Text>
+                <View className="gap-2">
+                  <View className="flex-row gap-2">
+                    {faultTypes.map((faultType1, index) => (
+                      <View className="flex-1" key={index}>
+                        <RadioButton
+                          label={faultType1.label}
+                          selected={faultType === faultType1.value}
+                          onPress={() => setFaultType(faultType1.value)}
+                        />
+                      </View>
+                    ))}
                   </View>
                 </View>
               </View>
-            </View>
+            )}
 
             {/* 优先级 */}
             <View>
@@ -483,15 +432,19 @@ const AddRepairOrder: React.FC = () => {
                 期望完成时间 <Text className="text-red-500">*</Text>
               </Text>
               <TouchableOpacity
-                className="rounded-lg border border-gray-300 px-4 py-3 dark:border-neutral-600"
+                // className="rounded-lg border border-gray-300 px-4 py-3 dark:border-neutral-600"
                 onPress={() => info('日期选择器开发中')}
                 activeOpacity={0.7}
               >
-                <Text
+                {/* <Text
                   className={`text-sm ${expectedTime ? 'text-gray-800 dark:text-gray-100' : 'text-gray-400 dark:text-gray-500'}`}
                 >
                   {expectedTime || '请选择期望完成时间'}
-                </Text>
+                </Text> */}
+                <DatePickerInput
+                  value={expectedTime}
+                  onChange={(date) => setExpectedTime(date)}
+                />
               </TouchableOpacity>
             </View>
 
@@ -519,10 +472,7 @@ const AddRepairOrder: React.FC = () => {
                       setAssignedTechnician('');
                       setShowTechnicianPicker(false);
                     }}
-                    className={`border-b border-gray-100 p-3 dark:border-neutral-600 ${!assignedTechnician
-                        ? 'bg-blue-50 dark:bg-blue-950/30'
-                        : ''
-                      }`}
+                    className={`border-b border-gray-100 p-3 dark:border-neutral-600 ${!assignedTechnician ? 'bg-blue-50 dark:bg-blue-950/30' : ''}`}
                     activeOpacity={0.7}
                   >
                     <Text className="text-sm text-gray-800 dark:text-gray-100">
@@ -536,10 +486,7 @@ const AddRepairOrder: React.FC = () => {
                         setAssignedTechnician(technician.id);
                         setShowTechnicianPicker(false);
                       }}
-                      className={`border-b border-gray-100 p-3 dark:border-neutral-600 ${assignedTechnician === technician.id
-                          ? 'bg-blue-50 dark:bg-blue-950/30'
-                          : ''
-                        }`}
+                      className={`border-b border-gray-100 p-3 dark:border-neutral-600 ${assignedTechnician === technician.id ? 'bg-blue-50 dark:bg-blue-950/30' : ''}`}
                       activeOpacity={0.7}
                     >
                       <Text className="text-sm text-gray-800 dark:text-gray-100">
@@ -642,27 +589,17 @@ const AddRepairOrder: React.FC = () => {
               • 上传故障图片可帮助维修人员提前准备工具和备件
             </Text>
             <Text className="text-xs text-gray-600 dark:text-gray-300">
-              • 维修工单创建后可在"维修管理"中查看进度
+              • 维修工单创建后可在&quot;维修管理&quot;中查看进度
             </Text>
           </View>
         </View>
       </ScrollView>
 
       {/* 底部固定操作栏 */}
-      <View className="border-t border-gray-200 bg-white p-4 shadow-lg dark:border-neutral-700 dark:bg-neutral-800">
+      <View className="border-t border-gray-200 bg-white p-4 shadow-lg dark:border-neutral-700 dark:bg-neutral-800"
+        style={{ paddingBottom: insets.bottom }}
+      >
         <View className="flex-row gap-3">
-          <TouchableOpacity
-            className="flex-1 items-center rounded-lg border-2 border-gray-300 py-3 dark:border-neutral-600"
-            onPress={handleSaveDraft}
-            activeOpacity={0.7}
-          >
-            <View className="flex-row items-center">
-              <FontAwesome name="save" size={16} color="#6b7280" />
-              <Text className="ml-2 font-semibold text-gray-700 dark:text-gray-300">
-                存为草稿
-              </Text>
-            </View>
-          </TouchableOpacity>
           <TouchableOpacity
             className="flex-1 items-center rounded-lg bg-primary-500 py-3"
             onPress={handleSubmit}

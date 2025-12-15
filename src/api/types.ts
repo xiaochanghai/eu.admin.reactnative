@@ -21,12 +21,15 @@ export interface DataRow<T = any> {
   hasNext: boolean;
   rows: T[];
 }
-export interface ResultData<T = any> {
-  code: number;
-  msg: string;
-  data: T;
+export interface ResultPage {
+  current: number;
+  data: [];
+  message: string;
+  pageSize: number;
+  total: number;
+  pageCount: number;
+  status: number;
   success: boolean;
-  time: string;
 }
 export interface Result {
   Status: number;
@@ -48,7 +51,6 @@ export type DeviceInfo = {
   BundleId: string;
   BundleVersion: string;
 };
-
 
 export interface VersionInfo {
   Platform?: string;

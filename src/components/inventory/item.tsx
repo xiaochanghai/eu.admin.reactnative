@@ -39,17 +39,19 @@ const Item = ({
               className="mr-2 size-2 rounded-full"
               style={{ backgroundColor: indicatorColor }}
             />
-            <Text className="text-base font-medium dark:text-gray-100">{name}</Text>
+            <Text className="text-base font-medium dark:text-gray-100">
+              {name}
+            </Text>
           </View>
-          <Text className="text-sm text-gray-500 dark:text-gray-400">编号：{code}</Text>
+          <Text className="text-sm text-gray-500 dark:text-gray-400">
+            编号：{code}
+          </Text>
         </View>
         <View className="items-end">
-          <Text
-            className={`text-lg font-bold ${textColor}`}
-          >
-            {quantity}
+          <Text className={`text-lg font-bold ${textColor}`}>{quantity}</Text>
+          <Text className="text-xs text-gray-500 dark:text-gray-400">
+            安全库存：{safetyStock}
           </Text>
-          <Text className="text-xs text-gray-500 dark:text-gray-400">安全库存：{safetyStock}</Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -57,4 +59,3 @@ const Item = ({
 };
 
 export default Item;
-

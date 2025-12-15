@@ -106,19 +106,25 @@ export const Process = () => {
             <Text className="text-2xl font-bold" style={{ color: '#0066ff' }}>
               18
             </Text>
-            <Text className="mt-1 text-xs text-gray-500 dark:text-gray-400">工序总数</Text>
+            <Text className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+              工序总数
+            </Text>
           </View>
           <View className="flex-1 items-center">
             <Text className="text-2xl font-bold" style={{ color: '#22c55e' }}>
               10
             </Text>
-            <Text className="mt-1 text-xs text-gray-500 dark:text-gray-400">使用中</Text>
+            <Text className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+              使用中
+            </Text>
           </View>
           <View className="flex-1 items-center">
             <Text className="text-2xl font-bold" style={{ color: '#f97316' }}>
               2
             </Text>
-            <Text className="mt-1 text-xs text-gray-500 dark:text-gray-400">待优化</Text>
+            <Text className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+              待优化
+            </Text>
           </View>
         </View>
       </View>
@@ -126,7 +132,9 @@ export const Process = () => {
       {/* 工序流程图 - 显示生产工序的流程和进度 */}
       <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
         <View className="mb-3 flex-row items-center justify-between">
-          <Text className="text-base font-medium dark:text-gray-100">智能手表生产工序流程</Text>
+          <Text className="text-base font-medium dark:text-gray-100">
+            智能手表生产工序流程
+          </Text>
           <View className="flex-row items-center">
             <Text className="text-sm font-medium text-blue-600">
               当前批次：
@@ -178,7 +186,9 @@ export const Process = () => {
       </View>
 
       {/* 工序列表标题 */}
-      <Text className="mb-3 text-lg font-semibold text-gray-800 dark:text-gray-100">工序列表</Text>
+      <Text className="mb-3 text-lg font-semibold text-gray-800 dark:text-gray-100">
+        工序列表
+      </Text>
 
       {/* 工序列表 - 使用map函数循环渲染工序数据 */}
       {processData.map((process) => (
@@ -207,11 +217,17 @@ export const Process = () => {
           {/* 工序基本信息 - 负责人和标准工时 */}
           <View className="mb-3 flex-row justify-between">
             <View className="flex-1">
-              <Text className="mb-1 text-xs text-gray-500 dark:text-gray-400">负责人</Text>
-              <Text className="text-sm font-medium dark:text-gray-100">{process.responsible}</Text>
+              <Text className="mb-1 text-xs text-gray-500 dark:text-gray-400">
+                负责人
+              </Text>
+              <Text className="text-sm font-medium dark:text-gray-100">
+                {process.responsible}
+              </Text>
             </View>
             <View className="flex-1">
-              <Text className="mb-1 text-xs text-gray-500 dark:text-gray-400">标准工时</Text>
+              <Text className="mb-1 text-xs text-gray-500 dark:text-gray-400">
+                标准工时
+              </Text>
               <Text className="text-sm font-medium dark:text-gray-100">
                 {process.standardTime}
               </Text>
@@ -221,15 +237,21 @@ export const Process = () => {
           {/* 设备利用率进度条 */}
           <View className="mb-2">
             <View className="mb-1 flex-row justify-between">
-              <Text className="text-sm text-gray-500 dark:text-gray-400">设备利用率</Text>
-              <Text className="text-sm dark:text-gray-100">{process.utilizationRate}%</Text>
+              <Text className="text-sm text-gray-500 dark:text-gray-400">
+                设备利用率
+              </Text>
+              <Text className="text-sm dark:text-gray-100">
+                {process.utilizationRate}%
+              </Text>
             </View>
             <ProgressBar progress={process.utilizationRate} color="#22c55e" />
           </View>
 
           {/* 关联设备信息 */}
           <View className="mb-3 rounded-xl bg-blue-50 p-3 dark:bg-blue-900/30">
-            <Text className="mb-2 text-sm font-medium dark:text-gray-100">关联设备</Text>
+            <Text className="mb-2 text-sm font-medium dark:text-gray-100">
+              关联设备
+            </Text>
             <View className="flex-row items-center">
               <FontAwesome
                 name={process.equipment.icon}
@@ -237,14 +259,18 @@ export const Process = () => {
                 color={process.equipment.iconColor}
                 style={{ marginRight: 8 }}
               />
-              <Text className="text-sm dark:text-gray-100">{process.equipment.name}</Text>
+              <Text className="text-sm dark:text-gray-100">
+                {process.equipment.name}
+              </Text>
             </View>
           </View>
 
           {/* 工序项目底部 - 良品率和详情链接 */}
           <View className="flex-row items-center justify-between">
             <View className="flex-row items-center">
-              <Text className="text-sm text-gray-500 dark:text-gray-400">良品率：</Text>
+              <Text className="text-sm text-gray-500 dark:text-gray-400">
+                良品率：
+              </Text>
               <Text className="mr-3 text-sm font-medium dark:text-gray-100">
                 {process.yieldRate}
               </Text>

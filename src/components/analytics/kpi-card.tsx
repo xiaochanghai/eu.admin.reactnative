@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Text, View } from '@/components/ui';
+
 // KPI卡片组件
 type KpiCardProps = {
   title: string;
@@ -17,8 +18,8 @@ export const KpiCard: React.FC<KpiCardProps> = ({
   trendUp = true,
   color,
 }) => (
-  <View className="mb-3 w-[48%] rounded-2xl bg-white p-3 shadow-sm">
-    <Text className="text-sm text-gray-500">{title}</Text>
+  <View className="mb-3 w-[48%] rounded-2xl bg-white p-3 shadow-sm dark:bg-gray-800">
+    <Text className="text-sm text-gray-500 dark:text-gray-400">{title}</Text>
     <Text className="mt-1 text-xl font-bold" style={{ color }}>
       {value}
     </Text>

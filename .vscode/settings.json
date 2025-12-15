@@ -34,5 +34,8 @@
   "[typescriptreact]": {
     "editor.defaultFormatter": "vscode.typescript-language-features"
   },
-  "i18n-ally.sourceLanguage": "zh"
+  "i18n-ally.sourceLanguage": "zh",
+  "[typescript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  }
 }

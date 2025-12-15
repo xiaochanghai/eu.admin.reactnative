@@ -140,16 +140,28 @@ export const Equipment = () => {
         </Text>
         <View className="mb-3 flex-row justify-between">
           <View className="flex-1 items-center">
-            <Text className="text-2xl font-bold text-blue-600 dark:text-blue-400">32</Text>
-            <Text className="mt-1 text-xs text-gray-500 dark:text-gray-400">设备总数</Text>
+            <Text className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+              32
+            </Text>
+            <Text className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+              设备总数
+            </Text>
           </View>
           <View className="flex-1 items-center">
-            <Text className="text-2xl font-bold text-green-500 dark:text-green-400">25</Text>
-            <Text className="mt-1 text-xs text-gray-500 dark:text-gray-400">运行中</Text>
+            <Text className="text-2xl font-bold text-green-500 dark:text-green-400">
+              25
+            </Text>
+            <Text className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+              运行中
+            </Text>
           </View>
           <View className="flex-1 items-center">
-            <Text className="text-2xl font-bold text-red-500 dark:text-red-400">2</Text>
-            <Text className="mt-1 text-xs text-gray-500 dark:text-gray-400">故障</Text>
+            <Text className="text-2xl font-bold text-red-500 dark:text-red-400">
+              2
+            </Text>
+            <Text className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+              故障
+            </Text>
           </View>
         </View>
         <View className="flex-row items-center rounded-xl bg-blue-50 p-3 dark:bg-blue-900/30">
@@ -160,7 +172,9 @@ export const Equipment = () => {
             className="mr-3"
           />
           <View className="flex-1">
-            <Text className="text-sm font-medium dark:text-gray-100">设备综合效率(OEE)</Text>
+            <Text className="text-sm font-medium dark:text-gray-100">
+              设备综合效率(OEE)
+            </Text>
             <View className="flex-row items-center">
               <Text className="mr-2 text-lg font-bold text-blue-600">
                 87.2%
@@ -172,7 +186,9 @@ export const Equipment = () => {
       </View>
 
       {/* 设备列表标题 */}
-      <Text className="mb-3 text-lg font-semibold text-gray-800 dark:text-gray-100">设备列表</Text>
+      <Text className="mb-3 text-lg font-semibold text-gray-800 dark:text-gray-100">
+        设备列表
+      </Text>
 
       {/* 设备列表 - 使用map函数循环渲染设备数据 */}
       {equipmentData.map((equipment) => (
@@ -201,24 +217,36 @@ export const Equipment = () => {
           {/* 设备参数信息 - 温度、转速、电压、电流 */}
           <View className="mb-3 flex-row flex-wrap">
             <View className="mb-2 w-1/2">
-              <Text className="mb-1 text-xs text-gray-500 dark:text-gray-400">设备温度</Text>
+              <Text className="mb-1 text-xs text-gray-500 dark:text-gray-400">
+                设备温度
+              </Text>
               <Text className="text-sm font-medium dark:text-gray-100">
                 {equipment.temperature}
               </Text>
             </View>
             <View className="mb-2 w-1/2">
-              <Text className="mb-1 text-xs text-gray-500 dark:text-gray-400">电机转速</Text>
+              <Text className="mb-1 text-xs text-gray-500 dark:text-gray-400">
+                电机转速
+              </Text>
               <Text className="text-sm font-medium dark:text-gray-100">
                 {equipment.motorSpeed}
               </Text>
             </View>
             <View className="mb-2 w-1/2">
-              <Text className="mb-1 text-xs text-gray-500 dark:text-gray-400">电压</Text>
-              <Text className="text-sm font-medium dark:text-gray-100">{equipment.voltage}</Text>
+              <Text className="mb-1 text-xs text-gray-500 dark:text-gray-400">
+                电压
+              </Text>
+              <Text className="text-sm font-medium dark:text-gray-100">
+                {equipment.voltage}
+              </Text>
             </View>
             <View className="mb-2 w-1/2">
-              <Text className="mb-1 text-xs text-gray-500 dark:text-gray-400">电流</Text>
-              <Text className="text-sm font-medium dark:text-gray-100">{equipment.current}</Text>
+              <Text className="mb-1 text-xs text-gray-500 dark:text-gray-400">
+                电流
+              </Text>
+              <Text className="text-sm font-medium dark:text-gray-100">
+                {equipment.current}
+              </Text>
             </View>
           </View>
 

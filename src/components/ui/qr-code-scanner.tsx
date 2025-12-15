@@ -16,19 +16,15 @@ export function QRCodeScanner({ onScan, onCancel }: Props) {
 
   const handleBarCodeScanned = React.useCallback(
     ({ data }: BarcodeScanningResult) => {
-      console.log('scanning:', scanning);
-      console.log('scanningValue:', scanningValue.current);
       if (!scanningValue.current) return;
       scanningValue.current = false;
-
       setScanning(false);
       onScan(data);
     },
-    [scanning, onScan]
+    [onScan]
   );
 
   if (!permission) {
-    // 相机权限正在加载
     return (
       <SafeAreaView className="flex-1 bg-black">
         <View className="flex-1 items-center justify-center">
@@ -39,7 +35,6 @@ export function QRCodeScanner({ onScan, onCancel }: Props) {
   }
 
   if (!permission.granted) {
-    // 没有相机权限
     return (
       <SafeAreaView className="flex-1 bg-white">
         <View className="flex-1 items-center justify-center p-4">
@@ -63,7 +58,8 @@ export function QRCodeScanner({ onScan, onCancel }: Props) {
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-black">
+    <SafeAreaView className="flex-1 bg-black relative">
+      {/* 摄像头全屏 */}
       <CameraView
         style={StyleSheet.absoluteFillObject}
         facing="back"
@@ -71,39 +67,39 @@ export function QRCodeScanner({ onScan, onCancel }: Props) {
         barcodeScannerSettings={{
           barcodeTypes: ['qr'],
         }}
-      >
-        {/* 扫描框覆盖层 */}
-        <View className="flex-1">
-          {/* 顶部区域 */}
+      />
+
+      {/* 覆盖层 UI —— 注意：这是 CameraView 的兄弟，不是子元素 */}
+      <View className="absolute inset-0 flex-1">
+        {/* 顶部遮罩 */}
+        <View className="flex-1 bg-black/50" />
+
+        {/* 中间扫描区域 */}
+        <View className="flex-row">
           <View className="flex-1 bg-black/50" />
-
-          {/* 中间扫描区域 */}
-          <View className="flex-row">
-            <View className="flex-1 bg-black/50" />
-            <View className="relative size-64">
-              {/* 扫描框四个角 */}
-              <View className="absolute left-0 top-0 size-8 border-l-4 border-t-4 border-white" />
-              <View className="absolute right-0 top-0 size-8 border-r-4 border-t-4 border-white" />
-              <View className="absolute bottom-0 left-0 size-8 border-b-4 border-l-4 border-white" />
-              <View className="absolute bottom-0 right-0 size-8 border-b-4 border-r-4 border-white" />
-            </View>
-            <View className="flex-1 bg-black/50" />
+          <View className="relative size-64">
+            {/* 扫描框四个角 */}
+            <View className="absolute left-0 top-0 size-8 border-l-4 border-t-4 border-white" />
+            <View className="absolute right-0 top-0 size-8 border-r-4 border-t-4 border-white" />
+            <View className="absolute bottom-0 left-0 size-8 border-b-4 border-l-4 border-white" />
+            <View className="absolute bottom-0 right-0 size-8 border-b-4 border-r-4 border-white" />
           </View>
-
-          {/* 底部区域 */}
-          <View className="flex-1 items-center justify-start bg-black/50 pt-8">
-            <Text className="mb-4 text-lg text-white">
-              将二维码放入扫描框内
-            </Text>
-            <TouchableOpacity
-              onPress={onCancel}
-              className="rounded-lg bg-white/20 px-6 py-3"
-            >
-              <Text className="text-lg text-white">取消</Text>
-            </TouchableOpacity>
-          </View>
+          <View className="flex-1 bg-black/50" />
         </View>
-      </CameraView>
+
+        {/* 底部区域 */}
+        <View className="flex-1 items-center justify-start bg-black/50 pt-8">
+          <Text className="mb-4 text-lg text-white">
+            将二维码放入扫描框内
+          </Text>
+          <TouchableOpacity
+            onPress={onCancel}
+            className="rounded-lg bg-white/20 px-6 py-3"
+          >
+            <Text className="text-lg text-white">取消</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     </SafeAreaView>
   );
 }

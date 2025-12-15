@@ -1,228 +1,43 @@
+import { Env } from '@env';
 import { LinearGradient } from 'expo-linear-gradient';
-// import { useLocalSearchParams, useRouter } from 'expo-router';
-import React from 'react';
-import { ScrollView, TouchableOpacity } from 'react-native';
+import { useLocalSearchParams } from 'expo-router';
+import React, { useEffect, useState } from 'react';
+import { Image, ScrollView, TouchableOpacity } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { NavHeader, Text, View } from '@/components/ui';
+import { queryDetail } from '@/api';
+import {
+  DocumentItem,
+  InfoRow,
+  MaintenancePlanItem,
+  RepairRecordItem,
+  StatCard,
+} from '@/components/equipment';
+import { ImageGallery, NavHeader, Text, View } from '@/components/ui';
 import { FontAwesome } from '@/components/ui/icons';
 import { useAppColorScheme } from '@/lib/hooks';
-
-// 信息行组件
-type InfoRowProps = {
-  label: string;
-  value: string;
-  isLast?: boolean;
-};
-
-const InfoRow: React.FC<InfoRowProps> = ({ label, value, isLast = false }) => (
-  <View
-    className={`flex-row items-center justify-between py-2 ${!isLast ? 'border-b border-gray-100 dark:border-neutral-700' : ''}`}
-  >
-    <Text className="text-sm text-gray-500 dark:text-gray-400">{label}</Text>
-    <Text className="text-sm font-semibold text-gray-800 dark:text-gray-100">
-      {value}
-    </Text>
-  </View>
-);
-
-// 统计卡片组件
-type StatCardProps = {
-  value: string;
-  label: string;
-  bgColor: string;
-  textColor: string;
-  isDark: boolean;
-};
-
-const StatCard: React.FC<StatCardProps> = ({
-  value,
-  label,
-  bgColor,
-  textColor,
-  isDark,
-}) => {
-  // 在暗黑模式下使用半透明的深色背景
-  const darkBgColor = isDark ? 'rgba(64, 64, 64, 0.5)' : bgColor;
-
-  return (
-    <View
-      className="rounded-xl p-4 text-center"
-      style={{ backgroundColor: darkBgColor }}
-    >
-      <Text className="mb-1 text-2xl font-bold" style={{ color: textColor }}>
-        {value}
-      </Text>
-      <Text className="text-sm text-gray-600 dark:text-gray-400">{label}</Text>
-    </View>
-  );
-};
-
-// 维修记录项组件
-type RepairRecordItemProps = {
-  title: string;
-  description: string;
-  assignee: string;
-  date: string;
-  status: string;
-  statusColor: string;
-  borderColor: string;
-  bgColor: string;
-  isDark: boolean;
-};
-
-const RepairRecordItem: React.FC<RepairRecordItemProps> = ({
-  title,
-  description,
-  assignee,
-  date,
-  status,
-  statusColor,
-  borderColor,
-  bgColor,
-  isDark,
-}) => {
-  // 在暗黑模式下使用半透明的深色背景
-  const darkBgColor = isDark ? 'rgba(64, 64, 64, 0.3)' : bgColor;
-
-  return (
-    <View
-      className="mb-3 rounded-lg p-3"
-      style={{
-        backgroundColor: darkBgColor,
-        borderLeftWidth: 4,
-        borderLeftColor: borderColor,
-      }}
-    >
-      <View className="mb-2 flex-row items-start justify-between">
-        <View className="flex-1">
-          <Text className="mb-1 text-sm font-semibold text-gray-800 dark:text-gray-100">
-            {title}
-          </Text>
-          <Text className="text-xs text-gray-600 dark:text-gray-400">
-            {description}
-          </Text>
-        </View>
-        <View
-          className="ml-2 rounded px-2 py-1"
-          style={{ backgroundColor: statusColor }}
-        >
-          <Text className="text-xs text-white">{status}</Text>
-        </View>
-      </View>
-      <View className="flex-row items-center justify-between">
-        <View className="flex-row items-center">
-          <FontAwesome name="user" size={10} color="#9ca3af" />
-          <Text className="ml-1 text-xs text-gray-500 dark:text-gray-400">
-            {assignee}
-          </Text>
-        </View>
-        <View className="flex-row items-center">
-          <FontAwesome name="clock-o" size={10} color="#9ca3af" />
-          <Text className="ml-1 text-xs text-gray-500 dark:text-gray-400">
-            {date}
-          </Text>
-        </View>
-      </View>
-    </View>
-  );
-};
-
-// 保养计划项组件
-type MaintenancePlanItemProps = {
-  title: string;
-  date: string;
-  daysLeft: string;
-  borderColor: string;
-  bgColor: string;
-  textColor: string;
-  isDark: boolean;
-};
-
-const MaintenancePlanItem: React.FC<MaintenancePlanItemProps> = ({
-  title,
-  date,
-  daysLeft,
-  borderColor,
-  bgColor,
-  textColor,
-  isDark,
-}) => {
-  // 在暗黑模式下使用半透明的深色背景
-  const darkBgColor = isDark ? 'rgba(64, 64, 64, 0.3)' : bgColor;
-
-  return (
-    <View
-      className="mb-3 flex-row items-center rounded-lg p-3"
-      style={{
-        backgroundColor: darkBgColor,
-        borderLeftWidth: 4,
-        borderLeftColor: borderColor,
-      }}
-    >
-      <View className="flex-1">
-        <Text className="mb-1 text-sm font-semibold text-gray-800 dark:text-gray-100">
-          {title}
-        </Text>
-        <Text className="text-xs text-gray-600 dark:text-gray-400">
-          下次保养时间：{date}
-        </Text>
-      </View>
-      <Text className="text-xs font-semibold" style={{ color: textColor }}>
-        {daysLeft}
-      </Text>
-    </View>
-  );
-};
-
-// 文档项组件
-type DocumentItemProps = {
-  icon: string;
-  iconColor: string;
-  iconBgColor: string;
-  title: string;
-  size: string;
-  date: string;
-  onPress: () => void;
-};
-
-const DocumentItem: React.FC<DocumentItemProps> = ({
-  icon,
-  iconColor,
-  iconBgColor,
-  title,
-  size,
-  date,
-  onPress,
-}) => (
-  <TouchableOpacity
-    className="mb-3 flex-row items-center rounded-lg border border-gray-200 p-3 dark:border-neutral-700"
-    onPress={onPress}
-    activeOpacity={0.7}
-  >
-    <View
-      className="mr-3 size-10 items-center justify-center rounded-lg"
-      style={{ backgroundColor: iconBgColor }}
-    >
-      <FontAwesome name={icon as any} size={18} color={iconColor} />
-    </View>
-    <View className="flex-1">
-      <Text className="text-sm font-semibold text-gray-800 dark:text-gray-100">
-        {title}
-      </Text>
-      <Text className="text-xs text-gray-500 dark:text-gray-400">
-        {size} · {date}
-      </Text>
-    </View>
-    <FontAwesome name="download" size={16} color="#1890ff" />
-  </TouchableOpacity>
-);
+import { formatDateShort, formatFileSize, getFileIconInfo } from '@/lib/utils';
+import { type Equipment } from '@/types';
 
 const EquipmentDetail: React.FC = () => {
   // const router = useRouter();
   // const { id } = useLocalSearchParams();
   const { isDark } = useAppColorScheme();
   const insets = useSafeAreaInsets();
+  const local = useLocalSearchParams<{ id: string }>();
+  const [data, setData] = useState<Equipment>({} as Equipment);
+
+  const loadData = async () => {
+    const { Success, Data } = await queryDetail<Equipment>(
+      '/api/EmEquipment',
+      local.id
+    );
+    if (Success) setData(Data);
+  };
+
+  useEffect(() => {
+    loadData();
+  }, []);
 
   // 快捷操作按钮数据
   const quickActions = [
@@ -246,34 +61,6 @@ const EquipmentDetail: React.FC = () => {
       bgColor: '#faf5ff',
       label: '点检',
       onPress: () => console.log('点检'),
-    },
-  ];
-
-  // 维修统计数据
-  const repairStats = [
-    {
-      value: '12次',
-      label: '累计维修',
-      bgColor: '#eff6ff',
-      textColor: '#1890ff',
-    },
-    {
-      value: '8次',
-      label: '累计保养',
-      bgColor: '#f0fdf4',
-      textColor: '#52c41a',
-    },
-    {
-      value: '2次',
-      label: '本月维修',
-      bgColor: '#fff7ed',
-      textColor: '#faad14',
-    },
-    {
-      value: '¥8,500',
-      label: '维修成本',
-      bgColor: '#faf5ff',
-      textColor: '#a855f7',
     },
   ];
 
@@ -339,118 +126,107 @@ const EquipmentDetail: React.FC = () => {
     },
   ];
 
-  // 文档数据
-  const documents = [
-    {
-      icon: 'file-pdf-o',
-      iconColor: '#ef4444',
-      iconBgColor: '#fef2f2',
-      title: '设备说明书.pdf',
-      size: '2.5 MB',
-      date: '2023-05-15',
-    },
-    {
-      icon: 'file-word-o',
-      iconColor: '#3b82f6',
-      iconBgColor: '#eff6ff',
-      title: '维护手册.docx',
-      size: '1.8 MB',
-      date: '2023-05-15',
-    },
-    {
-      icon: 'file-excel-o',
-      iconColor: '#22c55e',
-      iconBgColor: '#f0fdf4',
-      title: '备件清单.xlsx',
-      size: '0.3 MB',
-      date: '2023-05-15',
-    },
-  ];
-
   return (
     <View className="flex-1 bg-gray-50 dark:bg-neutral-900">
       {/* 顶部导航 */}
       <NavHeader
         title="设备详情"
-      // onBack={() => router.back()}
-      // right={
-      //   <View className="flex-row items-center">
-      //     <TouchableOpacity
-      //       className="mr-3"
-      //       onPress={() => console.log('分享')}
-      //     >
-      //       <FontAwesome
-      //         name="share-alt"
-      //         size={20}
-      //         color={isDark ? '#9ca3af' : '#6b7280'}
-      //       />
-      //     </TouchableOpacity>
-      //     <TouchableOpacity onPress={() => console.log('更多')}>
-      //       <FontAwesome
-      //         name="ellipsis-v"
-      //         size={20}
-      //         color={isDark ? '#9ca3af' : '#6b7280'}
-      //       />
-      //     </TouchableOpacity>
-      //   </View>
-      // }
+        // onBack={() => router.back()}
+        right={
+          <View className="flex-row items-center">
+            <TouchableOpacity
+              className="mr-3"
+              onPress={() => console.log('分享')}
+            >
+              <FontAwesome
+                name="share-alt"
+                size={20}
+                color={isDark ? '#9ca3af' : '#6b7280'}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => console.log('更多')}>
+              <FontAwesome
+                name="ellipsis-v"
+                size={20}
+                color={isDark ? '#9ca3af' : '#6b7280'}
+              />
+            </TouchableOpacity>
+          </View>
+        }
       />
 
       <ScrollView className="flex-1 p-4" showsVerticalScrollIndicator={false}>
         {/* 设备基本信息卡片 */}
-        <LinearGradient
-          colors={['#3b82f6', '#2563eb']}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          style={{
-            borderRadius: 16,
-            padding: 24,
-            marginBottom: 16,
-            shadowColor: '#000',
-            shadowOffset: { width: 0, height: 2 },
-            shadowOpacity: 0.1,
-            shadowRadius: 8,
-            elevation: 3,
-          }}
-        >
-          <View className="mb-4 flex-row items-start justify-between">
-            <View className="flex-1 flex-row items-start">
-              <View className="mr-4 size-16 items-center justify-center rounded-xl bg-white/20">
-                <FontAwesome name="server" size={28} color="white" />
+        {data && (
+          <LinearGradient
+            colors={['#3b82f6', '#2563eb']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={{
+              borderRadius: 16,
+              padding: 24,
+              marginBottom: 16,
+              shadowColor: '#000',
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.1,
+              shadowRadius: 8,
+              elevation: 3,
+            }}
+          >
+            <View className="mb-4 flex-row items-start justify-between">
+              <View className="flex-1 flex-row items-start">
+                {/*  */}
+                {data.ImageId ? (
+                  <Image
+                    source={{
+                      uri: `${Env.API_URL}/api/File/Img/${data.ImageId}`,
+                    }}
+                    className="mr-4 size-16 items-center justify-center rounded-xl bg-white/20"
+                    resizeMode="cover"
+                  />
+                ) : (
+                  <View className="mr-4 size-16 items-center justify-center rounded-xl bg-white/20">
+                    <FontAwesome name="server" size={28} color="white" />
+                  </View>
+                )}
+                <View className="flex-1">
+                  <Text className="mb-2 text-2xl font-bold text-white">
+                    {data.MachineName}
+                  </Text>
+                  <Text className="mb-1 text-sm text-blue-100">
+                    {data.MachineNo}
+                  </Text>
+                  <Text className="text-sm text-blue-100">
+                    位置：{data.Location ?? '未设置'}
+                  </Text>
+                </View>
               </View>
-              <View className="flex-1">
-                <Text className="mb-2 text-2xl font-bold text-white">
-                  数控机床 CNC-01
+              <View className="ml-2 flex-row items-center rounded-full bg-green-500 px-3 py-1.5">
+                <FontAwesome name="circle" size={6} color="white" />
+                <Text className="ml-1 text-sm font-semibold text-white">
+                  运行中
                 </Text>
-                <Text className="mb-1 text-sm text-blue-100">
-                  设备编号：EQ-2024-001
-                </Text>
-                <Text className="text-sm text-blue-100">位置：A车间-1号线</Text>
               </View>
             </View>
-            <View className="ml-2 flex-row items-center rounded-full bg-green-500 px-3 py-1.5">
-              <FontAwesome name="circle" size={6} color="white" />
-              <Text className="ml-1 text-sm font-semibold text-white">
-                运行中
-              </Text>
-            </View>
-          </View>
 
-          <View className="mt-6 flex-row">
-            <View className="flex-1 items-center">
-              <Text className="mb-1 text-3xl font-bold text-white">98%</Text>
-              <Text className="text-sm text-blue-100">健康度</Text>
+            <View className="mt-6 flex-row">
+              <View className="flex-1 items-center">
+                <Text className="mb-1 text-3xl font-bold text-white">98%</Text>
+                <Text className="text-sm text-blue-100">健康度</Text>
+              </View>
+              <View className="flex-1 items-center border-x border-white/20">
+                <Text className="mb-1 text-3xl font-bold text-white">
+                  2,845
+                </Text>
+                <Text className="text-sm text-blue-100">运行时长(h)</Text>
+              </View>
+              <View className="flex-1 items-center">
+                <Text className="mb-1 text-3xl font-bold text-white">5天</Text>
+                <Text className="text-sm text-blue-100">距下次保养</Text>
+              </View>
             </View>
-            <View className="flex-1 items-center border-x border-white/20">
-              <Text className="mb-1 text-3xl font-bold text-white">2,845</Text>
-              <Text className="text-sm text-blue-100">运行时长(h)</Text>
-            </View>
-            <View className="flex-1 items-center">
-              <Text className="mb-1 text-3xl font-bold text-white">5天</Text>
-              <Text className="text-sm text-blue-100">距下次保养</Text>
-            </View>
-          </View>
-        </LinearGradient>
+          </LinearGradient>
+        )}
 
         {/* 快捷操作 */}
         <View className="mb-4 flex-row">
@@ -479,36 +255,55 @@ const EquipmentDetail: React.FC = () => {
           ))}
         </View>
 
-        {/* 设备信息 */}
-        <View className="mb-4 rounded-2xl bg-white p-5 shadow-sm dark:bg-neutral-800">
-          <View className="mb-4 flex-row items-center">
-            <FontAwesome name="info-circle" size={18} color="#1890ff" />
-            <Text className="ml-2 text-lg font-semibold text-gray-800 dark:text-gray-100">
-              设备信息
-            </Text>
+        {/* 设备图片 */}
+        {data?.ImageIds && data.ImageIds.length > 0 && (
+          <View className="mb-4 rounded-2xl bg-white p-5 shadow-sm dark:bg-neutral-800">
+            <View className="mb-4 flex-row items-center justify-between">
+              <View className="flex-row items-center">
+                <FontAwesome name="image" size={18} color="#1890ff" />
+                <Text className="ml-2 text-lg font-semibold text-gray-800 dark:text-gray-100">
+                  设备图片
+                </Text>
+              </View>
+              <Text className="text-sm text-gray-500 dark:text-gray-400">
+                共 {data.ImageIds.length} 张
+              </Text>
+            </View>
+            <ImageGallery imageIds={data.ImageIds} />
           </View>
-          <View>
-            <InfoRow label="设备名称" value="数控机床 CNC-01" />
-            <InfoRow label="设备编号" value="EQ-2024-001" />
-            <InfoRow label="设备类型" value="加工设备" />
-            <InfoRow label="品牌型号" value="发那科 FANUC-18i" />
-            <InfoRow label="所属部门" value="生产部" />
-            <InfoRow label="安装位置" value="A车间-1号线" />
-            <InfoRow label="启用日期" value="2023-05-15" />
-            <InfoRow label="责任人" value="张三 (13800138000)" isLast />
-          </View>
-        </View>
+        )}
 
+        {/* 设备信息 */}
+        {data && (
+          <View className="mb-4 rounded-2xl bg-white p-5 shadow-sm dark:bg-neutral-800">
+            <View className="mb-4 flex-row items-center">
+              <FontAwesome name="info-circle" size={18} color="#1890ff" />
+              <Text className="ml-2 text-lg font-semibold text-gray-800 dark:text-gray-100">
+                设备信息
+              </Text>
+            </View>
+            <View>
+              <InfoRow label="设备名称" value={data.MachineName} />
+              <InfoRow label="设备编号" value={data.MachineNo} />
+              <InfoRow label="设备类型" value={data.MachineType} />
+              <InfoRow label="品牌型号" value={data.BrandModel} />
+              <InfoRow label="所属部门" value={data.DeptName} />
+              <InfoRow label="安装位置" value={data.Location} />
+              <InfoRow label="启用日期" value={data.StartDate1} />
+              <InfoRow label="责任人" value={data.UseManagerName} isLast />
+            </View>
+          </View>
+        )}
         {/* 维修统计 */}
         <View className="mb-4 rounded-2xl bg-white p-5 shadow-sm dark:bg-neutral-800">
           <View className="mb-4 flex-row items-center">
             <FontAwesome name="bar-chart-o" size={18} color="#1890ff" />
             <Text className="ml-2 text-lg font-semibold text-gray-800 dark:text-gray-100">
-              维修统计1
+              维修统计
             </Text>
           </View>
           <View className="flex-row flex-wrap">
-            {repairStats.map((stat, index) => (
+            {data.RepairStats?.map((stat, index) => (
               <View
                 key={index}
                 className="w-[48%]"
@@ -576,23 +371,37 @@ const EquipmentDetail: React.FC = () => {
         </View>
 
         {/* 设备文档 */}
-        <View className="mb-4 rounded-2xl bg-white p-5 shadow-sm dark:bg-neutral-800">
-          <View className="mb-4 flex-row items-center">
-            <FontAwesome name="folder" size={18} color="#1890ff" />
-            <Text className="ml-2 text-lg font-semibold text-gray-800 dark:text-gray-100">
-              设备文档
-            </Text>
+        {data?.Attachments && data.Attachments.length > 0 && (
+          <View className="mb-4 rounded-2xl bg-white p-5 shadow-sm dark:bg-neutral-800">
+            <View className="mb-4 flex-row items-center">
+              <FontAwesome name="folder" size={18} color="#1890ff" />
+              <Text className="ml-2 text-lg font-semibold text-gray-800 dark:text-gray-100">
+                设备文档
+              </Text>
+            </View>
+            <View>
+              {data.Attachments.map((attachment) => {
+                const iconInfo = getFileIconInfo(attachment.FileExt);
+                return (
+                  <DocumentItem
+                    key={attachment.ID}
+                    {...iconInfo}
+                    title={
+                      attachment.OriginalFileName ||
+                      attachment.FileName ||
+                      '未知文件'
+                    }
+                    size={formatFileSize(attachment.Length)}
+                    date={formatDateShort(attachment.CreatedTime)}
+                    onPress={() =>
+                      console.log('下载', attachment.OriginalFileName)
+                    }
+                  />
+                );
+              })}
+            </View>
           </View>
-          <View>
-            {documents.map((doc, index) => (
-              <DocumentItem
-                key={index}
-                {...doc}
-                onPress={() => console.log('下载', doc.title)}
-              />
-            ))}
-          </View>
-        </View>
+        )}
 
         {/* 底部空间 */}
         <View className="h-[100px]" />
