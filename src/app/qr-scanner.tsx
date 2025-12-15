@@ -3,8 +3,8 @@ import { useRouter } from 'expo-router';
 import * as React from 'react';
 import { Alert } from 'react-native';
 
-import { QRCodeScanner } from '@/components/ui/qr-code-scanner';
 import { NavHeader } from '@/components/ui';
+import { QRCodeScanner } from '@/components/ui/qr-code-scanner';
 
 export default function QRScannerScreen() {
   const router = useRouter();
@@ -30,14 +30,19 @@ export default function QRScannerScreen() {
         let parts = data.split('_');
         if (parts.length !== 2) {
           Alert.alert('扫描成功', `检测到: ${data}`, [
-            { text: '确定', onPress: () => { } },
+            {
+              text: '确定',
+              onPress: () => {
+                console.log('parts[0]:' + parts[0]);
+              },
+            },
           ]);
         } else {
           console.log('parts[0]:' + parts[0]);
-          if (parts[0] === "Equip") {
+          if (parts[0] === 'Equip') {
             router.push({
               pathname: `/equipment/[id]`,
-              params: { id: parts[1] }
+              params: { id: parts[1] },
             });
           }
         }
@@ -50,9 +55,12 @@ export default function QRScannerScreen() {
     router.back();
   }, [router]);
 
-  return <><NavHeader
-    title="扫一扫"
-  /><QRCodeScanner onScan={handleScan} onCancel={handleCancel} /></>;
+  return (
+    <>
+      <NavHeader title="扫一扫" />
+      <QRCodeScanner onScan={handleScan} onCancel={handleCancel} />
+    </>
+  );
 }
 
 function isValidUrl(string: string): boolean {

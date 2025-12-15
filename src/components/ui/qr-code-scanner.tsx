@@ -2,7 +2,8 @@ import type { BarcodeScanningResult } from 'expo-camera';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import React, { useRef } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
-import { Button, Text, SafeAreaView } from '@/components/ui';
+
+import { Button, SafeAreaView, Text } from '@/components/ui';
 
 type Props = {
   onScan: (data: string) => void;
@@ -58,7 +59,7 @@ export function QRCodeScanner({ onScan, onCancel }: Props) {
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-black relative">
+    <SafeAreaView className="relative flex-1 bg-black">
       {/* 摄像头全屏 */}
       <CameraView
         style={StyleSheet.absoluteFillObject}
@@ -89,9 +90,7 @@ export function QRCodeScanner({ onScan, onCancel }: Props) {
 
         {/* 底部区域 */}
         <View className="flex-1 items-center justify-start bg-black/50 pt-8">
-          <Text className="mb-4 text-lg text-white">
-            将二维码放入扫描框内
-          </Text>
+          <Text className="mb-4 text-lg text-white">将二维码放入扫描框内</Text>
           <TouchableOpacity
             onPress={onCancel}
             className="rounded-lg bg-white/20 px-6 py-3"

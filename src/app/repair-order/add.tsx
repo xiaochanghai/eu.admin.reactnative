@@ -7,6 +7,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { queryLov } from '@/api';
 import http from '@/api/common/http';
@@ -22,7 +23,6 @@ import { QRCodeScanner } from '@/components/ui/qr-code-scanner';
 import { isWeb } from '@/lib';
 import { error, info } from '@/lib/message';
 import { type Equipment, type SmLov } from '@/types';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 // 维修人员数据
 const technicianList = [
@@ -93,7 +93,6 @@ const AddRepairOrder: React.FC = () => {
   const handleScanResult = (data: string) => {
     setShowScanner(false);
     let parts = data.split('_');
-    console.log()
     if (parts.length !== 2) {
       info(`无效的设备二维码！`);
       return;
@@ -259,7 +258,7 @@ const AddRepairOrder: React.FC = () => {
 
             {/* 或扫码选择 */}
             <TouchableOpacity
-              className="flex-row items-center justify-center space-x-2 rounded-lg border-2 border-dashed border-primary-500 py-3 mt-4"
+              className="mt-4 flex-row items-center justify-center space-x-2 rounded-lg border-2 border-dashed border-primary-500 py-3"
               onPress={() => setShowScanner(true)}
               activeOpacity={0.7}
             >
@@ -596,7 +595,8 @@ const AddRepairOrder: React.FC = () => {
       </ScrollView>
 
       {/* 底部固定操作栏 */}
-      <View className="border-t border-gray-200 bg-white p-4 shadow-lg dark:border-neutral-700 dark:bg-neutral-800"
+      <View
+        className="border-t border-gray-200 bg-white p-4 shadow-lg dark:border-neutral-700 dark:bg-neutral-800"
         style={{ paddingBottom: insets.bottom }}
       >
         <View className="flex-row gap-3">
