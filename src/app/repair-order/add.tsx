@@ -18,9 +18,11 @@ import {
   Text,
   View,
 } from '@/components/ui';
+import { QRCodeScanner } from '@/components/ui/qr-code-scanner';
 import { isWeb } from '@/lib';
 import { error, info } from '@/lib/message';
 import { type Equipment, type SmLov } from '@/types';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 // 维修人员数据
 const technicianList = [
@@ -33,6 +35,7 @@ const technicianList = [
 
 const AddRepairOrder: React.FC = () => {
   const router = useRouter();
+  const insets = useSafeAreaInsets();
 
   // 表单状态
   const [selectedEquipment, setSelectedEquipment] = useState<string>('');
@@ -50,6 +53,7 @@ const AddRepairOrder: React.FC = () => {
   // 显示设备选择器
   const [showEquipmentPicker, setShowEquipmentPicker] = useState(false);
   const [showTechnicianPicker, setShowTechnicianPicker] = useState(false);
+  const [showScanner, setShowScanner] = useState(false);
 
   // 获取选中的设备
   const getSelectedEquipmentText = () => {
@@ -84,6 +88,33 @@ const AddRepairOrder: React.FC = () => {
     loadFaultType();
     loadEquipment();
   }, []);
+
+  // 处理扫码结果
+  const handleScanResult = (data: string) => {
+    setShowScanner(false);
+    let parts = data.split('_');
+    console.log()
+    if (parts.length !== 2) {
+      info(`无效的设备二维码！`);
+      return;
+    }
+
+    // 根据扫描结果查找设备
+    const equipment = equipmentList.find(
+      (e) => e.MachineNo === parts[1] || e.ID === parts[1]
+    );
+    if (equipment) {
+      setSelectedEquipment(equipment.ID);
+      info(`已选择设备: ${equipment.MachineName}`);
+    } else {
+      error(`无效的设备二维码！`);
+    }
+  };
+
+  // 取消扫码
+  const handleCancelScan = () => {
+    setShowScanner(false);
+  };
 
   // 验证表单
   const validateForm = () => {
@@ -155,6 +186,13 @@ const AddRepairOrder: React.FC = () => {
       ]);
   };
 
+  // 如果显示扫码界面，渲染 QRCodeScanner
+  if (showScanner) {
+    return (
+      <QRCodeScanner onScan={handleScanResult} onCancel={handleCancelScan} />
+    );
+  }
+
   return (
     <View className="flex-1 bg-gray-50 dark:bg-neutral-900">
       {/* 顶部导航 */}
@@ -221,8 +259,8 @@ const AddRepairOrder: React.FC = () => {
 
             {/* 或扫码选择 */}
             <TouchableOpacity
-              className="flex-row items-center justify-center space-x-2 rounded-lg border-2 border-dashed border-primary-500 py-3"
-              onPress={() => info('扫码功能开发中')}
+              className="flex-row items-center justify-center space-x-2 rounded-lg border-2 border-dashed border-primary-500 py-3 mt-4"
+              onPress={() => setShowScanner(true)}
               activeOpacity={0.7}
             >
               <FontAwesome name="qrcode" size={20} color="#1890ff" />
@@ -558,7 +596,9 @@ const AddRepairOrder: React.FC = () => {
       </ScrollView>
 
       {/* 底部固定操作栏 */}
-      <View className="border-t border-gray-200 bg-white p-4 shadow-lg dark:border-neutral-700 dark:bg-neutral-800">
+      <View className="border-t border-gray-200 bg-white p-4 shadow-lg dark:border-neutral-700 dark:bg-neutral-800"
+        style={{ paddingBottom: insets.bottom }}
+      >
         <View className="flex-row gap-3">
           <TouchableOpacity
             className="flex-1 items-center rounded-lg bg-primary-500 py-3"

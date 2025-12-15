@@ -4,6 +4,7 @@ import * as React from 'react';
 import { Alert } from 'react-native';
 
 import { QRCodeScanner } from '@/components/ui/qr-code-scanner';
+import { NavHeader } from '@/components/ui';
 
 export default function QRScannerScreen() {
   const router = useRouter();
@@ -33,41 +34,12 @@ export default function QRScannerScreen() {
           ]);
         } else {
           console.log('parts[0]:' + parts[0]);
-          if (Number(parts[0]) === 1) {
-            Alert.alert('扫描成功', `检测到打样单，是否确认提交？`, [
-              {
-                text: '确定',
-                onPress: () => {
-                  // router.push({
-                  //   pathname: '/chat',
-                  //   params: {
-                  //     actualText: '打样提交',
-                  //     text: `prompt:scan_sample(),value:${parts[1]},CurrentTime: ${formatDate(new Date())}`,
-                  //   },
-                  // });
-                },
-              },
-              { text: '取消', onPress: () => { } },
-            ]);
-          } else if (Number(parts[0]) === 2) {
-            Alert.alert('扫描成功', `检测到排料单，是否确认提交？`, [
-              {
-                text: '确定',
-                onPress: () => {
-                  // router.push({
-                  //   pathname: '/chat',
-                  //   params: {
-                  //     actualText: '排料提交',
-                  //     text: `prompt:scan_marker(),value:${parts[1]},CurrentTime: ${formatDate(new Date())}`,
-                  //   },
-                  // });
-                },
-              },
-              { text: '取消', onPress: () => { } },
-            ]);
+          if (parts[0] === "Equip") {
+            router.push({
+              pathname: `/equipment/[id]`,
+              params: { id: parts[1] }
+            });
           }
-          //
-          // console.log(parts); // 输出: ['1', '33']
         }
       }
     },
@@ -78,7 +50,9 @@ export default function QRScannerScreen() {
     router.back();
   }, [router]);
 
-  return <QRCodeScanner onScan={handleScan} onCancel={handleCancel} />;
+  return <><NavHeader
+    title="扫一扫"
+  /><QRCodeScanner onScan={handleScan} onCancel={handleCancel} /></>;
 }
 
 function isValidUrl(string: string): boolean {

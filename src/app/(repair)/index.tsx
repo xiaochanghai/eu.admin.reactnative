@@ -3,10 +3,11 @@ import { useRouter } from 'expo-router';
 import React, { useEffect } from 'react';
 import { ScrollView, TouchableOpacity } from 'react-native';
 
-import { NavHeader, Text, View } from '@/components/ui';
-import { FontAwesome } from '@/components/ui/icons';
+import { NavHeader, Text, View, FontAwesome, IconGroupEnum } from '@/components/ui';
+ 
 import { useAppColorScheme } from '@/lib/hooks';
 import { userInfo as user } from '@/lib/user';
+import { isWeb } from '@/lib'; 
 
 // 数据统计卡片组件
 type StatCardProps = {
@@ -208,19 +209,32 @@ const RepairHome: React.FC = () => {
         title="首页"
         leftShown={false}
         right={
-          <TouchableOpacity
-            className="relative"
-            onPress={() => router.push('/notification')}
-          >
-            <FontAwesome
-              name="bell"
-              size={20}
-              color={isDark ? '#9ca3af' : '#6b7280'}
-            />
-            <View className="absolute -right-1 -top-1 size-5 items-center justify-center rounded-full bg-red-500">
-              <Text className="text-[10px] font-bold text-white">3</Text>
-            </View>
-          </TouchableOpacity>
+
+          <>
+            <TouchableOpacity
+              className="relative"
+              onPress={() => router.push('/notification')}
+            >
+              <FontAwesome
+                name="bell"
+                size={20}
+                color={isDark ? '#9ca3af' : '#6b7280'}
+              />
+              <View className="absolute -right-1 -top-1 size-5 items-center justify-center rounded-full bg-red-500">
+                <Text className="text-[10px] font-bold text-white">3</Text>
+              </View>
+            </TouchableOpacity>
+            {!isWeb && <TouchableOpacity
+              className="ml-4"
+              onPress={() => {
+                router.push('/qr-scanner')
+
+              }}
+            >
+              <FontAwesome name="scan" size={18} color="#6b7280" group={IconGroupEnum.AntDesign} />
+            </TouchableOpacity>}
+          </>
+
         }
       />
 
