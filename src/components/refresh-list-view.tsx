@@ -35,6 +35,8 @@ interface RefreshListViewProps<T>
   onLoadMore?: () => void /** 是否正在刷新中 */;
   refreshing?: boolean /** 是否还有更多数据可加载 */;
   hasMore?: boolean;
+  /** 预估行高，提升 FlashList 性能 */
+  estimatedItemSize?: number;
   style?: ViewStyle;
 }
 
