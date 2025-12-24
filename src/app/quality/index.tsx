@@ -599,7 +599,7 @@ const Quality = () => {
   const renderQualityReport = () => (
     <View className="items-center justify-center py-8">
       <FontAwesome
-        name="chart-bar"
+        name="area-chart"
         size={50}
         color={isDark ? '#60a5fa' : '#3b82f6'}
       />
