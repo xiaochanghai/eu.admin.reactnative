@@ -1,65 +1,85 @@
 import { LinearGradient } from 'expo-linear-gradient';
-// import { useLocalSearchParams, useRouter } from 'expo-router';
-import React from 'react';
-import { Image, ScrollView, TouchableOpacity } from 'react-native';
+import { useLocalSearchParams } from 'expo-router';
+import React, { useEffect, useState } from 'react';
+import {
+  ActivityIndicator,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import http from '@/api/common/http';
 import { InfoRow } from '@/components/equipment';
-import { ProgressItem, SparePartItem } from '@/components/repair-order';
+import {
+  ProgressItem,
+  type ProgressItemProps,
+  SparePartItem,
+} from '@/components/repair-order';
 import { NavHeader, Text, View } from '@/components/ui';
 import { FontAwesome } from '@/components/ui/icons';
 import { useAppColorScheme } from '@/lib/hooks';
 
-const RepairOrderDetail: React.FC = () => {
-  // const router = useRouter();
-  // const { id } = useLocalSearchParams();
+type Equipment = {
+  ID: string;
+  MachineName?: string;
+  MachineNo?: string;
+  Location?: string;
+};
+// 维修工单详情类型
+type RepairOrderDetail = {
+  ID: string;
+  OrderNo: string;
+  Equipment?: Equipment;
+  FaultType?: string;
+  FaultDesc?: string;
+  Priority?: string;
+  Impact?: string;
+  Status?: string;
+  CreatedTime?: string;
+  ExpectedCompleteTime?: string;
+  StartTime?: string;
+  CompleteTime?: string;
+  AssignUserName?: string;
+  AssignUserPhone?: string;
+  AssignUserLevel?: string;
+  CreatedName?: string;
+  Remark?: string;
+  ImageIds?: string[];
+  ProgressSteps?: ProgressItemProps[];
+};
+
+const RepairOrderDetailView: React.FC = () => {
+  const { id } = useLocalSearchParams();
   const { isDark } = useAppColorScheme();
   const insets = useSafeAreaInsets();
 
-  // 维修进度数据
-  const progressSteps = [
-    {
-      icon: 'check',
-      iconColor: '#52c41a',
-      bgColor: '#52c41a',
-      title: '工单创建',
-      time: '11-11 10:00',
-      description: '张三 创建维修工单',
-      isCompleted: true,
-    },
-    {
-      icon: 'check',
-      iconColor: '#52c41a',
-      bgColor: '#52c41a',
-      title: '工单分配',
-      time: '11-11 10:15',
-      description: '系统自动分配给李四',
-      isCompleted: true,
-    },
-    {
-      icon: 'wrench',
-      iconColor: '#faad14',
-      bgColor: '#faad14',
-      title: '维修中',
-      time: '11-11 10:30',
-      description: '李四 开始维修，已申请备件',
-      isCompleted: true,
-    },
-    {
-      icon: 'clock-o',
-      iconColor: '#9ca3af',
-      bgColor: '#d1d5db',
-      title: '维修完成',
-      isCompleted: false,
-    },
-    {
-      icon: 'user-circle',
-      iconColor: '#9ca3af',
-      bgColor: '#d1d5db',
-      title: '验收确认',
-      isCompleted: false,
-    },
-  ];
+  // 状态管理
+  const [loading, setLoading] = useState(true);
+  const [detail, setDetail] = useState<RepairOrderDetail | null>(null);
+
+  // 获取维修工单详情
+  const fetchDetail = async () => {
+    if (!id) return;
+
+    try {
+      setLoading(true);
+      const { Success, Data } = await http.get<RepairOrderDetail>(
+        `/api/EmRepairOrder/${id}`
+      );
+      if (Success && Data) {
+        setDetail(Data);
+      }
+    } catch (err) {
+      console.error('获取维修工单详情失败:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchDetail();
+  }, [id]);
 
   // 备件数据
   const spareParts = [
@@ -77,12 +97,49 @@ const RepairOrderDetail: React.FC = () => {
     },
   ];
 
+  // 加载中状态
+  if (loading) {
+    return (
+      <View className="flex-1 bg-gray-50 dark:bg-neutral-900">
+        <NavHeader title="维修详情" />
+        <View className="flex-1 items-center justify-center">
+          <ActivityIndicator size="large" color="#1890ff" />
+          <Text className="mt-4 text-sm text-gray-500">加载中...</Text>
+        </View>
+      </View>
+    );
+  }
+
+  // 无数据状态
+  if (!detail) {
+    return (
+      <View className="flex-1 bg-gray-50 dark:bg-neutral-900">
+        <NavHeader title="维修详情" />
+        <View className="flex-1 items-center justify-center">
+          <FontAwesome name="exclamation-circle" size={48} color="#9ca3af" />
+          <Text className="mt-4 text-sm text-gray-500">未找到工单信息</Text>
+        </View>
+      </View>
+    );
+  }
+
+  // 优先级配置
+  const getPriorityConfig = (priority?: string) => {
+    const configs: Record<string, { label: string; colors: string[] }> = {
+      urgent: { label: '紧急', colors: ['#ef4444', '#dc2626'] },
+      high: { label: '高', colors: ['#f97316', '#ea580c'] },
+      normal: { label: '普通', colors: ['#3b82f6', '#2563eb'] },
+    };
+    return configs[priority || 'normal'] || configs.normal;
+  };
+
+  const priorityConfig = getPriorityConfig(detail.Priority);
+
   return (
     <View className="flex-1 bg-gray-50 dark:bg-neutral-900">
       {/* 顶部导航 */}
       <NavHeader
         title="维修详情"
-        // onBack={() => router.back()}
         right={
           <TouchableOpacity onPress={() => console.log('更多')}>
             <FontAwesome
@@ -97,12 +154,12 @@ const RepairOrderDetail: React.FC = () => {
       <ScrollView className="flex-1 p-4" showsVerticalScrollIndicator={false}>
         {/* 工单状态卡片 */}
         <LinearGradient
-          colors={['#ef4444', '#dc2626']}
+          colors={priorityConfig.colors as [string, string]}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
           style={{
             borderRadius: 16,
-            padding: 24,
+            padding: 20,
             marginBottom: 16,
             shadowColor: '#000',
             shadowOffset: { width: 0, height: 2 },
@@ -111,34 +168,76 @@ const RepairOrderDetail: React.FC = () => {
             elevation: 3,
           }}
         >
-          <View className="mb-4">
-            <View className="mb-2 flex-row items-center">
-              <View className="rounded-full bg-white/20 px-3 py-1">
-                <Text className="text-sm font-semibold text-white">紧急</Text>
+          {/* 顶部：优先级和工单号 */}
+          <View className="mb-4 flex-row items-center justify-between">
+            <View className="flex-row items-center gap-2">
+              <View className="rounded-full bg-white/25 px-3 py-1.5">
+                <Text className="text-xs font-bold text-white">
+                  {priorityConfig.label}
+                </Text>
               </View>
+              {detail.Status && (
+                <View className="rounded-full bg-white/15 px-3 py-1.5">
+                  <Text className="text-xs text-white/90">{detail.Status}</Text>
+                </View>
+              )}
             </View>
-            <Text className="mb-1 text-xl font-bold text-white">
-              生产线A-03设备故障
-            </Text>
-            <Text className="text-sm text-red-100">工单号：WO-2024-0315</Text>
+            <FontAwesome name="wrench" size={20} color="white" />
           </View>
 
-          <View className="mt-4 flex-row border-t border-white/20 pt-4">
-            <View className="flex-1 items-center">
-              <Text className="mb-1 text-sm text-red-100">创建时间</Text>
-              <Text className="text-base font-semibold text-white">
-                11-11 10:00
+          <View className="mb-5">
+            <Text className="text-xs text-red-100">工单号</Text>
+            <Text className="mt-1 text-lg font-bold text-white">
+              {detail.OrderNo}
+            </Text>
+          </View>
+
+          {/* 时间信息 */}
+          <View className="flex-row gap-3 border-t border-white/20 pt-4">
+            <View className="flex-1">
+              <View className="mb-2 flex-row items-center">
+                <FontAwesome name="calendar" size={12} color="#fecaca" />
+                <Text className="ml-1.5 text-xs text-red-100">创建时间</Text>
+              </View>
+              <Text className="text-sm font-semibold text-white">
+                {detail.CreatedTime
+                  ? (() => {
+                    const date = new Date(detail.CreatedTime);
+                    return `${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
+                  })()
+                  : '-'}
               </Text>
             </View>
-            <View className="flex-1 items-center">
-              <Text className="mb-1 text-sm text-red-100">截止时间</Text>
-              <Text className="text-base font-semibold text-white">
-                今天 14:00
+            <View className="flex-1">
+              <View className="mb-2 flex-row items-center">
+                <FontAwesome name="flag-checkered" size={12} color="#fecaca" />
+                <Text className="ml-1.5 text-xs text-red-100">截止时间</Text>
+              </View>
+              <Text className="text-sm font-semibold text-white">
+                {detail.ExpectedCompleteTime
+                  ? (() => {
+                    const date = new Date(detail.ExpectedCompleteTime);
+                    return `${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
+                  })()
+                  : '-'}
               </Text>
             </View>
-            <View className="flex-1 items-center">
-              <Text className="mb-1 text-sm text-red-100">剩余时间</Text>
-              <Text className="text-base font-semibold text-white">2小时</Text>
+            <View className="flex-1">
+              <View className="mb-2 flex-row items-center">
+                <FontAwesome name="clock-o" size={12} color="#fecaca" />
+                <Text className="ml-1.5 text-xs text-red-100">剩余</Text>
+              </View>
+              <Text className="text-sm font-bold text-white">
+                {detail.ExpectedCompleteTime
+                  ? (() => {
+                    const remaining =
+                      new Date(detail.ExpectedCompleteTime).getTime() -
+                      Date.now();
+                    const hours = Math.floor(remaining / (1000 * 60 * 60));
+                    return hours > 0 ? `${hours}小时` : '已逾期';
+                  })()
+                  : '-'}
+              </Text>
             </View>
           </View>
         </LinearGradient>
@@ -152,9 +251,19 @@ const RepairOrderDetail: React.FC = () => {
             </Text>
           </View>
           <View>
-            <InfoRow label="设备名称" value="数控机床 CNC-03" />
-            <InfoRow label="设备编号" value="EQ-2024-003" />
-            <InfoRow label="安装位置" value="A车间-3号线" isLast />
+            <InfoRow
+              label="设备名称"
+              value={detail.Equipment?.MachineName || '-'}
+            />
+            <InfoRow
+              label="设备编号"
+              value={detail.Equipment?.MachineNo || '-'}
+            />
+            <InfoRow
+              label="安装位置"
+              value={detail.Equipment?.Location || '-'}
+              isLast
+            />
           </View>
         </View>
 
@@ -173,42 +282,49 @@ const RepairOrderDetail: React.FC = () => {
               </Text>
               <View className="rounded-lg bg-gray-50 p-3 dark:bg-neutral-700/50">
                 <Text className="text-sm text-gray-800 dark:text-gray-100">
-                  主轴无法启动，电机发出异常响声，检查发现主轴轴承磨损严重，需要紧急更换。
+                  {detail.FaultDesc || '暂无描述'}
                 </Text>
               </View>
             </View>
-            <View className="mb-3">
-              <Text className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                故障类型
-              </Text>
-              <View className="self-start rounded-full bg-red-50 px-3 py-1 dark:bg-red-950/50">
-                <Text className="text-sm text-red-500">机械故障</Text>
-              </View>
-            </View>
-            <View className="mb-3">
-              <Text className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                影响程度
-              </Text>
-              <View className="self-start rounded-full bg-red-500 px-3 py-1">
-                <Text className="text-sm text-white">严重 - 停机</Text>
-              </View>
-            </View>
-            <View>
-              <Text className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                故障图片
-              </Text>
-              <View className="flex-row gap-2">
-                <View className="aspect-square w-[30%] items-center justify-center rounded-lg bg-gray-200 dark:bg-neutral-700">
-                  <FontAwesome name="image" size={24} color="#9ca3af" />
-                </View>
-                <View className="aspect-square w-[30%] items-center justify-center rounded-lg bg-gray-200 dark:bg-neutral-700">
-                  <FontAwesome name="image" size={24} color="#9ca3af" />
-                </View>
-                <View className="aspect-square w-[30%] items-center justify-center rounded-lg bg-gray-200 dark:bg-neutral-700">
-                  <FontAwesome name="plus" size={24} color="#9ca3af" />
+            {detail.FaultType && (
+              <View className="mb-3">
+                <Text className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                  故障类型
+                </Text>
+                <View className="self-start rounded-full bg-red-50 px-3 py-1 dark:bg-red-950/50">
+                  <Text className="text-sm text-red-500">
+                    {detail.FaultType}
+                  </Text>
                 </View>
               </View>
-            </View>
+            )}
+            {detail.Impact && (
+              <View className="mb-3">
+                <Text className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                  影响程度
+                </Text>
+                <View className="self-start rounded-full bg-red-500 px-3 py-1">
+                  <Text className="text-sm text-white">{detail.Impact}</Text>
+                </View>
+              </View>
+            )}
+            {detail.ImageIds && detail.ImageIds.length > 0 && (
+              <View>
+                <Text className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                  故障图片
+                </Text>
+                <View className="flex-row gap-2">
+                  {detail.ImageIds.map((imageId, index) => (
+                    <View
+                      key={index}
+                      className="aspect-square w-[30%] items-center justify-center rounded-lg bg-gray-200 dark:bg-neutral-700"
+                    >
+                      <FontAwesome name="image" size={24} color="#9ca3af" />
+                    </View>
+                  ))}
+                </View>
+              </View>
+            )}
           </View>
         </View>
 
@@ -221,7 +337,7 @@ const RepairOrderDetail: React.FC = () => {
             </Text>
           </View>
           <View>
-            {progressSteps.map((step, index) => (
+            {detail.ProgressSteps?.map((step, index) => (
               <ProgressItem key={index} {...step} />
             ))}
           </View>
@@ -235,25 +351,36 @@ const RepairOrderDetail: React.FC = () => {
               维修人员
             </Text>
           </View>
-          <View className="flex-row items-center rounded-lg bg-gray-50 p-3 dark:bg-neutral-700/50">
-            <Image
-              source={{
-                uri: 'https://ui-avatars.com/api/?name=LS&background=1890ff&color=fff',
-              }}
-              style={{ width: 48, height: 48, borderRadius: 24 }}
-            />
-            <View className="ml-3 flex-1">
-              <Text className="text-sm font-semibold text-gray-800 dark:text-gray-100">
-                李四
-              </Text>
-              <Text className="text-xs text-gray-500 dark:text-gray-400">
-                高级维修技师 · 138****8888
+          {detail.AssignUserName ? (
+            <View className="flex-row items-center rounded-lg bg-gray-50 p-3 dark:bg-neutral-700/50">
+              <Image
+                source={{
+                  uri: `https://ui-avatars.com/api/?name=${encodeURIComponent(detail.AssignUserName)}&background=1890ff&color=fff`,
+                }}
+                style={{ width: 48, height: 48, borderRadius: 24 }}
+              />
+              <View className="ml-3 flex-1">
+                <Text className="text-sm font-semibold text-gray-800 dark:text-gray-100">
+                  {detail.AssignUserName}
+                </Text>
+                <Text className="text-xs text-gray-500 dark:text-gray-400">
+                  {detail.AssignUserLevel || '维修技师'}
+                  {detail.AssignUserPhone && ` · ${detail.AssignUserPhone}`}
+                </Text>
+              </View>
+              {detail.AssignUserPhone && (
+                <TouchableOpacity onPress={() => console.log('拨打电话')}>
+                  <FontAwesome name="phone" size={20} color="#1890ff" />
+                </TouchableOpacity>
+              )}
+            </View>
+          ) : (
+            <View className="rounded-lg bg-gray-50 p-3 dark:bg-neutral-700/50">
+              <Text className="text-sm text-gray-500 dark:text-gray-400">
+                暂未分配维修人员
               </Text>
             </View>
-            <TouchableOpacity onPress={() => console.log('拨打电话')}>
-              <FontAwesome name="phone" size={20} color="#1890ff" />
-            </TouchableOpacity>
-          </View>
+          )}
         </View>
 
         {/* 备件使用 */}
@@ -315,4 +442,4 @@ const RepairOrderDetail: React.FC = () => {
   );
 };
 
-export default RepairOrderDetail;
+export default RepairOrderDetailView;

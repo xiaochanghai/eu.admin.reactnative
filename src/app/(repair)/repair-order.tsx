@@ -3,6 +3,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { ScrollView, TouchableOpacity } from 'react-native';
 
 import { queryByFilter } from '@/api';
+import { RefreshListView } from '@/components/refresh-list-view';
 import {
   FilterButton,
   StatCard,
@@ -11,9 +12,9 @@ import {
   WorkOrderCard,
   type WorkOrderStatus,
 } from '@/components/repair-order';
-import { RefreshListView } from '@/components/refresh-list-view';
 import { NavHeader, Text, View } from '@/components/ui';
 import { FontAwesome } from '@/components/ui/icons';
+import { formatRelativeDate } from '@/lib';
 import { useAppColorScheme } from '@/lib/hooks';
 
 const PageSize = 10;
@@ -34,7 +35,7 @@ type RepairOrderRecord = {
   CreatedName?: string;
   StartTime?: string;
   CompleteTime?: string;
-  Status?: string;
+  Status?: WorkOrderStatus;
   // Compatibility fallbacks for WorkOrder mapping
   StatusLabel?: string;
   Id?: string;
@@ -49,7 +50,6 @@ type RepairOrderRecord = {
   Handler?: string;
   CreatedBy?: string;
   CreatedOn?: string;
-  CreateTime?: string;
   UpdateTime?: string;
   Deadline?: string;
 };
@@ -58,8 +58,8 @@ const STATUS_META: Record<
   WorkOrderStatus,
   { label: string; color: string; gradient: [string, string] }
 > = {
-  urgent: {
-    label: '紧急',
+  Wait: {
+    label: '待处理',
     color: '#f5222d',
     gradient: ['#ef4444', '#dc2626'],
   },
@@ -94,24 +94,15 @@ const RepairOrder: React.FC = () => {
   const [refreshing, setRefreshing] = useState(false);
   const pageRef = useRef(1);
 
-  const mapStatus = (status?: string): WorkOrderStatus => {
-    const normalized = (status || '').toLowerCase();
-    if (normalized === 'urgent') return 'urgent';
-    if (normalized === 'review') return 'review';
-    if (normalized === 'completed' || normalized === 'done') return 'completed';
-    if (normalized === 'all') return 'all';
-    return 'processing';
-  };
-
   const mapToWorkOrder = (item: RepairOrderRecord): WorkOrder => {
-    const status = mapStatus(item.Status);
-    const statusMeta = STATUS_META[status] || STATUS_META.processing;
-
+    const statusMeta = item.Status
+      ? STATUS_META[item.Status]
+      : STATUS_META.processing;
     return {
       id:
         String(item.ID ?? item.Id ?? item.id ?? item.RepairOrderId) ||
         Math.random().toString(),
-      status,
+      status: item.Status,
       statusLabel: item.StatusLabel ?? statusMeta.label,
       statusColor: statusMeta.color,
       title: item.Title ?? item.OrderNo ?? item.Name ?? '维修工单',
@@ -119,8 +110,13 @@ const RepairOrder: React.FC = () => {
         item.EquipmentName ?? item.MachineName ?? item.AssetName ?? '未填写',
       description: item.FaultDesc ?? item.Description ?? '暂无描述',
       assignee: item.Assignee ?? item.Handler ?? item.CreatedBy ?? '未分配',
-      timeAgo: item.CreatedOn ?? item.CreateTime ?? item.UpdateTime ?? '刚刚',
-      deadline: item.ExpectedCompleteTime ?? item.Deadline,
+      timeAgo:
+        formatRelativeDate(item.CreatedTime, { showTime: true }) ??
+        formatRelativeDate(item.UpdateTime, { showTime: true }) ??
+        '刚刚',
+      deadline:
+        formatRelativeDate(item.ExpectedCompleteTime, { showTime: true }) ??
+        item.Deadline,
     };
   };
 
@@ -167,7 +163,7 @@ const RepairOrder: React.FC = () => {
   const filterCounts = useMemo(
     () => ({
       all: list.length,
-      urgent: list.filter((order) => order.status === 'urgent').length,
+      Wait: list.filter((order) => order.status === 'Wait').length,
       processing: list.filter((order) => order.status === 'processing').length,
       review: list.filter((order) => order.status === 'review').length,
       completed: list.filter((order) => order.status === 'completed').length,
@@ -177,9 +173,9 @@ const RepairOrder: React.FC = () => {
 
   const stats: StatCardData[] = [
     {
-      label: STATUS_META.urgent.label,
-      value: filterCounts.urgent,
-      gradientColors: STATUS_META.urgent.gradient,
+      label: STATUS_META.Wait.label,
+      value: filterCounts.Wait,
+      gradientColors: STATUS_META.Wait.gradient,
     },
     {
       label: STATUS_META.processing.label,
@@ -249,10 +245,10 @@ const RepairOrder: React.FC = () => {
             onPress={() => setActiveFilter('all')}
           />
           <FilterButton
-            label="紧急"
-            count={filterCounts.urgent}
-            isActive={activeFilter === 'urgent'}
-            onPress={() => setActiveFilter('urgent')}
+            label="待处理"
+            count={filterCounts.Wait}
+            isActive={activeFilter === 'Wait'}
+            onPress={() => setActiveFilter('Wait')}
           />
           <FilterButton
             label="处理中"
@@ -280,7 +276,11 @@ const RepairOrder: React.FC = () => {
   const EmptyState = () => (
     <View className="flex-1 items-center justify-center py-16">
       <View className="mb-4 size-20 items-center justify-center rounded-full bg-gray-100 dark:bg-neutral-700">
-        <FontAwesome name="inbox" size={40} color={isDark ? '#6b7280' : '#9ca3af'} />
+        <FontAwesome
+          name="inbox"
+          size={40}
+          color={isDark ? '#6b7280' : '#9ca3af'}
+        />
       </View>
       <Text className="mb-2 text-[17px] font-semibold text-gray-700 dark:text-gray-100">
         暂无维修工单

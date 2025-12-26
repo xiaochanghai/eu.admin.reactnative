@@ -5,7 +5,7 @@ import { Text, View } from '@/components/ui';
 import { FontAwesome } from '@/components/ui/icons';
 
 export type WorkOrderStatus =
-  | 'urgent'
+  | 'Wait'
   | 'processing'
   | 'review'
   | 'completed'
@@ -13,7 +13,7 @@ export type WorkOrderStatus =
 
 export type WorkOrder = {
   id: string;
-  status: WorkOrderStatus;
+  status?: WorkOrderStatus;
   statusLabel: string;
   statusColor: string;
   title: string;

@@ -4,52 +4,52 @@ import { Text } from '../ui';
 import { FontAwesome } from '../ui/icons';
 
 // 进度项组件
-type ProgressItemProps = {
-  icon: string;
-  iconColor: string;
-  bgColor: string;
-  title: string;
-  time?: string;
-  description?: string;
-  isCompleted: boolean;
+export type ProgressItemProps = {
+  Icon: string;
+  IconColor: string;
+  BgColor: string;
+  Title: string;
+  DealTime?: string;
+  DealDesc?: string;
+  IsCompleted: boolean;
 };
 
 export const ProgressItem: React.FC<ProgressItemProps> = ({
-  icon,
-  iconColor,
-  bgColor,
-  title,
-  time,
-  description,
-  isCompleted,
+  Icon,
+  IconColor,
+  BgColor,
+  Title,
+  DealTime,
+  DealDesc,
+  IsCompleted,
 }) => (
   <View className="mb-4 flex-row items-start">
     <View
       className="size-8 shrink-0 items-center justify-center rounded-full"
-      style={{ backgroundColor: bgColor }}
+      style={{ backgroundColor: BgColor }}
     >
       <FontAwesome
-        name={icon as any}
+        name={Icon as any}
         size={12}
-        color={isCompleted ? 'white' : iconColor}
+        color={IsCompleted ? 'white' : IconColor}
       />
     </View>
     <View className="ml-3 flex-1">
       <View className="mb-1 flex-row items-center justify-between">
         <Text
-          className={`text-sm font-semibold ${isCompleted ? 'text-gray-800 dark:text-gray-100' : 'text-gray-400 dark:text-gray-500'}`}
+          className={`text-sm font-semibold ${IsCompleted ? 'text-gray-800 dark:text-gray-100' : 'text-gray-400 dark:text-gray-500'}`}
         >
-          {title}
+          {Title}
         </Text>
-        {time && (
+        {DealTime && (
           <Text className="text-xs text-gray-500 dark:text-gray-400">
-            {time}
+            {DealTime}
           </Text>
         )}
       </View>
-      {description && (
+      {DealDesc && (
         <Text className="text-xs text-gray-600 dark:text-gray-400">
-          {description}
+          {DealDesc}
         </Text>
       )}
     </View>
