@@ -58,13 +58,15 @@ export function formatDate(date: Date): string {
  * @returns 格式化后的日期字符串
  */
 export function formatRelativeDate(
-  date: Date | string | number,
+  date: Date | string | number | undefined,
   options: {
     showTime?: boolean;
     showYear?: boolean;
     locale?: string;
   } = {}
 ): string {
+  if (date === undefined) return '';
+
   //   import { formatRelativeDate, getRelativeTimeString } from '@/lib/utils';
 
   // // 基本使用
@@ -159,9 +161,10 @@ export function formatRelativeDate(
  * @returns 相对时间字符串
  */
 export function getRelativeTimeString(
-  date: Date | string | number,
-  locale: string = 'en'
+  date: Date | string | number | undefined,
+  locale: string = 'zh'
 ): string {
+  if (date === undefined) return '';
   const targetDate = new Date(date);
   const now = new Date();
 
@@ -249,27 +252,55 @@ export const getFileIconInfo = (fileExt?: string) => {
   const ext = fileExt?.toLowerCase()?.replace('.', '') || '';
   switch (ext) {
     case 'pdf':
-      return { icon: 'file-pdf-o', iconColor: '#ef4444', iconBgColor: '#fef2f2' };
+      return {
+        icon: 'file-pdf-o',
+        iconColor: '#ef4444',
+        iconBgColor: '#fef2f2',
+      };
     case 'doc':
     case 'docx':
-      return { icon: 'file-word-o', iconColor: '#3b82f6', iconBgColor: '#eff6ff' };
+      return {
+        icon: 'file-word-o',
+        iconColor: '#3b82f6',
+        iconBgColor: '#eff6ff',
+      };
     case 'xls':
     case 'xlsx':
-      return { icon: 'file-excel-o', iconColor: '#22c55e', iconBgColor: '#f0fdf4' };
+      return {
+        icon: 'file-excel-o',
+        iconColor: '#22c55e',
+        iconBgColor: '#f0fdf4',
+      };
     case 'ppt':
     case 'pptx':
-      return { icon: 'file-powerpoint-o', iconColor: '#f97316', iconBgColor: '#fff7ed' };
+      return {
+        icon: 'file-powerpoint-o',
+        iconColor: '#f97316',
+        iconBgColor: '#fff7ed',
+      };
     case 'jpg':
     case 'jpeg':
     case 'png':
     case 'gif':
-      return { icon: 'file-image-o', iconColor: '#8b5cf6', iconBgColor: '#f5f3ff' };
+      return {
+        icon: 'file-image-o',
+        iconColor: '#8b5cf6',
+        iconBgColor: '#f5f3ff',
+      };
     case 'zip':
     case 'rar':
     case '7z':
-      return { icon: 'file-archive-o', iconColor: '#eab308', iconBgColor: '#fefce8' };
+      return {
+        icon: 'file-archive-o',
+        iconColor: '#eab308',
+        iconBgColor: '#fefce8',
+      };
     case 'txt':
-      return { icon: 'file-text-o', iconColor: '#6b7280', iconBgColor: '#f9fafb' };
+      return {
+        icon: 'file-text-o',
+        iconColor: '#6b7280',
+        iconBgColor: '#f9fafb',
+      };
     default:
       return { icon: 'file-o', iconColor: '#6b7280', iconBgColor: '#f9fafb' };
   }
