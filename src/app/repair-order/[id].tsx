@@ -18,6 +18,7 @@ import {
 } from '@/components/repair-order';
 import { NavHeader, Text, View } from '@/components/ui';
 import { FontAwesome } from '@/components/ui/icons';
+import { formatRelativeDate } from '@/lib';
 import { useAppColorScheme } from '@/lib/hooks';
 
 type Equipment = {
@@ -201,10 +202,7 @@ const RepairOrderDetailView: React.FC = () => {
               </View>
               <Text className="text-sm font-semibold text-white">
                 {detail.CreatedTime
-                  ? (() => {
-                    const date = new Date(detail.CreatedTime);
-                    return `${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
-                  })()
+                  ? formatRelativeDate(detail.CreatedTime)
                   : '-'}
               </Text>
             </View>
@@ -215,10 +213,7 @@ const RepairOrderDetailView: React.FC = () => {
               </View>
               <Text className="text-sm font-semibold text-white">
                 {detail.ExpectedCompleteTime
-                  ? (() => {
-                    const date = new Date(detail.ExpectedCompleteTime);
-                    return `${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
-                  })()
+                  ? formatRelativeDate(detail.ExpectedCompleteTime)
                   : '-'}
               </Text>
             </View>
@@ -230,12 +225,12 @@ const RepairOrderDetailView: React.FC = () => {
               <Text className="text-sm font-bold text-white">
                 {detail.ExpectedCompleteTime
                   ? (() => {
-                    const remaining =
-                      new Date(detail.ExpectedCompleteTime).getTime() -
-                      Date.now();
-                    const hours = Math.floor(remaining / (1000 * 60 * 60));
-                    return hours > 0 ? `${hours}小时` : '已逾期';
-                  })()
+                      const remaining =
+                        new Date(detail.ExpectedCompleteTime).getTime() -
+                        Date.now();
+                      const hours = Math.floor(remaining / (1000 * 60 * 60));
+                      return hours > 0 ? `${hours}小时` : '已逾期';
+                    })()
                   : '-'}
               </Text>
             </View>
