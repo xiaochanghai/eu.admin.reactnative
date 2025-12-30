@@ -98,12 +98,21 @@ importers:
       i18next:
         specifier: ^23.14.0
         version: 23.16.8
+      jcore-react-native:
+        specifier: ^2.3.2
+        version: 2.3.2(react-native@0.81.5(@babel/core@7.28.3)(@types/react@19.1.17)(react@19.1.0))
+      jpush-react-native:
+        specifier: ^3.2.1
+        version: 3.2.1(jcore-react-native@2.3.2(react-native@0.81.5(@babel/core@7.28.3)(@types/react@19.1.17)(react@19.1.0)))(react-native@0.81.5(@babel/core@7.28.3)(@types/react@19.1.17)(react@19.1.0))
       lodash.memoize:
         specifier: ^4.1.2
         version: 4.1.2
       moti:
         specifier: ^0.29.0
         version: 0.29.0(react-dom@19.1.0(react@19.1.0))(react-native-reanimated@4.1.5(@babel/core@7.28.3)(react-native-worklets@0.5.1(@babel/core@7.28.3)(react-native@0.81.5(@babel/core@7.28.3)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0))(react-native@0.81.5(@babel/core@7.28.3)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0))(react@19.1.0)
+      mx-jpush-expo:
+        specifier: ^1.2.0
+        version: 1.2.0(expo@54.0.30)
       nativewind:
         specifier: ^4.1.21
         version: 4.1.23(react-native-reanimated@4.1.5(@babel/core@7.28.3)(react-native-worklets@0.5.1(@babel/core@7.28.3)(react-native@0.81.5(@babel/core@7.28.3)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0))(react-native@0.81.5(@babel/core@7.28.3)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0))(react-native-safe-area-context@5.6.2(react-native@0.81.5(@babel/core@7.28.3)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0))(react-native-svg@15.12.1(react-native@0.81.5(@babel/core@7.28.3)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0))(react-native@0.81.5(@babel/core@7.28.3)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)(tailwindcss@3.4.4)
@@ -4762,6 +4771,11 @@ packages:
   jackspeak@3.4.3:
     resolution: {integrity: sha512-OGlZQpz2yfahA/Rd1Y8Cd9SIEsqvXkLVoSw/cgwhnhFMDbsQFeZYoJJ7bIZBS9BcamUW96asq/npPWugM+RQBw==}
 
+  jcore-react-native@2.3.2:
+    resolution: {integrity: sha512-Rn9VUxEAxQrIhXpQW8eIOZFdlXMDYfxr8FOT/8k2iOoy5B6uaZ4pE8k4HLxD2kONAED5FRuXCV3sYSsAZsTF2Q==}
+    peerDependencies:
+      react-native: '>= 0.60'
+
   jest-changed-files@29.7.0:
     resolution: {integrity: sha512-fEArFiwf1BpQ+4bXSprcDc3/x4HSzL4al2tozwVpDFpsxALjLYdyiIK4e5Vz66GQJIbXJ82+35PtysofptNX2w==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
@@ -4946,6 +4960,12 @@ packages:
 
   jpeg-js@0.4.4:
     resolution: {integrity: sha512-WZzeDOEtTOBK4Mdsar0IqEU5sMr3vSV2RqkAIzUEV2BHnUfKGyswWFPFwK5EeDo93K3FohSHbLAjj0s1Wzd+dg==}
+
+  jpush-react-native@3.2.1:
+    resolution: {integrity: sha512-2ynwABfS1gOQFtriaQejLE8s/gbSVh1MDe3ePTc1X2MQGYzeA8Zkdx/9LyIatUL58d5pLxDr5GL/zmfJJLpijw==}
+    peerDependencies:
+      jcore-react-native: '>= 1.9.3'
+      react-native: '>= 0.50'
 
   js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
@@ -5502,6 +5522,11 @@ packages:
   mute-stream@2.0.0:
     resolution: {integrity: sha512-WWdIxpyjEn+FhQJQQv9aQAYlHoNVdzIzUySNV1gHUPDSdZJ3yZn7pAAbQcV7B56Mvu881q9FZV+0Vx2xC44VWA==}
     engines: {node: ^18.17.0 || >=20.5.0}
+
+  mx-jpush-expo@1.2.0:
+    resolution: {integrity: sha512-/ZvczwF9RGYttGdNR5j0UCUgtGEI8hGBhp+1qEs/XCqVIof/r3NjX2eivoCR0pbuX1p0ZLW38JxPF8bp9FF7dw==}
+    peerDependencies:
+      expo: '*'
 
   mz@2.7.0:
     resolution: {integrity: sha512-z81GNO7nnYMEhrGh9LeymoE4+Yr0Wn5McHIZMK5cfQCl+NDX08sCZgUc9/6MHni9IWuFLm1Z3HTCXu2z9fN62Q==}
@@ -12912,6 +12937,10 @@ snapshots:
     optionalDependencies:
       '@pkgjs/parseargs': 0.11.0
 
+  jcore-react-native@2.3.2(react-native@0.81.5(@babel/core@7.28.3)(@types/react@19.1.17)(react@19.1.0)):
+    dependencies:
+      react-native: 0.81.5(@babel/core@7.28.3)(@types/react@19.1.17)(react@19.1.0)
+
   jest-changed-files@29.7.0:
     dependencies:
       execa: 5.1.1
@@ -13312,6 +13341,11 @@ snapshots:
   jiti@2.5.1: {}
 
   jpeg-js@0.4.4: {}
+
+  jpush-react-native@3.2.1(jcore-react-native@2.3.2(react-native@0.81.5(@babel/core@7.28.3)(@types/react@19.1.17)(react@19.1.0)))(react-native@0.81.5(@babel/core@7.28.3)(@types/react@19.1.17)(react@19.1.0)):
+    dependencies:
+      jcore-react-native: 2.3.2(react-native@0.81.5(@babel/core@7.28.3)(@types/react@19.1.17)(react@19.1.0))
+      react-native: 0.81.5(@babel/core@7.28.3)(@types/react@19.1.17)(react@19.1.0)
 
   js-tokens@4.0.0: {}
 
@@ -14088,6 +14122,10 @@ snapshots:
   mute-stream@0.0.8: {}
 
   mute-stream@2.0.0: {}
+
+  mx-jpush-expo@1.2.0(expo@54.0.30):
+    dependencies:
+      expo: 54.0.30(@babel/core@7.28.3)(@expo/metro-runtime@6.1.2)(expo-router@6.0.21)(react-native-webview@13.15.0(react-native@0.81.5(@babel/core@7.28.3)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0))(react-native@0.81.5(@babel/core@7.28.3)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)
 
   mz@2.7.0:
     dependencies:

@@ -85,6 +85,10 @@ const client = z.object({
   VAR_NUMBER: z.number(),
   VAR_BOOL: z.boolean(),
   LOGIN_REQUIRED: z.boolean(),
+
+  // JPush Configuration
+  JPUSH_APPKEY: z.string().min(1),
+  JPUSH_CHANNEL: z.string().optional().default('developer-default'),
 });
 
 const buildTime = z.object({
@@ -111,6 +115,10 @@ const _clientEnv = {
   VAR_NUMBER: Number(process.env.VAR_NUMBER),
   VAR_BOOL: process.env.VAR_BOOL === 'true',
   LOGIN_REQUIRED: process.env.LOGIN_REQUIRED === 'true',
+
+  // JPush Configuration
+  JPUSH_APPKEY: process.env.JPUSH_APPKEY,
+  JPUSH_CHANNEL: process.env.JPUSH_CHANNEL || 'developer-default',
 };
 
 /**

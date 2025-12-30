@@ -104,6 +104,16 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
         cameraPermission: '我们需要使用相机来扫描二维码。',
       },
     ],
+    // JPush Configuration - 使用mx-jpush-expo config plugin
+    [
+      'mx-jpush-expo',
+      {
+        appKey: Env.JPUSH_APPKEY,
+        channel: Env.JPUSH_CHANNEL,
+        packageName: Env.PACKAGE,
+        apsForProduction: Env.APP_ENV === 'production',
+      },
+    ],
     // [
     //   'expo-notifications',
     //   {

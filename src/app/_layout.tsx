@@ -32,6 +32,7 @@ import {
   useIsAgreePrivacy,
 } from '@/lib';
 import { setUniqueId } from '@/lib/auth/utils';
+import { useJPush } from '@/lib/hooks/use-jpush';
 import { useThemeConfig } from '@/lib/use-theme-config';
 
 dayjs.locale('zh-cn');
@@ -74,18 +75,42 @@ export default function RootLayout() {
     }
   };
 
+  // 初始化极光推送
+  const { registrationId } = useJPush({
+    onNotification: (notification) => {
+      console.log('[App] Notification event:', notification);
+
+      // 根据事件类型处理
+      if (notification.notificationEventType === 'notificationOpened') {
+        // 用户点击了通知
+        console.log('[App] layout Notification opened:', notification);
+        // 在这里处理通知点击，例如导航到特定页面
+        // 可以根据 notification.extras 中的数据进行路由跳转
+      } else if (notification.notificationEventType === 'notificationArrived') {
+        // 通知到达
+        console.log('[App] Notification arrived:', notification);
+      }
+    },
+    onCustomMessage: (message) => {
+      console.log('[App] Received custom message:', message);
+      // 在这里处理自定义消息
+    },
+  });
+
+  // 当 registrationId 获取到后，打印日志
+
   // 应用启动时执行的操作（仅在挂载时运行）
   useEffect(() => {
-    if (!isWeb) {
+    if (!isWeb && registrationId) {
       // 检查应用更新
       checkForUpdate();
       // 获取设备唯一ID并记录设备信息
       getUniqueId().then((uniqueId) => {
         setUniqueId(uniqueId);
-        recordDevice(uniqueId);
+        recordDevice(uniqueId, registrationId);
       });
     }
-  }, []);
+  }, [registrationId]);
 
   return (
     <Providers>
