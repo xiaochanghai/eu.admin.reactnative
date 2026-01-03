@@ -106,9 +106,9 @@ export const Input = React.forwardRef<NTextInput, NInputProps>((props, ref) => {
           >
             {label}
           </Text>
-          <Text className={styles.label() + ' text-red-500'}>
-            {require && '*'}
-          </Text>
+          {require && (
+            <Text className={`${styles.label()} text-red-500`}>*</Text>
+          )}
         </View>
       )}
       <View className={styles.inputContainer()}>
@@ -163,6 +163,8 @@ export const Input = React.forwardRef<NTextInput, NInputProps>((props, ref) => {
     </View>
   );
 });
+
+Input.displayName = 'Input';
 
 // only used with react-hook-form
 export function ControlledInput<T extends FieldValues>(

@@ -73,10 +73,11 @@ const ModuleItem: React.FC<ModuleItemProps> = ({
 const Home: React.FC = () => {
   const userInfo = user.use.userInfo();
   const fetchUserInfo = user.use.fetchUserInfo();
+  const router = useRouter();
+
   useEffect(() => {
     fetchUserInfo();
-  }, []);
-  const router = useRouter();
+  }, [fetchUserInfo]);
 
   return (
     <View className="flex-1 bg-gray-100 dark:bg-neutral-950">
