@@ -201,13 +201,13 @@ const Home: React.FC = () => {
               icon="users"
               bgColor="#eab308"
               title="人员管理"
-              onPress={() => { }}
+              onPress={() => {}}
             />
             <ModuleItem
               icon="truck"
               bgColor="#6366f1"
               title="物流管理"
-              onPress={() => { }}
+              onPress={() => {}}
             />
             {/* <ModuleItem
               icon="truck"
@@ -225,7 +225,7 @@ const Home: React.FC = () => {
               icon="ellipsis-h"
               bgColor="#6b7280"
               title="更多功能"
-              onPress={() => { }}
+              onPress={() => {}}
             />
           </View>
         </View>

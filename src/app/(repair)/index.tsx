@@ -3,11 +3,16 @@ import { useRouter } from 'expo-router';
 import React, { useEffect } from 'react';
 import { ScrollView, TouchableOpacity } from 'react-native';
 
-import { NavHeader, Text, View, FontAwesome, IconGroupEnum } from '@/components/ui';
- 
+import {
+  FontAwesome,
+  IconGroupEnum,
+  NavHeader,
+  Text,
+  View,
+} from '@/components/ui';
+import { isWeb } from '@/lib';
 import { useAppColorScheme } from '@/lib/hooks';
 import { userInfo as user } from '@/lib/user';
-import { isWeb } from '@/lib'; 
 
 // 数据统计卡片组件
 type StatCardProps = {
@@ -209,7 +214,6 @@ const RepairHome: React.FC = () => {
         title="首页"
         leftShown={false}
         right={
-
           <>
             <TouchableOpacity
               className="relative"
@@ -224,17 +228,22 @@ const RepairHome: React.FC = () => {
                 <Text className="text-[10px] font-bold text-white">3</Text>
               </View>
             </TouchableOpacity>
-            {!isWeb && <TouchableOpacity
-              className="ml-4"
-              onPress={() => {
-                router.push('/qr-scanner')
-
-              }}
-            >
-              <FontAwesome name="scan" size={18} color="#6b7280" group={IconGroupEnum.AntDesign} />
-            </TouchableOpacity>}
+            {!isWeb && (
+              <TouchableOpacity
+                className="ml-4"
+                onPress={() => {
+                  router.push('/qr-scanner');
+                }}
+              >
+                <FontAwesome
+                  name="scan"
+                  size={18}
+                  color="#6b7280"
+                  group={IconGroupEnum.AntDesign}
+                />
+              </TouchableOpacity>
+            )}
           </>
-
         }
       />
 
@@ -313,21 +322,21 @@ const RepairHome: React.FC = () => {
               iconColor="#22c55e"
               bgColor="#f0fdf4"
               title="设备保养"
-              onPress={() => { }}
+              onPress={() => {}}
             />
             <QuickAccessItem
               icon="clipboard-check"
               iconColor="#a855f7"
               bgColor="#faf5ff"
               title="点检"
-              onPress={() => { }}
+              onPress={() => {}}
             />
             <QuickAccessItem
               icon="check"
               iconColor="#6366f1"
               bgColor="#eef2ff"
               title="巡检"
-              onPress={() => { }}
+              onPress={() => {}}
             />
             <QuickAccessItem
               icon="chart-line"
@@ -341,14 +350,14 @@ const RepairHome: React.FC = () => {
               iconColor="#faad14"
               bgColor="#fefce8"
               title="扫码"
-              onPress={() => { }}
+              onPress={() => {}}
             />
             <QuickAccessItem
               icon="ellipsis-h"
               iconColor="#6b7280"
               bgColor="#f3f4f6"
               title="更多"
-              onPress={() => { }}
+              onPress={() => {}}
             />
           </View>
         </View>
