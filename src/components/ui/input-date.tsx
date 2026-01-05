@@ -1,3 +1,39 @@
+/**
+ * 日期选择器输入组件
+ *
+ * 提供了两个主要组件：
+ * 1. DatePickerInput - 独立的日期选择器输入组件
+ * 2. ControlledDatePicker - 与 react-hook-form 集成的受控日期选择器
+ *
+ * @example
+ * // 基本使用
+ * <DatePickerInput
+ *   label="选择日期"
+ *   value={date}
+ *   onChange={setDate}
+ *   mode="date"
+ * />
+ *
+ * @example
+ * // 与 react-hook-form 集成
+ * <ControlledDatePicker
+ *   name="birthDate"
+ *   control={control}
+ *   label="出生日期"
+ *   mode="date"
+ *   rules={{ required: '请选择出生日期' }}
+ * />
+ *
+ * @example
+ * // 日期时间选择器
+ * <DatePickerInput
+ *   label="预约时间"
+ *   value={dateTime}
+ *   onChange={setDateTime}
+ *   mode="datetime"
+ *   format="YYYY年MM月DD日 HH:mm"
+ * />
+ */
 import * as React from 'react';
 import type { Control, FieldValues, Path } from 'react-hook-form';
 import { useController } from 'react-hook-form';
@@ -5,10 +41,14 @@ import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { tv } from 'tailwind-variants';
 
 import colors from './colors';
-import { DatePicker } from './date-picker';
+import { DatePicker, formatDateValue } from './date-picker';
 import { type RuleType } from './input';
 import { Text } from './text';
 
+/**
+ * 日期选择器的样式变体配置
+ * 使用 tailwind-variants 定义不同状态下的样式
+ */
 const datepickerTv = tv({
   slots: {
     container: 'mb-2',
@@ -45,30 +85,71 @@ const datepickerTv = tv({
   },
 });
 
+/**
+ * 日期选择器输入组件的属性接口
+ */
 export interface DatePickerInputProps {
+  /** 输入框标签文本 */
   label?: string;
+  /** 是否禁用 */
   disabled?: boolean;
+  /** 是否必填（显示红色星号） */
   require?: boolean;
+  /** 错误提示信息 */
   error?: string;
+  /** 当前选中的日期值 */
   value?: Date;
+  /** 日期变化回调函数 */
   onChange?: (date: Date) => void;
+  /** 选择器模式：date(日期) | time(时间) | datetime(日期时间) */
   mode?: 'date' | 'time' | 'datetime';
+  /** 自定义日期格式字符串，如 'YYYY-MM-DD' */
   format?: string;
+  /** 最小可选日期 */
   minDate?: Date;
+  /** 最大可选日期 */
   maxDate?: Date;
+  /** 测试ID，用于自动化测试 */
   testID?: string;
 }
 
+/**
+ * react-hook-form 控制器类型定义
+ */
 export type DatePickerControllerType<T extends FieldValues> = {
   name: Path<T>;
   control: Control<T>;
   rules?: RuleType<T>;
 };
 
+/**
+ * 受控日期选择器组件的属性接口
+ * 结合了 DatePickerInputProps 和 DatePickerControllerType
+ */
 interface ControlledDatePickerProps<T extends FieldValues>
   extends DatePickerInputProps,
-  DatePickerControllerType<T> { }
+    DatePickerControllerType<T> {}
 
+/**
+ * 日期选择器输入组件
+ *
+ * 带标签、错误提示和视觉反馈的日期选择器输入框
+ * 支持日期、时间、日期时间三种模式
+ *
+ * @component
+ * @example
+ * const [date, setDate] = useState(new Date());
+ *
+ * return (
+ *   <DatePickerInput
+ *     label="选择日期"
+ *     value={date}
+ *     onChange={setDate}
+ *     mode="date"
+ *     require
+ *   />
+ * );
+ */
 export const DatePickerInput = React.forwardRef<any, DatePickerInputProps>(
   (props, ref) => {
     const {
@@ -82,7 +163,7 @@ export const DatePickerInput = React.forwardRef<any, DatePickerInputProps>(
       format,
       minDate,
       maxDate,
-      ...restProps
+      disabled,
     } = props;
     const [isFocussed, setIsFocussed] = React.useState(false);
 
@@ -91,11 +172,16 @@ export const DatePickerInput = React.forwardRef<any, DatePickerInputProps>(
         datepickerTv({
           error: Boolean(error),
           focused: isFocussed,
-          disabled: Boolean(props.disabled),
+          disabled: Boolean(disabled),
         }),
-      [error, isFocussed, props.disabled]
+      [error, isFocussed, disabled]
     );
 
+    /**
+     * 获取日期格式字符串
+     * 如果用户提供了自定义格式，使用自定义格式
+     * 否则根据 mode 返回默认格式
+     */
     const getFormat = () => {
       if (format) return format;
       switch (mode) {
@@ -110,6 +196,10 @@ export const DatePickerInput = React.forwardRef<any, DatePickerInputProps>(
       }
     };
 
+    /**
+     * 获取占位符文本
+     * 根据不同的 mode 返回对应的中文占位符
+     */
     const getPlaceholder = () => {
       switch (mode) {
         case 'time':
@@ -122,21 +212,6 @@ export const DatePickerInput = React.forwardRef<any, DatePickerInputProps>(
       }
     };
 
-    // 在组件外部添加这个函数
-    const formatDate = (
-      date1: Date,
-      formatType: 'date' | 'time' | 'datetime'
-    ) => {
-      // debugger
-      let date = new Date(date1);
-      if (formatType === 'time') {
-        return `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
-      } else if (formatType === 'datetime') {
-        return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
-      } else {
-        return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
-      }
-    };
     return (
       <View className={styles.container()}>
         {label && (
@@ -154,34 +229,34 @@ export const DatePickerInput = React.forwardRef<any, DatePickerInputProps>(
         )}
         <View className={styles.pickerContainer()}>
           <TouchableOpacity
-            activeOpacity={props.disabled ? 1 : 0.7}
+            activeOpacity={disabled ? 1 : 0.7}
             className={styles.picker()}
             onPress={() => {
-              if (!props.disabled) {
+              if (!disabled) {
                 setIsFocussed(true);
               }
             }}
             style={StyleSheet.flatten([
               ...(error
                 ? [
-                  {
-                    shadowColor: 'rgba(239,68,68,0.7)', // 红色阴影 (tailwind red-500)
-                    shadowOffset: { width: 0, height: 0 },
-                    shadowOpacity: 0.7,
-                    shadowRadius: 6,
-                    elevation: 8,
-                  },
-                ]
-                : isFocussed
-                  ? [
                     {
-                      shadowColor: 'rgba(84,62,248,0.7)', // 紫色阴影
+                      shadowColor: 'rgba(239,68,68,0.7)', // 红色阴影 (tailwind red-500)
                       shadowOffset: { width: 0, height: 0 },
                       shadowOpacity: 0.7,
                       shadowRadius: 6,
                       elevation: 8,
                     },
                   ]
+                : isFocussed
+                  ? [
+                      {
+                        shadowColor: 'rgba(84,62,248,0.7)', // 紫色阴影
+                        shadowOffset: { width: 0, height: 0 },
+                        shadowOpacity: 0.7,
+                        shadowRadius: 6,
+                        elevation: 8,
+                      },
+                    ]
                   : []),
             ])}
           >
@@ -193,11 +268,11 @@ export const DatePickerInput = React.forwardRef<any, DatePickerInputProps>(
               onChange={onChange}
               minDate={minDate}
               maxDate={maxDate}
-              disabled={props.disabled}
+              disabled={disabled}
             >
               {value ? (
                 <Text className={styles.valueText()}>
-                  {formatDate(value, mode)}
+                  {formatDateValue(value, mode)}
                 </Text>
               ) : (
                 <Text
@@ -223,7 +298,45 @@ export const DatePickerInput = React.forwardRef<any, DatePickerInputProps>(
   }
 );
 
-// 与 react-hook-form 集成的控制组件
+DatePickerInput.displayName = 'DatePickerInput';
+
+/**
+ * 与 react-hook-form 集成的受控日期选择器组件
+ *
+ * 自动处理表单字段的值管理、验证和错误显示
+ *
+ * @component
+ * @example
+ * import { useForm } from 'react-hook-form';
+ *
+ * interface FormData {
+ *   birthDate: Date;
+ *   appointmentTime: Date;
+ * }
+ *
+ * function MyForm() {
+ *   const { control } = useForm<FormData>();
+ *
+ *   return (
+ *     <>
+ *       <ControlledDatePicker
+ *         name="birthDate"
+ *         control={control}
+ *         label="出生日期"
+ *         mode="date"
+ *         rules={{ required: '请选择出生日期' }}
+ *       />
+ *
+ *       <ControlledDatePicker
+ *         name="appointmentTime"
+ *         control={control}
+ *         label="预约时间"
+ *         mode="datetime"
+ *       />
+ *     </>
+ *   );
+ * }
+ */
 export function ControlledDatePicker<T extends FieldValues>(
   props: ControlledDatePickerProps<T>
 ) {
