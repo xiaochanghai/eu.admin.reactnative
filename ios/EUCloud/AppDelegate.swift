@@ -1,12 +1,12 @@
-import Expo
+internal import Expo
 import React
 // @generated begin jpush-swift-import-usernotifications - expo prebuild (DO NOT MODIFY) sync-768cde893f7334c1cbf88f4f0a878cfb3548fdbe
 import UserNotifications
 // @generated end jpush-swift-import-usernotifications
 import ReactAppDependencyProvider
 
-@UIApplicationMain
-public class AppDelegate: ExpoAppDelegate {
+@main
+class AppDelegate: ExpoAppDelegate {
   var window: UIWindow?
 
   var reactNativeDelegate: ExpoReactNativeFactoryDelegate?
@@ -22,7 +22,6 @@ public class AppDelegate: ExpoAppDelegate {
 
     reactNativeDelegate = delegate
     reactNativeFactory = factory
-    bindReactNativeFactory(factory)
 
 #if os(iOS) || os(tvOS)
     window = UIWindow(frame: UIScreen.main.bounds)
