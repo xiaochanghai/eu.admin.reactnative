@@ -30,7 +30,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   orientation: 'portrait',
   icon: './assets/icon.png',
   userInterfaceStyle: 'automatic',
-  newArchEnabled: true,
+  // newArchEnabled: true,
   updates: {
     fallbackToCacheTimeout: 0,
     url: 'https://u.expo.dev/9d0f9588-d00f-40cf-a15c-ffd7e8bc7654',
@@ -89,6 +89,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     ],
     'expo-localization',
     'expo-router',
+    'expo-image',
+    'expo-status-bar',
     ['app-icon-badge', appIconBadgeConfig],
     ['react-native-edge-to-edge'],
     [

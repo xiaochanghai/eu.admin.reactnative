@@ -1,4 +1,4 @@
-import { useIsFocused } from '@react-navigation/native';
+import { useIsFocused } from 'expo-router';
 import * as React from 'react';
 import { Platform } from 'react-native';
 import { SystemBars } from 'react-native-edge-to-edge';

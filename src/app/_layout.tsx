@@ -3,9 +3,8 @@ import '../../global.css';
 import 'dayjs/locale/zh-cn';
 
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
-import { ThemeProvider } from '@react-navigation/native';
 import dayjs from 'dayjs';
-import { Stack, usePathname } from 'expo-router';
+import { Stack, ThemeProvider, usePathname } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import {
   checkForUpdateAsync,
