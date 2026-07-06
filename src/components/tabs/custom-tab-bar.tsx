@@ -1,4 +1,4 @@
-import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
+import type { BottomTabBarProps } from 'expo-router/build/react-navigation/bottom-tabs';
 import React, { memo, useCallback } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -102,7 +102,7 @@ export const CustomTabBar = memo(
 
     return (
       <View
-        className="relative flex-row items-center justify-between border-t border-gray-300 bg-white px-0 dark:border-neutral-600 dark:bg-neutral-800"
+        className="relative flex-row items-center justify-between bg-white px-0 dark:border-neutral-600 dark:bg-neutral-800"
         style={{
           height: TAB_HEIGHT + insets.bottom,
           paddingBottom: insets.bottom,
