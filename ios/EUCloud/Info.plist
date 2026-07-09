@@ -42,6 +42,12 @@
 	<string>2</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
+	<key>JPUSH_APPKEY</key>
+	<string>acb8dfd7a7a771f3710d143c</string>
+	<key>JPUSH_APS_FOR_PRODUCTION</key>
+	<true/>
+	<key>JPUSH_CHANNEL</key>
+	<string>production</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>12.0</string>
 	<key>LSRequiresIPhoneOS</key>
