@@ -1,6 +1,7 @@
 import { useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import {
+  ActivityIndicator,
   Alert,
   ScrollView,
   Switch,
@@ -9,7 +10,7 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { queryLov } from '@/api';
+import { queryByFilter, queryLov } from '@/api';
 import http from '@/api/common/http';
 import { PriorityButton, RadioButton } from '@/components/repair-order';
 import {
@@ -22,25 +23,27 @@ import {
 import { QRCodeScanner } from '@/components/ui/qr-code-scanner';
 import { isWeb } from '@/lib';
 import { error, info } from '@/lib/message';
+import { userInfo as userStore } from '@/lib/user';
 import { type Equipment, type SmLov } from '@/types';
 
-// 维修人员数据
-const technicianList = [
-  { id: '1', name: '张三', level: '高级技师' },
-  { id: '2', name: '李四', level: '高级技师' },
-  { id: '3', name: '王五', level: '中级技师' },
-  { id: '4', name: '赵六', level: '中级技师' },
-  { id: '5', name: '孙七', level: '初级技师' },
-];
+/** 维修人员类型 */
+type Technician = {
+  ID: string;
+  EmployeeName: string;
+  Phone?: string;
+  Remark?: string;
+};
 
 const AddRepairOrder: React.FC = () => {
   const router = useRouter();
   const insets = useSafeAreaInsets();
+  const userInfo = userStore.use.userInfo();
 
   // 表单状态
   const [selectedEquipment, setSelectedEquipment] = useState<string>('');
   const [faultType, setFaultType] = useState<string>('');
   const [faultTypes, setFaultTypes] = useState<SmLov[]>([]);
+  const [impactOptions, setImpactOptions] = useState<SmLov[]>([]);
   const [equipmentList, setEquipmentList] = useState<Equipment[]>([]);
   const [priority, setPriority] = useState<string>('');
   const [impact, setImpact] = useState<string>('');
@@ -49,6 +52,10 @@ const AddRepairOrder: React.FC = () => {
   const [assignedTechnician, setAssignedTechnician] = useState<string>('');
   const [remarks, setRemarks] = useState<string>('');
   const [needShutdown, setNeedShutdown] = useState<boolean>(false);
+  const [submitting, setSubmitting] = useState(false);
+
+  // 维修人员列表
+  const [technicianList, setTechnicianList] = useState<Technician[]>([]);
 
   // 显示设备选择器
   const [showEquipmentPicker, setShowEquipmentPicker] = useState(false);
@@ -67,32 +74,60 @@ const AddRepairOrder: React.FC = () => {
   // 获取选中的技师
   const getSelectedTechnicianText = () => {
     if (!assignedTechnician) return '系统自动分配';
-    const technician = technicianList.find((t) => t.id === assignedTechnician);
-    return technician
-      ? `${technician.name} - ${technician.level}`
-      : '系统自动分配';
+    const technician = technicianList.find((t) => t.ID === assignedTechnician);
+    return technician ? technician.EmployeeName : '系统自动分配';
   };
 
+  /** 加载故障类型 LOV */
   const loadFaultType = async () => {
     const { Success, Data } = await queryLov('EquipmentFaultType');
-    if (Success) setFaultTypes(Data);
+    if (Success && Data) setFaultTypes(Data);
   };
+
+  /** 加载影响程度 LOV */
+  const loadImpactOptions = async () => {
+    const { Success, Data } = await queryLov('RepairOrderImpact');
+    if (Success && Data) setImpactOptions(Data);
+  };
+
+  /** 加载设备列表 */
   const loadEquipment = async () => {
     const { Success, Data } = await http.get<Equipment[]>(
       '/api/EmRepairOrder/GetEquipment'
     );
-    if (Success) setEquipmentList(Data);
+    if (Success && Data) setEquipmentList(Data);
+  };
+
+  /** 加载维修人员列表（从员工表查询） */
+  const loadTechnicians = async () => {
+    try {
+      const result = await queryByFilter('SmEmployee', { pageSize: 100 }, {});
+      if (result?.success && result.data) {
+        setTechnicianList(
+          (result.data as Technician[]).map((item) => ({
+            ID: item.ID,
+            EmployeeName: item.EmployeeName,
+            Phone: item.Phone,
+            Remark: item.Remark,
+          }))
+        );
+      }
+    } catch (_e) {
+      // 查询失败时留空列表，用户可选择"系统自动分配"
+    }
   };
 
   useEffect(() => {
     loadFaultType();
+    loadImpactOptions();
     loadEquipment();
+    loadTechnicians();
   }, []);
 
   // 处理扫码结果
   const handleScanResult = (data: string) => {
     setShowScanner(false);
-    let parts = data.split('_');
+    const parts = data.split('_');
     if (parts.length !== 2) {
       info(`无效的设备二维码！`);
       return;
@@ -144,45 +179,60 @@ const AddRepairOrder: React.FC = () => {
     return true;
   };
 
+  /** 构建提交数据（字段名与后端 InsertEmRepairOrderInput 对齐） */
+  const buildSubmitData = () => {
+    // 如果选择了停机，将停机信息追加到备注
+    const finalRemark = needShutdown
+      ? [remarks, '【维修需要停机】'].filter(Boolean).join('\n')
+      : remarks;
+
+    return {
+      EquipmentId: selectedEquipment,
+      FaultType: faultType,
+      Priority: priority,
+      Impact: impact,
+      FaultDesc: faultDescription.trim(),
+      ExpectedCompleteTime: expectedTime?.toISOString(),
+      AssignUserId: assignedTechnician || null,
+      Remark: finalRemark.trim() || null,
+    };
+  };
+
+  /** 执行提交 */
+  const doSubmit = async () => {
+    if (submitting) return;
+    setSubmitting(true);
+    try {
+      const payload = buildSubmitData();
+      const { Success } = await http.post<string>(
+        '/api/EmRepairOrder',
+        payload
+      );
+      if (Success) {
+        info('维修工单提交成功！');
+        router.back();
+      }
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   // 提交表单
   const handleSubmit = async () => {
     if (!validateForm()) return;
 
-    let data = {
-      EquipmentId: selectedEquipment,
-      faultType,
-      priority,
-      impact,
-      FaultDesc: faultDescription,
-      ExpectedCompleteTime: expectedTime,
-      remark: remarks,
-    };
     if (isWeb) {
       const confirmed = window.confirm('确认提交维修工单吗？');
-      if (confirmed) {
-        const { Success } = await http.post<any>('/api/EmRepairOrder', data);
-        if (Success) {
-          router.back();
-          info(`维修工单提交成功！`);
-        }
-      }
-    } else
+      if (confirmed) await doSubmit();
+    } else {
       Alert.alert('提交工单', '确认提交维修工单吗？', [
         { text: '取消', style: 'cancel' },
         {
           text: '确定',
-          onPress: async () => {
-            const { Success } = await http.post<any>(
-              '/api/EmRepairOrder',
-              data
-            );
-            if (Success) {
-              router.back();
-              info(`维修工单提交成功！`);
-            }
-          },
+          onPress: doSubmit,
         },
       ]);
+    }
   };
 
   // 如果显示扫码界面，渲染 QRCodeScanner
@@ -288,12 +338,12 @@ const AddRepairOrder: React.FC = () => {
                 </Text>
                 <View className="gap-2">
                   <View className="flex-row gap-2">
-                    {faultTypes.map((faultType1, index) => (
+                    {faultTypes.map((item, index) => (
                       <View className="flex-1" key={index}>
                         <RadioButton
-                          label={faultType1.label}
-                          selected={faultType === faultType1.value}
-                          onPress={() => setFaultType(faultType1.value)}
+                          label={item.label}
+                          selected={faultType === item.value}
+                          onPress={() => setFaultType(item.value)}
                         />
                       </View>
                     ))}
@@ -338,21 +388,28 @@ const AddRepairOrder: React.FC = () => {
                 影响程度 <Text className="text-red-500">*</Text>
               </Text>
               <View className="gap-2">
-                <RadioButton
-                  label="严重 - 停机"
-                  selected={impact === 'shutdown'}
-                  onPress={() => setImpact('shutdown')}
-                />
-                <RadioButton
-                  label="中等 - 性能下降"
-                  selected={impact === 'reduced'}
-                  onPress={() => setImpact('reduced')}
-                />
-                <RadioButton
-                  label="轻微 - 不影响生产"
-                  selected={impact === 'minor'}
-                  onPress={() => setImpact('minor')}
-                />
+                {impactOptions.length > 0
+                  ? impactOptions.map((item) => (
+                      <RadioButton
+                        key={item.value}
+                        label={item.label}
+                        selected={impact === item.value}
+                        onPress={() => setImpact(item.value)}
+                      />
+                    ))
+                  : // 后备：LOV 未返回时使用默认选项
+                    [
+                      { value: 'shutdown', label: '严重 - 停机' },
+                      { value: 'reduced', label: '中等 - 性能下降' },
+                      { value: 'minor', label: '轻微 - 不影响生产' },
+                    ].map((item) => (
+                      <RadioButton
+                        key={item.value}
+                        label={item.label}
+                        selected={impact === item.value}
+                        onPress={() => setImpact(item.value)}
+                      />
+                    ))}
               </View>
             </View>
 
@@ -369,6 +426,7 @@ const AddRepairOrder: React.FC = () => {
                 multiline
                 numberOfLines={4}
                 textAlignVertical="top"
+                maxLength={256}
                 className="rounded-lg border border-gray-300 px-4 py-3 text-sm text-gray-800 dark:border-neutral-600 dark:bg-neutral-700 dark:text-gray-100"
               />
               <View className="mt-1 flex-row items-center">
@@ -430,21 +488,11 @@ const AddRepairOrder: React.FC = () => {
               <Text className="mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                 期望完成时间 <Text className="text-red-500">*</Text>
               </Text>
-              <TouchableOpacity
-                // className="rounded-lg border border-gray-300 px-4 py-3 dark:border-neutral-600"
-                onPress={() => info('日期选择器开发中')}
-                activeOpacity={0.7}
-              >
-                {/* <Text
-                  className={`text-sm ${expectedTime ? 'text-gray-800 dark:text-gray-100' : 'text-gray-400 dark:text-gray-500'}`}
-                >
-                  {expectedTime || '请选择期望完成时间'}
-                </Text> */}
-                <DatePickerInput
-                  value={expectedTime}
-                  onChange={(date) => setExpectedTime(date)}
-                />
-              </TouchableOpacity>
+              <DatePickerInput
+                value={expectedTime}
+                onChange={(date) => setExpectedTime(date)}
+                mode="datetime"
+              />
             </View>
 
             {/* 指定维修人员 */}
@@ -480,19 +528,31 @@ const AddRepairOrder: React.FC = () => {
                   </TouchableOpacity>
                   {technicianList.map((technician) => (
                     <TouchableOpacity
-                      key={technician.id}
+                      key={technician.ID}
                       onPress={() => {
-                        setAssignedTechnician(technician.id);
+                        setAssignedTechnician(technician.ID);
                         setShowTechnicianPicker(false);
                       }}
-                      className={`border-b border-gray-100 p-3 dark:border-neutral-600 ${assignedTechnician === technician.id ? 'bg-blue-50 dark:bg-blue-950/30' : ''}`}
+                      className={`border-b border-gray-100 p-3 dark:border-neutral-600 ${assignedTechnician === technician.ID ? 'bg-blue-50 dark:bg-blue-950/30' : ''}`}
                       activeOpacity={0.7}
                     >
-                      <Text className="text-sm text-gray-800 dark:text-gray-100">
-                        {technician.name} - {technician.level}
+                      <Text className="text-sm font-medium text-gray-800 dark:text-gray-100">
+                        {technician.EmployeeName}
                       </Text>
+                      {technician.Phone && (
+                        <Text className="text-xs text-gray-500 dark:text-gray-400">
+                          {technician.Phone}
+                        </Text>
+                      )}
                     </TouchableOpacity>
                   ))}
+                  {technicianList.length === 0 && (
+                    <View className="p-3">
+                      <Text className="text-center text-sm text-gray-400 dark:text-gray-500">
+                        暂无维修人员数据
+                      </Text>
+                    </View>
+                  )}
                 </View>
               )}
             </View>
@@ -509,6 +569,7 @@ const AddRepairOrder: React.FC = () => {
                 placeholderTextColor="#9ca3af"
                 multiline
                 numberOfLines={3}
+                maxLength={300}
                 textAlignVertical="top"
                 className="rounded-lg border border-gray-300 px-4 py-3 text-sm text-gray-800 dark:border-neutral-600 dark:bg-neutral-700 dark:text-gray-100"
               />
@@ -547,23 +608,15 @@ const AddRepairOrder: React.FC = () => {
                 提交人
               </Text>
               <Text className="text-sm font-semibold text-gray-800 dark:text-gray-100">
-                张工程师
-              </Text>
-            </View>
-            <View className="flex-row justify-between border-b border-gray-100 py-2 dark:border-neutral-700">
-              <Text className="text-sm text-gray-500 dark:text-gray-400">
-                部门
-              </Text>
-              <Text className="text-sm font-semibold text-gray-800 dark:text-gray-100">
-                设备维修部
+                {userInfo?.UserName || '-'}
               </Text>
             </View>
             <View className="flex-row justify-between py-2">
               <Text className="text-sm text-gray-500 dark:text-gray-400">
-                联系方式
+                用户ID
               </Text>
               <Text className="text-sm font-semibold text-gray-800 dark:text-gray-100">
-                138****8888
+                {userInfo?.UserId || '-'}
               </Text>
             </View>
           </View>
@@ -601,14 +654,19 @@ const AddRepairOrder: React.FC = () => {
       >
         <View className="flex-row gap-3">
           <TouchableOpacity
-            className="flex-1 items-center rounded-lg bg-primary-500 py-3"
+            className={`flex-1 items-center rounded-lg py-3 ${submitting ? 'bg-primary-300' : 'bg-primary-500'}`}
             onPress={handleSubmit}
+            disabled={submitting}
             activeOpacity={0.7}
           >
-            <View className="flex-row items-center">
-              <FontAwesome name="paper-plane" size={16} color="white" />
-              <Text className="ml-2 font-semibold text-white">提交工单</Text>
-            </View>
+            {submitting ? (
+              <ActivityIndicator size="small" color="white" />
+            ) : (
+              <View className="flex-row items-center">
+                <FontAwesome name="paper-plane" size={16} color="white" />
+                <Text className="ml-2 font-semibold text-white">提交工单</Text>
+              </View>
+            )}
           </TouchableOpacity>
         </View>
       </View>

@@ -1,6 +1,6 @@
-import type { BottomTabNavigationOptions } from '@react-navigation/bottom-tabs';
 import { Redirect, SplashScreen, Tabs } from 'expo-router';
-import React, { type ComponentType, memo, useEffect, useMemo } from 'react';
+import type { BottomTabNavigationOptions } from 'expo-router/tabs';
+import { type ComponentType, memo, useEffect, useMemo } from 'react';
 
 import { useAuth, useIsFirstTime } from '@/lib';
 
@@ -96,6 +96,7 @@ export const TabLayout = memo(
               tabBarIcon: ({ focused }) => (
                 <IconWrapper IconComponent={icon} focused={focused} />
               ),
+              headerShadowVisible: false,
               tabBarButtonTestID: `${name}-tab`,
               ...options,
             }}

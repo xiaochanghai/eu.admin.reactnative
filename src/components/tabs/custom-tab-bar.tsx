@@ -1,5 +1,5 @@
-import type { BottomTabBarProps } from 'expo-router/build/react-navigation/bottom-tabs';
-import React, { memo, useCallback } from 'react';
+import type { BottomTabBarProps } from 'expo-router/tabs';
+import { memo, useCallback } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
