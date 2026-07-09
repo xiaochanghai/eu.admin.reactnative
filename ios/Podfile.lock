@@ -299,14 +299,18 @@ PODS:
   - hermes-engine (250829098.0.14):
     - hermes-engine/Pre-built (= 250829098.0.14)
   - hermes-engine/Pre-built (250829098.0.14)
+  - JCore (5.4.0)
   - JCoreRN (2.3.2):
     - React
-  - JPushRN (3.2.1):
+  - JPush (6.1.0):
+    - JCore (> 5.1.1)
+  - JPushRN (3.2.7):
+    - JPush (= 6.1.0)
     - React
-  - MMKVCore (2.2.4)
-  - NitroMmkv (4.0.1):
+  - MMKVCore (2.4.0)
+  - NitroMmkv (4.3.2):
     - hermes-engine
-    - MMKVCore (= 2.2.4)
+    - MMKVCore (= 2.4.0)
     - NitroModules
     - RCTRequired
     - RCTTypeSafety
@@ -329,7 +333,7 @@ PODS:
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
     - Yoga
-  - NitroModules (0.31.10):
+  - NitroModules (0.35.9):
     - hermes-engine
     - RCTRequired
     - RCTTypeSafety
@@ -1843,7 +1847,7 @@ PODS:
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
     - Yoga
-  - react-native-pdf (7.0.3):
+  - react-native-pdf (7.0.4):
     - hermes-engine
     - RCTRequired
     - RCTTypeSafety
@@ -1865,7 +1869,7 @@ PODS:
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
     - Yoga
-  - react-native-restart (0.0.27):
+  - react-native-restart (0.0.28):
     - React-Core
   - react-native-safe-area-context (5.7.0):
     - hermes-engine
@@ -2377,7 +2381,7 @@ PODS:
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
     - Yoga
-  - RNDeviceInfo (15.0.1):
+  - RNDeviceInfo (15.0.2):
     - React-Core
   - RNGestureHandler (2.32.0):
     - hermes-engine
@@ -2801,6 +2805,8 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - JCore
+    - JPush
     - MMKVCore
     - ReachabilitySwift
 
@@ -3111,11 +3117,13 @@ SPEC CHECKSUMS:
   EXUpdatesInterface: 492cdb30f3889cc35d9e737a4b5fc3aec39d1131
   FBLazyVector: b3e7ad108f0d882e30445c5527d774e3fd432f3d
   hermes-engine: 40841dcd4d20c43a927c5512900181c99f2d0382
+  JCore: 97f24c92979f9923ef5cfdbd626a29e9504215dd
   JCoreRN: d985de509185b381c177fde4bb6bfc686089fdbd
-  JPushRN: 807bc962b2f25860e5c0caa5fcb7b4910572b890
-  MMKVCore: f2dd4c9befea04277a55e84e7812f930537993df
-  NitroMmkv: 1cb82aa054c70759888c84b60a4a2ef5963b8d0b
-  NitroModules: 36c5d6bb6a3e21e38b1a3f47f5049d0d4a6d04b9
+  JPush: 891c497687be788b094bde368d51289355ee1112
+  JPushRN: 8d1ebd6800aee1b9faee8cc5d1e7f44d69516066
+  MMKVCore: 3d16ce9f7d411e135020915fde98a056859a1efa
+  NitroMmkv: 85a251e15c39d7c95fe58cf40786fa126b8d143c
+  NitroModules: 16bc17a076b12304d608f7c915b9d321f56dfc19
   RCTDeprecation: 2a74a2c57675e64419bd89078efde81f7c1de90b
   RCTRequired: 30451112e6fef4e6f31b4e7eee0845156e35e4b0
   RCTSwiftUI: 5aaf0b07e747ba749dc6acc94d8bd41eea4b570f
@@ -3156,8 +3164,8 @@ SPEC CHECKSUMS:
   React-mutationobservernativemodule: f0a0d5ae9b51caf7becbeabf836d716cfedb6bf2
   react-native-blob-util: 6e9ac06872baaa45300ac5ef4d84c2718d843f57
   react-native-keyboard-controller: d4796248609d4c03cd6b5f73a9fd083d7c5f33d6
-  react-native-pdf: 3eed580c9095b06c3e9042294eb987f68779fbce
-  react-native-restart: 0bc732f4461709022a742bb29bcccf6bbc5b4863
+  react-native-pdf: 2bc0989bc44ef7e5221c49c0f1bb464a2c27640b
+  react-native-restart: f2a57ccec2e6481deb1f19958ac60c0813313784
   react-native-safe-area-context: 6b4966397ada0f7dd481e4486a2ef936834861a1
   react-native-webview: 2da09bdea1aeb6c46e27dd94632e21059cade6c1
   React-NativeModulesApple: a092d89b58f635ebfab88048b0eda9fb516819fd
@@ -3196,7 +3204,7 @@ SPEC CHECKSUMS:
   ReactCommon: d5c1bb4427bf51c443de5926aac332c89ddd9363
   ReactNativeDependencies: fa0a54b3f5319ae0e3b9aff32bfee7a424b88e66
   RNCMaskedView: eb2b2e538afa907f05a5848a1a1ac26092e6fec9
-  RNDeviceInfo: 36d7f232bfe7c9b5c494cb7793230424ed32c388
+  RNDeviceInfo: 4c852998208b60dc192ae3529e5867817719ad1e
   RNGestureHandler: 92172e79df6e88e0e93b6341f9dcd8b5a02746ba
   RNReanimated: a9bf68fb5f19ce1c363b7d1413dcf8ee323185b8
   RNScreens: f94000b3cb1eb14cbb8d08dd6074fdd6ccf0e6b0

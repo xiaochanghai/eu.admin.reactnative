@@ -1,9 +1,9 @@
 internal import Expo
 import React
+import ReactAppDependencyProvider
 // @generated begin jpush-swift-import-usernotifications - expo prebuild (DO NOT MODIFY) sync-768cde893f7334c1cbf88f4f0a878cfb3548fdbe
 import UserNotifications
 // @generated end jpush-swift-import-usernotifications
-import ReactAppDependencyProvider
 
 @main
 class AppDelegate: ExpoAppDelegate {
@@ -30,7 +30,8 @@ class AppDelegate: ExpoAppDelegate {
       in: window,
       launchOptions: launchOptions)
 #endif
-// @generated begin jpush-swift-initialization - expo prebuild (DO NOT MODIFY) sync-eaf7b2d6f0eb8270215d82726df01bc2660a6f11
+
+// @generated begin jpush-swift-initialization - expo prebuild (DO NOT MODIFY) sync-f2466d2721650a20f81fa09cdbb285913c1a7327
 
     // JPush 注册配置
     let entity = JPUSHRegisterEntity()
@@ -46,14 +47,21 @@ class AppDelegate: ExpoAppDelegate {
     }
     JPUSHService.register(forRemoteNotificationConfig: entity, delegate: self)
 
+    #if DEBUG
     // 开启调试模式
     JPUSHService.setDebugMode()
+    #endif
+
+    let appKey = Bundle.main.object(forInfoDictionaryKey: "JPUSH_APPKEY") as? String ?? ""
+    let channel = Bundle.main.object(forInfoDictionaryKey: "JPUSH_CHANNEL") as? String ?? ""
+    let apsForProduction =
+      (Bundle.main.object(forInfoDictionaryKey: "JPUSH_APS_FOR_PRODUCTION") as? NSNumber)?.boolValue ?? false
 
     // 初始化 JPush
     JPUSHService.setup(withOption: launchOptions,
-                       appKey: "acb8dfd7a7a771f3710d143c",
-                       channel: "production",
-                       apsForProduction: true)
+                       appKey: appKey,
+                       channel: channel,
+                       apsForProduction: apsForProduction)
 
     // 监听自定义消息
     NotificationCenter.default.addObserver(
@@ -62,9 +70,7 @@ class AppDelegate: ExpoAppDelegate {
       name: NSNotification.Name.jpfNetworkDidReceiveMessage,
       object: nil
     )
-
 // @generated end jpush-swift-initialization
-
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
 
@@ -76,29 +82,6 @@ class AppDelegate: ExpoAppDelegate {
   ) -> Bool {
     return super.application(app, open: url, options: options) || RCTLinkingManager.application(app, open: url, options: options)
   }
-// @generated begin jpush-swift-remote-notification-methods - expo prebuild (DO NOT MODIFY) sync-4f3c6a094ada6e1279c7e6dd249a97258a9e0d4a
-
-  public override func application(_ application: UIApplication,
-                                  didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-    print("🎉 成功获取 deviceToken: \(deviceToken)")
-
-    // 将 deviceToken 转换为字符串格式
-    let tokenParts = deviceToken.map { data in String(format: "%02.2hhx", data) }
-    let token = tokenParts.joined()
-    print("📱 deviceToken (String): \(token)")
-
-    // 注册到 JPush
-    JPUSHService.registerDeviceToken(deviceToken)
-
-    return super.application(application, didRegisterForRemoteNotificationsWithDeviceToken: deviceToken)
-  }
-
-  public override func application(_ application: UIApplication,
-                                  didFailToRegisterForRemoteNotificationsWithError error: Error) {
-    print("❌ 注册推送通知失败: \(error.localizedDescription)")
-    return super.application(application, didFailToRegisterForRemoteNotificationsWithError: error)
-  }
-// @generated end jpush-swift-remote-notification-methods
 
   // Universal Links
   public override func application(
@@ -109,10 +92,53 @@ class AppDelegate: ExpoAppDelegate {
     let result = RCTLinkingManager.application(application, continue: userActivity, restorationHandler: restorationHandler)
     return super.application(application, continue: userActivity, restorationHandler: restorationHandler) || result
   }
+// @generated begin jpush-swift-remote-notification-methods - expo prebuild (DO NOT MODIFY) sync-499e6a0478591f501114b3a2b5801ca807d0c9cb
+
+  public override func application(_ application: UIApplication,
+                                  didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+    #if DEBUG
+    print("🎉 成功获取 deviceToken: \(deviceToken)")
+
+    // 将 deviceToken 转换为字符串格式
+    let tokenParts = deviceToken.map { data in String(format: "%02.2hhx", data) }
+    let token = tokenParts.joined()
+    print("📱 deviceToken (String): \(token)")
+    #endif
+
+    // 注册到 JPush
+    JPUSHService.registerDeviceToken(deviceToken)
+
+    return super.application(application, didRegisterForRemoteNotificationsWithDeviceToken: deviceToken)
+  }
+
+  public override func application(_ application: UIApplication,
+                                  didFailToRegisterForRemoteNotificationsWithError error: Error) {
+    #if DEBUG
+    print("❌ 注册推送通知失败: \(error.localizedDescription)")
+    #endif
+    return super.application(application, didFailToRegisterForRemoteNotificationsWithError: error)
+  }
+// @generated end jpush-swift-remote-notification-methods
 }
 
-// @generated begin jpush-swift-delegate-extension - expo prebuild (DO NOT MODIFY) sync-2ecb0c57f3b74b2917bae086934a171a891c9fc6
+class ReactNativeDelegate: ExpoReactNativeFactoryDelegate {
+  // Extension point for config-plugins
 
+  override func sourceURL(for bridge: RCTBridge) -> URL? {
+    // needed to return the correct URL for expo-dev-client.
+    bridge.bundleURL ?? bundleURL()
+  }
+
+  override func bundleURL() -> URL? {
+#if DEBUG
+    return RCTBundleURLProvider.sharedSettings().jsBundleURL(forBundleRoot: ".expo/.virtual-metro-entry")
+#else
+    return Bundle.main.url(forResource: "main", withExtension: "jsbundle")
+#endif
+  }
+}
+
+// @generated begin jpush-swift-delegate-extension - expo prebuild (DO NOT MODIFY) sync-4c7990482bb689be334f86fb4457da6cbae24de3
 extension AppDelegate: JPUSHRegisterDelegate {
 
   @objc public func jpushNotificationCenter(_ center: UNUserNotificationCenter,
@@ -123,7 +149,9 @@ extension AppDelegate: JPUSHRegisterDelegate {
     if notification.request.trigger is UNPushNotificationTrigger {
       // 处理远程推送
       JPUSHService.handleRemoteNotification(userInfo)
-      print("iOS10 收到远程通知: (userInfo)")
+      #if DEBUG
+      print("iOS10 收到远程通知: \(userInfo)")
+      #endif
       NotificationCenter.default.post(
         name: NSNotification.Name("J_APNS_NOTIFICATION_ARRIVED_EVENT"),
         object: userInfo
@@ -145,7 +173,9 @@ extension AppDelegate: JPUSHRegisterDelegate {
     if response.notification.request.trigger is UNPushNotificationTrigger {
       // 处理远程推送点击
       JPUSHService.handleRemoteNotification(userInfo)
-      print("iOS10 用户点击了远程通知: (userInfo)")
+      #if DEBUG
+      print("iOS10 用户点击了远程通知: \(userInfo)")
+      #endif
       NotificationCenter.default.post(
         name: NSNotification.Name("J_APNS_NOTIFICATION_OPENED_EVENT"),
         object: userInfo
@@ -160,40 +190,29 @@ extension AppDelegate: JPUSHRegisterDelegate {
     let userInfo = notification.userInfo
     guard let _ = userInfo else { return }
 
-    print("收到自定义消息: (userInfo!)")
+    #if DEBUG
+    print("收到自定义消息: \(String(describing: userInfo))")
+    #endif
     NotificationCenter.default.post(
       name: NSNotification.Name("J_CUSTOM_NOTIFICATION_EVENT"),
       object: userInfo
     )
   }
-  
+
   // 通知设置
-  @objc public func jpushNotificationCenter(_ center: UNUserNotificationCenter, 
+  @objc public func jpushNotificationCenter(_ center: UNUserNotificationCenter,
                                            openSettingsFor notification: UNNotification?) {
+    #if DEBUG
     print("打开通知设置")
+    #endif
   }
-  
+
   // 授权状态
-  @objc public func jpushNotificationAuthorization(_ status: JPAuthorizationStatus, 
+  @objc public func jpushNotificationAuthorization(_ status: JPAuthorizationStatus,
                                                    withInfo info: [AnyHashable : Any]?) {
-    print("receive notification authorization status:(status.rawValue), info:(String(describing: info))")
+    #if DEBUG
+    print("receive notification authorization status:\(status.rawValue), info:\(String(describing: info))")
+    #endif
   }
 }
-
 // @generated end jpush-swift-delegate-extension
-class ReactNativeDelegate: ExpoReactNativeFactoryDelegate {
-  // Extension point for config-plugins
-
-  override func sourceURL(for bridge: RCTBridge) -> URL? {
-    // needed to return the correct URL for expo-dev-client.
-    bridge.bundleURL ?? bundleURL()
-  }
-
-  override func bundleURL() -> URL? {
-#if DEBUG
-    return RCTBundleURLProvider.sharedSettings().jsBundleURL(forBundleRoot: ".expo/.virtual-metro-entry")
-#else
-    return Bundle.main.url(forResource: "main", withExtension: "jsbundle")
-#endif
-  }
-}
