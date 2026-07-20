@@ -38,7 +38,7 @@ require('dotenv').config({
 const BUNDLE_ID = 'com.eucloud.erp'; // ios bundle id
 const PACKAGE = 'com.eucloud.erp'; // android package name
 const NAME = '优智云'; // app name
-const EXPO_ACCOUNT_OWNER = 'hsiaosah'; // expo account owner
+const EXPO_ACCOUNT_OWNER = 'eu-cloud'; // expo account owner
 const EAS_PROJECT_ID = '9d0f9588-d00f-40cf-a15c-ffd7e8bc7654'; // eas project id
 const SCHEME = 'eucloud'; // app scheme
 const BUILD_NUMBER = 2; // build number for both iOS and Android

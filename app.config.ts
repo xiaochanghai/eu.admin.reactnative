@@ -64,6 +64,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     },
     package: Env.PACKAGE,
     versionCode: Env.BUILD_NUMBER,
+    permissions: ['REQUEST_INSTALL_PACKAGES'],
     // runtimeVersion: {
     //   policy: 'appVersion',
     // },
