@@ -34,20 +34,26 @@ export default function Settings() {
           leftShown={false}
           right={
             <Link href={`/settings`}>
-              <FontAwesome name="cog" size={22} color="#666" />
+              <View className="size-10 items-center justify-center rounded-full">
+                <FontAwesome name="cog" size={20} color="#6b7280" />
+              </View>
             </Link>
           }
         />
 
-        <ScrollView className="flex-1 px-4 pb-[86px]">
+        <ScrollView
+          className="flex-1"
+          contentContainerStyle={{ padding: 16, paddingBottom: 32 }}
+          showsVerticalScrollIndicator={false}
+        >
           {/* 用户信息卡片 */}
-          <View className="mt-4 rounded-2xl bg-white p-5 shadow-md dark:bg-neutral-800">
+          <View className="rounded-2xl border border-gray-200/80 bg-white p-5 dark:border-neutral-800 dark:bg-neutral-900">
             <View className="flex-row items-center">
               <Image
                 source={{
                   uri: avatarFileUrl,
                 }}
-                className="mr-4 size-20 rounded-full border-4 border-white shadow dark:border-neutral-700"
+                className="mr-4 size-[72px] rounded-2xl border border-gray-100 dark:border-neutral-700"
               />
               <View className="flex-1">
                 <Text className="text-xl font-bold dark:text-gray-100">
@@ -57,12 +63,12 @@ export default function Settings() {
                   生产部门 · 经理
                 </Text>
                 <View className="mt-2 flex-row">
-                  <View className="rounded-xl bg-blue-100 px-3 py-1 dark:bg-blue-900/50">
-                    <Text className="text-xs font-medium text-blue-800 dark:text-blue-300">
+                  <View className="dark:bg-primary-950/40 rounded-full bg-primary-50 px-3 py-1">
+                    <Text className="text-xs font-medium text-primary-700 dark:text-primary-300">
                       管理员
                     </Text>
                   </View>
-                  <View className="ml-2 rounded-xl bg-green-100 px-3 py-1 dark:bg-green-900/50">
+                  <View className="ml-2 rounded-full bg-emerald-50 px-3 py-1 dark:bg-emerald-900/30">
                     <Text className="text-xs font-medium text-green-800 dark:text-green-300">
                       已认证
                     </Text>
@@ -96,7 +102,7 @@ export default function Settings() {
           </View>
 
           {/* 功能菜单 */}
-          <View className="mt-5 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
+          <View className="mt-3 rounded-2xl border border-gray-200/80 bg-white p-4 dark:border-neutral-800 dark:bg-neutral-900">
             {Env.APP_ENV === 'development' && (
               <SettingItem
                 icon="user-edit"
@@ -142,20 +148,20 @@ export default function Settings() {
           </View>
 
           {/* 工作统计 */}
-          <View className="mt-5 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
-            <Text className="mb-4 text-lg font-semibold dark:text-gray-100">
+          <View className="mt-3 rounded-2xl border border-gray-200/80 bg-white p-5 dark:border-neutral-800 dark:bg-neutral-900">
+            <Text className="mb-4 text-base font-bold dark:text-gray-100">
               工作统计
             </Text>
             <View className="mt-1">
-              <ProgressBar label="本月任务完成率" value={85} color="#3b82f6" />
-              <ProgressBar label="生产计划执行率" value={92} color="#22c55e" />
-              <ProgressBar label="质检合格率" value={98} color="#a855f7" />
+              <ProgressBar label="本月任务完成率" value={85} color="#543EF8" />
+              <ProgressBar label="生产计划执行率" value={92} color="#543EF8" />
+              <ProgressBar label="质检合格率" value={98} color="#543EF8" />
             </View>
           </View>
 
           {/* 退出登录按钮 */}
           <TouchableOpacity
-            className="mb-8 mt-6 items-center rounded-xl border border-gray-200 bg-white py-3.5 shadow-sm dark:border-neutral-700 dark:bg-neutral-800"
+            className="mt-3 min-h-[48px] items-center justify-center rounded-xl border border-red-200 bg-white dark:border-red-900/50 dark:bg-neutral-900"
             onPress={() => setShowLogoutConfirm(true)}
           >
             <Text
@@ -194,7 +200,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ label, value, color }) => (
       <Text className="text-sm dark:text-gray-100">{label}</Text>
       <Text className="text-sm font-medium dark:text-gray-100">{value}%</Text>
     </View>
-    <View className="h-3 overflow-hidden rounded-full bg-gray-100 dark:bg-neutral-700">
+    <View className="h-2 overflow-hidden rounded-full bg-gray-100 dark:bg-neutral-800">
       <View
         className="h-full rounded-full"
         style={{ width: `${value}%`, backgroundColor: color }}

@@ -22,9 +22,9 @@ const ActivityItem: React.FC<ActivityItemProps> = ({
   subtitle,
   time,
 }) => (
-  <View className="mb-4 flex-row items-start">
+  <View className="flex-row items-start border-b border-gray-100 py-3.5 last:border-b-0 dark:border-neutral-800">
     <View
-      className="mr-3 size-9 items-center justify-center rounded-lg"
+      className="mr-3 size-9 items-center justify-center rounded-xl"
       style={{ backgroundColor: iconBgColor }}
     >
       <FontAwesome name={icon as any} size={16} color="white" />
@@ -57,9 +57,13 @@ const ModuleItem: React.FC<ModuleItemProps> = ({
   title,
   onPress,
 }) => (
-  <TouchableOpacity className="mb-4 w-[23%] items-center" onPress={onPress}>
+  <TouchableOpacity
+    className="mb-5 w-[23%] items-center"
+    onPress={onPress}
+    activeOpacity={0.65}
+  >
     <View
-      className="mb-2 size-[50px] items-center justify-center rounded-xl"
+      className="mb-2 size-12 items-center justify-center rounded-2xl"
       style={{ backgroundColor: bgColor }}
     >
       <FontAwesome name={icon as any} size={24} color="white" />
@@ -87,22 +91,26 @@ const Home: React.FC = () => {
         leftShown={false}
         right={
           <TouchableOpacity
-            className="relative"
+            className="relative size-10 items-center justify-center rounded-full"
             onPress={() => router.push('/notification')}
           >
             <FontAwesome name="bell" size={20} color="#6b7280" />
-            <View className="absolute -right-[5px] -top-[5px] size-4 items-center justify-center rounded-full bg-red-500">
+            <View className="absolute -right-1 -top-1 size-4 items-center justify-center rounded-full bg-red-500">
               <Text className="text-[10px] font-bold text-white">3</Text>
             </View>
           </TouchableOpacity>
         }
       />
 
-      <ScrollView className="flex-1 p-4" showsVerticalScrollIndicator={false}>
+      <ScrollView
+        className="flex-1"
+        contentContainerStyle={{ padding: 16, paddingBottom: 32 }}
+        showsVerticalScrollIndicator={false}
+      >
         {/* 欢迎信息 */}
         {userInfo?.WeekName && (
-          <View className="mb-6">
-            <Text className="text-2xl font-bold text-gray-800 dark:text-gray-100">
+          <View className="mb-5 px-1">
+            <Text className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
               你好，{userInfo?.UserName}
             </Text>
             <Text className="mt-1 text-sm text-gray-500 dark:text-gray-400">
@@ -112,52 +120,56 @@ const Home: React.FC = () => {
         )}
 
         {/* 数据概览 */}
-        <View className="mb-6 flex-row flex-wrap justify-between">
-          <View className="mb-3 w-[48%] rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
-            <Text className="text-sm text-gray-500 dark:text-gray-400">
-              今日订单
-            </Text>
-            <Text className="mt-2 text-2xl font-bold text-blue-600 dark:text-blue-400">
-              28
-            </Text>
-            <Text className="mt-1 text-xs text-green-500">↑ 12.5%</Text>
+        <View className="mb-3 overflow-hidden rounded-2xl border border-gray-200/80 bg-white dark:border-neutral-800 dark:bg-neutral-900">
+          <View className="flex-row border-b border-gray-100 dark:border-neutral-800">
+            <View className="flex-1 border-r border-gray-100 p-4 dark:border-neutral-800">
+              <Text className="text-sm text-gray-500 dark:text-gray-400">
+                今日订单
+              </Text>
+              <Text className="mt-2 text-2xl font-bold text-primary-600 dark:text-primary-400">
+                28
+              </Text>
+              <Text className="mt-1 text-xs text-green-500">↑ 12.5%</Text>
+            </View>
+            <View className="flex-1 p-4">
+              <Text className="text-sm text-gray-500 dark:text-gray-400">
+                生产任务
+              </Text>
+              <Text className="mt-2 text-2xl font-bold text-gray-900 dark:text-white">
+                15
+              </Text>
+              <Text className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                进行中: 8
+              </Text>
+            </View>
           </View>
-          <View className="mb-3 w-[48%] rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
-            <Text className="text-sm text-gray-500 dark:text-gray-400">
-              生产任务
-            </Text>
-            <Text className="mt-2 text-2xl font-bold text-orange-500 dark:text-orange-400">
-              15
-            </Text>
-            <Text className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-              进行中: 8
-            </Text>
-          </View>
-          <View className="mb-3 w-[48%] rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
-            <Text className="text-sm text-gray-500 dark:text-gray-400">
-              库存预警
-            </Text>
-            <Text className="mt-2 text-2xl font-bold text-red-500 dark:text-red-400">
-              3
-            </Text>
-            <Text className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-              点击查看详情
-            </Text>
-          </View>
-          <View className="mb-3 w-[48%] rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
-            <Text className="text-sm text-gray-500 dark:text-gray-400">
-              质检合格率
-            </Text>
-            <Text className="mt-2 text-2xl font-bold text-green-500 dark:text-green-400">
-              98.5%
-            </Text>
-            <Text className="mt-1 text-xs text-green-500">↑ 1.2%</Text>
+          <View className="flex-row">
+            <View className="flex-1 border-r border-gray-100 p-4 dark:border-neutral-800">
+              <Text className="text-sm text-gray-500 dark:text-gray-400">
+                库存预警
+              </Text>
+              <Text className="mt-2 text-2xl font-bold text-red-500 dark:text-red-400">
+                3
+              </Text>
+              <Text className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                点击查看详情
+              </Text>
+            </View>
+            <View className="flex-1 p-4">
+              <Text className="text-sm text-gray-500 dark:text-gray-400">
+                质检合格率
+              </Text>
+              <Text className="mt-2 text-2xl font-bold text-gray-900 dark:text-white">
+                98.5%
+              </Text>
+              <Text className="mt-1 text-xs text-green-500">↑ 1.2%</Text>
+            </View>
           </View>
         </View>
 
         {/* 功能模块 */}
-        <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
-          <Text className="mb-4 text-lg font-semibold dark:text-gray-100">
+        <View className="mb-3 rounded-2xl border border-gray-200/80 bg-white p-4 dark:border-neutral-800 dark:bg-neutral-900">
+          <Text className="mb-5 text-base font-bold dark:text-gray-100">
             功能模块
           </Text>
           <View className="flex-row flex-wrap justify-between">
@@ -169,7 +181,7 @@ const Home: React.FC = () => {
             />
             <ModuleItem
               icon="cogs"
-              bgColor="#3b82f6"
+               bgColor="#3b82f6"
               title="生产管理"
               onPress={() => router.push('/production')}
             />
@@ -231,13 +243,13 @@ const Home: React.FC = () => {
         </View>
 
         {/* 最近活动 */}
-        <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
+        <View className="rounded-2xl border border-gray-200/80 bg-white p-4 dark:border-neutral-800 dark:bg-neutral-900">
           <View className="mb-4 flex-row items-center justify-between">
-            <Text className="text-lg font-semibold dark:text-gray-100">
+            <Text className="text-base font-bold dark:text-gray-100">
               最近活动
             </Text>
             <TouchableOpacity>
-              <Text className="text-sm text-blue-600 dark:text-blue-400">
+              <Text className="text-sm font-medium text-primary-600 dark:text-primary-400">
                 查看全部
               </Text>
             </TouchableOpacity>
@@ -266,9 +278,6 @@ const Home: React.FC = () => {
             />
           </View>
         </View>
-
-        {/* 底部空间 - 为底部导航留出空间 */}
-        <View className="h-[70px]" />
       </ScrollView>
     </View>
   );

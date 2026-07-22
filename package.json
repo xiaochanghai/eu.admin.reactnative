@@ -45,6 +45,7 @@
     "install-maestro": "curl -Ls 'https://get.maestro.mobile.dev' | bash",
     "e2e-test": "maestro test .maestro/ -e APP_ID=com.obytes.development",
     "update:prod": "cross-env APP_ENV=production eas update --channel production --message \"prod-$(date +%Y%m%d%H%M)\"",
+    "update:staging": "cross-env APP_ENV=staging EXPO_NO_DOTENV=1 eas update --channel staging --message \"staging-202607201114\"",
     "update:dev": "cross-env APP_ENV=development eas update --channel development --message \"dev-$(date +%Y%m%d%H%M)\""
   },
   "dependencies": {
@@ -79,8 +80,8 @@
     "expo-system-ui": "~57.0.0",
     "expo-updates": "^57.0.6",
     "i18next": "^23.14.0",
-    "jcore-react-native": "^2.3.2",
-    "jpush-react-native": "^3.2.7",
+    "jcore-react-native": "2.3.0",
+    "jpush-react-native": "3.1.9",
     "lodash.memoize": "^4.1.2",
     "moti": "^0.29.0",
     "mx-jpush-expo": "^1.3.0",

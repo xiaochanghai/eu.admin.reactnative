@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 
 import { NavHeader, SafeAreaView } from '@/components/ui';
+import colors from '@/components/ui/colors';
 import { FontAwesome } from '@/components/ui/icons';
 import { useAppColorScheme } from '@/lib';
 
@@ -21,18 +22,10 @@ const ProductionPlanDetail = () => {
         right={
           <>
             <TouchableOpacity className="mr-4">
-              <FontAwesome
-                name="share-alt"
-                size={18}
-                color={isDark ? '#9ca3af' : '#4b5563'}
-              />
+              <FontAwesome name="share-alt" size={18} color={colors.white} />
             </TouchableOpacity>
             <TouchableOpacity>
-              <FontAwesome
-                name="ellipsis-v"
-                size={18}
-                color={isDark ? '#9ca3af' : '#4b5563'}
-              />
+              <FontAwesome name="ellipsis-v" size={18} color={colors.white} />
             </TouchableOpacity>
           </>
         }
@@ -40,13 +33,13 @@ const ProductionPlanDetail = () => {
 
       <ScrollView className="mb-20 flex-1 p-4">
         {/* 计划基本信息 */}
-        <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
+        <View className="mb-4 rounded-2xl border border-gray-100 bg-white p-4 dark:border-gray-800 dark:bg-gray-800">
           <View className="mb-3 flex-row items-start justify-between">
             <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">
               智能手表主板生产计划
             </Text>
-            <View className="rounded-full bg-purple-100 px-2 py-1 dark:bg-purple-900/30">
-              <Text className="text-xs font-medium text-purple-800 dark:text-purple-300">
+            <View className="rounded-full bg-primary-100 px-2 py-1 dark:bg-primary-900/30">
+              <Text className="text-xs font-medium text-primary-800 dark:text-primary-300">
                 进行中
               </Text>
             </View>
@@ -97,7 +90,7 @@ const ProductionPlanDetail = () => {
               <Text className="mb-1 text-xs text-gray-500 dark:text-gray-400">
                 已完成
               </Text>
-              <Text className="text-sm font-medium text-blue-600 dark:text-blue-400">
+              <Text className="text-sm font-medium text-primary-600 dark:text-primary-400">
                 650件 (65%)
               </Text>
             </View>
@@ -109,11 +102,14 @@ const ProductionPlanDetail = () => {
               <Text className="text-gray-900 dark:text-gray-100">65%</Text>
             </View>
             <View className="h-1.5 overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700">
-              <View className="h-full bg-blue-600" style={{ width: '65%' }} />
+              <View
+                className="h-full bg-primary-600"
+                style={{ width: '65%' }}
+              />
             </View>
           </View>
 
-          <View className="rounded-lg bg-blue-50 p-3 dark:bg-blue-900/20">
+          <View className="rounded-xl bg-primary-50 p-3 dark:bg-primary-900/20">
             <Text className="mb-1 text-xs text-gray-500 dark:text-gray-400">
               计划描述
             </Text>
@@ -130,7 +126,7 @@ const ProductionPlanDetail = () => {
             onPress={() => handleTabChange('plan-details')}
           >
             <Text
-              className={`text-center text-sm ${activeTab === 'plan-details' ? 'font-medium text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-300'}`}
+              className={`text-center text-sm ${activeTab === 'plan-details' ? 'font-medium text-primary-600 dark:text-primary-400' : 'text-gray-600 dark:text-gray-300'}`}
             >
               计划详情
             </Text>
@@ -140,7 +136,7 @@ const ProductionPlanDetail = () => {
             onPress={() => handleTabChange('production-progress')}
           >
             <Text
-              className={`text-center text-sm ${activeTab === 'production-progress' ? 'font-medium text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-300'}`}
+              className={`text-center text-sm ${activeTab === 'production-progress' ? 'font-medium text-primary-600 dark:text-primary-400' : 'text-gray-600 dark:text-gray-300'}`}
             >
               生产进度
             </Text>
@@ -150,7 +146,7 @@ const ProductionPlanDetail = () => {
             onPress={() => handleTabChange('material-info')}
           >
             <Text
-              className={`text-center text-sm ${activeTab === 'material-info' ? 'font-medium text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-300'}`}
+              className={`text-center text-sm ${activeTab === 'material-info' ? 'font-medium text-primary-600 dark:text-primary-400' : 'text-gray-600 dark:text-gray-300'}`}
             >
               物料信息
             </Text>
@@ -160,7 +156,7 @@ const ProductionPlanDetail = () => {
             onPress={() => handleTabChange('team-info')}
           >
             <Text
-              className={`text-center text-sm ${activeTab === 'team-info' ? 'font-medium text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-300'}`}
+              className={`text-center text-sm ${activeTab === 'team-info' ? 'font-medium text-primary-600 dark:text-primary-400' : 'text-gray-600 dark:text-gray-300'}`}
             >
               团队信息
             </Text>
@@ -170,7 +166,7 @@ const ProductionPlanDetail = () => {
         {/* 选项卡内容区域 */}
         {/* 计划详情 */}
         {activeTab === 'plan-details' && (
-          <View className="rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
+          <View className="rounded-2xl border border-gray-100 bg-white p-4 dark:border-gray-800 dark:bg-gray-800">
             <Text className="mb-3 text-base font-medium text-gray-900 dark:text-gray-100">
               工序安排
             </Text>
@@ -221,8 +217,8 @@ const ProductionPlanDetail = () => {
                 <Text className="font-medium text-gray-900 dark:text-gray-100">
                   SMT贴片
                 </Text>
-                <View className="rounded-full bg-purple-100 px-2 py-1 dark:bg-purple-900/30">
-                  <Text className="text-xs font-medium text-purple-800 dark:text-purple-300">
+                <View className="rounded-full bg-primary-100 px-2 py-1 dark:bg-primary-900/30">
+                  <Text className="text-xs font-medium text-primary-800 dark:text-primary-300">
                     进行中
                   </Text>
                 </View>
@@ -299,7 +295,7 @@ const ProductionPlanDetail = () => {
 
         {/* 生产进度 */}
         {activeTab === 'production-progress' && (
-          <View className="rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
+          <View className="rounded-2xl border border-gray-100 bg-white p-4 dark:border-gray-800 dark:bg-gray-800">
             <Text className="mb-3 text-base font-medium text-gray-900 dark:text-gray-100">
               生产进度概览
             </Text>
@@ -312,7 +308,10 @@ const ProductionPlanDetail = () => {
                 <Text className="text-gray-900 dark:text-gray-100">65%</Text>
               </View>
               <View className="h-1.5 overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700">
-                <View className="h-full bg-blue-600" style={{ width: '65%' }} />
+                <View
+                  className="h-full bg-primary-600"
+                  style={{ width: '65%' }}
+                />
               </View>
             </View>
 
@@ -326,7 +325,7 @@ const ProductionPlanDetail = () => {
                 </Text>
               </View>
               <View className="items-center">
-                <Text className="text-xl font-bold text-blue-600 dark:text-blue-400">
+                <Text className="text-xl font-bold text-primary-600 dark:text-primary-400">
                   65%
                 </Text>
                 <Text className="text-xs text-gray-500 dark:text-gray-400">
@@ -347,7 +346,7 @@ const ProductionPlanDetail = () => {
 
             {/* 时间线项目 */}
             <View className="relative mb-4 pl-7">
-              <View className="absolute left-2 top-1 size-2.5 rounded-full bg-blue-600" />
+              <View className="absolute left-2 top-1 size-2.5 rounded-full bg-primary-600" />
               <View className="absolute bottom-0 left-3 top-4 w-0.5 bg-gray-200 dark:bg-gray-600" />
               <Text className="text-sm font-medium text-gray-900 dark:text-gray-100">
                 计划创建
@@ -358,7 +357,7 @@ const ProductionPlanDetail = () => {
             </View>
 
             <View className="relative mb-4 pl-7">
-              <View className="absolute left-2 top-1 size-2.5 rounded-full bg-blue-600" />
+              <View className="absolute left-2 top-1 size-2.5 rounded-full bg-primary-600" />
               <View className="absolute bottom-0 left-3 top-4 w-0.5 bg-gray-200 dark:bg-gray-600" />
               <Text className="text-sm font-medium text-gray-900 dark:text-gray-100">
                 物料准备完成
@@ -369,7 +368,7 @@ const ProductionPlanDetail = () => {
             </View>
 
             <View className="relative mb-4 pl-7">
-              <View className="absolute left-2 top-1 size-2.5 rounded-full bg-blue-600" />
+              <View className="absolute left-2 top-1 size-2.5 rounded-full bg-primary-600" />
               <View className="absolute bottom-0 left-3 top-4 w-0.5 bg-gray-200 dark:bg-gray-600" />
               <Text className="text-sm font-medium text-gray-900 dark:text-gray-100">
                 PCB制板开始
@@ -380,7 +379,7 @@ const ProductionPlanDetail = () => {
             </View>
 
             <View className="relative mb-4 pl-7">
-              <View className="absolute left-2 top-1 size-2.5 rounded-full bg-blue-600" />
+              <View className="absolute left-2 top-1 size-2.5 rounded-full bg-primary-600" />
               <View className="absolute bottom-0 left-3 top-4 w-0.5 bg-gray-200 dark:bg-gray-600" />
               <Text className="text-sm font-medium text-gray-900 dark:text-gray-100">
                 PCB制板完成
@@ -391,7 +390,7 @@ const ProductionPlanDetail = () => {
             </View>
 
             <View className="relative mb-4 pl-7">
-              <View className="absolute left-2 top-1 size-2.5 rounded-full bg-blue-600" />
+              <View className="absolute left-2 top-1 size-2.5 rounded-full bg-primary-600" />
               <View className="absolute bottom-0 left-3 top-4 w-0.5 bg-gray-200 dark:bg-gray-600" />
               <Text className="text-sm font-medium text-gray-900 dark:text-gray-100">
                 SMT贴片开始
@@ -402,7 +401,7 @@ const ProductionPlanDetail = () => {
             </View>
 
             <View className="relative mb-4 pl-7">
-              <View className="absolute left-2 top-1 size-2.5 rounded-full bg-blue-600" />
+              <View className="absolute left-2 top-1 size-2.5 rounded-full bg-primary-600" />
               <View className="absolute bottom-0 left-3 top-4 w-0.5 bg-gray-200 dark:bg-gray-600" />
               <Text className="text-sm font-medium text-gray-900 dark:text-gray-100">
                 SMT贴片进行中
@@ -410,7 +409,7 @@ const ProductionPlanDetail = () => {
               <Text className="text-xs text-gray-500 dark:text-gray-400">
                 2023-12-05 14:30
               </Text>
-              <Text className="mt-1 text-xs text-blue-600 dark:text-blue-400">
+              <Text className="mt-1 text-xs text-primary-600 dark:text-primary-400">
                 已完成650件，剩余350件
               </Text>
             </View>
@@ -447,7 +446,7 @@ const ProductionPlanDetail = () => {
 
         {/* 物料信息 */}
         {activeTab === 'material-info' && (
-          <View className="rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
+          <View className="rounded-2xl border border-gray-100 bg-white p-4 dark:border-gray-800 dark:bg-gray-800">
             <Text className="mb-3 text-base font-medium text-gray-900 dark:text-gray-100">
               物料清单
             </Text>
@@ -571,7 +570,7 @@ const ProductionPlanDetail = () => {
 
         {/* 团队信息 */}
         {activeTab === 'team-info' && (
-          <View className="rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
+          <View className="rounded-2xl border border-gray-100 bg-white p-4 dark:border-gray-800 dark:bg-gray-800">
             <Text className="mb-3 text-base font-medium text-gray-900 dark:text-gray-100">
               团队成员
             </Text>
@@ -586,7 +585,7 @@ const ProductionPlanDetail = () => {
                   <Text className="font-medium text-gray-900 dark:text-gray-100">
                     王工程师
                   </Text>
-                  <Text className="text-sm text-blue-600 dark:text-blue-400">
+                  <Text className="text-sm text-primary-600 dark:text-primary-400">
                     项目负责人
                   </Text>
                 </View>
@@ -692,7 +691,7 @@ const ProductionPlanDetail = () => {
             编辑计划
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity className="flex-1 flex-row items-center justify-center rounded-lg bg-blue-600 py-3">
+        <TouchableOpacity className="flex-1 flex-row items-center justify-center rounded-lg bg-primary-600 py-3">
           <FontAwesome
             name="check-circle"
             size={16}

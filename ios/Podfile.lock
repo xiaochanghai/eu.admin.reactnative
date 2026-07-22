@@ -299,13 +299,9 @@ PODS:
   - hermes-engine (250829098.0.14):
     - hermes-engine/Pre-built (= 250829098.0.14)
   - hermes-engine/Pre-built (250829098.0.14)
-  - JCore (5.4.0)
-  - JCoreRN (2.3.2):
+  - JCoreRN (2.3.0):
     - React
-  - JPush (6.1.0):
-    - JCore (> 5.1.1)
-  - JPushRN (3.2.7):
-    - JPush (= 6.1.0)
+  - JPushRN (3.1.9):
     - React
   - MMKVCore (2.4.0)
   - NitroMmkv (4.3.2):
@@ -2805,8 +2801,6 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
-    - JCore
-    - JPush
     - MMKVCore
     - ReachabilitySwift
 
@@ -3117,10 +3111,8 @@ SPEC CHECKSUMS:
   EXUpdatesInterface: 492cdb30f3889cc35d9e737a4b5fc3aec39d1131
   FBLazyVector: b3e7ad108f0d882e30445c5527d774e3fd432f3d
   hermes-engine: 40841dcd4d20c43a927c5512900181c99f2d0382
-  JCore: 97f24c92979f9923ef5cfdbd626a29e9504215dd
-  JCoreRN: d985de509185b381c177fde4bb6bfc686089fdbd
-  JPush: 891c497687be788b094bde368d51289355ee1112
-  JPushRN: 8d1ebd6800aee1b9faee8cc5d1e7f44d69516066
+  JCoreRN: e7c7e9b7e154d04a0480699025d6d5f60cd53b3b
+  JPushRN: 51c191160a18aa4191eb9b5cf2b206b1a2dcd9d2
   MMKVCore: 3d16ce9f7d411e135020915fde98a056859a1efa
   NitroMmkv: 85a251e15c39d7c95fe58cf40786fa126b8d143c
   NitroModules: 16bc17a076b12304d608f7c915b9d321f56dfc19

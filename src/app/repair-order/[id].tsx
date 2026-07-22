@@ -1,6 +1,6 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import { useLocalSearchParams } from 'expo-router';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   Image,
@@ -17,9 +17,9 @@ import {
   SparePartItem,
 } from '@/components/repair-order';
 import { NavHeader, Text, View } from '@/components/ui';
+import colors from '@/components/ui/colors';
 import { FontAwesome } from '@/components/ui/icons';
 import { formatRelativeDate } from '@/lib';
-import { useAppColorScheme } from '@/lib/hooks';
 
 type Equipment = {
   ID: string;
@@ -52,7 +52,6 @@ type RepairOrderDetail = {
 
 const RepairOrderDetailView: React.FC = () => {
   const { id } = useLocalSearchParams();
-  const { isDark } = useAppColorScheme();
   const insets = useSafeAreaInsets();
 
   // 状态管理
@@ -60,7 +59,7 @@ const RepairOrderDetailView: React.FC = () => {
   const [detail, setDetail] = useState<RepairOrderDetail | null>(null);
 
   // 获取维修工单详情
-  const fetchDetail = async () => {
+  const fetchDetail = useCallback(async () => {
     if (!id) return;
 
     try {
@@ -76,11 +75,11 @@ const RepairOrderDetailView: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [id]);
 
   useEffect(() => {
     fetchDetail();
-  }, [id]);
+  }, [fetchDetail]);
 
   // 备件数据
   const spareParts = [
@@ -104,7 +103,7 @@ const RepairOrderDetailView: React.FC = () => {
       <View className="flex-1 bg-gray-50 dark:bg-neutral-900">
         <NavHeader title="维修详情" />
         <View className="flex-1 items-center justify-center">
-          <ActivityIndicator size="large" color="#1890ff" />
+          <ActivityIndicator size="large" color={colors.primary[600]} />
           <Text className="mt-4 text-sm text-gray-500">加载中...</Text>
         </View>
       </View>
@@ -129,7 +128,10 @@ const RepairOrderDetailView: React.FC = () => {
     const configs: Record<string, { label: string; colors: string[] }> = {
       urgent: { label: '紧急', colors: ['#ef4444', '#dc2626'] },
       high: { label: '高', colors: ['#f97316', '#ea580c'] },
-      normal: { label: '普通', colors: ['#3b82f6', '#2563eb'] },
+      normal: {
+        label: '普通',
+        colors: [colors.primary[600], colors.primary[800]],
+      },
     };
     return configs[priority || 'normal'] || configs.normal;
   };
@@ -143,11 +145,7 @@ const RepairOrderDetailView: React.FC = () => {
         title="维修详情"
         right={
           <TouchableOpacity onPress={() => console.log('更多')}>
-            <FontAwesome
-              name="ellipsis-v"
-              size={20}
-              color={isDark ? '#9ca3af' : '#6b7280'}
-            />
+            <FontAwesome name="ellipsis-v" size={20} color={colors.white} />
           </TouchableOpacity>
         }
       />
@@ -187,7 +185,7 @@ const RepairOrderDetailView: React.FC = () => {
           </View>
 
           <View className="mb-5">
-            <Text className="text-xs text-red-100">工单号</Text>
+            <Text className="text-xs text-white/75">工单号</Text>
             <Text className="mt-1 text-lg font-bold text-white">
               {detail.OrderNo}
             </Text>
@@ -197,8 +195,8 @@ const RepairOrderDetailView: React.FC = () => {
           <View className="flex-row gap-3 border-t border-white/20 pt-4">
             <View className="flex-1">
               <View className="mb-2 flex-row items-center">
-                <FontAwesome name="calendar" size={12} color="#fecaca" />
-                <Text className="ml-1.5 text-xs text-red-100">创建时间</Text>
+                <FontAwesome name="calendar" size={12} color={colors.white} />
+                <Text className="ml-1.5 text-xs text-white/75">创建时间</Text>
               </View>
               <Text className="text-sm font-semibold text-white">
                 {detail.CreatedTime
@@ -208,8 +206,12 @@ const RepairOrderDetailView: React.FC = () => {
             </View>
             <View className="flex-1">
               <View className="mb-2 flex-row items-center">
-                <FontAwesome name="flag-checkered" size={12} color="#fecaca" />
-                <Text className="ml-1.5 text-xs text-red-100">截止时间</Text>
+                <FontAwesome
+                  name="flag-checkered"
+                  size={12}
+                  color={colors.white}
+                />
+                <Text className="ml-1.5 text-xs text-white/75">截止时间</Text>
               </View>
               <Text className="text-sm font-semibold text-white">
                 {detail.ExpectedCompleteTime
@@ -219,8 +221,8 @@ const RepairOrderDetailView: React.FC = () => {
             </View>
             <View className="flex-1">
               <View className="mb-2 flex-row items-center">
-                <FontAwesome name="clock-o" size={12} color="#fecaca" />
-                <Text className="ml-1.5 text-xs text-red-100">剩余</Text>
+                <FontAwesome name="clock-o" size={12} color={colors.white} />
+                <Text className="ml-1.5 text-xs text-white/75">剩余</Text>
               </View>
               <Text className="text-sm font-bold text-white">
                 {detail.ExpectedCompleteTime
@@ -238,9 +240,9 @@ const RepairOrderDetailView: React.FC = () => {
         </LinearGradient>
 
         {/* 设备信息 */}
-        <View className="mb-4 rounded-2xl bg-white p-5 shadow-sm dark:bg-neutral-800">
+        <View className="mb-4 rounded-2xl border border-gray-100 bg-white p-5 dark:border-neutral-700 dark:bg-neutral-800">
           <View className="mb-4 flex-row items-center">
-            <FontAwesome name="server" size={18} color="#1890ff" />
+            <FontAwesome name="server" size={18} color={colors.primary[600]} />
             <Text className="ml-2 text-base font-semibold text-gray-800 dark:text-gray-100">
               设备信息
             </Text>
@@ -263,7 +265,7 @@ const RepairOrderDetailView: React.FC = () => {
         </View>
 
         {/* 故障信息 */}
-        <View className="mb-4 rounded-2xl bg-white p-5 shadow-sm dark:bg-neutral-800">
+        <View className="mb-4 rounded-2xl border border-gray-100 bg-white p-5 dark:border-neutral-700 dark:bg-neutral-800">
           <View className="mb-4 flex-row items-center">
             <FontAwesome name="exclamation-circle" size={18} color="#f5222d" />
             <Text className="ml-2 text-base font-semibold text-gray-800 dark:text-gray-100">
@@ -324,9 +326,9 @@ const RepairOrderDetailView: React.FC = () => {
         </View>
 
         {/* 维修进度 */}
-        <View className="mb-4 rounded-2xl bg-white p-5 shadow-sm dark:bg-neutral-800">
+        <View className="mb-4 rounded-2xl border border-gray-100 bg-white p-5 dark:border-neutral-700 dark:bg-neutral-800">
           <View className="mb-4 flex-row items-center">
-            <FontAwesome name="tasks" size={18} color="#1890ff" />
+            <FontAwesome name="tasks" size={18} color={colors.primary[600]} />
             <Text className="ml-2 text-base font-semibold text-gray-800 dark:text-gray-100">
               维修进度
             </Text>
@@ -339,9 +341,13 @@ const RepairOrderDetailView: React.FC = () => {
         </View>
 
         {/* 维修人员 */}
-        <View className="mb-4 rounded-2xl bg-white p-5 shadow-sm dark:bg-neutral-800">
+        <View className="mb-4 rounded-2xl border border-gray-100 bg-white p-5 dark:border-neutral-700 dark:bg-neutral-800">
           <View className="mb-4 flex-row items-center">
-            <FontAwesome name="user-circle" size={18} color="#1890ff" />
+            <FontAwesome
+              name="user-circle"
+              size={18}
+              color={colors.primary[600]}
+            />
             <Text className="ml-2 text-base font-semibold text-gray-800 dark:text-gray-100">
               维修人员
             </Text>
@@ -350,7 +356,7 @@ const RepairOrderDetailView: React.FC = () => {
             <View className="flex-row items-center rounded-lg bg-gray-50 p-3 dark:bg-neutral-700/50">
               <Image
                 source={{
-                  uri: `https://ui-avatars.com/api/?name=${encodeURIComponent(detail.AssignUserName)}&background=1890ff&color=fff`,
+                  uri: `https://ui-avatars.com/api/?name=${encodeURIComponent(detail.AssignUserName)}&background=F28B25&color=fff`,
                 }}
                 style={{ width: 48, height: 48, borderRadius: 24 }}
               />
@@ -365,7 +371,11 @@ const RepairOrderDetailView: React.FC = () => {
               </View>
               {detail.AssignUserPhone && (
                 <TouchableOpacity onPress={() => console.log('拨打电话')}>
-                  <FontAwesome name="phone" size={20} color="#1890ff" />
+                  <FontAwesome
+                    name="phone"
+                    size={20}
+                    color={colors.primary[600]}
+                  />
                 </TouchableOpacity>
               )}
             </View>
@@ -379,9 +389,9 @@ const RepairOrderDetailView: React.FC = () => {
         </View>
 
         {/* 备件使用 */}
-        <View className="mb-4 rounded-2xl bg-white p-5 shadow-sm dark:bg-neutral-800">
+        <View className="mb-4 rounded-2xl border border-gray-100 bg-white p-5 dark:border-neutral-700 dark:bg-neutral-800">
           <View className="mb-4 flex-row items-center">
-            <FontAwesome name="cube" size={18} color="#1890ff" />
+            <FontAwesome name="cube" size={18} color={colors.primary[600]} />
             <Text className="ml-2 text-base font-semibold text-gray-800 dark:text-gray-100">
               备件使用
             </Text>
@@ -394,7 +404,7 @@ const RepairOrderDetailView: React.FC = () => {
               <Text className="text-sm font-semibold text-gray-800 dark:text-gray-100">
                 合计
               </Text>
-              <Text className="text-base font-bold text-primary-500">¥700</Text>
+              <Text className="text-base font-bold text-primary-600">¥700</Text>
             </View>
           </View>
         </View>
@@ -410,19 +420,23 @@ const RepairOrderDetailView: React.FC = () => {
       >
         <View className="flex-row">
           <TouchableOpacity
-            className="mr-3 flex-1 items-center rounded-lg border-2 border-primary-500 py-3"
+            className="mr-3 flex-1 items-center rounded-xl border-2 border-primary-600 py-3"
             onPress={() => console.log('添加备注')}
             activeOpacity={0.7}
           >
             <View className="flex-row items-center">
-              <FontAwesome name="comment" size={16} color="#1890ff" />
-              <Text className="ml-2 font-semibold text-primary-500 dark:text-blue-400">
+              <FontAwesome
+                name="comment"
+                size={16}
+                color={colors.primary[600]}
+              />
+              <Text className="ml-2 font-semibold text-primary-600 dark:text-primary-400">
                 备注
               </Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity
-            className="flex-1 items-center rounded-lg bg-primary-500 py-3"
+            className="flex-1 items-center rounded-xl bg-primary-600 py-3"
             onPress={() => console.log('完成维修')}
             activeOpacity={0.7}
           >

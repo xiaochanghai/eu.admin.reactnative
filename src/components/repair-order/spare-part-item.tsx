@@ -14,7 +14,7 @@ export const SparePartItem: React.FC<SparePartItemProps> = ({
   quantity,
   price,
 }) => (
-  <View className="mb-3 flex-row items-center justify-between rounded-lg bg-gray-50 p-3 dark:bg-neutral-700/50">
+  <View className="mb-3 flex-row items-center justify-between rounded-xl bg-gray-50 p-3 dark:bg-neutral-700/50">
     <View>
       <Text className="text-sm font-semibold text-gray-800 dark:text-gray-100">
         {name}

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 
 import { NavHeader } from '@/components/ui';
+import colors from '@/components/ui/colors';
 import { FontAwesome, GroupEnum } from '@/components/ui/icons';
 // import { LineChart } from 'react-native-chart-kit';
 
@@ -181,10 +182,10 @@ const MaterialDetail = () => {
   // 样式常量
   const styles = {
     tab: 'text-sm font-medium text-gray-600 dark:text-gray-400',
-    tabActive: 'text-sm font-medium text-blue-600 dark:text-blue-400',
-    tabTouchable: 'flex-1 items-center px-4 py-2',
+    tabActive: 'text-sm font-semibold text-primary-600 dark:text-primary-400',
+    tabTouchable: 'flex-1 items-center px-4 py-3',
     tabTouchableActive:
-      'flex-1 items-center border-b-2 border-blue-600 px-4 py-2',
+      'flex-1 items-center border-b-2 border-primary-600 px-4 py-3',
     fastOption: 'items-center justify-center rounded-lg py-2',
     fastOptionWithMargin: 'mr-2 items-center justify-center rounded-lg py-2',
     listItemBorder: 'border-b border-gray-100 py-3 dark:border-gray-700',
@@ -248,10 +249,10 @@ const MaterialDetail = () => {
         right={
           <>
             <TouchableOpacity className="mr-4">
-              <FontAwesome name="share-alt" size={18} color="#4b5563" />
+              <FontAwesome name="share-alt" size={18} color={colors.white} />
             </TouchableOpacity>
             <TouchableOpacity>
-              <FontAwesome name="ellipsis-v" size={18} color="#4b5563" />
+              <FontAwesome name="ellipsis-v" size={18} color={colors.white} />
             </TouchableOpacity>
           </>
         }
@@ -261,7 +262,7 @@ const MaterialDetail = () => {
         contentContainerStyle={{ padding: 16, paddingBottom: 80 }}
       >
         {/* 物料基本信息卡片 */}
-        <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
+        <View className="mb-4 rounded-2xl border border-gray-100 bg-white p-4 dark:border-gray-800 dark:bg-gray-800">
           <View className="mb-4 flex-row items-center">
             <View className="mr-4 size-20 items-center justify-center rounded-lg bg-gray-200 dark:bg-gray-700">
               <FontAwesome
@@ -284,8 +285,8 @@ const MaterialDetail = () => {
                     {materialData.category}
                   </Text>
                 </View>
-                <View className="rounded-full bg-blue-100 px-2 py-1 dark:bg-blue-900/30">
-                  <Text className="text-xs text-blue-800 dark:text-blue-300">
+                <View className="rounded-full bg-primary-100 px-2 py-1 dark:bg-primary-900/30">
+                  <Text className="text-xs text-primary-800 dark:text-primary-300">
                     {materialData.tag}
                   </Text>
                 </View>
@@ -294,16 +295,16 @@ const MaterialDetail = () => {
           </View>
 
           {/* 库存状态 */}
-          <View className="mb-4 flex-row items-center justify-between rounded-lg bg-blue-50 p-3 dark:bg-blue-900/20">
+          <View className="mb-4 flex-row items-center justify-between rounded-xl bg-primary-50 p-3 dark:bg-primary-900/20">
             <View>
               <Text className="text-sm text-gray-600 dark:text-gray-300">
                 当前库存
               </Text>
               <View className="mt-1 flex-row items-end">
-                <Text className="text-xl font-bold text-blue-600 dark:text-blue-400">
+                <Text className="text-xl font-bold text-primary-700 dark:text-primary-300">
                   {materialData.currentStock}
                 </Text>
-                <Text className="ml-1 text-sm font-normal text-blue-600 dark:text-blue-400">
+                <Text className="ml-1 text-sm font-normal text-primary-700 dark:text-primary-300">
                   {materialData.unit}
                 </Text>
               </View>
@@ -342,7 +343,7 @@ const MaterialDetail = () => {
             <ActionButton
               icon="sign-in-alt"
               label="入库"
-              color="#2563eb"
+              color={colors.primary[600]}
               className={styles.fastOptionWithMargin}
             />
             <ActionButton
@@ -367,7 +368,7 @@ const MaterialDetail = () => {
         </View>
 
         {/* 详细信息选项卡 */}
-        <View className="mb-4 overflow-hidden rounded-lg bg-white dark:bg-gray-800">
+        <View className="mb-4 overflow-hidden rounded-2xl border border-gray-100 bg-white dark:border-gray-800 dark:bg-gray-800">
           <View className="flex-row border-b border-gray-200 dark:border-gray-700">
             <TabButton
               label="基本信息"
@@ -393,7 +394,7 @@ const MaterialDetail = () => {
         </View>
 
         {/* 相关物料 */}
-        <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
+        <View className="mb-4 rounded-2xl border border-gray-100 bg-white p-4 dark:border-gray-800 dark:bg-gray-800">
           <Text className="mb-3 text-lg font-semibold text-gray-900 dark:text-gray-100">
             相关物料
           </Text>

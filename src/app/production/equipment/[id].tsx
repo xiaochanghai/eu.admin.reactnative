@@ -8,12 +8,11 @@ import {
   Text,
   View,
 } from '@/components/ui';
+import colors from '@/components/ui/colors';
 import { FontAwesome } from '@/components/ui/icons';
-import { useAppColorScheme } from '@/lib';
 
 const EquipmentDetail = () => {
   const [activeTab, setActiveTab] = useState('running-data');
-  const { isDark } = useAppColorScheme();
 
   // 切换选项卡
   const handleTabChange = (tabId: string) => {
@@ -25,7 +24,7 @@ const EquipmentDetail = () => {
       <NavHeader title="设备明细" />
       <ScrollView className="flex-1 p-4">
         {/* 设备基本信息卡片 */}
-        <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
+        <View className="mb-4 rounded-2xl border border-gray-100 bg-white p-4 dark:border-gray-800 dark:bg-gray-800">
           <View className="mb-3 flex-row items-start justify-between">
             <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">
               贴片机 #SMT-2023-01
@@ -88,12 +87,12 @@ const EquipmentDetail = () => {
             </View>
           </View>
 
-          <View className="rounded-lg bg-blue-50 p-3 dark:bg-blue-900/20">
+          <View className="rounded-xl bg-primary-50 p-3 dark:bg-primary-900/20">
             <View className="flex-row items-center">
               <FontAwesome
                 name="bell"
                 size={16}
-                color={isDark ? '#60a5fa' : '#3b82f6'}
+                color={colors.primary[600]}
                 className="mr-2"
               />
               <View>
@@ -115,7 +114,7 @@ const EquipmentDetail = () => {
             onPress={() => handleTabChange('running-data')}
           >
             <Text
-              className={`text-center text-sm ${activeTab === 'running-data' ? 'font-medium text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-300'}`}
+              className={`text-center text-sm ${activeTab === 'running-data' ? 'font-medium text-primary-600 dark:text-primary-400' : 'text-gray-600 dark:text-gray-300'}`}
             >
               运行数据
             </Text>
@@ -125,7 +124,7 @@ const EquipmentDetail = () => {
             onPress={() => handleTabChange('maintenance-records')}
           >
             <Text
-              className={`text-center text-sm ${activeTab === 'maintenance-records' ? 'font-medium text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-300'}`}
+              className={`text-center text-sm ${activeTab === 'maintenance-records' ? 'font-medium text-primary-600 dark:text-primary-400' : 'text-gray-600 dark:text-gray-300'}`}
             >
               维护记录
             </Text>
@@ -135,7 +134,7 @@ const EquipmentDetail = () => {
             onPress={() => handleTabChange('performance-params')}
           >
             <Text
-              className={`text-center text-sm ${activeTab === 'performance-params' ? 'font-medium text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-300'}`}
+              className={`text-center text-sm ${activeTab === 'performance-params' ? 'font-medium text-primary-600 dark:text-primary-400' : 'text-gray-600 dark:text-gray-300'}`}
             >
               性能参数
             </Text>
@@ -145,7 +144,7 @@ const EquipmentDetail = () => {
             onPress={() => handleTabChange('fault-records')}
           >
             <Text
-              className={`text-center text-sm ${activeTab === 'fault-records' ? 'font-medium text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-300'}`}
+              className={`text-center text-sm ${activeTab === 'fault-records' ? 'font-medium text-primary-600 dark:text-primary-400' : 'text-gray-600 dark:text-gray-300'}`}
             >
               故障记录
             </Text>
@@ -157,7 +156,7 @@ const EquipmentDetail = () => {
         {activeTab === 'running-data' && (
           <View>
             {/* 设备监控 */}
-            <View className="mb-10 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
+            <View className="mb-10 rounded-2xl border border-gray-100 bg-white p-4 dark:border-gray-800 dark:bg-gray-800">
               <Text className="mb-3 font-medium text-gray-900 dark:text-gray-100">
                 设备监控
               </Text>
@@ -171,7 +170,7 @@ const EquipmentDetail = () => {
                     <FontAwesome
                       name="video-camera"
                       size={24}
-                      color={isDark ? '#60a5fa' : '#3b82f6'}
+                      color={colors.primary[600]}
                     />
                     <Text className="mt-2 text-sm text-gray-500 dark:text-gray-400">
                       设备实时监控画面
@@ -239,7 +238,7 @@ const EquipmentDetail = () => {
 
         {/* 维护记录 */}
         {activeTab === 'maintenance-records' && (
-          <View className="mb-10 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
+          <View className="mb-10 rounded-2xl border border-gray-100 bg-white p-4 dark:border-gray-800 dark:bg-gray-800">
             <Text className="mb-3 font-medium text-gray-900 dark:text-gray-100">
               维护记录
             </Text>
@@ -279,8 +278,8 @@ const EquipmentDetail = () => {
                       清洁、润滑、校准
                     </Text>
                     <View className="w-20 px-2 py-3">
-                      <View className="rounded-full bg-blue-100 px-2 py-1 dark:bg-blue-900/30">
-                        <Text className="text-center text-xs text-blue-800 dark:text-blue-300">
+                      <View className="rounded-full bg-primary-100 px-2 py-1 dark:bg-primary-900/30">
+                        <Text className="text-center text-xs text-primary-800 dark:text-primary-300">
                           已完成
                         </Text>
                       </View>
@@ -303,8 +302,8 @@ const EquipmentDetail = () => {
                       更换吸嘴组件
                     </Text>
                     <View className="w-20 px-2 py-3">
-                      <View className="rounded-full bg-blue-100 px-2 py-1 dark:bg-blue-900/30">
-                        <Text className="text-center text-xs text-blue-800 dark:text-blue-300">
+                      <View className="rounded-full bg-primary-100 px-2 py-1 dark:bg-primary-900/30">
+                        <Text className="text-center text-xs text-primary-800 dark:text-primary-300">
                           已完成
                         </Text>
                       </View>
@@ -327,8 +326,8 @@ const EquipmentDetail = () => {
                       清洁、润滑、校准
                     </Text>
                     <View className="w-20 px-2 py-3">
-                      <View className="rounded-full bg-blue-100 px-2 py-1 dark:bg-blue-900/30">
-                        <Text className="text-center text-xs text-blue-800 dark:text-blue-300">
+                      <View className="rounded-full bg-primary-100 px-2 py-1 dark:bg-primary-900/30">
+                        <Text className="text-center text-xs text-primary-800 dark:text-primary-300">
                           已完成
                         </Text>
                       </View>
@@ -342,7 +341,7 @@ const EquipmentDetail = () => {
 
         {/* 性能参数 */}
         {activeTab === 'performance-params' && (
-          <View className="mb-10 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
+          <View className="mb-10 rounded-2xl border border-gray-100 bg-white p-4 dark:border-gray-800 dark:bg-gray-800">
             <Text className="mb-3 font-medium text-gray-900 dark:text-gray-100">
               性能参数
             </Text>
@@ -382,12 +381,12 @@ const EquipmentDetail = () => {
               </View>
             </View>
 
-            <View className="rounded-lg bg-blue-50 p-3 dark:bg-blue-900/20">
+            <View className="rounded-xl bg-primary-50 p-3 dark:bg-primary-900/20">
               <View className="flex-row items-center">
                 <FontAwesome
                   name="bell"
                   size={16}
-                  color={isDark ? '#60a5fa' : '#3b82f6'}
+                  color={colors.primary[600]}
                   className="mr-2"
                 />
                 <View>
@@ -405,7 +404,7 @@ const EquipmentDetail = () => {
 
         {/* 故障记录 */}
         {activeTab === 'fault-records' && (
-          <View className="mb-10 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
+          <View className="mb-10 rounded-2xl border border-gray-100 bg-white p-4 dark:border-gray-800 dark:bg-gray-800">
             <Text className="mb-3 font-medium text-gray-900 dark:text-gray-100">
               故障记录
             </Text>

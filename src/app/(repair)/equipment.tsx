@@ -1,6 +1,12 @@
 import { Env } from '@env';
 import { useRouter } from 'expo-router';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { Image, ScrollView, TextInput, TouchableOpacity } from 'react-native';
 
 import { queryByFilter } from '@/api';
@@ -62,7 +68,7 @@ export default function EquipmentView() {
   const [hasMore, setHasMore] = useState<boolean>(true);
   const pageNumRef = useRef(1);
 
-  const loadData = async (append = false) => {
+  const loadData = useCallback(async (append = false) => {
     const page = append ? pageNumRef.current + 1 : 1;
     pageNumRef.current = page;
 
@@ -79,17 +85,17 @@ export default function EquipmentView() {
     );
 
     if (success && Array.isArray(data)) {
-      const newHasMore = list.length + data.length < (total || 0);
+      const newHasMore = page * PageSize < (total || 0);
       setHasMore(newHasMore);
       setList((prev) => (append ? [...prev, ...data] : data));
     } else {
       setHasMore(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     loadData(false);
-  }, []);
+  }, [loadData]);
 
   const handleEquipmentPress = (item: Equipment) => {
     router.push(`/equipment/${item.ID}`);
@@ -127,7 +133,7 @@ export default function EquipmentView() {
 
     return (
       <TouchableOpacity
-        className="mb-3 overflow-hidden rounded-2xl bg-white shadow-sm dark:bg-neutral-800"
+        className="mb-3 overflow-hidden rounded-2xl border border-gray-200/80 bg-white dark:border-neutral-800 dark:bg-neutral-900"
         onPress={() => handleEquipmentPress(item)}
         activeOpacity={0.7}
       >
@@ -198,7 +204,7 @@ export default function EquipmentView() {
           </View>
 
           {/* 分隔线 */}
-          <View className="my-3.5 h-px bg-gray-100 dark:bg-neutral-700" />
+          <View className="my-3.5 h-px bg-gray-100 dark:bg-neutral-800" />
 
           {/* 底部统计区域 */}
           <View className="flex-row items-center">
@@ -232,7 +238,7 @@ export default function EquipmentView() {
             {/* 维修次数 */}
             <View className="flex-1 items-center">
               <View className="flex-row items-baseline">
-                <Text className="text-lg font-bold text-blue-500">
+                <Text className="text-lg font-bold text-primary-600 dark:text-primary-400">
                   {repairCount}
                 </Text>
                 <Text className="ml-0.5 text-[11px] text-gray-400">次</Text>
@@ -290,27 +296,23 @@ export default function EquipmentView() {
   );
 
   return (
-    <View className="flex-1 bg-gray-50 dark:bg-neutral-900">
+    <View className="flex-1 bg-gray-100/70 dark:bg-neutral-950">
       {/* 顶部导航 */}
       <NavHeader
         title="设备"
         leftShown={false}
         right={
           <TouchableOpacity
-            className="p-2"
+            className="size-10 items-center justify-center rounded-full"
             onPress={() => router.push('/equipment/add')}
           >
-            <FontAwesome
-              name="plus"
-              size={20}
-              color={isDark ? '#9ca3af' : '#6b7280'}
-            />
+            <FontAwesome name="plus" size={20} color="#543EF8" />
           </TouchableOpacity>
         }
       />
 
       {/* 搜索和筛选区域 */}
-      <View className="border-b border-gray-200 bg-white px-4 py-3 dark:border-neutral-700 dark:bg-neutral-800">
+      <View className="border-b border-gray-200/70 bg-white px-4 pb-3 pt-2 dark:border-neutral-800 dark:bg-neutral-900">
         {/* 搜索框 */}
         <View className="mb-3 flex-row items-center">
           <View className="relative flex-1">
@@ -321,7 +323,7 @@ export default function EquipmentView() {
               style={{ position: 'absolute', left: 12, top: 12, zIndex: 1 }}
             />
             <TextInput
-              className="rounded-xl bg-gray-100 py-2.5 pl-10 pr-4 text-sm text-gray-700 dark:bg-neutral-700 dark:text-gray-100"
+              className="min-h-[46px] rounded-xl border border-gray-200 bg-gray-50 py-2.5 pl-10 pr-4 text-sm text-gray-700 dark:border-neutral-700 dark:bg-neutral-950 dark:text-gray-100"
               placeholder="搜索设备名称、编号..."
               placeholderTextColor="#9ca3af"
               value={searchText}
@@ -329,7 +331,7 @@ export default function EquipmentView() {
             />
           </View>
           <TouchableOpacity
-            className="ml-2.5 rounded-xl bg-blue-500 p-3"
+            className="ml-2.5 size-[46px] items-center justify-center rounded-xl bg-primary-600"
             activeOpacity={0.7}
           >
             <FontAwesome name="search" size={16} color="white" />

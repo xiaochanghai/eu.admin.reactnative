@@ -24,12 +24,12 @@ export const DocumentItem: React.FC<DocumentItemProps> = ({
   onPress,
 }) => (
   <TouchableOpacity
-    className="mb-3 flex-row items-center rounded-lg border border-gray-200 p-3 dark:border-neutral-700"
+    className="mb-1 min-h-[64px] flex-row items-center border-b border-gray-100 py-3 dark:border-neutral-800"
     onPress={onPress}
     activeOpacity={0.7}
   >
     <View
-      className="mr-3 size-10 items-center justify-center rounded-lg"
+      className="mr-3 size-10 items-center justify-center rounded-xl"
       style={{ backgroundColor: iconBgColor }}
     >
       <FontAwesome name={icon as any} size={18} color={iconColor} />
@@ -42,6 +42,8 @@ export const DocumentItem: React.FC<DocumentItemProps> = ({
         {size} · {date}
       </Text>
     </View>
-    <FontAwesome name="download" size={16} color="#1890ff" />
+    <View className="dark:bg-primary-950/40 size-9 items-center justify-center rounded-full bg-primary-50">
+      <FontAwesome name="download" size={14} color="#543EF8" />
+    </View>
   </TouchableOpacity>
 );

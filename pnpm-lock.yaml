@@ -102,11 +102,11 @@ importers:
         specifier: ^23.14.0
         version: 23.16.8
       jcore-react-native:
-        specifier: ^2.3.2
-        version: 2.3.2(react-native@0.86.0(@babel/core@7.29.7)(@react-native/jest-preset@0.86.0(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.86.0(@babel/core@7.29.7))(@types/react@19.2.17)(react@19.2.3))
+        specifier: 2.3.0
+        version: 2.3.0(react-native@0.86.0(@babel/core@7.29.7)(@react-native/jest-preset@0.86.0(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.86.0(@babel/core@7.29.7))(@types/react@19.2.17)(react@19.2.3))
       jpush-react-native:
-        specifier: ^3.2.7
-        version: 3.2.7(jcore-react-native@2.3.2(react-native@0.86.0(@babel/core@7.29.7)(@react-native/jest-preset@0.86.0(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.86.0(@babel/core@7.29.7))(@types/react@19.2.17)(react@19.2.3)))(react-native@0.86.0(@babel/core@7.29.7)(@react-native/jest-preset@0.86.0(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.86.0(@babel/core@7.29.7))(@types/react@19.2.17)(react@19.2.3))
+        specifier: 3.1.9
+        version: 3.1.9(jcore-react-native@2.3.0(react-native@0.86.0(@babel/core@7.29.7)(@react-native/jest-preset@0.86.0(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.86.0(@babel/core@7.29.7))(@types/react@19.2.17)(react@19.2.3)))(react-native@0.86.0(@babel/core@7.29.7)(@react-native/jest-preset@0.86.0(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.86.0(@babel/core@7.29.7))(@types/react@19.2.17)(react@19.2.3))
       lodash.memoize:
         specifier: ^4.1.2
         version: 4.1.2
@@ -4886,8 +4886,8 @@ packages:
   jackspeak@3.4.3:
     resolution: {integrity: sha512-OGlZQpz2yfahA/Rd1Y8Cd9SIEsqvXkLVoSw/cgwhnhFMDbsQFeZYoJJ7bIZBS9BcamUW96asq/npPWugM+RQBw==}
 
-  jcore-react-native@2.3.2:
-    resolution: {integrity: sha512-Rn9VUxEAxQrIhXpQW8eIOZFdlXMDYfxr8FOT/8k2iOoy5B6uaZ4pE8k4HLxD2kONAED5FRuXCV3sYSsAZsTF2Q==}
+  jcore-react-native@2.3.0:
+    resolution: {integrity: sha512-V5ghJKwCbKMu+EcPcVVNfVPliFlCv1MGizduQlCjTX1+BFBumVR7883dEcMJ/Q6O01t7PYczomrtC5Qaq9PLPg==}
     peerDependencies:
       react-native: '>= 0.60'
 
@@ -5079,8 +5079,8 @@ packages:
   jpeg-js@0.4.4:
     resolution: {integrity: sha512-WZzeDOEtTOBK4Mdsar0IqEU5sMr3vSV2RqkAIzUEV2BHnUfKGyswWFPFwK5EeDo93K3FohSHbLAjj0s1Wzd+dg==}
 
-  jpush-react-native@3.2.7:
-    resolution: {integrity: sha512-oKZXNXnXMeyNBDmFEh70yVBsAhCyOgMmAT5VBiR3pfnk0cRgS/KQrDjng2flG9MPH8W9SKjov4gjQ5k/kCvHkA==}
+  jpush-react-native@3.1.9:
+    resolution: {integrity: sha512-QiTyKS64FzqHAmQq/KN/nioSQxNclC0KpU+hGLAUrmJuan5gjOnsHp7H290uF8De4nlXUzx+Eia7rgQufYiHqA==}
     peerDependencies:
       jcore-react-native: '>= 1.9.3'
       react-native: '>= 0.50'
@@ -9897,9 +9897,7 @@ snapshots:
       metro-runtime: 0.84.4
     transitivePeerDependencies:
       - '@babel/core'
-      - bufferutil
       - supports-color
-      - utf-8-validate
 
   '@react-native/normalize-color@2.1.0': {}
 
@@ -13154,7 +13152,7 @@ snapshots:
     optionalDependencies:
       '@pkgjs/parseargs': 0.11.0
 
-  jcore-react-native@2.3.2(react-native@0.86.0(@babel/core@7.29.7)(@react-native/jest-preset@0.86.0(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.86.0(@babel/core@7.29.7))(@types/react@19.2.17)(react@19.2.3)):
+  jcore-react-native@2.3.0(react-native@0.86.0(@babel/core@7.29.7)(@react-native/jest-preset@0.86.0(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.86.0(@babel/core@7.29.7))(@types/react@19.2.17)(react@19.2.3)):
     dependencies:
       react-native: 0.86.0(@babel/core@7.29.7)(@react-native/jest-preset@0.86.0(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.86.0(@babel/core@7.29.7))(@types/react@19.2.17)(react@19.2.3)
 
@@ -13559,9 +13557,9 @@ snapshots:
 
   jpeg-js@0.4.4: {}
 
-  jpush-react-native@3.2.7(jcore-react-native@2.3.2(react-native@0.86.0(@babel/core@7.29.7)(@react-native/jest-preset@0.86.0(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.86.0(@babel/core@7.29.7))(@types/react@19.2.17)(react@19.2.3)))(react-native@0.86.0(@babel/core@7.29.7)(@react-native/jest-preset@0.86.0(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.86.0(@babel/core@7.29.7))(@types/react@19.2.17)(react@19.2.3)):
+  jpush-react-native@3.1.9(jcore-react-native@2.3.0(react-native@0.86.0(@babel/core@7.29.7)(@react-native/jest-preset@0.86.0(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.86.0(@babel/core@7.29.7))(@types/react@19.2.17)(react@19.2.3)))(react-native@0.86.0(@babel/core@7.29.7)(@react-native/jest-preset@0.86.0(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.86.0(@babel/core@7.29.7))(@types/react@19.2.17)(react@19.2.3)):
     dependencies:
-      jcore-react-native: 2.3.2(react-native@0.86.0(@babel/core@7.29.7)(@react-native/jest-preset@0.86.0(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.86.0(@babel/core@7.29.7))(@types/react@19.2.17)(react@19.2.3))
+      jcore-react-native: 2.3.0(react-native@0.86.0(@babel/core@7.29.7)(@react-native/jest-preset@0.86.0(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.86.0(@babel/core@7.29.7))(@types/react@19.2.17)(react@19.2.3))
       react-native: 0.86.0(@babel/core@7.29.7)(@react-native/jest-preset@0.86.0(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.86.0(@babel/core@7.29.7))(@types/react@19.2.17)(react@19.2.3)
 
   js-tokens@4.0.0: {}

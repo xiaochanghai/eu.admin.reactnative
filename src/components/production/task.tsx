@@ -1,6 +1,7 @@
 import { useRouter } from 'expo-router';
 import { Text, TouchableOpacity, View } from 'react-native';
 
+import colors from '@/components/ui/colors';
 import { FontAwesome } from '@/components/ui/icons';
 
 import { ProgressBar } from './progress-bar';
@@ -32,7 +33,7 @@ interface TaskItem {
 const statusColorMap: Record<TaskStatus, { color: string; bgColor: string }> = {
   进行中: { color: '#22c55e', bgColor: '#dcfce7' },
   待分配: { color: '#f97316', bgColor: '#ffedd5' },
-  已完成: { color: '#0066ff', bgColor: '#e0f2fe' },
+  已完成: { color: colors.primary[600], bgColor: colors.primary[100] },
   已延期: { color: '#ef4444', bgColor: '#fee2e2' },
 };
 
@@ -94,13 +95,16 @@ export const Task = () => {
   return (
     <View>
       {/* 任务概览 */}
-      <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
+      <View className="mb-4 rounded-2xl border border-gray-100 bg-white p-4 dark:border-neutral-700 dark:bg-neutral-800">
         <Text className="mb-3 text-lg font-semibold text-gray-800 dark:text-gray-100">
           任务概览
         </Text>
         <View className="mb-3 flex-row justify-between">
           <View className="flex-1 items-center">
-            <Text className="text-2xl font-bold" style={{ color: '#0066ff' }}>
+            <Text
+              className="text-2xl font-bold"
+              style={{ color: colors.primary[600] }}
+            >
               24
             </Text>
             <Text className="mt-1 text-xs text-gray-500 dark:text-gray-400">
@@ -124,11 +128,11 @@ export const Task = () => {
             </Text>
           </View>
         </View>
-        <View className="flex-row items-center rounded-xl bg-blue-50 p-3 dark:bg-blue-900/30">
+        <View className="flex-row items-center rounded-xl bg-primary-50 p-3 dark:bg-primary-900/30">
           <FontAwesome
             name="users"
             size={20}
-            color="#0066ff"
+            color={colors.primary[600]}
             style={{ marginRight: 12 }}
           />
           <View className="flex-1">
@@ -136,7 +140,7 @@ export const Task = () => {
               员工任务完成率
             </Text>
             <View className="flex-row items-center">
-              <Text className="mr-2 text-lg font-bold text-blue-600">
+              <Text className="mr-2 text-lg font-bold text-primary-600">
                 82.3%
               </Text>
               <Text className="text-xs text-green-600">↑ 3.7%</Text>
@@ -156,7 +160,7 @@ export const Task = () => {
           key={task.id}
           onPress={() => handleTaskDetail(task.id)}
         >
-          <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
+          <View className="mb-4 rounded-2xl border border-gray-100 bg-white p-4 dark:border-neutral-700 dark:bg-neutral-800">
             {/* 任务标题和状态 */}
             <View className="mb-2 flex-row items-start justify-between">
               <Text className="text-base font-medium text-gray-800 dark:text-gray-100">

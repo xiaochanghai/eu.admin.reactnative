@@ -5,6 +5,7 @@ import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { NavHeader } from '@/components/ui';
+import colors from '@/components/ui/colors';
 import { FontAwesome } from '@/components/ui/icons';
 import { useAppColorScheme } from '@/lib';
 
@@ -41,7 +42,7 @@ const Quality = () => {
       {mainTabs.map((tab) => (
         <TouchableOpacity
           key={tab.id}
-          className={`flex-1 items-center px-3 py-2 ${activeMainTab === tab.id ? 'bg-blue-600' : 'bg-white dark:bg-gray-800'}`}
+          className={`flex-1 items-center px-3 py-2 ${activeMainTab === tab.id ? 'bg-primary-600' : 'bg-white dark:bg-gray-800'}`}
           onPress={() => setActiveMainTab(tab.id)}
         >
           <Text
@@ -65,7 +66,7 @@ const Quality = () => {
         {subTabs.map((tab) => (
           <TouchableOpacity
             key={tab}
-            className={`rounded-full px-4 py-2 ${activeSubTab === tab ? 'bg-blue-600' : 'bg-white dark:bg-gray-800'}`}
+            className={`rounded-full px-4 py-2 ${activeSubTab === tab ? 'bg-primary-600' : 'bg-white dark:bg-gray-800'}`}
             onPress={() => setActiveSubTab(tab)}
           >
             <Text
@@ -90,7 +91,7 @@ const Quality = () => {
         {inspectionTabs.map((tab) => (
           <TouchableOpacity
             key={tab}
-            className={`rounded-full px-4 py-2 ${activeInspectionTab === tab ? 'bg-blue-600' : 'bg-white dark:bg-gray-800'}`}
+            className={`rounded-full px-4 py-2 ${activeInspectionTab === tab ? 'bg-primary-600' : 'bg-white dark:bg-gray-800'}`}
             onPress={() => setActiveInspectionTab(tab)}
           >
             <Text
@@ -110,13 +111,13 @@ const Quality = () => {
       {renderSubTabs()}
 
       {/* 质量概览卡片 */}
-      <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
+      <View className="mb-4 rounded-2xl border border-gray-100 bg-white p-4 dark:border-gray-800 dark:bg-gray-800">
         <Text className="mb-3 text-lg font-semibold text-gray-900 dark:text-gray-100">
           质量概览
         </Text>
         <View className="mb-3 flex-row">
           <View className="flex-1 items-center">
-            <Text className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+            <Text className="text-2xl font-bold text-primary-600 dark:text-primary-400">
               24
             </Text>
             <Text className="text-xs text-gray-500 dark:text-gray-400">
@@ -140,11 +141,11 @@ const Quality = () => {
             </Text>
           </View>
         </View>
-        <View className="flex-row items-center rounded-lg bg-blue-50 p-3 dark:bg-blue-900/20">
+        <View className="flex-row items-center rounded-xl bg-primary-50 p-3 dark:bg-primary-900/20">
           <FontAwesome
             name="chart-line"
             size={20}
-            color={isDark ? '#60a5fa' : '#0066ff'}
+            color={colors.primary[600]}
             style={{ marginRight: 12 }}
           />
           <View>
@@ -152,7 +153,7 @@ const Quality = () => {
               本月质量趋势
             </Text>
             <View className="flex-row items-center">
-              <Text className="mr-2 text-lg font-bold text-blue-600 dark:text-blue-400">
+              <Text className="mr-2 text-lg font-bold text-primary-600 dark:text-primary-400">
                 良好
               </Text>
               <Text className="text-xs text-green-500">↑ 1.2%</Text>
@@ -168,13 +169,13 @@ const Quality = () => {
 
       {/* 任务项目1 */}
       <TouchableOpacity onPress={() => router.push(`/quality/1`)}>
-        <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
+        <View className="mb-4 rounded-2xl border border-gray-100 bg-white p-4 dark:border-gray-800 dark:bg-gray-800">
           <View className="mb-2 flex-row items-start justify-between">
             <Text className="font-medium text-gray-900 dark:text-gray-100">
               智能手表主板质检
             </Text>
-            <View className="rounded-full bg-blue-100 px-2 py-1 dark:bg-blue-900/30">
-              <Text className="text-xs font-medium text-blue-800 dark:text-blue-300">
+            <View className="rounded-full bg-primary-100 px-2 py-1 dark:bg-primary-900/30">
+              <Text className="text-xs font-medium text-primary-800 dark:text-primary-300">
                 进行中
               </Text>
             </View>
@@ -199,7 +200,7 @@ const Quality = () => {
             </View>
             <View className="h-1.5 overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700">
               <View
-                className="h-full rounded-full bg-blue-500"
+                className="h-full rounded-full bg-primary-500"
                 style={{ width: '65%' }}
               />
             </View>
@@ -220,7 +221,9 @@ const Quality = () => {
               </Text>
             </View>
             <TouchableOpacity>
-              <Text className="text-blue-600 dark:text-blue-400">详情</Text>
+              <Text className="text-primary-600 dark:text-primary-400">
+                详情
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -228,7 +231,7 @@ const Quality = () => {
 
       {/* 任务项目2 */}
       <TouchableOpacity onPress={() => router.push(`/quality/1`)}>
-        <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
+        <View className="mb-4 rounded-2xl border border-gray-100 bg-white p-4 dark:border-gray-800 dark:bg-gray-800">
           <View className="mb-2 flex-row items-start justify-between">
             <Text className="font-medium text-gray-900 dark:text-gray-100">
               智能音箱外壳质检
@@ -280,7 +283,9 @@ const Quality = () => {
               </Text>
             </View>
             <TouchableOpacity>
-              <Text className="text-blue-600 dark:text-blue-400">查看报告</Text>
+              <Text className="text-primary-600 dark:text-primary-400">
+                查看报告
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -289,10 +294,10 @@ const Quality = () => {
       <Text className="mb-3 text-lg font-semibold text-gray-900 dark:text-gray-100">
         不良品分析
       </Text>
-      <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
+      <View className="mb-4 rounded-2xl border border-gray-100 bg-white p-4 dark:border-gray-800 dark:bg-gray-800">
         <View className="mb-4 flex-row items-center">
-          <View className="h-24 w-1/3 items-center justify-center rounded-lg bg-blue-50 dark:bg-blue-900/20">
-            <Text className="text-xl font-bold text-blue-600 dark:text-blue-400">
+          <View className="h-24 w-1/3 items-center justify-center rounded-xl bg-primary-50 dark:bg-primary-900/20">
+            <Text className="text-xl font-bold text-primary-600 dark:text-primary-400">
               1.5%
             </Text>
             <Text className="text-xs text-gray-500 dark:text-gray-400">
@@ -333,7 +338,7 @@ const Quality = () => {
           </View>
         </View>
         <TouchableOpacity>
-          <Text className="text-sm text-blue-600 dark:text-blue-400">
+          <Text className="text-sm text-primary-600 dark:text-primary-400">
             查看详细分析
           </Text>
         </TouchableOpacity>
@@ -343,7 +348,7 @@ const Quality = () => {
       <Text className="mb-3 text-lg font-semibold text-gray-900 dark:text-gray-100">
         质量改进建议
       </Text>
-      <View className="rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
+      <View className="rounded-2xl border border-gray-100 bg-white p-4 dark:border-gray-800 dark:bg-gray-800">
         <View className="border-b border-gray-100 py-4 dark:border-gray-700">
           <View className="mb-1 flex-row items-start justify-between">
             <Text className="font-medium text-gray-900 dark:text-gray-100">
@@ -393,13 +398,13 @@ const Quality = () => {
   const renderQualityInspection = () => (
     <View>
       {/* 质量检验概览 */}
-      <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
+      <View className="mb-4 rounded-2xl border border-gray-100 bg-white p-4 dark:border-gray-800 dark:bg-gray-800">
         <Text className="mb-3 text-lg font-semibold text-gray-900 dark:text-gray-100">
           质量检验概览
         </Text>
         <View className="mb-3 flex-row">
           <View className="flex-1 items-center">
-            <Text className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+            <Text className="text-2xl font-bold text-primary-600 dark:text-primary-400">
               15
             </Text>
             <Text className="text-xs text-gray-500 dark:text-gray-400">
@@ -423,11 +428,11 @@ const Quality = () => {
             </Text>
           </View>
         </View>
-        <View className="flex-row items-center rounded-lg bg-blue-50 p-3 dark:bg-blue-900/20">
+        <View className="flex-row items-center rounded-xl bg-primary-50 p-3 dark:bg-primary-900/20">
           <FontAwesome
             name="clipboard-check"
             size={20}
-            color={isDark ? '#60a5fa' : '#0066ff'}
+            color={colors.primary[600]}
             style={{ marginRight: 12 }}
           />
           <View>
@@ -435,7 +440,7 @@ const Quality = () => {
               本周检验完成率
             </Text>
             <View className="flex-row items-center">
-              <Text className="mr-2 text-lg font-bold text-blue-600 dark:text-blue-400">
+              <Text className="mr-2 text-lg font-bold text-primary-600 dark:text-primary-400">
                 92.5%
               </Text>
               <Text className="text-xs text-green-500">↑ 3.2%</Text>
@@ -479,7 +484,7 @@ const Quality = () => {
       {renderInspectionTabs()}
 
       {/* 检验任务1 */}
-      <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
+      <View className="mb-4 rounded-2xl border border-gray-100 bg-white p-4 dark:border-gray-800 dark:bg-gray-800">
         <View className="mb-2 flex-row items-start justify-between">
           <Text className="font-medium text-gray-900 dark:text-gray-100">
             智能手表主板检验
@@ -515,19 +520,21 @@ const Quality = () => {
             </Text>
           </View>
           <TouchableOpacity>
-            <Text className="text-blue-600 dark:text-blue-400">开始检验</Text>
+            <Text className="text-primary-600 dark:text-primary-400">
+              开始检验
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
 
       {/* 检验任务2 */}
-      <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
+      <View className="mb-4 rounded-2xl border border-gray-100 bg-white p-4 dark:border-gray-800 dark:bg-gray-800">
         <View className="mb-2 flex-row items-start justify-between">
           <Text className="font-medium text-gray-900 dark:text-gray-100">
             智能音箱电路板检验
           </Text>
-          <View className="rounded-full bg-blue-100 px-2 py-1 dark:bg-blue-900/30">
-            <Text className="text-xs font-medium text-blue-800 dark:text-blue-300">
+          <View className="rounded-full bg-primary-100 px-2 py-1 dark:bg-primary-900/30">
+            <Text className="text-xs font-medium text-primary-800 dark:text-primary-300">
               检验中
             </Text>
           </View>
@@ -552,7 +559,7 @@ const Quality = () => {
           </View>
           <View className="h-1.5 overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700">
             <View
-              className="h-full rounded-full bg-blue-500"
+              className="h-full rounded-full bg-primary-500"
               style={{ width: '70%' }}
             />
           </View>
@@ -571,7 +578,9 @@ const Quality = () => {
             </Text>
           </View>
           <TouchableOpacity>
-            <Text className="text-blue-600 dark:text-blue-400">继续检验</Text>
+            <Text className="text-primary-600 dark:text-primary-400">
+              继续检验
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -598,11 +607,7 @@ const Quality = () => {
   // 渲染质量报表内容（简化版）
   const renderQualityReport = () => (
     <View className="items-center justify-center py-8">
-      <FontAwesome
-        name="area-chart"
-        size={50}
-        color={isDark ? '#60a5fa' : '#3b82f6'}
-      />
+      <FontAwesome name="area-chart" size={50} color={colors.primary[600]} />
       <Text className="mb-2 mt-4 text-lg font-medium text-gray-900 dark:text-gray-100">
         质量报表
       </Text>
@@ -644,10 +649,10 @@ const Quality = () => {
 
       {/* 浮动按钮 */}
       <TouchableOpacity
-        className="absolute bottom-20 right-6 size-14 items-center justify-center rounded-full bg-blue-600 shadow-lg"
+        className="absolute bottom-20 right-6 size-14 items-center justify-center rounded-full bg-primary-600 shadow-lg"
         style={{ elevation: 5 }}
       >
-        <FontAwesome name="plus" size={20} color="#fff" />
+        <FontAwesome name="plus" size={20} color={colors.white} />
       </TouchableOpacity>
     </View>
   );

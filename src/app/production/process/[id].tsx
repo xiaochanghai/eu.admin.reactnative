@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 
 import { NavHeader, SafeAreaView } from '@/components/ui';
+import colors from '@/components/ui/colors';
 import { FontAwesome } from '@/components/ui/icons';
 import { useAppColorScheme } from '@/lib';
 
@@ -16,18 +17,10 @@ export default function ProcessDetail() {
         right={
           <>
             <TouchableOpacity className="mr-4">
-              <FontAwesome
-                name="share-alt"
-                size={18}
-                color={isDark ? '#9ca3af' : '#4b5563'}
-              />
+              <FontAwesome name="share-alt" size={18} color={colors.white} />
             </TouchableOpacity>
             <TouchableOpacity>
-              <FontAwesome
-                name="ellipsis-v"
-                size={18}
-                color={isDark ? '#9ca3af' : '#4b5563'}
-              />
+              <FontAwesome name="ellipsis-v" size={18} color={colors.white} />
             </TouchableOpacity>
           </>
         }
@@ -35,7 +28,7 @@ export default function ProcessDetail() {
 
       <ScrollView className="flex-1 p-4">
         {/* 工序基本信息 */}
-        <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
+        <View className="mb-4 rounded-2xl border border-gray-100 bg-white p-4 dark:border-gray-800 dark:bg-gray-800">
           <View className="mb-3 flex-row items-start justify-between">
             <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">
               元器件贴装
@@ -87,7 +80,7 @@ export default function ProcessDetail() {
             </View>
           </View>
 
-          <View className="rounded-lg bg-blue-50 p-3 dark:bg-blue-900/20">
+          <View className="rounded-xl bg-primary-50 p-3 dark:bg-primary-900/20">
             <Text className="mb-1 text-sm font-medium text-gray-900 dark:text-gray-100">
               关联设备
             </Text>
@@ -95,7 +88,7 @@ export default function ProcessDetail() {
               <FontAwesome
                 name="microchip"
                 size={16}
-                color={isDark ? '#60a5fa' : '#2563eb'}
+                color={colors.primary[600]}
                 className="mr-2"
               />
               <Text className="text-gray-900 dark:text-gray-100">
@@ -115,7 +108,7 @@ export default function ProcessDetail() {
             <TouchableOpacity
               key={tab}
               onPress={() => setActiveTab(tab)}
-              className={`mr-2 rounded-full px-4 py-2 ${activeTab === tab ? 'bg-blue-600' : 'bg-gray-200 dark:bg-gray-700'}`}
+              className={`mr-2 rounded-full px-4 py-2 ${activeTab === tab ? 'bg-primary-600' : 'bg-gray-200 dark:bg-gray-700'}`}
             >
               <Text
                 className={`text-sm font-medium ${activeTab === tab ? 'text-white' : 'text-gray-800 dark:text-gray-300'}`}
@@ -128,7 +121,7 @@ export default function ProcessDetail() {
 
         {/* 生产记录 */}
         {activeTab === '生产记录' && (
-          <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
+          <View className="mb-4 rounded-2xl border border-gray-100 bg-white p-4 dark:border-gray-800 dark:bg-gray-800">
             <Text className="mb-3 font-medium text-gray-900 dark:text-gray-100">
               生产记录
             </Text>
@@ -219,7 +212,7 @@ export default function ProcessDetail() {
 
         {/* 工艺参数 */}
         {activeTab === '工艺参数' && (
-          <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
+          <View className="mb-4 rounded-2xl border border-gray-100 bg-white p-4 dark:border-gray-800 dark:bg-gray-800">
             <Text className="mb-3 font-medium text-gray-900 dark:text-gray-100">
               工艺参数
             </Text>
@@ -288,7 +281,7 @@ export default function ProcessDetail() {
 
         {/* 质量控制 */}
         {activeTab === '质量控制' && (
-          <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
+          <View className="mb-4 rounded-2xl border border-gray-100 bg-white p-4 dark:border-gray-800 dark:bg-gray-800">
             <Text className="mb-3 font-medium text-gray-900 dark:text-gray-100">
               质量控制
             </Text>
@@ -332,7 +325,7 @@ export default function ProcessDetail() {
 
         {/* 操作指南 */}
         {activeTab === '操作指南' && (
-          <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
+          <View className="mb-4 rounded-2xl border border-gray-100 bg-white p-4 dark:border-gray-800 dark:bg-gray-800">
             <Text className="mb-3 font-medium text-gray-900 dark:text-gray-100">
               操作指南
             </Text>

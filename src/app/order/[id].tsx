@@ -2,12 +2,11 @@ import React, { useState } from 'react';
 import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 
 import { NavHeader, SafeAreaView } from '@/components/ui';
+import colors from '@/components/ui/colors';
 import { FontAwesome } from '@/components/ui/icons';
-import { useAppColorScheme } from '@/lib';
 
 const OrderDetail = () => {
   const [activeTab, setActiveTab] = useState('product-list');
-  const { isDark } = useAppColorScheme();
 
   // 切换选项卡
   const handleTabChange = (tabId: string) => {
@@ -21,18 +20,10 @@ const OrderDetail = () => {
         right={
           <>
             <TouchableOpacity className="mr-4">
-              <FontAwesome
-                name="share-alt"
-                size={18}
-                color={isDark ? '#9ca3af' : '#4b5563'}
-              />
+              <FontAwesome name="share-alt" size={18} color={colors.white} />
             </TouchableOpacity>
             <TouchableOpacity>
-              <FontAwesome
-                name="ellipsis-v"
-                size={18}
-                color={isDark ? '#9ca3af' : '#4b5563'}
-              />
+              <FontAwesome name="ellipsis-v" size={18} color={colors.white} />
             </TouchableOpacity>
           </>
         }
@@ -40,13 +31,13 @@ const OrderDetail = () => {
 
       <ScrollView className="flex-1 p-4">
         {/* 订单基本信息 */}
-        <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
+        <View className="mb-4 rounded-2xl border border-gray-100 bg-white p-5 dark:border-gray-800 dark:bg-gray-800">
           <View className="mb-3 flex-row items-start justify-between">
             <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">
               订单 #2023112702
             </Text>
-            <View className="rounded-full bg-purple-100 px-2 py-1 dark:bg-purple-900/30">
-              <Text className="text-xs font-medium text-purple-800 dark:text-purple-300">
+            <View className="rounded-full bg-primary-100 px-3 py-1 dark:bg-primary-900/30">
+              <Text className="text-xs font-medium text-primary-800 dark:text-primary-300">
                 生产中
               </Text>
             </View>
@@ -103,7 +94,7 @@ const OrderDetail = () => {
             </View>
           </View>
 
-          <View className="rounded-lg bg-blue-50 p-3 dark:bg-blue-900/20">
+          <View className="rounded-xl bg-primary-50 p-3 dark:bg-primary-900/20">
             <Text className="mb-1 text-xs text-gray-500 dark:text-gray-400">
               收货地址
             </Text>
@@ -114,13 +105,13 @@ const OrderDetail = () => {
         </View>
 
         {/* 选项卡 - 分段控制器样式 */}
-        <View className="mb-4 flex-row rounded-lg bg-gray-200 p-1 dark:bg-gray-700">
+        <View className="mb-4 flex-row rounded-xl bg-gray-200 p-1 dark:bg-gray-700">
           <TouchableOpacity
             className={`flex-1 rounded-md px-3 py-2 ${activeTab === 'product-list' ? 'bg-white dark:bg-gray-600' : ''}`}
             onPress={() => handleTabChange('product-list')}
           >
             <Text
-              className={`text-center text-sm ${activeTab === 'product-list' ? 'font-medium text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-300'}`}
+              className={`text-center text-sm ${activeTab === 'product-list' ? 'font-semibold text-primary-600 dark:text-primary-400' : 'text-gray-600 dark:text-gray-300'}`}
             >
               产品明细
             </Text>
@@ -130,7 +121,7 @@ const OrderDetail = () => {
             onPress={() => handleTabChange('production-progress')}
           >
             <Text
-              className={`text-center text-sm ${activeTab === 'production-progress' ? 'font-medium text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-300'}`}
+              className={`text-center text-sm ${activeTab === 'production-progress' ? 'font-semibold text-primary-600 dark:text-primary-400' : 'text-gray-600 dark:text-gray-300'}`}
             >
               生产进度
             </Text>
@@ -140,7 +131,7 @@ const OrderDetail = () => {
             onPress={() => handleTabChange('logistics-info')}
           >
             <Text
-              className={`text-center text-sm ${activeTab === 'logistics-info' ? 'font-medium text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-300'}`}
+              className={`text-center text-sm ${activeTab === 'logistics-info' ? 'font-semibold text-primary-600 dark:text-primary-400' : 'text-gray-600 dark:text-gray-300'}`}
             >
               物流信息
             </Text>
@@ -150,7 +141,7 @@ const OrderDetail = () => {
             onPress={() => handleTabChange('payment-info')}
           >
             <Text
-              className={`text-center text-sm ${activeTab === 'payment-info' ? 'font-medium text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-300'}`}
+              className={`text-center text-sm ${activeTab === 'payment-info' ? 'font-semibold text-primary-600 dark:text-primary-400' : 'text-gray-600 dark:text-gray-300'}`}
             >
               付款信息
             </Text>
@@ -312,7 +303,7 @@ const OrderDetail = () => {
               </View>
               <View className="h-1.5 overflow-hidden rounded bg-gray-200 dark:bg-gray-700">
                 <View
-                  className="h-full rounded bg-blue-600"
+                  className="h-full rounded bg-primary-600"
                   style={{ width: '65%' }}
                 />
               </View>
@@ -328,7 +319,7 @@ const OrderDetail = () => {
                 </Text>
               </View>
               <View className="flex-1 items-center">
-                <Text className="text-xl font-bold text-blue-600 dark:text-blue-400">
+                <Text className="text-xl font-bold text-primary-600 dark:text-primary-400">
                   75%
                 </Text>
                 <Text className="text-xs text-gray-500 dark:text-gray-400">
@@ -349,7 +340,7 @@ const OrderDetail = () => {
 
             {/* 时间线项目 */}
             <View className="relative mb-4 pl-7">
-              <View className="absolute left-2 top-1 size-2.5 rounded-full bg-blue-600" />
+              <View className="absolute left-2 top-1 size-2.5 rounded-full bg-primary-600" />
               <View className="absolute bottom-0 left-3 top-3 w-0.5 bg-gray-200 dark:bg-gray-600" />
               <Text className="text-sm font-medium text-gray-900 dark:text-gray-100">
                 订单确认
@@ -360,7 +351,7 @@ const OrderDetail = () => {
             </View>
 
             <View className="relative mb-4 pl-7">
-              <View className="absolute left-2 top-1 size-2.5 rounded-full bg-blue-600" />
+              <View className="absolute left-2 top-1 size-2.5 rounded-full bg-primary-600" />
               <View className="absolute bottom-0 left-3 top-3 w-0.5 bg-gray-200 dark:bg-gray-600" />
               <Text className="text-sm font-medium text-gray-900 dark:text-gray-100">
                 原料采购完成
@@ -371,7 +362,7 @@ const OrderDetail = () => {
             </View>
 
             <View className="relative mb-4 pl-7">
-              <View className="absolute left-2 top-1 size-2.5 rounded-full bg-blue-600" />
+              <View className="absolute left-2 top-1 size-2.5 rounded-full bg-primary-600" />
               <View className="absolute bottom-0 left-3 top-3 w-0.5 bg-gray-200 dark:bg-gray-600" />
               <Text className="text-sm font-medium text-gray-900 dark:text-gray-100">
                 生产开始
@@ -382,7 +373,7 @@ const OrderDetail = () => {
             </View>
 
             <View className="relative mb-4 pl-7">
-              <View className="absolute left-2 top-1 size-2.5 rounded-full bg-blue-600" />
+              <View className="absolute left-2 top-1 size-2.5 rounded-full bg-primary-600" />
               <View className="absolute bottom-0 left-3 top-3 w-0.5 bg-gray-200 dark:bg-gray-600" />
               <Text className="text-sm font-medium text-gray-900 dark:text-gray-100">
                 智能手表组装中
@@ -390,7 +381,7 @@ const OrderDetail = () => {
               <Text className="text-xs text-gray-500 dark:text-gray-400">
                 2023-12-02 11:30
               </Text>
-              <Text className="mt-1 text-xs text-blue-600 dark:text-blue-400">
+              <Text className="mt-1 text-xs text-primary-600 dark:text-primary-400">
                 已完成35台，剩余15台
               </Text>
             </View>

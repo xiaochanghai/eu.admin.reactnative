@@ -36,12 +36,12 @@ export const WorkOrderCard: React.FC<WorkOrderCardProps> = ({
   <TouchableOpacity
     onPress={onPress}
     activeOpacity={0.7}
-    className="mb-3 rounded-xl bg-white p-4 shadow-sm dark:bg-neutral-800"
+    className="mb-3 rounded-2xl border border-gray-100 bg-white p-4 dark:border-neutral-700 dark:bg-neutral-800"
   >
     <View className="mb-3 flex-1">
       <View className="mb-2 flex-row items-center">
         <View
-          className="mr-2 rounded px-2 py-1"
+          className="mr-2 rounded-full px-2.5 py-1"
           style={{ backgroundColor: order.statusColor }}
         >
           <Text className="text-xs font-semibold text-white">

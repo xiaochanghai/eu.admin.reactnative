@@ -1,5 +1,7 @@
 import { TouchableOpacity, View } from 'react-native';
 
+import colors from '@/components/ui/colors';
+
 import { Text } from '../ui';
 import { FontAwesome } from '../ui/icons';
 
@@ -17,11 +19,11 @@ export const RadioButton: React.FC<RadioButtonProps> = ({
   selected,
   onPress,
   icon,
-  color = '#1890ff',
+  color = colors.primary[600],
 }) => (
   <TouchableOpacity
     onPress={onPress}
-    className={`flex-row items-center rounded-lg border-2 p-3 ${selected ? 'border-primary-500 bg-blue-50 dark:bg-blue-950/30' : 'border-gray-200 dark:border-neutral-700'}`}
+    className={`flex-row items-center rounded-xl border-2 p-3 ${selected ? 'border-primary-600 bg-primary-50 dark:bg-primary-900/20' : 'border-gray-200 bg-white dark:border-neutral-700 dark:bg-neutral-800'}`}
     activeOpacity={0.7}
   >
     {icon && (

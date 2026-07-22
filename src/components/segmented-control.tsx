@@ -1,3 +1,4 @@
+import { useTheme } from 'expo-router';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   type LayoutChangeEvent,
@@ -12,8 +13,6 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
-
-import { useAppColorScheme } from '@/lib';
 
 // 分段控制器选项类型
 export type SegmentedControlOption = {
@@ -40,15 +39,16 @@ export const SegmentedControl: React.FC<SegmentedControlProps> = ({
   backgroundColor,
   sliderColor,
 }) => {
-  const { isDark } = useAppColorScheme();
+  const theme = useTheme();
+  const isDark = theme.dark;
 
   // 根据主题设置默认颜色
-  const defaultActiveColor = activeColor || '#0066ff';
+  const defaultActiveColor = activeColor || theme.colors.primary;
   const defaultInactiveColor =
     inactiveColor || (isDark ? '#9ca3af' : '#6b7280');
   const defaultBackgroundColor =
-    backgroundColor || (isDark ? '#262626' : '#e5e7eb');
-  const defaultSliderColor = sliderColor || (isDark ? '#404040' : 'white');
+    backgroundColor || (isDark ? '#171717' : '#f3f4f6');
+  const defaultSliderColor = sliderColor || (isDark ? '#303030' : 'white');
 
   // 内层容器的 padding
   const PADDING = 2;
@@ -130,7 +130,7 @@ export const SegmentedControl: React.FC<SegmentedControlProps> = ({
               key={option.key}
               style={styles.segmentedControlOption}
               onPress={() => onChange(index)}
-              activeOpacity={0.7}
+              activeOpacity={1}
             >
               <Text
                 style={[
@@ -155,14 +155,14 @@ export const SegmentedControl: React.FC<SegmentedControlProps> = ({
 
 const styles = StyleSheet.create({
   segmentedControlContainer: {
-    borderRadius: 8,
+    borderRadius: 12,
   },
   segmentedControl: {
     flexDirection: 'row',
-    borderRadius: 8,
-    padding: 2,
+    borderRadius: 12,
+    padding: 3,
     position: 'relative',
-    height: 40,
+    height: 44,
   },
   segmentedControlOption: {
     flex: 1,
@@ -172,16 +172,16 @@ const styles = StyleSheet.create({
   },
   segmentedControlSlider: {
     position: 'absolute',
-    top: 2,
-    bottom: 2,
-    borderRadius: 6,
+    top: 3,
+    bottom: 3,
+    borderRadius: 9,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 1,
+    shadowOpacity: 0.06,
+    shadowRadius: 2,
     elevation: 1,
   },
   segmentedControlText: {
-    fontSize: 14,
+    fontSize: 13,
   },
 });
