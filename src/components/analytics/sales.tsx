@@ -1,66 +1,22 @@
 import React from 'react';
-import { Dimensions, Text, TouchableOpacity, View } from 'react-native';
+import {
+  Text,
+  TouchableOpacity,
+  useWindowDimensions,
+  View,
+} from 'react-native';
 import { BarChart, PieChart } from 'react-native-chart-kit';
 
 import { useAppColorScheme } from '@/lib';
 
-// 获取屏幕宽度用于图表响应式设计
-const screenWidth = Dimensions.get('window').width;
-
-// KPI卡片组件
-type KpiCardProps = {
-  title: string;
-  value: string;
-  trend: string;
-  trendUp?: boolean;
-  color: string;
-};
-
-const KpiCard: React.FC<KpiCardProps> = ({
-  title,
-  value,
-  trend,
-  trendUp = true,
-  color,
-}) => (
-  <View className="mb-3 w-[48%] rounded-2xl bg-white p-3 shadow-sm dark:bg-gray-800">
-    <Text className="text-sm text-gray-600 dark:text-gray-400">{title}</Text>
-    <Text className="mt-1 text-xl font-bold" style={{ color }}>
-      {value}
-    </Text>
-    <Text
-      className="mt-1 text-xs"
-      style={{ color: trendUp ? '#22c55e' : '#ef4444' }}
-    >
-      {trend}
-    </Text>
-  </View>
-);
-
-// 图表通用配置
-const getChartConfig = (isDark: boolean) => ({
-  backgroundColor: isDark ? '#1f2937' : '#ffffff',
-  backgroundGradientFrom: isDark ? '#1f2937' : '#ffffff',
-  backgroundGradientTo: isDark ? '#1f2937' : '#ffffff',
-  decimalPlaces: 0,
-  color: (opacity = 1) => `rgba(59, 130, 246, ${opacity})`,
-  labelColor: (opacity = 1) =>
-    isDark
-      ? `rgba(156, 163, 175, ${opacity})`
-      : `rgba(107, 114, 128, ${opacity})`,
-  style: {
-    borderRadius: 16,
-  },
-  propsForDots: {
-    r: '6',
-    strokeWidth: '2',
-    stroke: '#3b82f6',
-  },
-});
+import { getAnalyticsChartConfig, PeriodHeader } from './analytics-ui';
+import { KpiCard } from './kpi-card';
 
 export const Sales: React.FC = () => {
   const { isDark } = useAppColorScheme();
-  const chartConfig = getChartConfig(isDark);
+  const { width } = useWindowDimensions();
+  const chartWidth = width - 64;
+  const chartConfig = getAnalyticsChartConfig(isDark);
 
   // 销售趋势数据
   const salesData = {
@@ -68,7 +24,7 @@ export const Sales: React.FC = () => {
     datasets: [
       {
         data: [60, 75, 45, 80, 65, 90, 70, 85, 95],
-        color: (opacity = 1) => `rgba(59, 130, 246, ${opacity})`,
+        color: (opacity = 1) => `rgba(109, 87, 255, ${opacity})`,
         strokeWidth: 2,
       },
     ],
@@ -80,7 +36,7 @@ export const Sales: React.FC = () => {
     {
       name: '华东地区',
       population: 45,
-      color: '#3b82f6',
+      color: '#6D57FF',
       legendFontColor: isDark ? '#9ca3af' : '#7F7F7F',
       legendFontSize: 12,
     },
@@ -110,31 +66,16 @@ export const Sales: React.FC = () => {
   return (
     <>
       {/* 时间选择器 */}
-      <View className="mb-4 flex-row items-center justify-between">
-        <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-          销售数据
-        </Text>
-        <View className="flex-row overflow-hidden rounded-lg border border-gray-200 bg-white dark:border-gray-600 dark:bg-gray-800">
-          <TouchableOpacity className="border-r border-gray-200 px-3 py-1 dark:border-gray-600">
-            <Text className="text-sm text-gray-500 dark:text-gray-400">日</Text>
-          </TouchableOpacity>
-          <TouchableOpacity className="border-r border-gray-200 bg-blue-50 px-3 py-1 dark:border-gray-600 dark:bg-blue-900/30">
-            <Text className="text-sm text-blue-600 dark:text-blue-400">月</Text>
-          </TouchableOpacity>
-          <TouchableOpacity className="px-3 py-1">
-            <Text className="text-sm text-gray-500 dark:text-gray-400">年</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+      <PeriodHeader title="销售数据" description="1,245 笔订单" />
 
       {/* 销售业绩概览 */}
-      <View className="mb-4 flex-row flex-wrap justify-between">
+      <View className="mb-2 flex-row flex-wrap justify-between">
         <KpiCard
           title="本月销售额"
           value="¥1,258,600"
           trend="↑ 12.5%"
           trendUp={true}
-          color="#0066ff"
+          color="#6D57FF"
         />
         <KpiCard
           title="订单数量"
@@ -160,27 +101,27 @@ export const Sales: React.FC = () => {
       </View>
 
       {/* 销售趋势图 */}
-      <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
+      <View className="mb-3 overflow-hidden rounded-2xl border border-neutral-200 bg-white p-4 dark:border-neutral-800 dark:bg-neutral-900">
         <View className="mb-3 flex-row items-center justify-between">
-          <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+          <Text className="text-base font-bold text-neutral-900 dark:text-white">
             销售趋势
           </Text>
           <TouchableOpacity>
-            <Text className="text-sm text-blue-600 dark:text-blue-400">
+            <Text className="text-xs font-semibold text-primary-500 dark:text-primary-300">
               详情
             </Text>
           </TouchableOpacity>
         </View>
         <BarChart
           data={salesData}
-          width={screenWidth - 48} // 考虑内边距
+          width={chartWidth}
           height={220}
           yAxisLabel="¥"
           yAxisSuffix="万"
           chartConfig={chartConfig}
           style={{
             marginVertical: 8,
-            borderRadius: 16,
+            marginLeft: -10,
           }}
           showBarTops={true}
           fromZero={true}
@@ -188,13 +129,13 @@ export const Sales: React.FC = () => {
       </View>
 
       {/* 客户地区分布 */}
-      <View className="mb-10 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
+      <View className="mb-3 overflow-hidden rounded-2xl border border-neutral-200 bg-white p-4 dark:border-neutral-800 dark:bg-neutral-900">
         <View className="mb-3 flex-row items-center justify-between">
-          <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+          <Text className="text-base font-bold text-neutral-900 dark:text-white">
             客户地区分布
           </Text>
           <TouchableOpacity>
-            <Text className="text-sm text-blue-600 dark:text-blue-400">
+            <Text className="text-xs font-semibold text-primary-500 dark:text-primary-300">
               详情
             </Text>
           </TouchableOpacity>
@@ -202,7 +143,7 @@ export const Sales: React.FC = () => {
         <View className="flex-row items-center">
           <PieChart
             data={customerRegionData}
-            width={screenWidth - 24} // 考虑内边距
+            width={chartWidth}
             height={180}
             chartConfig={chartConfig}
             accessor={'population'}

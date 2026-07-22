@@ -38,11 +38,6 @@ const StatCard: React.FC<StatCardProps> = ({
       style={{
         borderRadius: 16,
         padding: 16,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 8,
-        elevation: 3,
       }}
     >
       <View className="mb-2 flex-row items-center justify-between">
@@ -87,12 +82,12 @@ const QuickAccessItem: React.FC<QuickAccessItemProps> = ({
   onPress,
 }) => (
   <TouchableOpacity
-    className="w-1/4 items-center p-3"
+    className="w-1/4 items-center px-2 py-3"
     onPress={onPress}
     activeOpacity={0.7}
   >
     <View
-      className="mb-2 size-14 items-center justify-center rounded-xl"
+      className="mb-2 size-12 items-center justify-center rounded-2xl"
       style={{ backgroundColor: bgColor }}
     >
       <FontAwesome name={icon as any} size={24} color={iconColor} />
@@ -126,7 +121,7 @@ const TodoItem: React.FC<TodoItemProps> = ({
   iconBgColor,
 }) => (
   <View
-    className="mb-3 flex-row items-center rounded-lg p-3"
+    className="mb-2 min-h-[64px] flex-row items-center rounded-xl p-3"
     style={{
       backgroundColor: bgColor,
       borderLeftWidth: 4,
@@ -179,7 +174,7 @@ const ActivityItem: React.FC<ActivityItemProps> = ({
   action,
   detail,
 }) => (
-  <View className="mb-4 flex-row items-start">
+  <View className="flex-row items-start border-b border-gray-100 py-3.5 dark:border-neutral-800">
     <View
       className="size-8 items-center justify-center rounded-full"
       style={{ backgroundColor: iconBgColor }}
@@ -203,12 +198,12 @@ const RepairHome: React.FC = () => {
   const { isDark } = useAppColorScheme();
   useEffect(() => {
     fetchUserInfo();
-  }, []);
+  }, [fetchUserInfo]);
 
   const router = useRouter();
 
   return (
-    <View className="flex-1 bg-gray-50 dark:bg-neutral-900">
+    <View className="flex-1 bg-gray-100/70 dark:bg-neutral-950">
       {/* 顶部导航 */}
       <NavHeader
         title="首页"
@@ -216,7 +211,7 @@ const RepairHome: React.FC = () => {
         right={
           <>
             <TouchableOpacity
-              className="relative"
+              className="relative size-10 items-center justify-center rounded-full"
               onPress={() => router.push('/notification')}
             >
               <FontAwesome
@@ -230,7 +225,7 @@ const RepairHome: React.FC = () => {
             </TouchableOpacity>
             {!isWeb && (
               <TouchableOpacity
-                className="ml-4"
+                className="size-10 items-center justify-center rounded-full"
                 onPress={() => {
                   router.push('/qr-scanner');
                 }}
@@ -248,13 +243,14 @@ const RepairHome: React.FC = () => {
       />
 
       <ScrollView
-        className="flex-1 px-4 py-6"
+        className="flex-1"
+        contentContainerStyle={{ padding: 16, paddingBottom: 32 }}
         showsVerticalScrollIndicator={false}
       >
         {/* 欢迎信息 */}
         {userInfo?.WeekName && (
-          <View className="mb-6">
-            <Text className="text-2xl font-bold text-gray-800 dark:text-gray-100">
+          <View className="mb-5 px-1">
+            <Text className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
               你好，{userInfo?.UserName}
             </Text>
             <Text className="mt-1 text-sm text-gray-500 dark:text-gray-400">
@@ -263,13 +259,13 @@ const RepairHome: React.FC = () => {
           </View>
         )}
         {/* 数据概览卡片 */}
-        <View className="mb-6 flex-row flex-wrap justify-between">
+        <View className="mb-3 flex-row flex-wrap justify-between">
           <StatCard
             icon="database"
             label="总数"
             value="156"
             subtitle="设备总数"
-            gradientColors={['#3b82f6', '#2563eb']}
+            gradientColors={['#6554ee', '#4736c7']}
           />
           <StatCard
             icon="check-circle"
@@ -295,10 +291,10 @@ const RepairHome: React.FC = () => {
         </View>
 
         {/* 快捷入口 */}
-        <View className="mb-6 rounded-2xl bg-white p-5 shadow-sm dark:bg-neutral-800">
+        <View className="mb-3 rounded-2xl border border-gray-200/80 bg-white p-4 dark:border-neutral-800 dark:bg-neutral-900">
           <View className="mb-4 flex-row items-center">
-            <FontAwesome name="th-large" size={18} color="#1890ff" />
-            <Text className="ml-2 text-lg font-semibold text-gray-800 dark:text-gray-100">
+            <FontAwesome name="th-large" size={16} color="#543EF8" />
+            <Text className="ml-2 text-base font-bold text-gray-900 dark:text-white">
               快捷入口
             </Text>
           </View>
@@ -363,11 +359,11 @@ const RepairHome: React.FC = () => {
         </View>
 
         {/* 待办任务 */}
-        <View className="mb-6 rounded-2xl bg-white p-5 shadow-sm dark:bg-neutral-800">
+        <View className="mb-3 rounded-2xl border border-gray-200/80 bg-white p-4 dark:border-neutral-800 dark:bg-neutral-900">
           <View className="mb-4 flex-row items-center justify-between">
             <View className="flex-row items-center">
-              <FontAwesome name="tasks" size={18} color="#1890ff" />
-              <Text className="ml-2 text-lg font-semibold text-gray-800 dark:text-gray-100">
+              <FontAwesome name="tasks" size={16} color="#543EF8" />
+              <Text className="ml-2 text-base font-bold text-gray-900 dark:text-white">
                 待办任务
               </Text>
               <View className="ml-2 rounded-full bg-red-500 px-2 py-1">
@@ -376,13 +372,13 @@ const RepairHome: React.FC = () => {
             </View>
             <TouchableOpacity>
               <View className="flex-row items-center">
-                <Text className="text-sm text-blue-600 dark:text-blue-400">
+                <Text className="text-sm font-medium text-primary-600 dark:text-primary-400">
                   查看全部
                 </Text>
                 <FontAwesome
                   name="chevron-right"
                   size={12}
-                  color="#2563eb"
+                  color="#543EF8"
                   style={{ marginLeft: 4 }}
                 />
               </View>
@@ -422,7 +418,7 @@ const RepairHome: React.FC = () => {
         </View>
 
         {/* 最近动态 */}
-        <View className="mb-4 rounded-2xl bg-white p-5 shadow-sm dark:bg-neutral-800">
+        <View className="rounded-2xl border border-gray-200/80 bg-white p-4 dark:border-neutral-800 dark:bg-neutral-900">
           <View className="mb-4 flex-row items-center justify-between">
             <View className="flex-row items-center">
               <FontAwesome name="history" size={18} color="#1890ff" />
@@ -432,13 +428,13 @@ const RepairHome: React.FC = () => {
             </View>
             <TouchableOpacity>
               <View className="flex-row items-center">
-                <Text className="text-sm text-blue-600 dark:text-blue-400">
+                <Text className="text-sm font-medium text-primary-600 dark:text-primary-400">
                   查看全部
                 </Text>
                 <FontAwesome
                   name="chevron-right"
                   size={12}
-                  color="#2563eb"
+                  color="#543EF8"
                   style={{ marginLeft: 4 }}
                 />
               </View>
@@ -470,9 +466,6 @@ const RepairHome: React.FC = () => {
             detail="注塑机IM-12异常 · 2小时前"
           />
         </View>
-
-        {/* 底部空间 - 为底部导航留出空间 */}
-        <View className="h-[70px]" />
       </ScrollView>
     </View>
   );

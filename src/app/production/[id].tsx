@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 
 import { NavHeader, SafeAreaView } from '@/components/ui';
+import colors from '@/components/ui/colors';
 import { FontAwesome, GroupEnum } from '@/components/ui/icons';
 import { useAppColorScheme } from '@/lib';
 
@@ -16,18 +17,10 @@ const ProductionDetail = () => {
         right={
           <>
             <TouchableOpacity className="mr-4">
-              <FontAwesome
-                name="share-alt"
-                size={18}
-                color={isDark ? '#9ca3af' : '#4b5563'}
-              />
+              <FontAwesome name="share-alt" size={18} color={colors.white} />
             </TouchableOpacity>
             <TouchableOpacity>
-              <FontAwesome
-                name="ellipsis-v"
-                size={18}
-                color={isDark ? '#9ca3af' : '#4b5563'}
-              />
+              <FontAwesome name="ellipsis-v" size={18} color={colors.white} />
             </TouchableOpacity>
           </>
         }
@@ -35,7 +28,7 @@ const ProductionDetail = () => {
 
       <ScrollView className="flex-1 p-4">
         {/* 生产计划基本信息 */}
-        <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
+        <View className="mb-4 rounded-2xl border border-gray-100 bg-white p-4 dark:border-gray-800 dark:bg-gray-800">
           <View className="mb-3 flex-row items-start justify-between">
             <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">
               夏季新品连衣裙生产计划
@@ -125,12 +118,12 @@ const ProductionDetail = () => {
             </View>
           </View>
 
-          <View className="rounded-lg bg-blue-50 p-3 dark:bg-blue-900/20">
+          <View className="rounded-xl bg-primary-50 p-3 dark:bg-primary-900/20">
             <View className="flex-row">
               <FontAwesome
                 name="info-circle"
                 size={16}
-                color={isDark ? '#60a5fa' : '#0066ff'}
+                color={colors.primary[600]}
                 style={{ marginTop: 2, marginRight: 8 }}
               />
               <View>
@@ -160,7 +153,7 @@ const ProductionDetail = () => {
             ].map((tab) => (
               <TouchableOpacity
                 key={tab.id}
-                className={`mr-2 rounded-full px-4 py-2 ${activeTab === tab.id ? 'bg-blue-600' : 'bg-gray-100 dark:bg-gray-700'}`}
+                className={`mr-2 rounded-full px-4 py-2 ${activeTab === tab.id ? 'bg-primary-600' : 'bg-gray-100 dark:bg-gray-700'}`}
                 onPress={() => setActiveTab(tab.id)}
               >
                 <Text
@@ -179,7 +172,7 @@ const ProductionDetail = () => {
           {activeTab === 'production-process' && (
             <View>
               {/* 工序流程图 */}
-              <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
+              <View className="mb-4 rounded-2xl border border-gray-100 bg-white p-4 dark:border-gray-800 dark:bg-gray-800">
                 <Text className="mb-3 text-base font-semibold text-gray-900 dark:text-gray-100">
                   生产流程
                 </Text>
@@ -207,14 +200,14 @@ const ProductionDetail = () => {
                     <View className="mx-1 h-0.5 w-10 bg-green-500" />
 
                     <View className="items-center">
-                      <View className="size-16 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/30">
+                      <View className="size-16 items-center justify-center rounded-full bg-primary-100 dark:bg-primary-900/30">
                         <FontAwesome
                           name="tshirt"
                           size={30}
-                          color={isDark ? '#60a5fa' : '#2563eb'}
+                          color={colors.primary[600]}
                           group={GroupEnum.FontAwesome5}
                         />
-                        <View className="right-5.5 absolute top-6 size-5 items-center justify-center rounded-full bg-blue-500">
+                        <View className="right-5.5 absolute top-6 size-5 items-center justify-center rounded-full bg-primary-500">
                           <FontAwesome
                             name="sync"
                             size={10}
@@ -289,7 +282,7 @@ const ProductionDetail = () => {
               </View>
 
               {/* 生产时间线 */}
-              <View className="rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
+              <View className="rounded-2xl border border-gray-100 bg-white p-4 dark:border-gray-800 dark:bg-gray-800">
                 <Text className="mb-3 text-base font-semibold text-gray-900 dark:text-gray-100">
                   生产时间线
                 </Text>
@@ -353,11 +346,11 @@ const ProductionDetail = () => {
                   ].map((item, index) => (
                     <View key={index} className="relative pb-4 pl-7">
                       <View
-                        className={`absolute left-0 top-1 size-2.5 rounded-full ${item.active ? 'bg-blue-600' : 'bg-gray-300 dark:bg-gray-600'}`}
+                        className={`absolute left-0 top-1 size-2.5 rounded-full ${item.active ? 'bg-primary-600' : 'bg-gray-300 dark:bg-gray-600'}`}
                       />
                       {index < 8 && (
                         <View
-                          className={`absolute left-1 top-3 h-full w-0.5 ${item.active ? 'bg-blue-600' : 'bg-gray-300 dark:bg-gray-600'}`}
+                          className={`absolute left-1 top-3 h-full w-0.5 ${item.active ? 'bg-primary-600' : 'bg-gray-300 dark:bg-gray-600'}`}
                           style={{ height: '100%' }}
                         />
                       )}
@@ -426,7 +419,7 @@ const ProductionDetail = () => {
               ].map((task, index) => (
                 <View
                   key={index}
-                  className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800"
+                  className="mb-4 rounded-2xl border border-gray-100 bg-white p-4 dark:border-gray-800 dark:bg-gray-800"
                 >
                   <View className="mb-2 flex-row items-start justify-between">
                     <View>
@@ -438,10 +431,10 @@ const ProductionDetail = () => {
                       </Text>
                     </View>
                     <View
-                      className={`rounded-full px-2 py-1 ${task.statusColor === 'green' ? 'bg-green-100 dark:bg-green-900/30' : task.statusColor === 'blue' ? 'bg-blue-100 dark:bg-blue-900/30' : 'bg-gray-100 dark:bg-gray-700'}`}
+                      className={`rounded-full px-2 py-1 ${task.statusColor === 'green' ? 'bg-green-100 dark:bg-green-900/30' : task.statusColor === 'blue' ? 'bg-primary-100 dark:bg-primary-900/30' : 'bg-gray-100 dark:bg-gray-700'}`}
                     >
                       <Text
-                        className={`text-xs font-medium ${task.statusColor === 'green' ? 'text-green-800 dark:text-green-300' : task.statusColor === 'blue' ? 'text-blue-800 dark:text-blue-300' : 'text-gray-800 dark:text-gray-300'}`}
+                        className={`text-xs font-medium ${task.statusColor === 'green' ? 'text-green-800 dark:text-green-300' : task.statusColor === 'blue' ? 'text-primary-800 dark:text-primary-300' : 'text-gray-800 dark:text-gray-300'}`}
                       >
                         <FontAwesome
                           name={task.icon}
@@ -529,7 +522,7 @@ const ProductionDetail = () => {
                       </View>
                       <View className="h-1.5 overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700">
                         <View
-                          className="h-full rounded-full bg-blue-500"
+                          className="h-full rounded-full bg-primary-500"
                           style={{ width: `${task.progress}%` }}
                         />
                       </View>
@@ -543,7 +536,7 @@ const ProductionDetail = () => {
           {/* 物料使用内容 */}
           {activeTab === 'material-usage' && (
             <View>
-              <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
+              <View className="mb-4 rounded-2xl border border-gray-100 bg-white p-4 dark:border-gray-800 dark:bg-gray-800">
                 <Text className="mb-3 text-base font-semibold text-gray-900 dark:text-gray-100">
                   物料使用情况
                 </Text>
@@ -623,7 +616,7 @@ const ProductionDetail = () => {
                 </ScrollView>
               </View>
 
-              <View className="mb-20 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
+              <View className="mb-20 rounded-2xl border border-gray-100 bg-white p-4 dark:border-gray-800 dark:bg-gray-800">
                 <Text className="mb-3 text-base font-semibold text-gray-900 dark:text-gray-100">
                   物料消耗分析
                 </Text>
@@ -656,7 +649,7 @@ const ProductionDetail = () => {
                   </View>
                   <View className="h-1.5 overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700">
                     <View
-                      className="h-full rounded-full bg-blue-500"
+                      className="h-full rounded-full bg-primary-500"
                       style={{ width: '75%' }}
                     />
                   </View>
@@ -668,7 +661,7 @@ const ProductionDetail = () => {
           {/* 质量控制内容 */}
           {activeTab === 'quality-control' && (
             <View>
-              <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
+              <View className="mb-4 rounded-2xl border border-gray-100 bg-white p-4 dark:border-gray-800 dark:bg-gray-800">
                 <Text className="mb-3 text-base font-semibold text-gray-900 dark:text-gray-100">
                   质量检验标准
                 </Text>
@@ -701,7 +694,7 @@ const ProductionDetail = () => {
                 </View>
               </View>
 
-              <View className="mb-10 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
+              <View className="mb-10 rounded-2xl border border-gray-100 bg-white p-4 dark:border-gray-800 dark:bg-gray-800">
                 <Text className="mb-3 text-base font-semibold text-gray-900 dark:text-gray-100">
                   质量检验记录
                 </Text>

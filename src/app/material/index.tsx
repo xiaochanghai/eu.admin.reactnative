@@ -4,6 +4,7 @@ import { StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 
 import { RefreshListView } from '@/components';
 import { NavHeader, ScrollView, Text, View } from '@/components/ui';
+import colors from '@/components/ui/colors';
 import { FontAwesome, GroupEnum } from '@/components/ui/icons';
 
 type MaterialProps = {
@@ -156,22 +157,31 @@ const Materials = () => {
   // 渲染物料项
   const renderMaterialItem = ({ item }: { item: any }) => (
     <TouchableOpacity
-      className="mx-3 mb-3 rounded-lg bg-white p-4 shadow-sm dark:bg-gray-800"
+      activeOpacity={0.72}
+      className="mx-4 mb-3 rounded-2xl border border-gray-100 bg-white p-4 dark:border-gray-800 dark:bg-gray-800"
       onPress={() => handleMaterialPress(item.id)}
     >
       <View className="flex-row items-center justify-between">
-        <View className={'flex-1'}>
+        <View className="mr-3 size-11 items-center justify-center rounded-xl bg-primary-50 dark:bg-primary-900/30">
+          <FontAwesome
+            name="cube"
+            size={18}
+            color={colors.primary[600]}
+            group={GroupEnum.FontAwesome5}
+          />
+        </View>
+        <View className="flex-1">
           <Text
             className={'text-lg font-bold text-gray-800 dark:text-gray-100'}
           >
             {item.name}
           </Text>
-          <Text className={'mt-1 text-sm text-gray-500 dark:text-gray-400'}>
-            编码: {item.code}
+          <Text className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+            {item.code} · {item.category}
           </Text>
           <View className={'mt-2 flex-row items-center'}>
-            <Text className={'text-sm text-gray-600 dark:text-gray-300'}>
-              库存: {item.stock} {item.unit}
+            <Text className="text-sm text-gray-600 dark:text-gray-300">
+              库存 {item.stock.toLocaleString()} {item.unit}
             </Text>
             <View
               className={
@@ -194,15 +204,14 @@ const Materials = () => {
             </View>
           </View>
         </View>
-        <View className="flex-row items-center">
-          <Text className="mr-2 text-xs text-gray-400">{item.lastUpdated}</Text>
-
+        <View className="items-end">
           <FontAwesome
             name="chevron-small-right"
-            size={24}
+            size={22}
             color="#9CA3AF"
             group={GroupEnum.Entypo}
           />
+          <Text className="mt-2 text-xs text-gray-400">{item.lastUpdated}</Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -215,21 +224,15 @@ const Materials = () => {
         right={
           <>
             <TouchableOpacity style={styles.headerButton}>
-              <FontAwesome name="search" size={18} color="#6b7280" />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.headerButton}>
-              <FontAwesome name="filter" size={18} color="#6b7280" />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.headerButton}>
-              <FontAwesome name="plus-circle" size={22} color="#0066ff" />
+              <FontAwesome name="plus-circle" size={22} color={colors.white} />
             </TouchableOpacity>
           </>
         }
       />
       {/* 头部 */}
-      <View className="bg-white px-4 py-3 shadow-sm dark:bg-gray-800">
+      <View className="bg-white px-4 pb-4 pt-3 dark:bg-gray-800">
         {/* 搜索框 */}
-        <View className="mt-3 flex-row items-center rounded-lg bg-gray-100 px-3 py-2 dark:bg-gray-700">
+        <View className="flex-row items-center rounded-xl border border-gray-200 bg-gray-50 px-3 py-2.5 dark:border-gray-700 dark:bg-gray-900">
           <FontAwesome
             name="search"
             size={20}
@@ -257,17 +260,17 @@ const Materials = () => {
       </View>
 
       {/* 分类选择 */}
-      <View style={{ height: 50, marginBottom: 10 }}>
+      <View style={{ height: 56, marginBottom: 8 }}>
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
-          className="bg-white py-2 dark:bg-gray-800"
-          contentContainerStyle={{ paddingHorizontal: 8 }}
+          className="bg-gray-100 py-2 dark:bg-gray-900"
+          contentContainerStyle={{ paddingHorizontal: 12 }}
         >
           {categories.map((category) => (
             <TouchableOpacity
               key={category.id}
-              className={`mx-1 rounded-full px-4 py-2 ${selectedCategory === category.name ? 'bg-blue-500' : 'bg-gray-100 dark:bg-gray-700'}`}
+              className={`mr-2 rounded-full px-4 py-2 ${selectedCategory === category.name ? 'bg-primary-600' : 'border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800'}`}
               onPress={() => handleCategorySelect(category.name)}
             >
               <View>

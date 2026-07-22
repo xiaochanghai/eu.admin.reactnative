@@ -33,7 +33,7 @@ const ReportDateSelector: React.FC = () => {
         onPress={() => handleReportTypeChange('daily')}
       >
         <Text
-          className={`text-sm ${selectedReportType === 'daily' ? 'font-medium text-blue-600' : 'text-gray-500 dark:text-gray-400'}`}
+          className={`text-sm ${selectedReportType === 'daily' ? 'font-medium text-primary-600' : 'text-gray-500 dark:text-gray-400'}`}
         >
           日报
         </Text>
@@ -43,7 +43,7 @@ const ReportDateSelector: React.FC = () => {
         onPress={() => handleReportTypeChange('weekly')}
       >
         <Text
-          className={`text-sm ${selectedReportType === 'weekly' ? 'font-medium text-blue-600' : 'text-gray-500 dark:text-gray-400'}`}
+          className={`text-sm ${selectedReportType === 'weekly' ? 'font-medium text-primary-600' : 'text-gray-500 dark:text-gray-400'}`}
         >
           周报
         </Text>
@@ -53,7 +53,7 @@ const ReportDateSelector: React.FC = () => {
         onPress={() => handleReportTypeChange('monthly')}
       >
         <Text
-          className={`text-sm ${selectedReportType === 'monthly' ? 'font-medium text-blue-600' : 'text-gray-500 dark:text-gray-400'}`}
+          className={`text-sm ${selectedReportType === 'monthly' ? 'font-medium text-primary-600' : 'text-gray-500 dark:text-gray-400'}`}
         >
           月报
         </Text>

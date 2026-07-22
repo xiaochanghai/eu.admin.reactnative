@@ -1,3 +1,4 @@
+export * from './analytics-ui';
 export * from './inventory';
 export * from './kpi-card';
 export * from './overview';

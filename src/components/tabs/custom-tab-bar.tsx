@@ -6,7 +6,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Text } from '@/components/ui';
 
 // Tab 高度常量
-const TAB_HEIGHT = 60;
+const TAB_HEIGHT = 64;
 
 // TabItem 组件
 interface TabItemProps {
@@ -29,12 +29,12 @@ const TabItem = memo(
         testID={options.tabBarButtonTestID}
         onPress={onPress}
         onLongPress={onLongPress}
-        activeOpacity={1}
+        activeOpacity={0.65}
         className="flex-1 items-center justify-center"
       >
         {options.tabBarIcon?.({ focused: isFocused })}
         <Text
-          className={`mt-0.5 text-[12px] ${isFocused ? 'text-[#007bff] dark:text-[#007bff]' : 'text-gray-600 dark:text-gray-400'}`}
+          className={`mt-1 text-[11px] ${isFocused ? 'font-semibold text-primary-600 dark:text-primary-400' : 'text-gray-500 dark:text-gray-500'}`}
         >
           {label}
         </Text>
@@ -58,7 +58,7 @@ const CenterButton = memo(({ onPress }: CenterButtonProps) => {
   return (
     <View className="h-full w-1/5 items-center justify-center">
       <TouchableOpacity
-        className="-top-5 size-[60px] items-center justify-center rounded-full bg-[#007bff] shadow-lg dark:bg-purple-600"
+        className="-top-5 size-[60px] items-center justify-center rounded-full bg-primary-600 shadow-lg dark:bg-primary-600"
         onPress={handlePress}
         activeOpacity={0.8}
       >
@@ -102,7 +102,7 @@ export const CustomTabBar = memo(
 
     return (
       <View
-        className="relative flex-row items-center justify-between bg-white px-0 dark:border-neutral-600 dark:bg-neutral-800"
+        className="relative flex-row items-center justify-between border-t border-gray-200 bg-white px-0 dark:border-neutral-800 dark:bg-neutral-900"
         style={{
           height: TAB_HEIGHT + insets.bottom,
           paddingBottom: insets.bottom,

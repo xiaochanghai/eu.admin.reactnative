@@ -1,5 +1,11 @@
 import { useRouter } from 'expo-router';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { ScrollView, TouchableOpacity } from 'react-native';
 
 import { queryByFilter } from '@/api';
@@ -71,7 +77,7 @@ const STATUS_META: Record<
   review: {
     label: '待审核',
     color: '#1890ff',
-    gradient: ['#3b82f6', '#2563eb'],
+    gradient: ['#6554ee', '#4736c7'],
   },
   completed: {
     label: '已完成',
@@ -94,7 +100,7 @@ const RepairOrder: React.FC = () => {
   const [refreshing, setRefreshing] = useState(false);
   const pageRef = useRef(1);
 
-  const mapToWorkOrder = (item: RepairOrderRecord): WorkOrder => {
+  const mapToWorkOrder = useCallback((item: RepairOrderRecord): WorkOrder => {
     const statusMeta = item.Status
       ? STATUS_META[item.Status]
       : STATUS_META.processing;
@@ -118,47 +124,50 @@ const RepairOrder: React.FC = () => {
         formatRelativeDate(item.ExpectedCompleteTime, { showTime: true }) ??
         item.Deadline,
     };
-  };
+  }, []);
 
-  const loadData = async (append = false) => {
-    const page = append ? pageRef.current + 1 : 1;
-    pageRef.current = page;
+  const loadData = useCallback(
+    async (append = false) => {
+      const page = append ? pageRef.current + 1 : 1;
+      pageRef.current = page;
 
-    const filter = {
-      PageIndex: page,
-      PageSize: PageSize,
-      Conditions: '',
-    };
+      const filter = {
+        PageIndex: page,
+        PageSize: PageSize,
+        Conditions: '',
+      };
 
-    setRefreshing(!append);
+      setRefreshing(!append);
 
-    try {
-      const { success, data, total } = await queryByFilter(
-        moduleCode,
-        {},
-        filter
-      );
-      if (success && Array.isArray(data)) {
-        const orders = data.map(mapToWorkOrder);
-        setList((prev) => {
-          const next = append ? [...prev, ...orders] : orders;
-          setHasMore(next.length < (total || next.length));
-          return next;
-        });
-      } else {
+      try {
+        const { success, data, total } = await queryByFilter(
+          moduleCode,
+          {},
+          filter
+        );
+        if (success && Array.isArray(data)) {
+          const orders = data.map(mapToWorkOrder);
+          setList((prev) => {
+            const next = append ? [...prev, ...orders] : orders;
+            setHasMore(next.length < (total || next.length));
+            return next;
+          });
+        } else {
+          setHasMore(false);
+        }
+      } catch (err) {
+        console.error('加载维修工单失败', err);
         setHasMore(false);
+      } finally {
+        setRefreshing(false);
       }
-    } catch (err) {
-      console.error('加载维修工单失败', err);
-      setHasMore(false);
-    } finally {
-      setRefreshing(false);
-    }
-  };
+    },
+    [mapToWorkOrder]
+  );
 
   useEffect(() => {
     loadData(false);
-  }, []);
+  }, [loadData]);
 
   const filterCounts = useMemo(
     () => ({
@@ -220,7 +229,7 @@ const RepairOrder: React.FC = () => {
   );
 
   const ListHeader = () => (
-    <View className="p-4">
+    <View className="px-4 pb-3 pt-4">
       <View className="mb-4 flex-row justify-between">
         {stats.map((stat, index) => (
           <StatCard
@@ -232,7 +241,7 @@ const RepairOrder: React.FC = () => {
         ))}
       </View>
 
-      <View className="rounded-xl bg-white p-4 shadow-sm dark:bg-neutral-800">
+      <View className="rounded-2xl border border-gray-200/80 bg-white p-3 dark:border-neutral-800 dark:bg-neutral-900">
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -290,21 +299,17 @@ const RepairOrder: React.FC = () => {
   );
 
   return (
-    <View className="flex-1 bg-gray-50 dark:bg-neutral-900">
+    <View className="flex-1 bg-gray-100/70 dark:bg-neutral-950">
       {/* 顶部导航 */}
       <NavHeader
         title="维修"
         leftShown={false}
         right={
           <TouchableOpacity
-            className="mr-3"
+            className="size-10 items-center justify-center rounded-full"
             onPress={() => router.push('/repair-order/add')}
           >
-            <FontAwesome
-              name="plus"
-              size={20}
-              color={isDark ? '#9ca3af' : '#6b7280'}
-            />
+            <FontAwesome name="plus" size={20} color="#543EF8" />
           </TouchableOpacity>
         }
       />
@@ -321,7 +326,7 @@ const RepairOrder: React.FC = () => {
         hasMore={hasMore}
         refreshing={refreshing}
         estimatedItemSize={200}
-        contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 16 }}
+        contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 32 }}
       />
     </View>
   );

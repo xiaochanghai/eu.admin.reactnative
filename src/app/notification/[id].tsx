@@ -3,8 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 
 import { NavHeader, ScrollView, Text, View } from '@/components/ui';
+import colors from '@/components/ui/colors';
 import { FontAwesome, GroupEnum } from '@/components/ui/icons';
-import { useAppColorScheme } from '@/lib';
 
 interface RelatedNotification {
   id: string;
@@ -19,7 +19,6 @@ const NotificationDetail = () => {
   // const notificationType1 = route.params?.type || 'warning';
   const local = useLocalSearchParams<{ type: string }>();
   const notificationType = local.type;
-  const { isDark } = useAppColorScheme();
 
   // 通知详情状态
   const [notificationInfo, setNotificationInfo] = useState({
@@ -64,107 +63,109 @@ const NotificationDetail = () => {
 
   // 根据通知类型设置样式和内容
   useEffect(() => {
-    let updatedInfo = { ...notificationInfo };
+    setNotificationInfo((currentInfo) => {
+      let updatedInfo = { ...currentInfo };
 
-    switch (notificationType) {
-      case 'warning':
-        updatedInfo = {
-          ...updatedInfo,
-          title: '库存预警',
-          icon: 'exclamation-triangle',
-          iconBgColor: '#ef4444', // red-500
-          badgeBg: 'bg-red-100 dark:bg-red-900/30',
-          badgeText: 'text-red-800 dark:text-red-300',
-          badgeContent: '预警信息',
-          actionText: '查看物料详情',
-        };
-        break;
-      case 'task':
-        updatedInfo = {
-          ...updatedInfo,
-          title: '任务分配',
-          content:
-            '您有一个新的生产任务 #PT20231129-02 需要处理。请在今天下午3点前完成相关准备工作。',
-          icon: 'tasks',
-          iconBgColor: '#22c55e', // green-500
-          badgeBg: 'bg-green-100 dark:bg-green-900/30',
-          badgeText: 'text-green-800 dark:text-green-300',
-          badgeContent: '任务提醒',
-          actionText: '处理任务',
-        };
-        break;
-      case 'order':
-        updatedInfo = {
-          ...updatedInfo,
-          title: '订单完成',
-          content:
-            '订单 #2023112801 已完成生产，等待发货。请安排物流部门进行后续处理。',
-          icon: 'clipboard-check',
-          iconBgColor: '#3b82f6', // blue-500
-          badgeBg: 'bg-blue-100 dark:bg-blue-900/30',
-          badgeText: 'text-blue-800 dark:text-blue-300',
-          badgeContent: '订单通知',
-          actionText: '查看订单',
-        };
-        break;
-      case 'system':
-        updatedInfo = {
-          ...updatedInfo,
-          title: '系统维护',
-          content:
-            '系统将于今晚22:00-23:00进行例行维护，请提前做好准备。维护期间系统将暂停服务。',
-          icon: 'bell',
-          iconBgColor: '#eab308', // yellow-500
-          badgeBg: 'bg-yellow-100 dark:bg-yellow-900/30',
-          badgeText: 'text-yellow-800 dark:text-yellow-300',
-          badgeContent: '系统通知',
-          actionText: '了解详情',
-        };
-        break;
-      case 'report':
-        updatedInfo = {
-          ...updatedInfo,
-          title: '数据报表',
-          content:
-            '11月生产效率分析报表已生成，请查看。本月生产效率较上月提升5.2%。',
-          icon: 'chart-line',
-          iconBgColor: '#a855f7', // purple-500
-          badgeBg: 'bg-purple-100 dark:bg-purple-900/30',
-          badgeText: 'text-purple-800 dark:text-purple-300',
-          badgeContent: '数据报表',
-          actionText: '查看报表',
-        };
-        break;
-      case 'team':
-        updatedInfo = {
-          ...updatedInfo,
-          title: '新成员加入',
-          content: '李工程师已加入您的生产团队，请及时安排工作。',
-          icon: 'user-plus',
-          iconBgColor: '#6366f1', // indigo-500
-          badgeBg: 'bg-indigo-100 dark:bg-indigo-900/30',
-          badgeText: 'text-indigo-800 dark:text-indigo-300',
-          badgeContent: '团队通知',
-          actionText: '查看团队',
-        };
-        break;
-      case 'update':
-        updatedInfo = {
-          ...updatedInfo,
-          title: '系统更新',
-          content:
-            '系统已更新至v1.0.5版本，新增多项功能和优化。主要更新内容包括：生产计划优化、库存预警阈值自定义、报表导出功能等。',
-          icon: 'cogs',
-          iconBgColor: '#f97316', // orange-500
-          badgeBg: 'bg-orange-100 dark:bg-orange-900/30',
-          badgeText: 'text-orange-800 dark:text-orange-300',
-          badgeContent: '系统更新',
-          actionText: '查看更新',
-        };
-        break;
-    }
+      switch (notificationType) {
+        case 'warning':
+          updatedInfo = {
+            ...updatedInfo,
+            title: '库存预警',
+            icon: 'exclamation-triangle',
+            iconBgColor: '#ef4444', // red-500
+            badgeBg: 'bg-red-100 dark:bg-red-900/30',
+            badgeText: 'text-red-800 dark:text-red-300',
+            badgeContent: '预警信息',
+            actionText: '查看物料详情',
+          };
+          break;
+        case 'task':
+          updatedInfo = {
+            ...updatedInfo,
+            title: '任务分配',
+            content:
+              '您有一个新的生产任务 #PT20231129-02 需要处理。请在今天下午3点前完成相关准备工作。',
+            icon: 'tasks',
+            iconBgColor: '#22c55e', // green-500
+            badgeBg: 'bg-green-100 dark:bg-green-900/30',
+            badgeText: 'text-green-800 dark:text-green-300',
+            badgeContent: '任务提醒',
+            actionText: '处理任务',
+          };
+          break;
+        case 'order':
+          updatedInfo = {
+            ...updatedInfo,
+            title: '订单完成',
+            content:
+              '订单 #2023112801 已完成生产，等待发货。请安排物流部门进行后续处理。',
+            icon: 'clipboard-check',
+            iconBgColor: '#3b82f6', // blue-500
+            badgeBg: 'bg-blue-100 dark:bg-blue-900/30',
+            badgeText: 'text-blue-800 dark:text-blue-300',
+            badgeContent: '订单通知',
+            actionText: '查看订单',
+          };
+          break;
+        case 'system':
+          updatedInfo = {
+            ...updatedInfo,
+            title: '系统维护',
+            content:
+              '系统将于今晚22:00-23:00进行例行维护，请提前做好准备。维护期间系统将暂停服务。',
+            icon: 'bell',
+            iconBgColor: '#eab308', // yellow-500
+            badgeBg: 'bg-yellow-100 dark:bg-yellow-900/30',
+            badgeText: 'text-yellow-800 dark:text-yellow-300',
+            badgeContent: '系统通知',
+            actionText: '了解详情',
+          };
+          break;
+        case 'report':
+          updatedInfo = {
+            ...updatedInfo,
+            title: '数据报表',
+            content:
+              '11月生产效率分析报表已生成，请查看。本月生产效率较上月提升5.2%。',
+            icon: 'chart-line',
+            iconBgColor: '#a855f7', // purple-500
+            badgeBg: 'bg-purple-100 dark:bg-purple-900/30',
+            badgeText: 'text-purple-800 dark:text-purple-300',
+            badgeContent: '数据报表',
+            actionText: '查看报表',
+          };
+          break;
+        case 'team':
+          updatedInfo = {
+            ...updatedInfo,
+            title: '新成员加入',
+            content: '李工程师已加入您的生产团队，请及时安排工作。',
+            icon: 'user-plus',
+            iconBgColor: '#6366f1', // indigo-500
+            badgeBg: 'bg-indigo-100 dark:bg-indigo-900/30',
+            badgeText: 'text-indigo-800 dark:text-indigo-300',
+            badgeContent: '团队通知',
+            actionText: '查看团队',
+          };
+          break;
+        case 'update':
+          updatedInfo = {
+            ...updatedInfo,
+            title: '系统更新',
+            content:
+              '系统已更新至v1.0.5版本，新增多项功能和优化。主要更新内容包括：生产计划优化、库存预警阈值自定义、报表导出功能等。',
+            icon: 'cogs',
+            iconBgColor: '#f97316', // orange-500
+            badgeBg: 'bg-orange-100 dark:bg-orange-900/30',
+            badgeText: 'text-orange-800 dark:text-orange-300',
+            badgeContent: '系统更新',
+            actionText: '查看更新',
+          };
+          break;
+      }
 
-    setNotificationInfo(updatedInfo);
+      return updatedInfo;
+    });
   }, [notificationType]);
 
   // 处理主要操作按钮点击
@@ -200,18 +201,10 @@ const NotificationDetail = () => {
         right={
           <>
             <TouchableOpacity style={styles.headerButton}>
-              <FontAwesome
-                name="share-alt"
-                size={18}
-                color={isDark ? '#9ca3af' : '#6b7280'}
-              />
+              <FontAwesome name="share-alt" size={18} color={colors.white} />
             </TouchableOpacity>
             <TouchableOpacity style={styles.headerButton}>
-              <FontAwesome
-                name="ellipsis-v"
-                size={18}
-                color={isDark ? '#9ca3af' : '#6b7280'}
-              />
+              <FontAwesome name="ellipsis-v" size={18} color={colors.white} />
             </TouchableOpacity>
           </>
         }
@@ -231,7 +224,7 @@ const NotificationDetail = () => {
         </View>
 
         {/* 通知详情卡片 */}
-        <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
+        <View className="mb-4 rounded-2xl border border-gray-100 bg-white p-5 dark:border-neutral-700 dark:bg-neutral-800">
           <View className="flex-row items-start">
             <View
               className="w-15 h-15 mr-4 items-center justify-center rounded-xl"
@@ -276,7 +269,7 @@ const NotificationDetail = () => {
             {notificationInfo.relatedInfo.map((item, index) => (
               <View
                 key={index}
-                className="mb-3 rounded-xl bg-gray-50 p-4 dark:bg-neutral-700"
+                className="border-b border-gray-100 py-3 last:border-b-0 dark:border-neutral-700"
               >
                 <View className="flex-row justify-between">
                   <Text className="font-medium text-gray-900 dark:text-gray-100">
@@ -300,7 +293,8 @@ const NotificationDetail = () => {
         {/* 操作按钮 */}
         <View className="mb-6 flex-row space-x-3">
           <TouchableOpacity
-            className="flex-1 items-center rounded-xl bg-blue-600 py-3"
+            activeOpacity={0.78}
+            className="flex-1 items-center rounded-xl bg-primary-600 py-3.5"
             onPress={handlePrimaryAction}
           >
             <Text className="font-medium text-white">
@@ -308,7 +302,8 @@ const NotificationDetail = () => {
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            className="flex-1 items-center rounded-xl bg-gray-100 py-3 dark:bg-neutral-700"
+            activeOpacity={0.78}
+            className="flex-1 items-center rounded-xl border border-gray-200 bg-white py-3.5 dark:border-neutral-700 dark:bg-neutral-800"
             onPress={handleMarkAsRead}
           >
             <Text className="font-medium text-gray-700 dark:text-gray-200">
@@ -321,7 +316,7 @@ const NotificationDetail = () => {
         <Text className="mb-3 text-lg font-semibold text-gray-900 dark:text-gray-100">
           相关通知
         </Text>
-        <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
+        <View className="mb-4 rounded-2xl border border-gray-100 bg-white p-4 dark:border-neutral-700 dark:bg-neutral-800">
           {relatedNotifications.map((item, index) => (
             <View
               key={item.id}

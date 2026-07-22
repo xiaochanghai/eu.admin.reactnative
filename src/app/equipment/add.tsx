@@ -55,13 +55,13 @@ const SelectField: React.FC<SelectFieldProps> = ({
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <View className="mb-4">
-      <Text className="mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+    <View className="mb-5">
+      <Text className="mb-2 text-sm font-semibold text-gray-700 dark:text-gray-200">
         {label}
         {required && <Text className="text-red-500"> *</Text>}
       </Text>
       <TouchableOpacity
-        className="flex-row items-center justify-between rounded-lg border border-gray-300 bg-white px-4 py-3 dark:border-neutral-600 dark:bg-neutral-800"
+        className={`min-h-[52px] flex-row items-center justify-between rounded-xl border bg-gray-50 px-4 dark:bg-neutral-900 ${isOpen ? 'border-primary-500' : 'border-gray-200 dark:border-neutral-700'}`}
         onPress={() => setIsOpen(!isOpen)}
         activeOpacity={0.7}
       >
@@ -77,11 +77,11 @@ const SelectField: React.FC<SelectFieldProps> = ({
         />
       </TouchableOpacity>
       {isOpen && (
-        <View className="mt-2 rounded-lg border border-gray-200 bg-white shadow-sm dark:border-neutral-700 dark:bg-neutral-800">
+        <View className="mt-2 overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-neutral-700 dark:bg-neutral-800">
           {options.map((option, index) => (
             <TouchableOpacity
               key={index}
-              className={`border-b border-gray-100 px-4 py-3 dark:border-neutral-700 ${index === options.length - 1 ? 'border-b-0' : ''}`}
+              className={`min-h-[48px] justify-center border-b border-gray-100 px-4 dark:border-neutral-700 ${option === value ? 'dark:bg-primary-950/30 bg-primary-50' : ''} ${index === options.length - 1 ? 'border-b-0' : ''}`}
               onPress={() => {
                 onSelect(option);
                 setIsOpen(false);
@@ -106,21 +106,21 @@ const ImageUpload: React.FC = () => {
   const { isDark } = useAppColorScheme();
 
   return (
-    <View className="mb-4">
-      <Text className="mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+    <View className="mb-1">
+      <Text className="mb-2 text-sm font-semibold text-gray-700 dark:text-gray-200">
         设备照片
       </Text>
       <TouchableOpacity
-        className="items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 p-8 dark:border-neutral-600 dark:bg-neutral-800/50"
+        className="min-h-[150px] items-center justify-center rounded-2xl border border-dashed border-gray-300 bg-gray-50 px-6 py-7 dark:border-neutral-600 dark:bg-neutral-900"
         onPress={() => console.log('选择图片')}
         activeOpacity={0.7}
       >
         <FontAwesome
           name="cloud-upload"
-          size={40}
+          size={30}
           color={isDark ? '#6b7280' : '#9ca3af'}
         />
-        <Text className="mb-1 mt-2 text-sm text-gray-600 dark:text-gray-400">
+        <Text className="mb-1 mt-3 text-sm font-semibold text-gray-700 dark:text-gray-200">
           点击上传设备照片
         </Text>
         <Text className="text-xs text-gray-500 dark:text-gray-500">
@@ -175,16 +175,39 @@ export default function AddEquipment() {
   };
 
   return (
-    <View className="flex-1 bg-gray-50 dark:bg-neutral-900">
+    <View className="flex-1 bg-gray-100/70 dark:bg-neutral-950">
       {/* 顶部导航 */}
       <NavHeader title="添加设备" />
 
-      <ScrollView className="flex-1 p-4" showsVerticalScrollIndicator={false}>
-        {/* 基本信息 */}
-        <View className="mb-4 rounded-2xl bg-white p-5 shadow-sm dark:bg-neutral-800">
-          <Text className="mb-4 text-base font-semibold text-gray-800 dark:text-gray-100">
-            基本信息
+      <ScrollView
+        className="flex-1"
+        contentContainerStyle={{ padding: 16, paddingBottom: 32 }}
+        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
+      >
+        <View className="mb-5 px-1">
+          <Text className="text-xl font-bold text-gray-900 dark:text-white">
+            建立设备档案
           </Text>
+          <Text className="mt-1 text-sm leading-5 text-gray-500 dark:text-gray-400">
+            完善基础资料，便于后续点检、保养与维修追踪。
+          </Text>
+        </View>
+        {/* 基本信息 */}
+        <View className="mb-3 rounded-2xl border border-gray-200/80 bg-white p-5 dark:border-neutral-800 dark:bg-neutral-900">
+          <View className="mb-5 flex-row items-center">
+            <View className="dark:bg-primary-950/40 mr-3 size-8 items-center justify-center rounded-lg bg-primary-50">
+              <FontAwesome name="cube" size={14} color="#543EF8" />
+            </View>
+            <View>
+              <Text className="text-base font-bold text-gray-900 dark:text-white">
+                基本信息
+              </Text>
+              <Text className="mt-0.5 text-xs text-gray-400">
+                名称、编号与设备分类
+              </Text>
+            </View>
+          </View>
 
           <ControlledInput
             name="name"
@@ -227,10 +250,20 @@ export default function AddEquipment() {
         </View>
 
         {/* 位置信息 */}
-        <View className="mb-4 rounded-2xl bg-white p-5 shadow-sm dark:bg-neutral-800">
-          <Text className="mb-4 text-base font-semibold text-gray-800 dark:text-gray-100">
-            位置信息
-          </Text>
+        <View className="mb-3 rounded-2xl border border-gray-200/80 bg-white p-5 dark:border-neutral-800 dark:bg-neutral-900">
+          <View className="mb-5 flex-row items-center">
+            <View className="dark:bg-primary-950/40 mr-3 size-8 items-center justify-center rounded-lg bg-primary-50">
+              <FontAwesome name="map-marker" size={15} color="#543EF8" />
+            </View>
+            <View>
+              <Text className="text-base font-bold text-gray-900 dark:text-white">
+                位置信息
+              </Text>
+              <Text className="mt-0.5 text-xs text-gray-400">
+                设备归属与安装区域
+              </Text>
+            </View>
+          </View>
 
           <SelectField
             label="所属部门"
@@ -251,10 +284,20 @@ export default function AddEquipment() {
         </View>
 
         {/* 其他信息 */}
-        <View className="mb-4 rounded-2xl bg-white p-5 shadow-sm dark:bg-neutral-800">
-          <Text className="mb-4 text-base font-semibold text-gray-800 dark:text-gray-100">
-            其他信息
-          </Text>
+        <View className="rounded-2xl border border-gray-200/80 bg-white p-5 dark:border-neutral-800 dark:bg-neutral-900">
+          <View className="mb-5 flex-row items-center">
+            <View className="dark:bg-primary-950/40 mr-3 size-8 items-center justify-center rounded-lg bg-primary-50">
+              <FontAwesome name="sliders" size={14} color="#543EF8" />
+            </View>
+            <View>
+              <Text className="text-base font-bold text-gray-900 dark:text-white">
+                补充信息
+              </Text>
+              <Text className="mt-0.5 text-xs text-gray-400">
+                责任人、日期与设备照片
+              </Text>
+            </View>
+          </View>
 
           <ControlledInput
             name="installDate"
@@ -293,19 +336,16 @@ export default function AddEquipment() {
 
           <ImageUpload />
         </View>
-
-        {/* 底部空间 */}
-        <View className="h-[100px]" />
       </ScrollView>
 
       {/* 底部固定操作栏 */}
       <View
-        className="border-t border-gray-200 bg-white p-4 shadow-lg dark:border-neutral-700 dark:bg-neutral-800"
-        style={{ paddingBottom: insets.bottom }}
+        className="border-t border-gray-200 bg-white px-4 pt-3 dark:border-neutral-800 dark:bg-neutral-900"
+        style={{ paddingBottom: Math.max(insets.bottom, 12) }}
       >
         <View className="flex-row">
           <TouchableOpacity
-            className="mr-3 flex-1 items-center rounded-lg border-2 border-gray-300 py-3 dark:border-neutral-600"
+            className="mr-3 min-h-[48px] flex-1 items-center justify-center rounded-xl border border-gray-300 dark:border-neutral-600"
             onPress={handleCancel}
             activeOpacity={0.7}
           >
@@ -316,6 +356,10 @@ export default function AddEquipment() {
           <View className="flex-1">
             <Button
               label="保存"
+              variant="primary"
+              size="lg"
+              className="my-0 rounded-xl"
+              textClassName="text-base font-semibold"
               onPress={handleSubmit(onSubmit)}
               testID="save-equipment-button"
             />

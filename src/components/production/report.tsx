@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 
+import colors from '@/components/ui/colors';
 import { FontAwesome } from '@/components/ui/icons';
 
 import ReportDateSelector from './report-date-selector';
@@ -37,7 +38,7 @@ export const Report = () => {
       plannedOutput: 450,
       actualOutput: 425,
       completionRate: 94.4,
-      color: '#3B82F6',
+      color: colors.primary[600],
     },
     {
       id: '2',
@@ -86,7 +87,7 @@ export const Report = () => {
       status: '维护中',
       count: 4,
       percentage: 12.5,
-      color: '#3B82F6',
+      color: colors.primary[600],
     },
     {
       id: '4',
@@ -127,7 +128,7 @@ export const Report = () => {
       </View>
 
       {/* 生产数据卡片 */}
-      <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
+      <View className="mb-4 rounded-2xl border border-gray-100 bg-white p-4 dark:border-neutral-700 dark:bg-neutral-800">
         <View className="mb-3 flex-row items-center justify-between">
           <Text className="text-base font-semibold">生产数据</Text>
           <Text className="text-sm text-gray-500 dark:text-gray-400">
@@ -138,7 +139,7 @@ export const Report = () => {
         {/* 生产数据统计网格 */}
         <View className="mb-4 flex-row flex-wrap">
           <View className="mb-3 w-1/2">
-            <Text className="mb-1 text-lg font-bold text-blue-600 dark:text-blue-400">
+            <Text className="mb-1 text-lg font-bold text-primary-600 dark:text-primary-400">
               1,250
             </Text>
             <Text className="text-xs text-gray-500 dark:text-gray-400">
@@ -146,7 +147,7 @@ export const Report = () => {
             </Text>
           </View>
           <View className="mb-3 w-1/2">
-            <Text className="mb-1 text-lg font-bold text-blue-600 dark:text-blue-400">
+            <Text className="mb-1 text-lg font-bold text-primary-600 dark:text-primary-400">
               1,180
             </Text>
             <Text className="text-xs text-gray-500 dark:text-gray-400">
@@ -154,7 +155,7 @@ export const Report = () => {
             </Text>
           </View>
           <View className="mb-3 w-1/2">
-            <Text className="mb-1 text-lg font-bold text-blue-600 dark:text-blue-400">
+            <Text className="mb-1 text-lg font-bold text-primary-600 dark:text-primary-400">
               94.4%
             </Text>
             <Text className="text-xs text-gray-500 dark:text-gray-400">
@@ -162,7 +163,7 @@ export const Report = () => {
             </Text>
           </View>
           <View className="mb-3 w-1/2">
-            <Text className="mb-1 text-lg font-bold text-blue-600 dark:text-blue-400">
+            <Text className="mb-1 text-lg font-bold text-primary-600 dark:text-primary-400">
               98.3%
             </Text>
             <Text className="text-xs text-gray-500 dark:text-gray-400">
@@ -184,7 +185,7 @@ export const Report = () => {
               </Text>
               <View className="flex-row items-center">
                 <View className="mr-4 flex-row items-center">
-                  <View className="mr-1 size-3 rounded-sm bg-blue-500" />
+                  <View className="mr-1 size-3 rounded-sm bg-primary-500" />
                   <Text className="text-xs text-gray-600 dark:text-gray-400">
                     计划
                   </Text>
@@ -231,7 +232,7 @@ export const Report = () => {
                       {/* 计划产量柱 */}
                       <View className="mr-2 w-8 justify-end">
                         <View
-                          className="w-full rounded-t-sm bg-blue-500"
+                          className="w-full rounded-t-sm bg-primary-500"
                           style={{ height: plannedHeight }}
                         />
                         <View className="h-1 w-full bg-gray-300" />
@@ -275,7 +276,7 @@ export const Report = () => {
       </View>
 
       {/* 设备运行报表卡片 */}
-      <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
+      <View className="mb-4 rounded-2xl border border-gray-100 bg-white p-4 dark:border-neutral-700 dark:bg-neutral-800">
         <View className="mb-3 flex-row items-center justify-between">
           <Text className="text-base font-semibold">设备运行报表</Text>
           <Text className="text-sm text-gray-500 dark:text-gray-400">
@@ -286,7 +287,7 @@ export const Report = () => {
         {/* 设备运行数据统计网格 */}
         <View className="mb-4 flex-row flex-wrap">
           <View className="mb-3 w-1/2">
-            <Text className="mb-1 text-lg font-bold text-blue-600 dark:text-blue-400">
+            <Text className="mb-1 text-lg font-bold text-primary-600 dark:text-primary-400">
               32
             </Text>
             <Text className="text-xs text-gray-500 dark:text-gray-400">
@@ -294,7 +295,7 @@ export const Report = () => {
             </Text>
           </View>
           <View className="mb-3 w-1/2">
-            <Text className="mb-1 text-lg font-bold text-blue-600 dark:text-blue-400">
+            <Text className="mb-1 text-lg font-bold text-primary-600 dark:text-primary-400">
               28
             </Text>
             <Text className="text-xs text-gray-500 dark:text-gray-400">
@@ -302,7 +303,7 @@ export const Report = () => {
             </Text>
           </View>
           <View className="mb-3 w-1/2">
-            <Text className="mb-1 text-lg font-bold text-blue-600 dark:text-blue-400">
+            <Text className="mb-1 text-lg font-bold text-primary-600 dark:text-primary-400">
               87.5%
             </Text>
             <Text className="text-xs text-gray-500 dark:text-gray-400">
@@ -310,7 +311,7 @@ export const Report = () => {
             </Text>
           </View>
           <View className="mb-3 w-1/2">
-            <Text className="mb-1 text-lg font-bold text-blue-600 dark:text-blue-400">
+            <Text className="mb-1 text-lg font-bold text-primary-600 dark:text-primary-400">
               4.2h
             </Text>
             <Text className="text-xs text-gray-500 dark:text-gray-400">
@@ -356,7 +357,7 @@ export const Report = () => {
                   <View
                     className="absolute size-32 rounded-full"
                     style={{
-                      backgroundColor: '#3B82F6',
+                      backgroundColor: colors.primary[600],
                       transform: [{ rotate: '293deg' }],
                     }}
                   />
@@ -428,7 +429,7 @@ export const Report = () => {
       </View>
 
       {/* 报表下载卡片 */}
-      <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
+      <View className="mb-4 rounded-2xl border border-gray-100 bg-white p-4 dark:border-neutral-700 dark:bg-neutral-800">
         <Text className="mb-3 text-lg font-semibold text-gray-800 dark:text-gray-100">
           生产报表
         </Text>

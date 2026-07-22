@@ -49,7 +49,11 @@ const OrderItem: React.FC<OrderItemProps> = ({
   statusBgColor,
   onViewDetail,
 }) => (
-  <View className="border-b border-gray-100 py-4 dark:border-neutral-700">
+  <TouchableOpacity
+    className="border-b border-gray-100 py-4 dark:border-neutral-800"
+    onPress={onViewDetail}
+    activeOpacity={0.65}
+  >
     <View className="mb-2 flex-row items-center justify-between">
       <Text className="text-base font-medium dark:text-gray-100">
         订单 #{orderNumber}
@@ -80,13 +84,14 @@ const OrderItem: React.FC<OrderItemProps> = ({
           ¥{amount}
         </Text>
       </View>
-      <TouchableOpacity onPress={onViewDetail}>
-        <Text className="text-sm text-blue-600 dark:text-blue-400">
+      <View className="flex-row items-center">
+        <Text className="text-sm font-medium text-primary-600 dark:text-primary-400">
           查看详情
         </Text>
-      </TouchableOpacity>
+        <FontAwesome name="chevron-right" size={10} color="#543EF8" />
+      </View>
     </View>
-  </View>
+  </TouchableOpacity>
 );
 
 const Orders: React.FC = () => {
@@ -179,15 +184,15 @@ const Orders: React.FC = () => {
         return (
           <>
             {/* 订单概览 */}
-            <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
-              <Text className="mb-3 text-lg font-semibold dark:text-gray-100">
+            <View className="mb-3 rounded-2xl border border-gray-200/80 bg-white p-5 dark:border-neutral-800 dark:bg-neutral-900">
+              <Text className="mb-4 text-base font-bold dark:text-gray-100">
                 订单概览
               </Text>
               <View className="mb-3 flex-row justify-between">
                 <View className="flex-1 items-center">
                   <Text
                     className="text-xl font-bold"
-                    style={{ color: '#0066ff' }}
+                    style={{ color: '#543EF8' }}
                   >
                     {orderStats.total}
                   </Text>
@@ -229,16 +234,16 @@ const Orders: React.FC = () => {
                   </Text>
                 </View>
               </View>
-              <View className="flex-row items-center rounded-lg bg-blue-50 p-3 dark:bg-blue-900/30">
+              <View className="dark:bg-primary-950/30 flex-row items-center rounded-xl bg-primary-50 p-3">
                 <View className="mr-3">
-                  <FontAwesome name="pie-chart" size={20} color="#0066ff" />
+                  <FontAwesome name="pie-chart" size={20} color="#543EF8" />
                 </View>
                 <View>
                   <Text className="text-sm font-medium dark:text-gray-100">
                     本月订单完成率
                   </Text>
                   <View className="flex-row items-center">
-                    <Text className="mr-2 text-lg font-bold text-blue-600">
+                    <Text className="mr-2 text-lg font-bold text-primary-600">
                       {orderStats.completionRate}%
                     </Text>
                     <Text className="text-xs text-green-500">
@@ -256,7 +261,7 @@ const Orders: React.FC = () => {
                   <FontAwesome name="search" size={16} color="#9ca3af" />
                 </View>
                 <TextInput
-                  className="flex-1 rounded-lg border border-gray-200 bg-white py-2 pl-10 pr-4 text-sm dark:border-neutral-700 dark:bg-neutral-800 dark:text-white"
+                  className="min-h-[46px] flex-1 rounded-xl border border-gray-200 bg-white py-2 pl-10 pr-4 text-sm dark:border-neutral-700 dark:bg-neutral-900 dark:text-white"
                   placeholder="搜索订单号、客户名称"
                   placeholderTextColor="#9ca3af"
                 />
@@ -264,10 +269,10 @@ const Orders: React.FC = () => {
             </View>
 
             {/* 订单列表 */}
-            <Text className="mb-3 text-lg font-semibold dark:text-gray-100">
+            <Text className="mb-3 text-base font-bold dark:text-gray-100">
               订单列表
             </Text>
-            <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
+            <View className="mb-4 rounded-2xl border border-gray-200/80 bg-white px-4 dark:border-neutral-800 dark:bg-neutral-900">
               {orderItems.map((item) => (
                 <OrderItem
                   key={item.id}
@@ -287,7 +292,7 @@ const Orders: React.FC = () => {
         );
       case 1: // 待处理
         return (
-          <View className="my-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
+          <View className="my-4 rounded-2xl border border-gray-200/80 bg-white p-5 dark:border-neutral-800 dark:bg-neutral-900">
             <Text className="mb-3 text-lg font-semibold dark:text-gray-100">
               待处理订单
             </Text>
@@ -298,7 +303,7 @@ const Orders: React.FC = () => {
         );
       case 2: // 生产中
         return (
-          <View className="my-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
+          <View className="my-4 rounded-2xl border border-gray-200/80 bg-white p-5 dark:border-neutral-800 dark:bg-neutral-900">
             <Text className="mb-3 text-lg font-semibold dark:text-gray-100">
               生产中订单
             </Text>
@@ -309,7 +314,7 @@ const Orders: React.FC = () => {
         );
       case 3: // 已完成
         return (
-          <View className="my-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
+          <View className="my-4 rounded-2xl border border-gray-200/80 bg-white p-5 dark:border-neutral-800 dark:bg-neutral-900">
             <Text className="mb-3 text-lg font-semibold dark:text-gray-100">
               已完成订单
             </Text>
@@ -320,7 +325,7 @@ const Orders: React.FC = () => {
         );
       case 4: // 已取消
         return (
-          <View className="my-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
+          <View className="my-4 rounded-2xl border border-gray-200/80 bg-white p-5 dark:border-neutral-800 dark:bg-neutral-900">
             <Text className="mb-3 text-lg font-semibold dark:text-gray-100">
               已取消订单
             </Text>
@@ -342,21 +347,21 @@ const Orders: React.FC = () => {
         leftShown={false}
         right={
           <>
-            <TouchableOpacity className="ml-4">
+            <TouchableOpacity className="size-10 items-center justify-center rounded-full">
               <FontAwesome name="search" size={18} color="#6b7280" />
             </TouchableOpacity>
-            <TouchableOpacity className="ml-4">
+            <TouchableOpacity className="size-10 items-center justify-center rounded-full">
               <FontAwesome name="filter" size={18} color="#6b7280" />
             </TouchableOpacity>
-            <TouchableOpacity className="ml-4">
-              <FontAwesome name="plus-circle" size={22} color="#0066ff" />
+            <TouchableOpacity className="size-10 items-center justify-center rounded-full">
+              <FontAwesome name="plus-circle" size={22} color="#543EF8" />
             </TouchableOpacity>
           </>
         }
       />
 
       {/* 分段控制器 - 固定在顶部 */}
-      <View className="px-4 pt-4">
+      <View className="border-b border-gray-200/70 bg-white px-4 pb-3 pt-2 dark:border-neutral-800 dark:bg-neutral-900">
         <SegmentedControl
           options={tabOptions}
           selectedIndex={selectedTabIndex}
@@ -368,17 +373,14 @@ const Orders: React.FC = () => {
       <ScrollView
         className="flex-1 px-4"
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingTop: 16 }}
+        contentContainerStyle={{ paddingTop: 16, paddingBottom: 96 }}
       >
         {/* 选项卡内容 */}
         {renderTabContent()}
-
-        {/* 底部间距 */}
-        <View className="h-20" />
       </ScrollView>
 
       {/* 浮动按钮 */}
-      <TouchableOpacity className="absolute bottom-20 right-6 size-14 items-center justify-center rounded-full bg-blue-600 shadow-lg">
+      <TouchableOpacity className="absolute bottom-5 right-5 size-14 items-center justify-center rounded-2xl bg-primary-600 shadow-lg">
         <FontAwesome name="plus" size={20} color="#ffffff" />
       </TouchableOpacity>
     </View>

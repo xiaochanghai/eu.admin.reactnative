@@ -33,10 +33,7 @@ const MetricCard: React.FC<MetricCardProps> = ({
       colors={gradientColors}
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 1 }}
-      style={{
-        borderRadius: 12,
-        padding: 16,
-      }}
+      style={{ borderRadius: 16, padding: 16 }}
     >
       <View className="mb-2 flex-row items-center justify-between">
         <FontAwesome
@@ -78,7 +75,7 @@ const TimeFilterButton: React.FC<TimeFilterButtonProps> = ({
   <TouchableOpacity
     onPress={onPress}
     activeOpacity={0.7}
-    className={`mr-2 rounded-lg px-4 py-2 ${isActive ? 'bg-primary-500' : 'bg-gray-100 dark:bg-neutral-700'}`}
+    className={`mr-2 min-h-[40px] justify-center rounded-xl px-4 ${isActive ? 'bg-primary-600' : 'bg-gray-100 dark:bg-neutral-800'}`}
   >
     <Text
       className={`whitespace-nowrap text-sm font-semibold ${isActive ? 'text-white' : 'text-gray-700 dark:text-gray-200'}`}
@@ -160,7 +157,7 @@ const TopEquipmentItem: React.FC<TopEquipmentItemProps> = ({
 
   return (
     <View
-      className="mb-3 flex-row items-center justify-between rounded-lg p-3"
+      className="mb-2 min-h-[64px] flex-row items-center justify-between rounded-xl p-3"
       style={{ backgroundColor: isDark ? 'rgba(64, 64, 64, 0.5)' : bgColor }}
     >
       <View className="flex-1 flex-row items-center">
@@ -198,7 +195,7 @@ const ChartPlaceholder: React.FC<{ height: number; type: string }> = ({
   type,
 }) => (
   <View
-    className="items-center justify-center rounded-lg bg-gray-100 dark:bg-neutral-700"
+    className="items-center justify-center rounded-xl border border-dashed border-gray-200 bg-gray-50 dark:border-neutral-700 dark:bg-neutral-950"
     style={{ height }}
   >
     <FontAwesome name="chart-line" size={48} color="#9ca3af" />
@@ -224,7 +221,7 @@ const Analytics: React.FC = () => {
       label: '设备完好率',
       trend: '12%',
       trendUp: true,
-      gradientColors: ['#3b82f6', '#2563eb'] as [string, string],
+      gradientColors: ['#6554ee', '#4736c7'] as [string, string],
     },
     {
       icon: 'clock-o',
@@ -262,7 +259,7 @@ const Analytics: React.FC = () => {
 
   // 故障类型数据
   const faultTypes = [
-    { label: '机械故障', percentage: 45, color: '#3b82f6' },
+    { label: '机械故障', percentage: 45, color: '#543EF8' },
     { label: '电气故障', percentage: 30, color: '#22c55e' },
     { label: '液压故障', percentage: 15, color: '#f97316' },
     { label: '其他', percentage: 10, color: '#a855f7' },
@@ -305,13 +302,17 @@ const Analytics: React.FC = () => {
   };
 
   return (
-    <View className="flex-1 bg-gray-50 dark:bg-neutral-900">
+    <View className="flex-1 bg-gray-100/70 dark:bg-neutral-950">
       {/* 顶部导航 */}
       <NavHeader
         title="分析"
         leftShown={false}
         right={
-          <TouchableOpacity onPress={handleDownload} activeOpacity={0.7}>
+          <TouchableOpacity
+            className="size-10 items-center justify-center rounded-full"
+            onPress={handleDownload}
+            activeOpacity={0.7}
+          >
             <FontAwesome
               name="download"
               size={20}
@@ -321,9 +322,13 @@ const Analytics: React.FC = () => {
         }
       />
 
-      <ScrollView className="flex-1 p-4" showsVerticalScrollIndicator={false}>
+      <ScrollView
+        className="flex-1"
+        contentContainerStyle={{ padding: 16, paddingBottom: 32 }}
+        showsVerticalScrollIndicator={false}
+      >
         {/* 时间筛选 */}
-        <View className="mb-4 rounded-xl bg-white p-3 shadow-sm dark:bg-neutral-800">
+        <View className="mb-3 rounded-2xl border border-gray-200/80 bg-white p-3 dark:border-neutral-800 dark:bg-neutral-900">
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
@@ -360,16 +365,16 @@ const Analytics: React.FC = () => {
         </View>
 
         {/* 维修趋势图 */}
-        <View className="mb-4 rounded-xl bg-white p-4 shadow-sm dark:bg-neutral-800">
-          <Text className="mb-3 text-base font-semibold text-gray-800 dark:text-gray-100">
+        <View className="mb-3 rounded-2xl border border-gray-200/80 bg-white p-4 dark:border-neutral-800 dark:bg-neutral-900">
+          <Text className="mb-3 text-base font-bold text-gray-900 dark:text-white">
             维修工单趋势
           </Text>
           <ChartPlaceholder height={192} type="折线" />
         </View>
 
         {/* 设备状态分布 */}
-        <View className="mb-4 rounded-xl bg-white p-4 shadow-sm dark:bg-neutral-800">
-          <Text className="mb-3 text-base font-semibold text-gray-800 dark:text-gray-100">
+        <View className="mb-3 rounded-2xl border border-gray-200/80 bg-white p-4 dark:border-neutral-800 dark:bg-neutral-900">
+          <Text className="mb-3 text-base font-bold text-gray-900 dark:text-white">
             设备状态分布
           </Text>
           <ChartPlaceholder height={192} type="饼图" />
@@ -386,8 +391,8 @@ const Analytics: React.FC = () => {
         </View>
 
         {/* 故障类型分析 */}
-        <View className="mb-4 rounded-xl bg-white p-4 shadow-sm dark:bg-neutral-800">
-          <Text className="mb-3 text-base font-semibold text-gray-800 dark:text-gray-100">
+        <View className="mb-3 rounded-2xl border border-gray-200/80 bg-white p-4 dark:border-neutral-800 dark:bg-neutral-900">
+          <Text className="mb-3 text-base font-bold text-gray-900 dark:text-white">
             故障类型分析
           </Text>
           {faultTypes.map((fault, index) => (
@@ -401,17 +406,14 @@ const Analytics: React.FC = () => {
         </View>
 
         {/* TOP故障设备 */}
-        <View className="mb-4 rounded-xl bg-white p-4 shadow-sm dark:bg-neutral-800">
-          <Text className="mb-3 text-base font-semibold text-gray-800 dark:text-gray-100">
+        <View className="rounded-2xl border border-gray-200/80 bg-white p-4 dark:border-neutral-800 dark:bg-neutral-900">
+          <Text className="mb-3 text-base font-bold text-gray-900 dark:text-white">
             故障频次TOP5
           </Text>
           {topEquipments.map((equipment) => (
             <TopEquipmentItem key={equipment.rank} {...equipment} />
           ))}
         </View>
-
-        {/* 底部空间 - 为底部导航留出空间 */}
-        <View className="h-[70px]" />
       </ScrollView>
     </View>
   );

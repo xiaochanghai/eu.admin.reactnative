@@ -21,7 +21,7 @@ export const PriorityButton: React.FC<PriorityButtonProps> = ({
 }) => (
   <TouchableOpacity
     onPress={onPress}
-    className={`flex-1 items-center justify-center rounded-lg border-2 py-4 ${selected ? `border-[${color}]` : 'border-gray-200 dark:border-neutral-700'}`}
+    className={`flex-1 items-center justify-center rounded-xl border-2 py-4 ${selected ? '' : 'border-gray-200 dark:border-neutral-700'}`}
     style={
       selected
         ? { borderColor: color, backgroundColor: `${color}10` }

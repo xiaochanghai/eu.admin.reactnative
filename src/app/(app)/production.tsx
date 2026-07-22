@@ -34,21 +34,21 @@ const Production: React.FC = () => {
         leftShown={false}
         right={
           <>
-            <TouchableOpacity className="ml-4">
+            <TouchableOpacity className="size-10 items-center justify-center rounded-full">
               <FontAwesome name="search" size={18} color="#6b7280" />
             </TouchableOpacity>
-            <TouchableOpacity className="ml-4">
+            <TouchableOpacity className="size-10 items-center justify-center rounded-full">
               <FontAwesome name="filter" size={18} color="#6b7280" />
             </TouchableOpacity>
-            <TouchableOpacity className="ml-4">
-              <FontAwesome name="plus-circle" size={22} color="#0066ff" />
+            <TouchableOpacity className="size-10 items-center justify-center rounded-full">
+              <FontAwesome name="plus-circle" size={22} color="#543EF8" />
             </TouchableOpacity>
           </>
         }
       />
 
       {/* 分段控制器 - 固定在顶部 */}
-      <View className="px-4 pt-4">
+      <View className="border-b border-gray-200/70 bg-white px-4 pb-3 pt-2 dark:border-neutral-800 dark:bg-neutral-900">
         <SegmentedControl
           options={tabOptions}
           selectedIndex={selectedTabIndex}
@@ -60,7 +60,7 @@ const Production: React.FC = () => {
       <ScrollView
         showsVerticalScrollIndicator={false}
         className="flex-1 px-4"
-        contentContainerStyle={{ paddingTop: 16 }}
+        contentContainerStyle={{ paddingTop: 16, paddingBottom: 96 }}
       >
         {selectedTabIndex === 0 && <Plans />}
 
@@ -71,13 +71,10 @@ const Production: React.FC = () => {
         {selectedTabIndex === 3 && <Equipment />}
 
         {selectedTabIndex === 4 && <Report />}
-
-        {/* 底部间距 */}
-        <View className="h-20" />
       </ScrollView>
 
       {/* 浮动按钮 */}
-      <TouchableOpacity className="absolute bottom-20 right-6 size-14 items-center justify-center rounded-full bg-blue-600 shadow-lg dark:bg-purple-600">
+      <TouchableOpacity className="absolute bottom-5 right-5 size-14 items-center justify-center rounded-2xl bg-primary-600 shadow-lg dark:bg-primary-600">
         <FontAwesome name="plus" size={24} color="white" />
       </TouchableOpacity>
     </View>

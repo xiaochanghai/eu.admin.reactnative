@@ -1,6 +1,7 @@
 import { useRouter } from 'expo-router';
 import { Text, TouchableOpacity, View } from 'react-native';
 
+import colors from '@/components/ui/colors';
 import { FontAwesome } from '@/components/ui/icons';
 
 import { ProgressBar } from './progress-bar';
@@ -53,7 +54,7 @@ export const PlanItem: React.FC<PlanItemProps> = ({
 }) => (
   <TouchableOpacity onPress={onViewDetail} activeOpacity={0.7}>
     {/* 计划卡片 - 使用圆角、阴影和内边距 */}
-    <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
+    <View className="mb-4 rounded-2xl border border-gray-100 bg-white p-4 dark:border-neutral-700 dark:bg-neutral-800">
       {/* 标题和状态区域 - 使用弹性布局和对齐方式 */}
       <View className="mb-2 flex-row items-start justify-between">
         <Text className="text-base font-medium text-gray-800 dark:text-gray-100">
@@ -168,7 +169,7 @@ export const Plans = () => {
   return (
     <>
       {/* 生产概览卡片 */}
-      <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
+      <View className="mb-4 rounded-2xl border border-gray-100 bg-white p-4 dark:border-neutral-700 dark:bg-neutral-800">
         <Text className="mb-3 text-lg font-semibold text-gray-800 dark:text-gray-100">
           生产概览
         </Text>
@@ -176,7 +177,7 @@ export const Plans = () => {
         {/* 统计数据网格 */}
         <View className="mb-3 flex-row justify-between">
           <View className="flex-1 items-center">
-            <Text className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+            <Text className="text-2xl font-bold text-primary-600 dark:text-primary-400">
               15
             </Text>
             <Text className="mt-1 text-xs text-gray-500 dark:text-gray-400">
@@ -202,11 +203,11 @@ export const Plans = () => {
         </View>
 
         {/* 完成率卡片 */}
-        <View className="flex-row items-center rounded-xl bg-blue-50 p-3 dark:bg-blue-900/30">
+        <View className="flex-row items-center rounded-xl bg-primary-50 p-3 dark:bg-primary-900/30">
           <FontAwesome
             name="line-chart"
             size={20}
-            color="#0066ff"
+            color={colors.primary[600]}
             className="mr-3"
           />
           <View className="flex-1">
@@ -214,7 +215,7 @@ export const Plans = () => {
               本月生产完成率
             </Text>
             <View className="flex-row items-center">
-              <Text className="mr-2 text-lg font-bold text-blue-600">
+              <Text className="mr-2 text-lg font-bold text-primary-600">
                 78.5%
               </Text>
               <Text className="text-xs text-green-500">↑ 5.2%</Text>

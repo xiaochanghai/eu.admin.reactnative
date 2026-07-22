@@ -20,6 +20,7 @@ import {
   Text,
   View,
 } from '@/components/ui';
+import colors from '@/components/ui/colors';
 import { QRCodeScanner } from '@/components/ui/qr-code-scanner';
 import { isWeb } from '@/lib';
 import { error, info } from '@/lib/message';
@@ -112,7 +113,7 @@ const AddRepairOrder: React.FC = () => {
           }))
         );
       }
-    } catch (_e) {
+    } catch {
       // 查询失败时留空列表，用户可选择"系统自动分配"
     }
   };
@@ -252,9 +253,9 @@ const AddRepairOrder: React.FC = () => {
         showsVerticalScrollIndicator={false}
       >
         {/* 设备信息 */}
-        <View className="mb-4 rounded-2xl bg-white p-5 shadow-sm dark:bg-neutral-800">
+        <View className="mb-4 rounded-2xl border border-gray-100 bg-white p-5 dark:border-neutral-700 dark:bg-neutral-800">
           <View className="mb-4 flex-row items-center">
-            <FontAwesome name="server" size={18} color="#1890ff" />
+            <FontAwesome name="server" size={18} color={colors.primary[600]} />
             <Text className="ml-2 text-base font-semibold text-gray-800 dark:text-gray-100">
               设备信息
             </Text>
@@ -290,7 +291,7 @@ const AddRepairOrder: React.FC = () => {
                           setSelectedEquipment(equipment.ID);
                           setShowEquipmentPicker(false);
                         }}
-                        className={`border-b border-gray-100 p-3 dark:border-neutral-600 ${selectedEquipment === equipment.ID ? 'bg-blue-50 dark:bg-blue-950/30' : ''}`}
+                        className={`border-b border-gray-100 p-3 dark:border-neutral-600 ${selectedEquipment === equipment.ID ? 'bg-primary-50 dark:bg-primary-900/20' : ''}`}
                         activeOpacity={0.7}
                       >
                         <Text className="text-sm font-medium text-gray-800 dark:text-gray-100">
@@ -308,12 +309,16 @@ const AddRepairOrder: React.FC = () => {
 
             {/* 或扫码选择 */}
             <TouchableOpacity
-              className="mt-4 flex-row items-center justify-center space-x-2 rounded-lg border-2 border-dashed border-primary-500 py-3"
+              className="mt-4 flex-row items-center justify-center space-x-2 rounded-lg border-2 border-dashed border-primary-600 py-3"
               onPress={() => setShowScanner(true)}
               activeOpacity={0.7}
             >
-              <FontAwesome name="qrcode" size={20} color="#1890ff" />
-              <Text className="ml-2 text-sm font-semibold text-primary-500">
+              <FontAwesome
+                name="qrcode"
+                size={20}
+                color={colors.primary[600]}
+              />
+              <Text className="ml-2 text-sm font-semibold text-primary-600">
                 扫描设备二维码
               </Text>
             </TouchableOpacity>
@@ -321,7 +326,7 @@ const AddRepairOrder: React.FC = () => {
         </View>
 
         {/* 故障信息 */}
-        <View className="mb-4 rounded-2xl bg-white p-5 shadow-sm dark:bg-neutral-800">
+        <View className="mb-4 rounded-2xl border border-gray-100 bg-white p-5 dark:border-neutral-700 dark:bg-neutral-800">
           <View className="mb-4 flex-row items-center">
             <FontAwesome name="exclamation-circle" size={18} color="#f5222d" />
             <Text className="ml-2 text-base font-semibold text-gray-800 dark:text-gray-100">
@@ -375,7 +380,7 @@ const AddRepairOrder: React.FC = () => {
                 <PriorityButton
                   label="普通"
                   icon="minus"
-                  color="#1890ff"
+                  color={colors.primary[600]}
                   selected={priority === 'normal'}
                   onPress={() => setPriority('normal')}
                 />
@@ -474,9 +479,13 @@ const AddRepairOrder: React.FC = () => {
         </View>
 
         {/* 维修要求 */}
-        <View className="mb-4 rounded-2xl bg-white p-5 shadow-sm dark:bg-neutral-800">
+        <View className="mb-4 rounded-2xl border border-gray-100 bg-white p-5 dark:border-neutral-700 dark:bg-neutral-800">
           <View className="mb-4 flex-row items-center">
-            <FontAwesome name="clipboard" size={18} color="#1890ff" />
+            <FontAwesome
+              name="clipboard"
+              size={18}
+              color={colors.primary[600]}
+            />
             <Text className="ml-2 text-base font-semibold text-gray-800 dark:text-gray-100">
               维修要求
             </Text>
@@ -519,7 +528,7 @@ const AddRepairOrder: React.FC = () => {
                       setAssignedTechnician('');
                       setShowTechnicianPicker(false);
                     }}
-                    className={`border-b border-gray-100 p-3 dark:border-neutral-600 ${!assignedTechnician ? 'bg-blue-50 dark:bg-blue-950/30' : ''}`}
+                    className={`border-b border-gray-100 p-3 dark:border-neutral-600 ${!assignedTechnician ? 'bg-primary-50 dark:bg-primary-900/20' : ''}`}
                     activeOpacity={0.7}
                   >
                     <Text className="text-sm text-gray-800 dark:text-gray-100">
@@ -533,7 +542,7 @@ const AddRepairOrder: React.FC = () => {
                         setAssignedTechnician(technician.ID);
                         setShowTechnicianPicker(false);
                       }}
-                      className={`border-b border-gray-100 p-3 dark:border-neutral-600 ${assignedTechnician === technician.ID ? 'bg-blue-50 dark:bg-blue-950/30' : ''}`}
+                      className={`border-b border-gray-100 p-3 dark:border-neutral-600 ${assignedTechnician === technician.ID ? 'bg-primary-50 dark:bg-primary-900/20' : ''}`}
                       activeOpacity={0.7}
                     >
                       <Text className="text-sm font-medium text-gray-800 dark:text-gray-100">
@@ -586,7 +595,7 @@ const AddRepairOrder: React.FC = () => {
               <Switch
                 value={needShutdown}
                 onValueChange={setNeedShutdown}
-                trackColor={{ false: '#d1d5db', true: '#1890ff' }}
+                trackColor={{ false: '#d1d5db', true: colors.primary[600] }}
                 thumbColor="#ffffff"
               />
             </View>
@@ -594,9 +603,9 @@ const AddRepairOrder: React.FC = () => {
         </View>
 
         {/* 提交人信息 */}
-        <View className="mb-4 rounded-2xl bg-white p-5 shadow-sm dark:bg-neutral-800">
+        <View className="mb-4 rounded-2xl border border-gray-100 bg-white p-5 dark:border-neutral-700 dark:bg-neutral-800">
           <View className="mb-4 flex-row items-center">
-            <FontAwesome name="user" size={18} color="#1890ff" />
+            <FontAwesome name="user" size={18} color={colors.primary[600]} />
             <Text className="ml-2 text-base font-semibold text-gray-800 dark:text-gray-100">
               提交人信息
             </Text>
@@ -623,7 +632,7 @@ const AddRepairOrder: React.FC = () => {
         </View>
 
         {/* 温馨提示 */}
-        <View className="mb-4 rounded-xl border-l-4 border-primary-500 bg-blue-50 p-4 dark:bg-blue-950/30">
+        <View className="mb-4 rounded-xl border-l-4 border-primary-600 bg-primary-50 p-4 dark:bg-primary-900/20">
           <View className="mb-2 flex-row items-center">
             <FontAwesome name="lightbulb-o" size={16} color="#faad14" />
             <Text className="ml-2 text-sm font-semibold text-gray-800 dark:text-gray-100">
@@ -654,7 +663,7 @@ const AddRepairOrder: React.FC = () => {
       >
         <View className="flex-row gap-3">
           <TouchableOpacity
-            className={`flex-1 items-center rounded-lg py-3 ${submitting ? 'bg-primary-300' : 'bg-primary-500'}`}
+            className={`flex-1 items-center rounded-xl py-3 ${submitting ? 'bg-primary-300' : 'bg-primary-600'}`}
             onPress={handleSubmit}
             disabled={submitting}
             activeOpacity={0.7}

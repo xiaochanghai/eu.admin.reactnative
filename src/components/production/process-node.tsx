@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Text, View } from '@/components/ui';
+import colors from '@/components/ui/colors';
 import { FontAwesome, GroupEnum } from '@/components/ui/icons';
 
 /**
@@ -27,8 +28,8 @@ export const ProcessNode: React.FC<ProcessNodeProps> = ({
   // 根据状态设置不同的图标、文本和颜色
   let statusIcon = null;
   let statusText = '';
-  let bgColor = '#ebf5ff';
-  let iconColor = '#0066ff';
+  let bgColor = colors.primary[50];
+  let iconColor = colors.primary[600];
 
   if (status === 'completed') {
     // 已完成状态
@@ -38,11 +39,11 @@ export const ProcessNode: React.FC<ProcessNodeProps> = ({
       </View>
     );
     statusText = '已完成';
-    bgColor = '#ebf5ff';
+    bgColor = colors.primary[50];
   } else if (status === 'inProgress') {
     // 进行中状态
     statusIcon = (
-      <View className="absolute -right-1 -top-1 size-6 items-center justify-center rounded-full bg-blue-600">
+      <View className="absolute -right-1 -top-1 size-6 items-center justify-center rounded-full bg-primary-600">
         <FontAwesome name="spinner" size={10} color="white" />
       </View>
     );
@@ -80,7 +81,7 @@ export const ProcessNode: React.FC<ProcessNodeProps> = ({
       </Text>
       {/* 节点状态文本 - 根据状态显示不同颜色 */}
       <Text
-        className={`text-xs ${status === 'inProgress' ? 'text-blue-600' : 'text-gray-500 dark:text-gray-400'}`}
+        className={`text-xs ${status === 'inProgress' ? 'text-primary-600' : 'text-gray-500 dark:text-gray-400'}`}
       >
         {statusText}
       </Text>

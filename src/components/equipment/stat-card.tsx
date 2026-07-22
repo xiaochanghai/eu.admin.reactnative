@@ -22,10 +22,13 @@ export const StatCard: React.FC<StatCardProps> = ({
 
   return (
     <View
-      className="rounded-xl p-4 text-center"
+      className="rounded-xl px-4 py-5 text-center"
       style={{ backgroundColor: darkBgColor }}
     >
-      <Text className="mb-1 text-2xl font-bold" style={{ color: textColor }}>
+      <Text
+        className="mb-1 text-2xl font-bold tracking-tight"
+        style={{ color: textColor }}
+      >
         {value}
       </Text>
       <Text className="text-sm text-gray-600 dark:text-gray-400">{label}</Text>
