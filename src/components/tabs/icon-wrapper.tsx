@@ -1,3 +1,4 @@
+import { useTheme } from 'expo-router';
 import React from 'react';
 
 import colors from '@/components/ui/colors';
@@ -8,5 +9,11 @@ interface IconWrapperProps {
 }
 
 export function IconWrapper({ IconComponent, focused }: IconWrapperProps) {
-  return <IconComponent color={focused ? colors.primary[600] : '#9ca3af'} />;
+  const theme = useTheme();
+
+  return (
+    <IconComponent
+      color={focused ? theme.colors.primary : colors.neutral[400]}
+    />
+  );
 }

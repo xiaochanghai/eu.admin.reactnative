@@ -64,7 +64,7 @@ export default function RootLayout() {
         await fetchUpdateAsync();
         await reloadAsync();
       }
-    } catch (_error) {
+    } catch {
       // 错误处理（已注释）
       // alert('检查更新失败:' + error);
       // if (error instanceof Error) {
@@ -104,10 +104,14 @@ export default function RootLayout() {
       // 检查应用更新
       checkForUpdate();
       // 获取设备唯一ID并记录设备信息
-      getUniqueId().then((uniqueId) => {
-        setUniqueId(uniqueId);
-        recordDevice(uniqueId, registrationId);
-      });
+      getUniqueId()
+        .then(async (uniqueId) => {
+          setUniqueId(uniqueId);
+          await recordDevice(uniqueId, registrationId);
+        })
+        .catch((error) => {
+          console.error('[App] Failed to record device:', error);
+        });
     }
   }, [registrationId]);
 
@@ -199,11 +203,15 @@ function Providers({ children }: { children: React.ReactNode }) {
         console.log('当前已是最新版本');
       }
     }
-  }, []);
+  }, [present]);
 
   useEffect(() => {
-    if (!isWeb) latestVersion();
-  }, []);
+    if (!isWeb) {
+      latestVersion().catch((error) => {
+        console.error('[App] Failed to query latest version:', error);
+      });
+    }
+  }, [latestVersion]);
   return (
     <GestureHandlerRootView
       // className={theme.dark ? `dark` : undefined}

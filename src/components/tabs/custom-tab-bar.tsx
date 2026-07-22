@@ -1,3 +1,4 @@
+import { useTheme } from 'expo-router';
 import type { BottomTabBarProps } from 'expo-router/tabs';
 import { memo, useCallback } from 'react';
 import { TouchableOpacity, View } from 'react-native';
@@ -20,6 +21,7 @@ interface TabItemProps {
 const TabItem = memo(
   ({ route, isFocused, options, onPress, onLongPress }: TabItemProps) => {
     const label = options.title || route.name;
+    const theme = useTheme();
 
     return (
       <TouchableOpacity
@@ -29,12 +31,13 @@ const TabItem = memo(
         testID={options.tabBarButtonTestID}
         onPress={onPress}
         onLongPress={onLongPress}
-        activeOpacity={0.65}
+        activeOpacity={1}
         className="flex-1 items-center justify-center"
       >
         {options.tabBarIcon?.({ focused: isFocused })}
         <Text
-          className={`mt-1 text-[11px] ${isFocused ? 'font-semibold text-primary-600 dark:text-primary-400' : 'text-gray-500 dark:text-gray-500'}`}
+          className={`mt-1 text-[11px] ${isFocused ? 'font-semibold' : 'text-gray-500 dark:text-gray-500'}`}
+          style={isFocused ? { color: theme.colors.primary } : undefined}
         >
           {label}
         </Text>

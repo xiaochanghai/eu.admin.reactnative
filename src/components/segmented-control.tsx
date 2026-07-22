@@ -1,3 +1,4 @@
+import { useTheme } from 'expo-router';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   type LayoutChangeEvent,
@@ -12,8 +13,6 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
-
-import { useAppColorScheme } from '@/lib';
 
 // 分段控制器选项类型
 export type SegmentedControlOption = {
@@ -40,10 +39,11 @@ export const SegmentedControl: React.FC<SegmentedControlProps> = ({
   backgroundColor,
   sliderColor,
 }) => {
-  const { isDark } = useAppColorScheme();
+  const theme = useTheme();
+  const isDark = theme.dark;
 
   // 根据主题设置默认颜色
-  const defaultActiveColor = activeColor || '#543EF8';
+  const defaultActiveColor = activeColor || theme.colors.primary;
   const defaultInactiveColor =
     inactiveColor || (isDark ? '#9ca3af' : '#6b7280');
   const defaultBackgroundColor =
@@ -130,7 +130,7 @@ export const SegmentedControl: React.FC<SegmentedControlProps> = ({
               key={option.key}
               style={styles.segmentedControlOption}
               onPress={() => onChange(index)}
-              activeOpacity={0.7}
+              activeOpacity={1}
             >
               <Text
                 style={[
