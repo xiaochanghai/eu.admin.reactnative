@@ -43,7 +43,7 @@
     "test:ci": "pnpm run test --coverage",
     "test:watch": "pnpm run test --watch",
     "install-maestro": "curl -Ls 'https://get.maestro.mobile.dev' | bash",
-    "e2e-test": "maestro test .maestro/ -e APP_ID=com.obytes.development",
+    "e2e-test": "maestro test .maestro/ -e APP_ID=com.eucloud.development",
     "update:prod": "cross-env APP_ENV=production eas update --channel production --message \"prod-$(date +%Y%m%d%H%M)\"",
     "update:staging": "cross-env APP_ENV=staging EXPO_NO_DOTENV=1 eas update --channel staging --message \"staging-202607201114\"",
     "update:dev": "cross-env APP_ENV=development eas update --channel development --message \"dev-$(date +%Y%m%d%H%M)\""
@@ -169,7 +169,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/obytes/react-native-template-obytes.git"
+    "url": "git+https://github.com/xiaochanghai/eu.admin.reactnative.git"
   },
   "packageManager": "pnpm@10.12.3",
   "expo": {
