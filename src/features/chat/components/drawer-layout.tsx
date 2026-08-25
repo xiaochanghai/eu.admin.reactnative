@@ -38,6 +38,10 @@ function clamp(value: number, start: number, end: number) {
   return Math.min(Math.max(value, start), end);
 }
 
+function dismissKeyboard() {
+  Keyboard.dismiss();
+}
+
 export function DrawerLayout({
   open,
   onOpen,
@@ -56,7 +60,7 @@ export function DrawerLayout({
     (nextOpen: boolean) => {
       void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
       if (nextOpen) {
-        Keyboard.dismiss();
+        dismissKeyboard();
         onOpen();
       } else {
         onClose();
@@ -82,7 +86,7 @@ export function DrawerLayout({
   useEffect(() => {
     openValue.value = open;
     settle(open);
-    if (open) Keyboard.dismiss();
+    if (open) dismissKeyboard();
   }, [open, openValue, settle]);
 
   const pan = useMemo(() => {
@@ -93,7 +97,7 @@ export function DrawerLayout({
       })
       .onStart(() => {
         'worklet';
-        runOnJS(Keyboard.dismiss)();
+        runOnJS(dismissKeyboard)();
       })
       .onChange((event) => {
         'worklet';
