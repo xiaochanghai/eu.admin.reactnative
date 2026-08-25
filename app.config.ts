@@ -72,6 +72,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   web: {
     favicon: './assets/favicon.png',
     bundler: 'metro',
+    // output: 'server',
   },
   plugins: [
     [
@@ -91,6 +92,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     'expo-localization',
     'expo-router',
     'expo-image',
+    'expo-web-browser',
     'expo-status-bar',
     ['app-icon-badge', appIconBadgeConfig],
     ['react-native-edge-to-edge'],
