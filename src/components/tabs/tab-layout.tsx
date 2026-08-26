@@ -1,4 +1,4 @@
-import { Redirect, SplashScreen, Tabs } from 'expo-router';
+import { Redirect, Tabs } from 'expo-router';
 import type { BottomTabNavigationOptions } from 'expo-router/tabs';
 import { type ComponentType, memo, useEffect, useMemo } from 'react';
 
@@ -6,9 +6,6 @@ import { useAuth, useIsFirstTime } from '@/lib';
 
 import { CustomTabBar } from './custom-tab-bar';
 import { IconWrapper } from './icon-wrapper';
-
-// 闪屏隐藏延迟时间(毫秒)
-const SPLASH_HIDE_DELAY = 1000;
 
 // 图标组件的基础 props 类型
 export interface IconProps {
@@ -37,31 +34,12 @@ interface TabLayoutProps {
 
 /**
  * 通用的 Tab 布局组件
- * 处理认证状态、首次访问、闪屏等通用逻辑
+ * 处理认证状态、首次访问等通用逻辑
  */
 export const TabLayout = memo(
   ({ tabConfig, onMount, screenOptions }: TabLayoutProps) => {
     const status = useAuth.use.status();
     const [isFirstTime] = useIsFirstTime();
-
-    // 统一处理闪屏隐藏逻辑
-    useEffect(() => {
-      // 等待认证状态初始化完成
-      if (status === 'idle') return;
-
-      // 需要重定向时立即隐藏（首次访问或未登录）
-      if (isFirstTime || status === 'signOut') {
-        SplashScreen.hideAsync();
-        return;
-      }
-
-      // 正常进入应用时延迟隐藏，提供更好的视觉体验
-      const timer = setTimeout(() => {
-        SplashScreen.hideAsync();
-      }, SPLASH_HIDE_DELAY);
-
-      return () => clearTimeout(timer);
-    }, [status, isFirstTime]);
 
     // 组件挂载时执行自定义逻辑
     useEffect(() => {

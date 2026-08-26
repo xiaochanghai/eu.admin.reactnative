@@ -11,7 +11,7 @@ import {
   fetchUpdateAsync,
   reloadAsync,
 } from 'expo-updates';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Alert, BackHandler } from 'react-native';
 import { getUniqueId, getVersion } from 'react-native-device-info';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -143,6 +143,17 @@ function Providers({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const [isAgreePrivacy, setIsAgreePrivacy] = useIsAgreePrivacy();
   const { ref, present } = useUpdateModal();
+  const isSplashHidden = useRef(false);
+
+  const handleRootLayout = useCallback(() => {
+    if (!isWeb && !isSplashHidden.current) {
+      isSplashHidden.current = true;
+      SplashScreen.hideAsync().catch((error) => {
+        isSplashHidden.current = false;
+        console.error('[App] Failed to hide splash screen:', error);
+      });
+    }
+  }, []);
 
   const shouldShowPrivacyModal =
     isPrivacyModalVisible &&
@@ -218,6 +229,7 @@ function Providers({ children }: { children: React.ReactNode }) {
     <GestureHandlerRootView
       // className={theme.dark ? `dark` : undefined}
       className={`relative flex-1 ${theme.dark === true ? 'dark' : ''}`}
+      onLayout={handleRootLayout}
     >
       <KeyboardProvider>
         <ThemeProvider value={theme}>
