@@ -137,7 +137,7 @@ export default function ChatSettingsScreen() {
           icon="information-circle-outline"
           label="About EU Cloud"
           detail={`v${version}`}
-          onPress={() => router.push('/about-us' as never)}
+          onPress={() => router.push('/(chat)/(settings)/about-us' as never)}
         />
         <SettingsRow
           icon="document-text-outline"
