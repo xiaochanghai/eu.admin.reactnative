@@ -97,13 +97,16 @@ export default function RootLayout() {
     },
   });
 
-  // 当 registrationId 获取到后，打印日志
+  // OTA 更新与推送注册相互独立，应用启动后立即检查更新。
+  useEffect(() => {
+    if (!isWeb) {
+      checkForUpdate();
+    }
+  }, []);
 
-  // 应用启动时执行的操作（仅在挂载时运行）
+  // 推送注册成功后记录设备信息。
   useEffect(() => {
     if (!isWeb && registrationId) {
-      // 检查应用更新
-      checkForUpdate();
       // 获取设备唯一ID并记录设备信息
       getUniqueId()
         .then(async (uniqueId) => {
