@@ -89,26 +89,26 @@ android {
 
     namespace 'com.eucloud.erp'
     defaultConfig {
-// @generated begin jpush-manifest-placeholders - expo prebuild (DO NOT MODIFY) sync-22eac2f82b42896c46f5c279771a290d20a632d8
-manifestPlaceholders = [
-                JPUSH_PKGNAME: "com.eucloud.erp",
-                JPUSH_APPKEY: "acb8dfd7a7a771f3710d143c",
-                JPUSH_CHANNEL: "production"
-            ]
-// @generated end jpush-manifest-placeholders
+        ndk {
+// @generated begin jpush-ndk-abi-filters - expo prebuild (DO NOT MODIFY) sync-31a752f49c3ef5558c6980db8a3f9c162a511eb7
+            // 选择要添加的对应 cpu 类型的 .so 库。
+            abiFilters 'arm64-v8a', 'armeabi-v7a', 'x86', 'x86_64'
+// @generated end jpush-ndk-abi-filters
+        }
         applicationId 'com.eucloud.erp'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 2
         versionName "1.0.0"
-// @generated begin jpush-ndk-config - expo prebuild (DO NOT MODIFY) sync-b1dec770741d2eaa7867c32a8a866f8899231079
-ndk {
-                //选择要添加的对应 cpu 类型的 .so 库。
-                abiFilters 'arm64-v8a', 'armeabi-v7a', 'x86', 'x86_64'
-            }
-// @generated end jpush-ndk-config
 
         buildConfigField "String", "REACT_NATIVE_RELEASE_LEVEL", "\"${findProperty('reactNativeReleaseLevel') ?: 'stable'}\""
+// @generated begin jpush-manifest-placeholders - expo prebuild (DO NOT MODIFY) sync-b7f05ae2b2e827caa2bd40aba87fb464a40d10ad
+        manifestPlaceholders += [
+            JPUSH_PKGNAME: System.getenv("JPUSH_PKGNAME") ?: (project.findProperty("JPUSH_PKGNAME") ?: "com.eucloud.erp"),
+            JPUSH_APPKEY: System.getenv("JPUSH_APP_KEY") ?: (project.findProperty("JPUSH_APP_KEY") ?: "acb8dfd7a7a771f3710d143c"),
+            JPUSH_CHANNEL: System.getenv("JPUSH_CHANNEL") ?: (project.findProperty("JPUSH_CHANNEL") ?: "production")
+        ]
+// @generated end jpush-manifest-placeholders
     }
     signingConfigs {
         debug {
@@ -166,14 +166,13 @@ ndk {
 }
 
 dependencies {
-// @generated begin jpush-dependencies - expo prebuild (DO NOT MODIFY) sync-850900f07d70b87ddf96954a25029fab627cbdd9
-// JPush React Native 桥接（已包含 JPush 核心 SDK）
+// @generated begin jpush-dependencies - expo prebuild (DO NOT MODIFY) sync-56189e689dcde05d93d762306cef5f749abcc81e
+    implementation fileTree(include: ['*.jar','*.aar'], dir: 'libs')
+
+    // JPush React Native 桥接（已包含 JPush 核心 SDK）
     implementation project(':jpush-react-native')
     implementation project(':jcore-react-native')
 // @generated end jpush-dependencies
-// @generated begin jpush-libs-filetree - expo prebuild (DO NOT MODIFY) sync-b49c55821fcfaf640a644f68fa2264b8adfed2f2
-implementation fileTree(include: ['*.jar','*.aar'], dir: 'libs')
-// @generated end jpush-libs-filetree
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
 
