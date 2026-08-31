@@ -6,5 +6,6 @@ export default function Index() {
   const userInfo = getUserInfoData();
   // console.log('userInfo', userInfo?.UserType);
   if (userInfo?.UserType === 'Repair') return <Redirect href="/(repair)" />;
-  return <Redirect href="/(chat)" />;
+  if (userInfo?.UserType === 'Chat') return <Redirect href="/(chat)" />;
+  return <Redirect href="/(app)" />;
 }

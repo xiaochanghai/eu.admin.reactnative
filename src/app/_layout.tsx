@@ -4,6 +4,7 @@ import 'dayjs/locale/zh-cn';
 
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import dayjs from 'dayjs';
+import { ObserveRoot, useObserve } from 'expo-observe';
 import { Stack, ThemeProvider, usePathname } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import {
@@ -51,7 +52,7 @@ if (!isWeb || typeof window !== 'undefined') {
   });
 }
 
-export default function RootLayout() {
+function RootLayout() {
   /**
    * 检查应用更新
    * 如果有可用更新，自动下载并重新加载应用
@@ -140,23 +141,35 @@ export default function RootLayout() {
   );
 }
 
+export default ObserveRoot.wrap(RootLayout);
+
 function Providers({ children }: { children: React.ReactNode }) {
   const theme = useThemeConfig();
   const [isPrivacyModalVisible, setPrivacyModalVisible] = useState(true);
   const pathname = usePathname();
   const [isAgreePrivacy, setIsAgreePrivacy] = useIsAgreePrivacy();
   const { ref, present } = useUpdateModal();
+  const { markInteractive } = useObserve();
   const isSplashHidden = useRef(false);
+  const isInteractiveMarked = useRef(false);
 
   const handleRootLayout = useCallback(() => {
     if (!isWeb && !isSplashHidden.current) {
       isSplashHidden.current = true;
-      SplashScreen.hideAsync().catch((error) => {
+      try {
+        SplashScreen.hide();
+        if (!isInteractiveMarked.current) {
+          isInteractiveMarked.current = true;
+          // This records app-start TTI. Per-route TTI requires each screen to
+          // report its own readiness, so the Router integration stays disabled.
+          markInteractive();
+        }
+      } catch (error) {
         isSplashHidden.current = false;
         console.error('[App] Failed to hide splash screen:', error);
-      });
+      }
     }
-  }, []);
+  }, [markInteractive]);
 
   const shouldShowPrivacyModal =
     isPrivacyModalVisible &&
