@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 
-import { NavHeader, SafeAreaView } from '@/components/ui';
+import { NavHeader, useSafeAreaInsets } from '@/components/ui';
 import colors from '@/components/ui/colors';
 import { FontAwesome } from '@/components/ui/icons';
 import { useAppColorScheme } from '@/lib';
@@ -9,24 +9,31 @@ import { useAppColorScheme } from '@/lib';
 const ProductionTaskDetail = () => {
   const [activeTab, setActiveTab] = useState('basic-info');
   const { isDark } = useAppColorScheme();
+  const insets = useSafeAreaInsets();
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-50 dark:bg-gray-900">
+    <View className="flex-1 bg-gray-50 dark:bg-gray-900">
       <NavHeader
         title="任务详情"
         right={
           <>
-            <TouchableOpacity className="mr-4">
+            {/* <TouchableOpacity className="mr-4">
               <FontAwesome name="share-alt" size={18} color={colors.white} />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <TouchableOpacity>
-              <FontAwesome name="ellipsis-v" size={18} color={colors.white} />
+              <FontAwesome name="ellipsis-v" size={18} color={colors.black} />
             </TouchableOpacity>
           </>
         }
       />
 
-      <ScrollView className="flex-1 p-4">
+      <ScrollView
+        className="flex-1"
+        contentContainerStyle={{
+          padding: 16,
+          paddingBottom: insets.bottom + 88,
+        }}
+      >
         {/* 任务状态卡片 */}
         <View className="mb-4 rounded-2xl border border-gray-100 bg-white p-5 dark:border-gray-800 dark:bg-gray-800">
           <View className="mb-3 flex-row items-start justify-between">
@@ -101,7 +108,7 @@ const ProductionTaskDetail = () => {
             </View>
           </View>
 
-          <View className="flex-row space-x-2">
+          <View className="flex-row gap-2">
             <TouchableOpacity className="flex-1 flex-row items-center justify-center rounded-lg bg-primary-600 py-3">
               <FontAwesome
                 name="check-circle"
@@ -130,6 +137,7 @@ const ProductionTaskDetail = () => {
           <TouchableOpacity
             className={`flex-1 items-center rounded-full px-4 py-2 ${activeTab === 'basic-info' ? 'bg-primary-600' : ''}`}
             onPress={() => setActiveTab('basic-info')}
+            activeOpacity={1}
           >
             <Text
               className={`text-sm font-medium ${activeTab === 'basic-info' ? 'text-white' : 'text-gray-700 dark:text-gray-300'}`}
@@ -140,6 +148,7 @@ const ProductionTaskDetail = () => {
           <TouchableOpacity
             className={`flex-1 items-center rounded-full px-4 py-2 ${activeTab === 'process' ? 'bg-primary-600' : ''}`}
             onPress={() => setActiveTab('process')}
+            activeOpacity={1}
           >
             <Text
               className={`text-sm font-medium ${activeTab === 'process' ? 'text-white' : 'text-gray-700 dark:text-gray-300'}`}
@@ -150,6 +159,7 @@ const ProductionTaskDetail = () => {
           <TouchableOpacity
             className={`flex-1 items-center rounded-full px-4 py-2 ${activeTab === 'resources' ? 'bg-primary-600' : ''}`}
             onPress={() => setActiveTab('resources')}
+            activeOpacity={1}
           >
             <Text
               className={`text-sm font-medium ${activeTab === 'resources' ? 'text-white' : 'text-gray-700 dark:text-gray-300'}`}
@@ -268,7 +278,7 @@ const ProductionTaskDetail = () => {
               >
                 <View className="flex-row items-center">
                   <View className="items-center">
-                    <View className="w-15 h-15 items-center justify-center rounded-full bg-green-100 dark:bg-green-900/30">
+                    <View className="size-[60px] items-center justify-center rounded-full bg-green-100 dark:bg-green-900/30">
                       <FontAwesome
                         name="cut"
                         size={24}
@@ -286,7 +296,7 @@ const ProductionTaskDetail = () => {
                   <View className="mx-1 h-1 w-10 bg-green-500" />
 
                   <View className="items-center">
-                    <View className="w-15 h-15 items-center justify-center rounded-full bg-primary-100 dark:bg-primary-900/30">
+                    <View className="size-[60px] items-center justify-center rounded-full bg-primary-100 dark:bg-primary-900/30">
                       <FontAwesome
                         name="tshirt"
                         size={24}
@@ -304,7 +314,7 @@ const ProductionTaskDetail = () => {
                   <View className="mx-1 h-1 w-10 bg-gray-300 dark:bg-gray-600" />
 
                   <View className="items-center">
-                    <View className="w-15 h-15 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700">
+                    <View className="size-[60px] items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700">
                       <FontAwesome
                         name="paint-brush"
                         size={24}
@@ -319,7 +329,7 @@ const ProductionTaskDetail = () => {
                   <View className="mx-1 h-1 w-10 bg-gray-300 dark:bg-gray-600" />
 
                   <View className="items-center">
-                    <View className="w-15 h-15 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700">
+                    <View className="size-[60px] items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700">
                       <FontAwesome
                         name="search"
                         size={24}
@@ -334,7 +344,7 @@ const ProductionTaskDetail = () => {
                   <View className="mx-1 h-1 w-10 bg-gray-300 dark:bg-gray-600" />
 
                   <View className="items-center">
-                    <View className="w-15 h-15 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700">
+                    <View className="size-[60px] items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700">
                       <FontAwesome
                         name="tags"
                         size={24}
@@ -581,31 +591,38 @@ const ProductionTaskDetail = () => {
         )}
       </ScrollView>
       {/* 底部操作按钮 */}
-      <View className="absolute inset-x-4 bottom-5 flex-row space-x-3">
-        <TouchableOpacity className="flex-1 flex-row items-center justify-center rounded-lg bg-gray-100 py-3 dark:bg-gray-700">
+      <View
+        className="absolute inset-x-0 bottom-0 flex-row gap-3 border-t border-gray-200 bg-white px-4 pt-3 dark:border-gray-700 dark:bg-gray-900"
+        style={{ paddingBottom: Math.max(insets.bottom, 12) }}
+      >
+        <TouchableOpacity
+          className="h-12 flex-1 flex-row items-center justify-center rounded-xl border border-gray-300 bg-white dark:border-gray-600 dark:bg-gray-800"
+          activeOpacity={0.8}
+        >
           <FontAwesome
             name="comment-alt"
             size={16}
             color={isDark ? '#9ca3af' : '#4b5563'}
             style={{ marginRight: 8 }}
           />
-          <Text className="text-sm font-medium text-gray-700 dark:text-gray-300">
+          <Text className="font-medium text-gray-700 dark:text-gray-200">
             添加备注
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity className="flex-1 flex-row items-center justify-center rounded-lg bg-red-50 py-3 dark:bg-red-900/20">
+        <TouchableOpacity
+          className="h-12 flex-1 flex-row items-center justify-center rounded-xl bg-red-600 dark:bg-red-600"
+          activeOpacity={0.8}
+        >
           <FontAwesome
             name="exclamation-triangle"
             size={16}
-            color={isDark ? '#f87171' : '#ef4444'}
+            color="white"
             style={{ marginRight: 8 }}
           />
-          <Text className="text-sm font-medium text-red-600 dark:text-red-400">
-            报告问题
-          </Text>
+          <Text className="font-semibold text-white">报告问题</Text>
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 

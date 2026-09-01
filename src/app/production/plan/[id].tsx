@@ -32,7 +32,10 @@ const ProductionPlanDetail = () => {
         }
       />
 
-      <ScrollView className="mb-20 flex-1 p-4" style={{ paddingBottom: insets.bottom + 50 }}>
+      <ScrollView
+        className="mb-20 flex-1 p-4"
+        style={{ paddingBottom: insets.bottom + 50 }}
+      >
         {/* 计划基本信息 */}
         <View className="mb-4 rounded-2xl border border-gray-100 bg-white p-4 dark:border-gray-800 dark:bg-gray-800">
           <View className="mb-3 flex-row items-start justify-between">
@@ -125,6 +128,7 @@ const ProductionPlanDetail = () => {
           <TouchableOpacity
             className={`flex-1 rounded-md px-3 py-2 ${activeTab === 'plan-details' ? 'bg-white dark:bg-gray-600' : ''}`}
             onPress={() => handleTabChange('plan-details')}
+            activeOpacity={1}
           >
             <Text
               className={`text-center text-sm ${activeTab === 'plan-details' ? 'font-medium text-primary-600 dark:text-primary-400' : 'text-gray-600 dark:text-gray-300'}`}
@@ -135,6 +139,7 @@ const ProductionPlanDetail = () => {
           <TouchableOpacity
             className={`flex-1 rounded-md px-3 py-2 ${activeTab === 'production-progress' ? 'bg-white dark:bg-gray-600' : ''}`}
             onPress={() => handleTabChange('production-progress')}
+            activeOpacity={1}
           >
             <Text
               className={`text-center text-sm ${activeTab === 'production-progress' ? 'font-medium text-primary-600 dark:text-primary-400' : 'text-gray-600 dark:text-gray-300'}`}
@@ -145,6 +150,7 @@ const ProductionPlanDetail = () => {
           <TouchableOpacity
             className={`flex-1 rounded-md px-3 py-2 ${activeTab === 'material-info' ? 'bg-white dark:bg-gray-600' : ''}`}
             onPress={() => handleTabChange('material-info')}
+            activeOpacity={1}
           >
             <Text
               className={`text-center text-sm ${activeTab === 'material-info' ? 'font-medium text-primary-600 dark:text-primary-400' : 'text-gray-600 dark:text-gray-300'}`}
@@ -155,6 +161,7 @@ const ProductionPlanDetail = () => {
           <TouchableOpacity
             className={`flex-1 rounded-md px-3 py-2 ${activeTab === 'team-info' ? 'bg-white dark:bg-gray-600' : ''}`}
             onPress={() => handleTabChange('team-info')}
+            activeOpacity={1}
           >
             <Text
               className={`text-center text-sm ${activeTab === 'team-info' ? 'font-medium text-primary-600 dark:text-primary-400' : 'text-gray-600 dark:text-gray-300'}`}
@@ -680,8 +687,14 @@ const ProductionPlanDetail = () => {
       </ScrollView>
 
       {/* 底部操作按钮 */}
-      <View className="absolute inset-x-4 bottom-5 flex-row space-x-3" style={{ paddingBottom: insets.bottom }}>
-        <TouchableOpacity className="flex-1 flex-row items-center justify-center rounded-lg border border-gray-300 bg-white py-3 dark:border-gray-600 dark:bg-gray-800">
+      <View
+        className="absolute inset-x-0 bottom-0 flex-row gap-3 border-t border-gray-200 bg-white px-4 pt-3 dark:border-gray-700 dark:bg-gray-900"
+        style={{ paddingBottom: Math.max(insets.bottom, 12) }}
+      >
+        <TouchableOpacity
+          className="h-12 flex-1 flex-row items-center justify-center rounded-xl border border-gray-300 bg-white dark:border-gray-600 dark:bg-gray-800"
+          activeOpacity={0.8}
+        >
           <FontAwesome
             name="edit"
             size={16}
@@ -692,7 +705,10 @@ const ProductionPlanDetail = () => {
             编辑计划
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity className="flex-1 flex-row items-center justify-center rounded-lg bg-primary-600 py-3">
+        <TouchableOpacity
+          className="h-12 flex-1 flex-row items-center justify-center rounded-xl bg-primary-600"
+          activeOpacity={0.8}
+        >
           <FontAwesome
             name="check-circle"
             size={16}
