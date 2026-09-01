@@ -55,14 +55,7 @@ export const NavHeader = ({
           headerStyle: {
             backgroundColor: isDark ? '#171717' : '#ffffff',
           },
-          headerRight: () =>
-            right && (
-              <View
-                style={leftShown ? styles.headerRight2 : styles.headerRight1}
-              >
-                {right && <>{right}</>}
-              </View>
-            ),
+          headerRight: () => right && <>{right}</>,
           headerLeft: () =>
             left ? (
               <View className="ml-4">{left && <>{left}</>}</View>
@@ -87,30 +80,30 @@ export const NavHeader = ({
   );
 };
 
-const styles = StyleSheet.create({
-  headerCenter: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  headerTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#333',
-  },
-  headerRight1: {
-    marginRight: 10,
+// const styles = StyleSheet.create({
+// headerCenter: {
+//   flex: 1,
+//   alignItems: 'center',
+//   justifyContent: 'center',
+// },
+// headerTitle: {
+//   fontSize: 18,
+//   fontWeight: '600',
+//   color: '#333',
+// },
+// headerRight1: {
+//   marginRight: 10,
 
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: 90, // 固定宽度，确保与左侧空白区域平衡
-    justifyContent: 'flex-end',
-  },
+//   flexDirection: 'row',
+//   alignItems: 'center',
+//   width: 90, // 固定宽度，确保与左侧空白区域平衡
+//   justifyContent: 'flex-end',
+// },
 
-  headerRight2: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: 90, // 固定宽度，确保与左侧空白区域平衡
-    justifyContent: 'flex-end',
-  },
-});
+// headerRight2: {
+//   flexDirection: 'row',
+//   alignItems: 'center',
+//   width: 90, // 固定宽度，确保与左侧空白区域平衡
+//   justifyContent: 'flex-end',
+// },
+// });
