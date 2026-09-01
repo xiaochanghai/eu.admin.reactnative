@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 
-import { NavHeader, SafeAreaView } from '@/components/ui';
+import { NavHeader, useSafeAreaInsets } from '@/components/ui';
 import colors from '@/components/ui/colors';
 import { FontAwesome } from '@/components/ui/icons';
 import { useAppColorScheme } from '@/lib';
@@ -9,6 +9,7 @@ import { useAppColorScheme } from '@/lib';
 const ProductionPlanDetail = () => {
   const [activeTab, setActiveTab] = useState('plan-details');
   const { isDark } = useAppColorScheme();
+  const insets = useSafeAreaInsets();
 
   // 切换选项卡
   const handleTabChange = (tabId: string) => {
@@ -16,22 +17,22 @@ const ProductionPlanDetail = () => {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-50 dark:bg-gray-900">
+    <View className="flex-1 bg-gray-50 dark:bg-gray-900">
       <NavHeader
         title="计划详情"
         right={
           <>
-            <TouchableOpacity className="mr-4">
-              <FontAwesome name="share-alt" size={18} color={colors.white} />
-            </TouchableOpacity>
+            {/* <TouchableOpacity className="mr-4">
+              <FontAwesome name="share-alt" size={18} color={colors.black} />
+            </TouchableOpacity> */}
             <TouchableOpacity>
-              <FontAwesome name="ellipsis-v" size={18} color={colors.white} />
+              <FontAwesome name="ellipsis-v" size={18} color={colors.black} />
             </TouchableOpacity>
           </>
         }
       />
 
-      <ScrollView className="mb-20 flex-1 p-4">
+      <ScrollView className="mb-20 flex-1 p-4" style={{ paddingBottom: insets.bottom + 50 }}>
         {/* 计划基本信息 */}
         <View className="mb-4 rounded-2xl border border-gray-100 bg-white p-4 dark:border-gray-800 dark:bg-gray-800">
           <View className="mb-3 flex-row items-start justify-between">
@@ -679,7 +680,7 @@ const ProductionPlanDetail = () => {
       </ScrollView>
 
       {/* 底部操作按钮 */}
-      <View className="absolute inset-x-4 bottom-5 flex-row space-x-3">
+      <View className="absolute inset-x-4 bottom-5 flex-row space-x-3" style={{ paddingBottom: insets.bottom }}>
         <TouchableOpacity className="flex-1 flex-row items-center justify-center rounded-lg border border-gray-300 bg-white py-3 dark:border-gray-600 dark:bg-gray-800">
           <FontAwesome
             name="edit"
@@ -701,7 +702,7 @@ const ProductionPlanDetail = () => {
           <Text className="font-medium text-white">更新进度</Text>
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 
