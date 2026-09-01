@@ -62,15 +62,16 @@ const Quality = () => {
       showsHorizontalScrollIndicator={false}
       className="mb-4"
     >
-      <View className="flex-row space-x-2">
+      <View className="flex-row rounded-lg bg-gray-200 p-1 dark:bg-gray-700">
         {subTabs.map((tab) => (
           <TouchableOpacity
             key={tab}
-            className={`rounded-full px-4 py-2 ${activeSubTab === tab ? 'bg-primary-600' : 'bg-white dark:bg-gray-800'}`}
+            className={`min-w-[88px] rounded-md px-3 py-2 ${activeSubTab === tab ? 'bg-white dark:bg-gray-600' : ''}`}
             onPress={() => setActiveSubTab(tab)}
+            activeOpacity={1}
           >
             <Text
-              className={`whitespace-nowrap text-sm font-medium ${activeSubTab === tab ? 'text-white' : 'text-gray-600 dark:text-gray-300'}`}
+              className={`whitespace-nowrap text-center text-sm ${activeSubTab === tab ? 'font-medium text-primary-600 dark:text-primary-400' : 'text-gray-600 dark:text-gray-300'}`}
             >
               {tab}
             </Text>
