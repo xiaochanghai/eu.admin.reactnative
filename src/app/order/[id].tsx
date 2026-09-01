@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 
-import { NavHeader, SafeAreaView } from '@/components/ui';
+import { NavHeader } from '@/components/ui';
 import colors from '@/components/ui/colors';
 import { FontAwesome } from '@/components/ui/icons';
 
@@ -14,7 +14,7 @@ const OrderDetail = () => {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-50 dark:bg-gray-900">
+    <View className="flex-1 bg-gray-50 dark:bg-gray-900">
       <NavHeader
         title="订单详情"
         right={
@@ -105,13 +105,14 @@ const OrderDetail = () => {
         </View>
 
         {/* 选项卡 - 分段控制器样式 */}
-        <View className="mb-4 flex-row rounded-xl bg-gray-200 p-1 dark:bg-gray-700">
+        <View className="mb-4 flex-row rounded-lg bg-gray-200 p-1 dark:bg-gray-700">
           <TouchableOpacity
             className={`flex-1 rounded-md px-3 py-2 ${activeTab === 'product-list' ? 'bg-white dark:bg-gray-600' : ''}`}
             onPress={() => handleTabChange('product-list')}
+            activeOpacity={1}
           >
             <Text
-              className={`text-center text-sm ${activeTab === 'product-list' ? 'font-semibold text-primary-600 dark:text-primary-400' : 'text-gray-600 dark:text-gray-300'}`}
+              className={`text-center text-sm ${activeTab === 'product-list' ? 'font-medium text-primary-600 dark:text-primary-400' : 'text-gray-600 dark:text-gray-300'}`}
             >
               产品明细
             </Text>
@@ -119,9 +120,10 @@ const OrderDetail = () => {
           <TouchableOpacity
             className={`flex-1 rounded-md px-3 py-2 ${activeTab === 'production-progress' ? 'bg-white dark:bg-gray-600' : ''}`}
             onPress={() => handleTabChange('production-progress')}
+            activeOpacity={1}
           >
             <Text
-              className={`text-center text-sm ${activeTab === 'production-progress' ? 'font-semibold text-primary-600 dark:text-primary-400' : 'text-gray-600 dark:text-gray-300'}`}
+              className={`text-center text-sm ${activeTab === 'production-progress' ? 'font-medium text-primary-600 dark:text-primary-400' : 'text-gray-600 dark:text-gray-300'}`}
             >
               生产进度
             </Text>
@@ -129,9 +131,10 @@ const OrderDetail = () => {
           <TouchableOpacity
             className={`flex-1 rounded-md px-3 py-2 ${activeTab === 'logistics-info' ? 'bg-white dark:bg-gray-600' : ''}`}
             onPress={() => handleTabChange('logistics-info')}
+            activeOpacity={1}
           >
             <Text
-              className={`text-center text-sm ${activeTab === 'logistics-info' ? 'font-semibold text-primary-600 dark:text-primary-400' : 'text-gray-600 dark:text-gray-300'}`}
+              className={`text-center text-sm ${activeTab === 'logistics-info' ? 'font-medium text-primary-600 dark:text-primary-400' : 'text-gray-600 dark:text-gray-300'}`}
             >
               物流信息
             </Text>
@@ -139,9 +142,10 @@ const OrderDetail = () => {
           <TouchableOpacity
             className={`flex-1 rounded-md px-3 py-2 ${activeTab === 'payment-info' ? 'bg-white dark:bg-gray-600' : ''}`}
             onPress={() => handleTabChange('payment-info')}
+            activeOpacity={1}
           >
             <Text
-              className={`text-center text-sm ${activeTab === 'payment-info' ? 'font-semibold text-primary-600 dark:text-primary-400' : 'text-gray-600 dark:text-gray-300'}`}
+              className={`text-center text-sm ${activeTab === 'payment-info' ? 'font-medium text-primary-600 dark:text-primary-400' : 'text-gray-600 dark:text-gray-300'}`}
             >
               付款信息
             </Text>
@@ -549,7 +553,7 @@ const OrderDetail = () => {
           </View>
         )}
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 };
 
