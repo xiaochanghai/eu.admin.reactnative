@@ -7,7 +7,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Text } from '@/components/ui';
 
 // Tab 高度常量
-const TAB_HEIGHT = 64;
+const TAB_HEIGHT = 54;
 
 // TabItem 组件
 interface TabItemProps {
