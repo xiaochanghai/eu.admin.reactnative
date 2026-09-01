@@ -119,11 +119,18 @@ export const Report = () => {
 
   return (
     <View>
-      {/* 报表概览 - 标题和日期选择器 */}
-      <View className="mb-3 flex-row items-center justify-between">
-        <Text className="text-lg font-semibold text-gray-800 dark:text-gray-100">
-          生产报表
-        </Text>
+      {/* 报表概览 - 标题、日期和周期选择器 */}
+      <View className="mb-4">
+        <View className="mb-3">
+          <View>
+            <Text className="text-xl font-bold text-gray-900 dark:text-gray-100">
+              生产报表
+            </Text>
+            <Text className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+              查看生产完成情况与设备运行状态
+            </Text>
+          </View>
+        </View>
         <ReportDateSelector />
       </View>
 
@@ -132,7 +139,7 @@ export const Report = () => {
         <View className="mb-3 flex-row items-center justify-between">
           <Text className="text-base font-semibold">生产数据</Text>
           <Text className="text-sm text-gray-500 dark:text-gray-400">
-            2023-12-05
+            当前周期
           </Text>
         </View>
 
@@ -280,7 +287,7 @@ export const Report = () => {
         <View className="mb-3 flex-row items-center justify-between">
           <Text className="text-base font-semibold">设备运行报表</Text>
           <Text className="text-sm text-gray-500 dark:text-gray-400">
-            2023-12-05
+            当前周期
           </Text>
         </View>
 
@@ -441,7 +448,7 @@ export const Report = () => {
             style={{ marginRight: 12 }}
           />
           <Text className="text-sm text-gray-800 dark:text-gray-100">
-            下载本月生产报表
+            下载生产报表
           </Text>
         </TouchableOpacity>
       </View>

@@ -73,10 +73,12 @@ const Production: React.FC = () => {
         {selectedTabIndex === 4 && <Report />}
       </ScrollView>
 
-      {/* 浮动按钮 */}
-      <TouchableOpacity className="absolute bottom-5 right-5 size-14 items-center justify-center rounded-2xl bg-primary-600 shadow-lg dark:bg-primary-600">
-        <FontAwesome name="plus" size={24} color="white" />
-      </TouchableOpacity>
+      {/* 报表页不需要新增操作，避免悬浮按钮遮挡图表。 */}
+      {selectedTabIndex !== 4 && (
+        <TouchableOpacity className="absolute bottom-5 right-5 size-14 items-center justify-center rounded-2xl bg-primary-600 shadow-lg dark:bg-primary-600">
+          <FontAwesome name="plus" size={24} color="white" />
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
