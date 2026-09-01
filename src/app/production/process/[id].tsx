@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 
-import { NavHeader, SafeAreaView } from '@/components/ui';
+import { NavHeader } from '@/components/ui';
 import colors from '@/components/ui/colors';
 import { FontAwesome } from '@/components/ui/icons';
 import { useAppColorScheme } from '@/lib';
@@ -11,7 +11,7 @@ export default function ProcessDetail() {
   const { isDark } = useAppColorScheme();
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-50 dark:bg-gray-900">
+    <View className="flex-1 bg-gray-50 dark:bg-gray-900">
       <NavHeader
         title="工序详情"
         right={
@@ -355,6 +355,6 @@ export default function ProcessDetail() {
           </View>
         )}
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }

@@ -1,13 +1,7 @@
 import React, { useState } from 'react';
 import { TouchableOpacity } from 'react-native';
 
-import {
-  NavHeader,
-  SafeAreaView,
-  ScrollView,
-  Text,
-  View,
-} from '@/components/ui';
+import { NavHeader, ScrollView, Text, View } from '@/components/ui';
 import colors from '@/components/ui/colors';
 import { FontAwesome } from '@/components/ui/icons';
 
@@ -20,7 +14,7 @@ const EquipmentDetail = () => {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-50 dark:bg-gray-900">
+    <View className="flex-1 bg-gray-50 dark:bg-gray-900">
       <NavHeader title="设备明细" />
       <ScrollView className="flex-1 p-4">
         {/* 设备基本信息卡片 */}
@@ -493,7 +487,7 @@ const EquipmentDetail = () => {
           </View>
         )}
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 };
 
