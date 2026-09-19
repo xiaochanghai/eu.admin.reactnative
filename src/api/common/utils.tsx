@@ -23,22 +23,28 @@ export function normalizePages<T>(pages?: PaginateQuery<T>[]): T[] {
     : [];
 }
 
-// a function that accept a url and return params as an object
+/**
+ * Extract URL parameters as an object
+ * @param url - URL string with query parameters
+ * @returns Object containing key-value pairs of parameters, or null if url is null
+ */
 export function getUrlParameters(
   url: string | null
 ): { [k: string]: string } | null {
   if (url === null) {
     return null;
   }
-  let regex = /[?&]([^=#]+)=([^&#]*)/g,
-    params = {},
-    match;
-  while ((match = regex.exec(url))) {
-    if (match[1] !== null) {
-      //@ts-ignore
+
+  const regex = /[?&]([^=#]+)=([^&#]*)/g;
+  const params: { [k: string]: string } = {};
+  let match: RegExpExecArray | null;
+
+  while ((match = regex.exec(url)) !== null) {
+    if (match[1]) {
       params[match[1]] = match[2];
     }
   }
+
   return params;
 }
 

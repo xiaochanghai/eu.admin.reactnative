@@ -30,7 +30,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   orientation: 'portrait',
   icon: './assets/icon.png',
   userInterfaceStyle: 'automatic',
-  newArchEnabled: true,
+  // newArchEnabled: true,
   updates: {
     fallbackToCacheTimeout: 0,
     url: 'https://u.expo.dev/9d0f9588-d00f-40cf-a15c-ffd7e8bc7654',
@@ -64,6 +64,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     },
     package: Env.PACKAGE,
     versionCode: Env.BUILD_NUMBER,
+    permissions: ['REQUEST_INSTALL_PACKAGES'],
     // runtimeVersion: {
     //   policy: 'appVersion',
     // },
@@ -71,6 +72,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   web: {
     favicon: './assets/favicon.png',
     bundler: 'metro',
+    // output: 'server',
   },
   plugins: [
     [
@@ -89,6 +91,9 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     ],
     'expo-localization',
     'expo-router',
+    'expo-image',
+    'expo-web-browser',
+    'expo-status-bar',
     ['app-icon-badge', appIconBadgeConfig],
     ['react-native-edge-to-edge'],
     [
@@ -102,6 +107,17 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       'expo-camera',
       {
         cameraPermission: '我们需要使用相机来扫描二维码。',
+      },
+    ],
+    ['expo-document-picker'],
+    // JPush Configuration - 使用mx-jpush-expo config plugin
+    [
+      'mx-jpush-expo',
+      {
+        appKey: Env.JPUSH_APPKEY,
+        channel: Env.JPUSH_CHANNEL,
+        packageName: Env.PACKAGE,
+        apsForProduction: Env.APP_ENV === 'production',
       },
     ],
     // [

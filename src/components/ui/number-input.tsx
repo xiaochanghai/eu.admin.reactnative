@@ -31,7 +31,8 @@ const numberInputTv = tv({
   variants: {
     focused: {
       true: {
-        input: 'border-2 border-[#543EF8] shadow-[0_4px_12px_rgba(84,62,248,0.7)]',
+        input:
+          'border-2 border-[#543EF8] shadow-[0_4px_12px_rgba(84,62,248,0.7)]',
       },
     },
     error: {
@@ -67,9 +68,9 @@ export interface NumberInputProps extends Omit<TextInputProps, 'keyboardType'> {
 
 type TRule<T extends FieldValues> =
   | Omit<
-    RegisterOptions<T>,
-    'disabled' | 'valueAsNumber' | 'valueAsDate' | 'setValueAs'
-  >
+      RegisterOptions<T>,
+      'disabled' | 'valueAsNumber' | 'valueAsDate' | 'setValueAs'
+    >
   | undefined;
 
 type RuleType<T extends FieldValues> = { [name in keyof T]: TRule<T> };
@@ -81,7 +82,7 @@ export type NumberInputControllerType<T extends FieldValues> = {
 
 interface ControlledNumberInputProps<T extends FieldValues>
   extends NumberInputProps,
-  NumberInputControllerType<T> { }
+    NumberInputControllerType<T> {}
 
 export const NumberInput = React.forwardRef<NTextInput, NumberInputProps>(
   (props, ref) => {
@@ -198,24 +199,24 @@ export const NumberInput = React.forwardRef<NTextInput, NumberInputProps>(
               { fontSize: 16, lineHeight: 19 },
               ...(error
                 ? [
-                  {
-                    shadowColor: 'rgba(239,68,68,0.7)',
-                    shadowOffset: { width: 0, height: 0 },
-                    shadowOpacity: 0.7,
-                    shadowRadius: 6,
-                    elevation: 8,
-                  },
-                ]
-                : isFocussed
-                  ? [
                     {
-                      shadowColor: 'rgba(84,62,248,0.7)',
+                      shadowColor: 'rgba(239,68,68,0.7)',
                       shadowOffset: { width: 0, height: 0 },
                       shadowOpacity: 0.7,
                       shadowRadius: 6,
                       elevation: 8,
                     },
                   ]
+                : isFocussed
+                  ? [
+                      {
+                        shadowColor: 'rgba(84,62,248,0.7)',
+                        shadowOffset: { width: 0, height: 0 },
+                        shadowOpacity: 0.7,
+                        shadowRadius: 6,
+                        elevation: 8,
+                      },
+                    ]
                   : []),
             ])}
           />

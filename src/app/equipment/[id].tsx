@@ -1,7 +1,7 @@
 import { Env } from '@env';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useLocalSearchParams } from 'expo-router';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Image, ScrollView, TouchableOpacity } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -27,17 +27,17 @@ const EquipmentDetail: React.FC = () => {
   const local = useLocalSearchParams<{ id: string }>();
   const [data, setData] = useState<Equipment>({} as Equipment);
 
-  const loadData = async () => {
+  const loadData = useCallback(async () => {
     const { Success, Data } = await queryDetail<Equipment>(
       '/api/EmEquipment',
       local.id
     );
     if (Success) setData(Data);
-  };
+  }, [local.id]);
 
   useEffect(() => {
     loadData();
-  }, []);
+  }, [loadData]);
 
   // 快捷操作按钮数据
   const quickActions = [
@@ -127,7 +127,7 @@ const EquipmentDetail: React.FC = () => {
   ];
 
   return (
-    <View className="flex-1 bg-gray-50 dark:bg-neutral-900">
+    <View className="flex-1 bg-gray-100/70 dark:bg-neutral-950">
       {/* 顶部导航 */}
       <NavHeader
         title="设备详情"
@@ -135,7 +135,7 @@ const EquipmentDetail: React.FC = () => {
         right={
           <View className="flex-row items-center">
             <TouchableOpacity
-              className="mr-3"
+              className="mr-1 size-10 items-center justify-center rounded-full"
               onPress={() => console.log('分享')}
             >
               <FontAwesome
@@ -144,7 +144,10 @@ const EquipmentDetail: React.FC = () => {
                 color={isDark ? '#9ca3af' : '#6b7280'}
               />
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => console.log('更多')}>
+            <TouchableOpacity
+              className="size-10 items-center justify-center rounded-full"
+              onPress={() => console.log('更多')}
+            >
               <FontAwesome
                 name="ellipsis-v"
                 size={20}
@@ -155,25 +158,24 @@ const EquipmentDetail: React.FC = () => {
         }
       />
 
-      <ScrollView className="flex-1 p-4" showsVerticalScrollIndicator={false}>
+      <ScrollView
+        className="flex-1"
+        contentContainerStyle={{ padding: 16, paddingBottom: 32 }}
+        showsVerticalScrollIndicator={false}
+      >
         {/* 设备基本信息卡片 */}
         {data && (
           <LinearGradient
-            colors={['#3b82f6', '#2563eb']}
+            colors={isDark ? ['#28233f', '#17171c'] : ['#6554ee', '#4736c7']}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 1 }}
             style={{
-              borderRadius: 16,
-              padding: 24,
-              marginBottom: 16,
-              shadowColor: '#000',
-              shadowOffset: { width: 0, height: 2 },
-              shadowOpacity: 0.1,
-              shadowRadius: 8,
-              elevation: 3,
+              borderRadius: 20,
+              padding: 20,
+              marginBottom: 12,
             }}
           >
-            <View className="mb-4 flex-row items-start justify-between">
+            <View className="flex-row items-start justify-between">
               <View className="flex-1 flex-row items-start">
                 {/*  */}
                 {data.ImageId ? (
@@ -181,66 +183,66 @@ const EquipmentDetail: React.FC = () => {
                     source={{
                       uri: `${Env.API_URL}/api/File/Img/${data.ImageId}`,
                     }}
-                    className="mr-4 size-16 items-center justify-center rounded-xl bg-white/20"
+                    className="mr-4 size-[68px] items-center justify-center rounded-2xl bg-white/15"
                     resizeMode="cover"
                   />
                 ) : (
-                  <View className="mr-4 size-16 items-center justify-center rounded-xl bg-white/20">
+                  <View className="mr-4 size-[68px] items-center justify-center rounded-2xl border border-white/15 bg-white/10">
                     <FontAwesome name="server" size={28} color="white" />
                   </View>
                 )}
                 <View className="flex-1">
-                  <Text className="mb-2 text-2xl font-bold text-white">
-                    {data.MachineName}
+                  <Text
+                    className="mb-1 text-xl font-bold tracking-tight text-white"
+                    numberOfLines={2}
+                  >
+                    {data.MachineName || '未命名设备'}
                   </Text>
-                  <Text className="mb-1 text-sm text-blue-100">
-                    {data.MachineNo}
+                  <Text className="mb-2 text-sm text-white/65">
+                    {data.MachineNo || '暂无设备编号'}
                   </Text>
-                  <Text className="text-sm text-blue-100">
+                  <Text className="text-xs text-white/70">
                     位置：{data.Location ?? '未设置'}
                   </Text>
                 </View>
               </View>
-              <View className="ml-2 flex-row items-center rounded-full bg-green-500 px-3 py-1.5">
+              <View className="ml-2 flex-row items-center rounded-full border border-emerald-300/30 bg-emerald-400/20 px-2.5 py-1.5">
                 <FontAwesome name="circle" size={6} color="white" />
-                <Text className="ml-1 text-sm font-semibold text-white">
+                <Text className="ml-1 text-xs font-semibold text-emerald-50">
                   运行中
                 </Text>
               </View>
             </View>
 
-            <View className="mt-6 flex-row">
-              <View className="flex-1 items-center">
-                <Text className="mb-1 text-3xl font-bold text-white">98%</Text>
-                <Text className="text-sm text-blue-100">健康度</Text>
+            <View className="mt-5 flex-row rounded-2xl border border-white/10 bg-black/10 py-4">
+              <View className="flex-1 items-center px-1">
+                <Text className="mb-1 text-xl font-bold text-white">98%</Text>
+                <Text className="text-[11px] text-white/60">健康度</Text>
               </View>
               <View className="flex-1 items-center border-x border-white/20">
-                <Text className="mb-1 text-3xl font-bold text-white">
-                  2,845
-                </Text>
-                <Text className="text-sm text-blue-100">运行时长(h)</Text>
+                <Text className="mb-1 text-xl font-bold text-white">2,845</Text>
+                <Text className="text-[11px] text-white/60">运行时长(h)</Text>
               </View>
               <View className="flex-1 items-center">
-                <Text className="mb-1 text-3xl font-bold text-white">5天</Text>
-                <Text className="text-sm text-blue-100">距下次保养</Text>
+                <Text className="mb-1 text-xl font-bold text-white">5天</Text>
+                <Text className="text-[11px] text-white/60">距下次保养</Text>
               </View>
             </View>
           </LinearGradient>
         )}
 
         {/* 快捷操作 */}
-        <View className="mb-4 flex-row">
+        <View className="mb-6 flex-row rounded-2xl border border-gray-200/80 bg-white px-2 py-3 dark:border-neutral-800 dark:bg-neutral-900">
           {quickActions.map((action, index) => (
             <TouchableOpacity
               key={index}
-              className="flex-1 items-center rounded-xl bg-white p-4 shadow-sm dark:bg-neutral-800"
-              style={{ marginRight: index < quickActions.length - 1 ? 12 : 0 }}
+              className="flex-1 items-center py-1"
               onPress={action.onPress}
               activeOpacity={0.7}
             >
               <View
-                className="mx-auto mb-2 size-12 items-center justify-center rounded-xl"
-                style={{ backgroundColor: action.bgColor }}
+                className="mx-auto mb-2 size-10 items-center justify-center rounded-xl"
+                style={{ backgroundColor: isDark ? '#262626' : action.bgColor }}
               >
                 <FontAwesome
                   name={action.icon as any}
@@ -257,11 +259,11 @@ const EquipmentDetail: React.FC = () => {
 
         {/* 设备图片 */}
         {data?.ImageIds && data.ImageIds.length > 0 && (
-          <View className="mb-4 rounded-2xl bg-white p-5 shadow-sm dark:bg-neutral-800">
+          <View className="mb-3 rounded-2xl border border-gray-200/80 bg-white p-5 dark:border-neutral-800 dark:bg-neutral-900">
             <View className="mb-4 flex-row items-center justify-between">
               <View className="flex-row items-center">
-                <FontAwesome name="image" size={18} color="#1890ff" />
-                <Text className="ml-2 text-lg font-semibold text-gray-800 dark:text-gray-100">
+                <FontAwesome name="image" size={16} color="#543EF8" />
+                <Text className="ml-2 text-base font-bold text-gray-900 dark:text-white">
                   设备图片
                 </Text>
               </View>
@@ -275,10 +277,10 @@ const EquipmentDetail: React.FC = () => {
 
         {/* 设备信息 */}
         {data && (
-          <View className="mb-4 rounded-2xl bg-white p-5 shadow-sm dark:bg-neutral-800">
+          <View className="mb-3 rounded-2xl border border-gray-200/80 bg-white p-5 dark:border-neutral-800 dark:bg-neutral-900">
             <View className="mb-4 flex-row items-center">
-              <FontAwesome name="info-circle" size={18} color="#1890ff" />
-              <Text className="ml-2 text-lg font-semibold text-gray-800 dark:text-gray-100">
+              <FontAwesome name="info-circle" size={16} color="#543EF8" />
+              <Text className="ml-2 text-base font-bold text-gray-900 dark:text-white">
                 设备信息
               </Text>
             </View>
@@ -295,10 +297,10 @@ const EquipmentDetail: React.FC = () => {
           </View>
         )}
         {/* 维修统计 */}
-        <View className="mb-4 rounded-2xl bg-white p-5 shadow-sm dark:bg-neutral-800">
+        <View className="mb-3 rounded-2xl border border-gray-200/80 bg-white p-5 dark:border-neutral-800 dark:bg-neutral-900">
           <View className="mb-4 flex-row items-center">
-            <FontAwesome name="bar-chart-o" size={18} color="#1890ff" />
-            <Text className="ml-2 text-lg font-semibold text-gray-800 dark:text-gray-100">
+            <FontAwesome name="bar-chart-o" size={16} color="#543EF8" />
+            <Text className="ml-2 text-base font-bold text-gray-900 dark:text-white">
               维修统计
             </Text>
           </View>
@@ -319,11 +321,11 @@ const EquipmentDetail: React.FC = () => {
         </View>
 
         {/* 维修记录 */}
-        <View className="mb-4 rounded-2xl bg-white p-5 shadow-sm dark:bg-neutral-800">
+        <View className="mb-3 rounded-2xl border border-gray-200/80 bg-white p-5 dark:border-neutral-800 dark:bg-neutral-900">
           <View className="mb-4 flex-row items-center justify-between">
             <View className="flex-row items-center">
-              <FontAwesome name="history" size={18} color="#1890ff" />
-              <Text className="ml-2 text-lg font-semibold text-gray-800 dark:text-gray-100">
+              <FontAwesome name="history" size={16} color="#543EF8" />
+              <Text className="ml-2 text-base font-bold text-gray-900 dark:text-white">
                 维修记录
               </Text>
             </View>
@@ -334,7 +336,7 @@ const EquipmentDetail: React.FC = () => {
               <Text className="text-sm text-primary-500 dark:text-blue-400">
                 查看全部
               </Text>
-              <FontAwesome name="chevron-right" size={10} color="#1890ff" />
+              <FontAwesome name="chevron-right" size={10} color="#543EF8" />
             </TouchableOpacity>
           </View>
           <View>
@@ -345,11 +347,11 @@ const EquipmentDetail: React.FC = () => {
         </View>
 
         {/* 保养计划 */}
-        <View className="mb-4 rounded-2xl bg-white p-5 shadow-sm dark:bg-neutral-800">
+        <View className="mb-3 rounded-2xl border border-gray-200/80 bg-white p-5 dark:border-neutral-800 dark:bg-neutral-900">
           <View className="mb-4 flex-row items-center justify-between">
             <View className="flex-row items-center">
-              <FontAwesome name="calendar" size={18} color="#1890ff" />
-              <Text className="ml-2 text-lg font-semibold text-gray-800 dark:text-gray-100">
+              <FontAwesome name="calendar" size={16} color="#543EF8" />
+              <Text className="ml-2 text-base font-bold text-gray-900 dark:text-white">
                 保养计划
               </Text>
             </View>
@@ -360,7 +362,7 @@ const EquipmentDetail: React.FC = () => {
               <Text className="text-sm text-primary-500 dark:text-blue-400">
                 查看全部
               </Text>
-              <FontAwesome name="chevron-right" size={10} color="#1890ff" />
+              <FontAwesome name="chevron-right" size={10} color="#543EF8" />
             </TouchableOpacity>
           </View>
           <View>
@@ -372,10 +374,10 @@ const EquipmentDetail: React.FC = () => {
 
         {/* 设备文档 */}
         {data?.Attachments && data.Attachments.length > 0 && (
-          <View className="mb-4 rounded-2xl bg-white p-5 shadow-sm dark:bg-neutral-800">
+          <View className="rounded-2xl border border-gray-200/80 bg-white p-5 dark:border-neutral-800 dark:bg-neutral-900">
             <View className="mb-4 flex-row items-center">
-              <FontAwesome name="folder" size={18} color="#1890ff" />
-              <Text className="ml-2 text-lg font-semibold text-gray-800 dark:text-gray-100">
+              <FontAwesome name="folder" size={16} color="#543EF8" />
+              <Text className="ml-2 text-base font-bold text-gray-900 dark:text-white">
                 设备文档
               </Text>
             </View>
@@ -402,19 +404,16 @@ const EquipmentDetail: React.FC = () => {
             </View>
           </View>
         )}
-
-        {/* 底部空间 */}
-        <View className="h-[100px]" />
       </ScrollView>
 
       {/* 底部固定操作栏 */}
       <View
-        className="border-t border-gray-200 bg-white p-4 shadow-lg dark:border-neutral-700 dark:bg-neutral-800"
-        style={{ paddingBottom: insets.bottom }}
+        className="border-t border-gray-200 bg-white px-4 pt-3 dark:border-neutral-800 dark:bg-neutral-900"
+        style={{ paddingBottom: Math.max(insets.bottom, 12) }}
       >
         <View className="flex-row">
           <TouchableOpacity
-            className="mr-3 flex-1 items-center rounded-lg bg-primary-500 py-3"
+            className="mr-3 min-h-[48px] flex-1 items-center justify-center rounded-xl bg-primary-600"
             onPress={() => console.log('编辑设备')}
             activeOpacity={0.7}
           >
@@ -424,7 +423,7 @@ const EquipmentDetail: React.FC = () => {
             </View>
           </TouchableOpacity>
           <TouchableOpacity
-            className="flex-1 items-center rounded-lg border-2 border-primary-500 py-3"
+            className="min-h-[48px] flex-1 items-center justify-center rounded-xl border border-primary-500"
             onPress={() => console.log('生成二维码')}
             activeOpacity={0.7}
           >

@@ -1,41 +1,41 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 
-import { NavHeader, SafeAreaView } from '@/components/ui';
+import { NavHeader, useSafeAreaInsets } from '@/components/ui';
+import colors from '@/components/ui/colors';
 import { FontAwesome } from '@/components/ui/icons';
 import { useAppColorScheme } from '@/lib';
 
 const ProductionTaskDetail = () => {
   const [activeTab, setActiveTab] = useState('basic-info');
   const { isDark } = useAppColorScheme();
+  const insets = useSafeAreaInsets();
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-50 dark:bg-gray-900">
+    <View className="flex-1 bg-gray-50 dark:bg-gray-900">
       <NavHeader
         title="任务详情"
         right={
           <>
-            <TouchableOpacity className="mr-4">
-              <FontAwesome
-                name="share-alt"
-                size={18}
-                color={isDark ? '#9ca3af' : '#4b5563'}
-              />
-            </TouchableOpacity>
+            {/* <TouchableOpacity className="mr-4">
+              <FontAwesome name="share-alt" size={18} color={colors.white} />
+            </TouchableOpacity> */}
             <TouchableOpacity>
-              <FontAwesome
-                name="ellipsis-v"
-                size={18}
-                color={isDark ? '#9ca3af' : '#4b5563'}
-              />
+              <FontAwesome name="ellipsis-v" size={18} color={colors.black} />
             </TouchableOpacity>
           </>
         }
       />
 
-      <ScrollView className="flex-1 p-4">
+      <ScrollView
+        className="flex-1"
+        contentContainerStyle={{
+          padding: 16,
+          paddingBottom: insets.bottom + 88,
+        }}
+      >
         {/* 任务状态卡片 */}
-        <View className="mb-4 rounded-2xl bg-white p-5 shadow-sm dark:bg-gray-800">
+        <View className="mb-4 rounded-2xl border border-gray-100 bg-white p-5 dark:border-gray-800 dark:bg-gray-800">
           <View className="mb-3 flex-row items-start justify-between">
             <View>
               <Text className="text-xl font-bold text-gray-900 dark:text-gray-100">
@@ -67,7 +67,7 @@ const ProductionTaskDetail = () => {
             </View>
             <View className="h-2 overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700">
               <View
-                className="h-full rounded-full bg-blue-500"
+                className="h-full rounded-full bg-primary-500"
                 style={{ width: '65%' }}
               />
             </View>
@@ -108,8 +108,8 @@ const ProductionTaskDetail = () => {
             </View>
           </View>
 
-          <View className="flex-row space-x-2">
-            <TouchableOpacity className="flex-1 flex-row items-center justify-center rounded-lg bg-blue-600 py-3">
+          <View className="flex-row gap-2">
+            <TouchableOpacity className="flex-1 flex-row items-center justify-center rounded-lg bg-primary-600 py-3">
               <FontAwesome
                 name="check-circle"
                 size={16}
@@ -135,8 +135,9 @@ const ProductionTaskDetail = () => {
         {/* 任务详情选项卡 */}
         <View className="mb-4 flex-row rounded-lg bg-gray-100 p-1 dark:bg-gray-700">
           <TouchableOpacity
-            className={`flex-1 items-center rounded-full px-4 py-2 ${activeTab === 'basic-info' ? 'bg-blue-600' : ''}`}
+            className={`flex-1 items-center rounded-full px-4 py-2 ${activeTab === 'basic-info' ? 'bg-primary-600' : ''}`}
             onPress={() => setActiveTab('basic-info')}
+            activeOpacity={1}
           >
             <Text
               className={`text-sm font-medium ${activeTab === 'basic-info' ? 'text-white' : 'text-gray-700 dark:text-gray-300'}`}
@@ -145,8 +146,9 @@ const ProductionTaskDetail = () => {
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            className={`flex-1 items-center rounded-full px-4 py-2 ${activeTab === 'process' ? 'bg-blue-600' : ''}`}
+            className={`flex-1 items-center rounded-full px-4 py-2 ${activeTab === 'process' ? 'bg-primary-600' : ''}`}
             onPress={() => setActiveTab('process')}
+            activeOpacity={1}
           >
             <Text
               className={`text-sm font-medium ${activeTab === 'process' ? 'text-white' : 'text-gray-700 dark:text-gray-300'}`}
@@ -155,8 +157,9 @@ const ProductionTaskDetail = () => {
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            className={`flex-1 items-center rounded-full px-4 py-2 ${activeTab === 'resources' ? 'bg-blue-600' : ''}`}
+            className={`flex-1 items-center rounded-full px-4 py-2 ${activeTab === 'resources' ? 'bg-primary-600' : ''}`}
             onPress={() => setActiveTab('resources')}
+            activeOpacity={1}
           >
             <Text
               className={`text-sm font-medium ${activeTab === 'resources' ? 'text-white' : 'text-gray-700 dark:text-gray-300'}`}
@@ -168,7 +171,7 @@ const ProductionTaskDetail = () => {
 
         {/* 基本信息内容 */}
         {activeTab === 'basic-info' && (
-          <View className="rounded-2xl bg-white p-5 shadow-sm dark:bg-gray-800">
+          <View className="rounded-2xl border border-gray-100 bg-white p-5 dark:border-gray-800 dark:bg-gray-800">
             <Text className="mb-3 text-lg font-semibold text-gray-900 dark:text-gray-100">
               任务详情
             </Text>
@@ -263,7 +266,7 @@ const ProductionTaskDetail = () => {
         {/* 工序进度内容 */}
         {activeTab === 'process' && (
           <View>
-            <View className="mb-4 rounded-2xl bg-white p-5 shadow-sm dark:bg-gray-800">
+            <View className="mb-4 rounded-2xl border border-gray-100 bg-white p-5 dark:border-gray-800 dark:bg-gray-800">
               <Text className="mb-3 text-lg font-semibold text-gray-900 dark:text-gray-100">
                 工序流程
               </Text>
@@ -275,7 +278,7 @@ const ProductionTaskDetail = () => {
               >
                 <View className="flex-row items-center">
                   <View className="items-center">
-                    <View className="w-15 h-15 items-center justify-center rounded-full bg-green-100 dark:bg-green-900/30">
+                    <View className="size-[60px] items-center justify-center rounded-full bg-green-100 dark:bg-green-900/30">
                       <FontAwesome
                         name="cut"
                         size={24}
@@ -293,13 +296,13 @@ const ProductionTaskDetail = () => {
                   <View className="mx-1 h-1 w-10 bg-green-500" />
 
                   <View className="items-center">
-                    <View className="w-15 h-15 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/30">
+                    <View className="size-[60px] items-center justify-center rounded-full bg-primary-100 dark:bg-primary-900/30">
                       <FontAwesome
                         name="tshirt"
                         size={24}
-                        color={isDark ? '#60a5fa' : '#2563eb'}
+                        color={colors.primary[600]}
                       />
-                      <View className="absolute right-0 top-0 size-5 items-center justify-center rounded-full bg-blue-500">
+                      <View className="absolute right-0 top-0 size-5 items-center justify-center rounded-full bg-primary-500">
                         <FontAwesome name="sync-alt" size={10} color="white" />
                       </View>
                     </View>
@@ -311,7 +314,7 @@ const ProductionTaskDetail = () => {
                   <View className="mx-1 h-1 w-10 bg-gray-300 dark:bg-gray-600" />
 
                   <View className="items-center">
-                    <View className="w-15 h-15 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700">
+                    <View className="size-[60px] items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700">
                       <FontAwesome
                         name="paint-brush"
                         size={24}
@@ -326,7 +329,7 @@ const ProductionTaskDetail = () => {
                   <View className="mx-1 h-1 w-10 bg-gray-300 dark:bg-gray-600" />
 
                   <View className="items-center">
-                    <View className="w-15 h-15 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700">
+                    <View className="size-[60px] items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700">
                       <FontAwesome
                         name="search"
                         size={24}
@@ -341,7 +344,7 @@ const ProductionTaskDetail = () => {
                   <View className="mx-1 h-1 w-10 bg-gray-300 dark:bg-gray-600" />
 
                   <View className="items-center">
-                    <View className="w-15 h-15 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700">
+                    <View className="size-[60px] items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700">
                       <FontAwesome
                         name="tags"
                         size={24}
@@ -356,19 +359,19 @@ const ProductionTaskDetail = () => {
               </ScrollView>
             </View>
 
-            <View className="rounded-2xl bg-white p-5 shadow-sm dark:bg-gray-800">
+            <View className="rounded-2xl border border-gray-100 bg-white p-5 dark:border-gray-800 dark:bg-gray-800">
               <Text className="mb-3 text-lg font-semibold text-gray-900 dark:text-gray-100">
                 任务日志
               </Text>
 
               <View className="pl-7">
                 <View className="relative mb-6">
-                  <View className="absolute left-0 top-0 -ml-7 mt-1 size-4 rounded-full bg-blue-600" />
+                  <View className="absolute left-0 top-0 -ml-7 mt-1 size-4 rounded-full bg-primary-600" />
                   <View className="absolute left-0 top-4 -ml-5 h-full w-0.5 bg-gray-200 dark:bg-gray-600" />
                   <Text className="mb-1 text-xs text-gray-500 dark:text-gray-400">
                     2023-06-15 14:30
                   </Text>
-                  <View className="rounded-lg border border-gray-100 bg-white p-3 shadow-sm dark:border-gray-700 dark:bg-gray-700">
+                  <View className="rounded-xl border border-gray-100 bg-white p-3 dark:border-gray-700 dark:bg-gray-700">
                     <Text className="font-medium text-gray-900 dark:text-gray-100">
                       生产进度更新
                     </Text>
@@ -382,12 +385,12 @@ const ProductionTaskDetail = () => {
                 </View>
 
                 <View className="relative mb-6">
-                  <View className="absolute left-0 top-0 -ml-7 mt-1 size-4 rounded-full bg-blue-600" />
+                  <View className="absolute left-0 top-0 -ml-7 mt-1 size-4 rounded-full bg-primary-600" />
                   <View className="absolute left-0 top-4 -ml-5 h-full w-0.5 bg-gray-200 dark:bg-gray-600" />
                   <Text className="mb-1 text-xs text-gray-500 dark:text-gray-400">
                     2023-06-10 09:15
                   </Text>
-                  <View className="rounded-lg border border-gray-100 bg-white p-3 shadow-sm dark:border-gray-700 dark:bg-gray-700">
+                  <View className="rounded-xl border border-gray-100 bg-white p-3 dark:border-gray-700 dark:bg-gray-700">
                     <Text className="font-medium text-gray-900 dark:text-gray-100">
                       质量检查
                     </Text>
@@ -401,11 +404,11 @@ const ProductionTaskDetail = () => {
                 </View>
 
                 <View className="relative">
-                  <View className="absolute left-0 top-0 -ml-7 mt-1 size-4 rounded-full bg-blue-600" />
+                  <View className="absolute left-0 top-0 -ml-7 mt-1 size-4 rounded-full bg-primary-600" />
                   <Text className="mb-1 text-xs text-gray-500 dark:text-gray-400">
                     2023-06-06 08:00
                   </Text>
-                  <View className="rounded-lg border border-gray-100 bg-white p-3 shadow-sm dark:border-gray-700 dark:bg-gray-700">
+                  <View className="rounded-xl border border-gray-100 bg-white p-3 dark:border-gray-700 dark:bg-gray-700">
                     <Text className="font-medium text-gray-900 dark:text-gray-100">
                       任务开始
                     </Text>
@@ -425,17 +428,17 @@ const ProductionTaskDetail = () => {
         {/* 相关资源内容 */}
         {activeTab === 'resources' && (
           <View>
-            <View className="mb-4 rounded-2xl bg-white p-5 shadow-sm dark:bg-gray-800">
+            <View className="mb-4 rounded-2xl border border-gray-100 bg-white p-5 dark:border-gray-800 dark:bg-gray-800">
               <Text className="mb-3 text-lg font-semibold text-gray-900 dark:text-gray-100">
                 使用设备
               </Text>
 
               <View className="mb-3 flex-row items-center rounded-lg bg-gray-50 p-3 dark:bg-gray-700">
-                <View className="mr-3 size-10 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/30">
+                <View className="mr-3 size-10 items-center justify-center rounded-full bg-primary-100 dark:bg-primary-900/30">
                   <FontAwesome
                     name="cogs"
                     size={20}
-                    color={isDark ? '#60a5fa' : '#2563eb'}
+                    color={colors.primary[600]}
                   />
                 </View>
                 <View className="flex-1">
@@ -454,11 +457,11 @@ const ProductionTaskDetail = () => {
               </View>
 
               <View className="flex-row items-center rounded-lg bg-gray-50 p-3 dark:bg-gray-700">
-                <View className="mr-3 size-10 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/30">
+                <View className="mr-3 size-10 items-center justify-center rounded-full bg-primary-100 dark:bg-primary-900/30">
                   <FontAwesome
                     name="cogs"
                     size={20}
-                    color={isDark ? '#60a5fa' : '#2563eb'}
+                    color={colors.primary[600]}
                   />
                 </View>
                 <View className="flex-1">
@@ -477,7 +480,7 @@ const ProductionTaskDetail = () => {
               </View>
             </View>
 
-            <View className="mb-4 rounded-2xl bg-white p-5 shadow-sm dark:bg-gray-800">
+            <View className="mb-4 rounded-2xl border border-gray-100 bg-white p-5 dark:border-gray-800 dark:bg-gray-800">
               <Text className="mb-3 text-lg font-semibold text-gray-900 dark:text-gray-100">
                 材料清单
               </Text>
@@ -529,7 +532,7 @@ const ProductionTaskDetail = () => {
               </View>
             </View>
 
-            <View className="rounded-2xl bg-white p-5 shadow-sm dark:bg-gray-800">
+            <View className="rounded-2xl border border-gray-100 bg-white p-5 dark:border-gray-800 dark:bg-gray-800">
               <Text className="mb-3 text-lg font-semibold text-gray-900 dark:text-gray-100">
                 相关文档
               </Text>
@@ -554,7 +557,7 @@ const ProductionTaskDetail = () => {
                   <FontAwesome
                     name="download"
                     size={18}
-                    color={isDark ? '#60a5fa' : '#2563eb'}
+                    color={colors.primary[600]}
                   />
                 </TouchableOpacity>
               </View>
@@ -579,7 +582,7 @@ const ProductionTaskDetail = () => {
                   <FontAwesome
                     name="download"
                     size={18}
-                    color={isDark ? '#60a5fa' : '#2563eb'}
+                    color={colors.primary[600]}
                   />
                 </TouchableOpacity>
               </View>
@@ -588,31 +591,38 @@ const ProductionTaskDetail = () => {
         )}
       </ScrollView>
       {/* 底部操作按钮 */}
-      <View className="absolute inset-x-4 bottom-5 flex-row space-x-3">
-        <TouchableOpacity className="flex-1 flex-row items-center justify-center rounded-lg bg-gray-100 py-3 dark:bg-gray-700">
+      <View
+        className="absolute inset-x-0 bottom-0 flex-row gap-3 border-t border-gray-200 bg-white px-4 pt-3 dark:border-gray-700 dark:bg-gray-900"
+        style={{ paddingBottom: Math.max(insets.bottom, 12) }}
+      >
+        <TouchableOpacity
+          className="h-12 flex-1 flex-row items-center justify-center rounded-xl border border-gray-300 bg-white dark:border-gray-600 dark:bg-gray-800"
+          activeOpacity={0.8}
+        >
           <FontAwesome
             name="comment-alt"
             size={16}
             color={isDark ? '#9ca3af' : '#4b5563'}
             style={{ marginRight: 8 }}
           />
-          <Text className="text-sm font-medium text-gray-700 dark:text-gray-300">
+          <Text className="font-medium text-gray-700 dark:text-gray-200">
             添加备注
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity className="flex-1 flex-row items-center justify-center rounded-lg bg-red-50 py-3 dark:bg-red-900/20">
+        <TouchableOpacity
+          className="h-12 flex-1 flex-row items-center justify-center rounded-xl bg-red-600 dark:bg-red-600"
+          activeOpacity={0.8}
+        >
           <FontAwesome
             name="exclamation-triangle"
             size={16}
-            color={isDark ? '#f87171' : '#ef4444'}
+            color="white"
             style={{ marginRight: 8 }}
           />
-          <Text className="text-sm font-medium text-red-600 dark:text-red-400">
-            报告问题
-          </Text>
+          <Text className="font-semibold text-white">报告问题</Text>
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 

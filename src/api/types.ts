@@ -50,6 +50,7 @@ export type DeviceInfo = {
   Model: string;
   BundleId: string;
   BundleVersion: string;
+  pushRegistrationId: string | null;
 };
 
 export interface VersionInfo {

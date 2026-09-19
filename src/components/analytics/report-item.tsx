@@ -24,28 +24,27 @@ export const ReportItem: React.FC<ReportItemProps> = ({
   const { isDark } = useAppColorScheme();
 
   return (
-    <View className="mb-2 flex-row items-center justify-between rounded-lg bg-gray-50 p-3 dark:bg-gray-700">
-      <View className="flex-row items-center">
-        <FontAwesome
-          name={icon}
-          size={20}
-          color={iconColor}
-          style={{ marginRight: 12 }}
-        />
+    <View className="min-h-[64px] flex-row items-center justify-between border-b border-neutral-100 py-3 dark:border-neutral-800">
+      <View className="mr-3 flex-1 flex-row items-center">
+        <View className="mr-3 size-9 items-center justify-center rounded-xl bg-neutral-100 dark:bg-neutral-800">
+          <FontAwesome name={icon} size={17} color={iconColor} />
+        </View>
         <View>
-          <Text className="text-sm font-medium text-gray-900 dark:text-gray-100">
+          <Text className="text-sm font-semibold text-neutral-900 dark:text-white">
             {title}
           </Text>
-          <Text className="mt-0.5 text-xs text-gray-500 dark:text-gray-400">
-            {date}
-          </Text>
+          <Text className="mt-1 text-[11px] text-neutral-400">{date}</Text>
         </View>
       </View>
-      <TouchableOpacity onPress={onPress}>
+      <TouchableOpacity
+        className="size-10 items-center justify-center rounded-xl bg-primary-50 dark:bg-primary-900/20"
+        onPress={onPress}
+        activeOpacity={0.65}
+      >
         <FontAwesome
           name="download"
           size={16}
-          color={isDark ? '#60a5fa' : '#0066ff'}
+          color={isDark ? '#A8A2FF' : '#6D57FF'}
         />
       </TouchableOpacity>
     </View>

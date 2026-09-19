@@ -32,10 +32,10 @@ const _useAuth = create<AuthState>((set, get) => ({
       } else {
         get().signOut();
       }
-    } catch (e) {
-      console.log(e);
-      // catch error here
-      // Maybe sign_out user!
+    } catch (error) {
+      console.error('Failed to hydrate auth state:', error);
+      // 如果 token 损坏或无效，清除并登出
+      get().signOut();
     }
   },
 }));

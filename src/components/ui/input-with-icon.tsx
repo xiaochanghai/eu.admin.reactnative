@@ -54,10 +54,13 @@ export interface InputWithIconProps extends TextInputProps {
   onRightIconPress?: () => void;
   disabled?: boolean;
   error?: string;
+  containerClassName?: string;
+  inputClassName?: string;
+  focusColor?: string;
 }
 interface ControlledInputWithIconProps<T extends FieldValues>
   extends InputWithIconProps,
-  InputControllerType<T> { }
+    InputControllerType<T> {}
 
 export const InputWithIcon = React.forwardRef<NTextInput, InputWithIconProps>(
   (props, ref) => {
@@ -67,6 +70,9 @@ export const InputWithIcon = React.forwardRef<NTextInput, InputWithIconProps>(
       onRightIconPress,
       error,
       testID,
+      containerClassName,
+      inputClassName,
+      focusColor,
       ...inputProps
     } = props;
     const [isFocussed, setIsFocussed] = React.useState(false);
@@ -84,14 +90,14 @@ export const InputWithIcon = React.forwardRef<NTextInput, InputWithIconProps>(
     );
 
     return (
-      <View className={styles.container()}>
+      <View className={styles.container({ className: containerClassName })}>
         <View className={styles.inputContainer()}>
           {leftIcon && <View className={styles.leftIcon()}>{leftIcon}</View>}
           <NTextInput
             testID={testID}
             ref={ref}
             placeholderTextColor={colors.neutral[400]}
-            className={styles.input()}
+            className={styles.input({ className: inputClassName })}
             onBlur={onBlur}
             onFocus={onFocus}
             style={[
@@ -104,25 +110,37 @@ export const InputWithIcon = React.forwardRef<NTextInput, InputWithIconProps>(
               ]),
               ...(error
                 ? [
-                  {
-                    shadowColor: 'rgba(239,68,68,0.7)', // 红色阴影 (tailwind red-500)
-                    shadowOffset: { width: 0, height: 0 },
-                    shadowOpacity: 0.7,
-                    shadowRadius: 6,
-                    elevation: 8,
-                  },
-                ]
-                : isFocussed
-                  ? [
                     {
-                      shadowColor: 'rgba(242, 139, 37,0.7)', // 紫色阴影
+                      shadowColor: 'rgba(239,68,68,0.7)', // 红色阴影 (tailwind red-500)
                       shadowOffset: { width: 0, height: 0 },
                       shadowOpacity: 0.7,
                       shadowRadius: 6,
                       elevation: 8,
                     },
                   ]
+                : isFocussed
+                  ? [
+                      {
+                        shadowColor: 'rgba(242, 139, 37,0.7)', // 紫色阴影
+                        shadowOffset: { width: 0, height: 0 },
+                        shadowOpacity: 0.7,
+                        shadowRadius: 6,
+                        elevation: 8,
+                      },
+                    ]
                   : []),
+              ...(focusColor
+                ? [
+                    {
+                      borderColor: error
+                        ? colors.danger[500]
+                        : isFocussed
+                          ? focusColor
+                          : colors.neutral[300],
+                      borderWidth: isFocussed || error ? 2 : 1,
+                    },
+                  ]
+                : []),
             ]}
             {...inputProps}
           />

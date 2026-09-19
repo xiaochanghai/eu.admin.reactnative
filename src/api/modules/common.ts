@@ -22,7 +22,10 @@ export const queryLatestVersion = () => {
 };
 
 /** 记录设备信息 */
-export const recordDevice = async (uniqueId: string) => {
+export const recordDevice = async (
+  uniqueId: string,
+  pushRegistrationId: string | null
+) => {
   if (!uniqueId || isWeb) return;
 
   const param: DeviceInfo = {
@@ -33,6 +36,7 @@ export const recordDevice = async (uniqueId: string) => {
     Model: getDeviceId(),
     BundleId: getBundleId(),
     BundleVersion: getVersion(),
+    pushRegistrationId: pushRegistrationId,
   };
 
   return http.post('/api/SmApplicationDevice/Record', param);

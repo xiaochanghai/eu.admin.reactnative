@@ -19,10 +19,10 @@ export const FilterButton: React.FC<FilterButtonProps> = ({
   <TouchableOpacity
     onPress={onPress}
     activeOpacity={0.7}
-    className={`mr-2 rounded-full px-3 py-1.5 ${isActive ? 'bg-primary-500' : 'bg-gray-100 dark:bg-neutral-700'}`}
+    className={`mr-2 rounded-full px-3 py-1.5 ${isActive ? 'bg-primary-600' : 'border border-gray-200 bg-white dark:border-neutral-700 dark:bg-neutral-800'}`}
   >
     <Text
-      className={`whitespace-nowrap text-sm ${isActive ? 'text-white' : 'text-gray-700 dark:text-gray-200'}`}
+      className={`whitespace-nowrap text-sm ${isActive ? 'font-semibold text-white' : 'text-gray-700 dark:text-gray-200'}`}
     >
       {label} {count}
     </Text>

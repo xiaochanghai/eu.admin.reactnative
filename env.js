@@ -38,7 +38,7 @@ require('dotenv').config({
 const BUNDLE_ID = 'com.eucloud.erp'; // ios bundle id
 const PACKAGE = 'com.eucloud.erp'; // android package name
 const NAME = '优智云'; // app name
-const EXPO_ACCOUNT_OWNER = 'hsiaosah'; // expo account owner
+const EXPO_ACCOUNT_OWNER = 'eu-cloud'; // expo account owner
 const EAS_PROJECT_ID = '9d0f9588-d00f-40cf-a15c-ffd7e8bc7654'; // eas project id
 const SCHEME = 'eucloud'; // app scheme
 const BUILD_NUMBER = 2; // build number for both iOS and Android
@@ -85,6 +85,10 @@ const client = z.object({
   VAR_NUMBER: z.number(),
   VAR_BOOL: z.boolean(),
   LOGIN_REQUIRED: z.boolean(),
+
+  // JPush Configuration
+  JPUSH_APPKEY: z.string().min(1),
+  JPUSH_CHANNEL: z.string().optional().default('developer-default'),
 });
 
 const buildTime = z.object({
@@ -111,6 +115,10 @@ const _clientEnv = {
   VAR_NUMBER: Number(process.env.VAR_NUMBER),
   VAR_BOOL: process.env.VAR_BOOL === 'true',
   LOGIN_REQUIRED: process.env.LOGIN_REQUIRED === 'true',
+
+  // JPush Configuration
+  JPUSH_APPKEY: process.env.JPUSH_APPKEY,
+  JPUSH_CHANNEL: process.env.JPUSH_CHANNEL || 'developer-default',
 };
 
 /**

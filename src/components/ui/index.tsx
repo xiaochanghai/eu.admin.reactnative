@@ -30,7 +30,10 @@ export {
   TouchableOpacity,
   View,
 } from 'react-native';
-export { SafeAreaView } from 'react-native-safe-area-context';
+export {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from 'react-native-safe-area-context';
 //export { SafeAreaView } from 'react-native';
 //Apply cssInterop to Svg to resolve className string into style
 cssInterop(Svg, {

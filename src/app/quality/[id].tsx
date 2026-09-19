@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 
 import { NavHeader, SafeAreaView } from '@/components/ui';
+import colors from '@/components/ui/colors';
 import { FontAwesome } from '@/components/ui/icons';
 import { useAppColorScheme } from '@/lib';
 
@@ -18,13 +19,13 @@ const QualityDetail = () => {
 
       <ScrollView className="flex-1 p-4">
         {/* 质检任务基本信息 */}
-        <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
+        <View className="mb-4 rounded-2xl border border-gray-100 bg-white p-4 dark:border-gray-800 dark:bg-gray-800">
           <View className="mb-3 flex-row items-start justify-between">
             <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">
               智能手表主板质检
             </Text>
-            <View className="rounded-full bg-blue-100 px-2 py-1 dark:bg-blue-900/30">
-              <Text className="text-xs font-medium text-blue-800 dark:text-blue-300">
+            <View className="rounded-full bg-primary-100 px-2 py-1 dark:bg-primary-900/30">
+              <Text className="text-xs font-medium text-primary-800 dark:text-primary-300">
                 进行中
               </Text>
             </View>
@@ -80,18 +81,18 @@ const QualityDetail = () => {
             </View>
             <View className="h-1.5 overflow-hidden rounded-sm bg-gray-200 dark:bg-gray-700">
               <View
-                className="h-full rounded-sm bg-blue-500"
+                className="h-full rounded-sm bg-primary-500"
                 style={{ width: '65%' }}
               />
             </View>
           </View>
 
-          <View className="rounded-lg bg-blue-50 p-3 dark:bg-blue-900/20">
+          <View className="rounded-xl bg-primary-50 p-3 dark:bg-primary-900/20">
             <View className="flex-row items-start">
               <FontAwesome
                 name="info-circle"
                 size={16}
-                color={isDark ? '#60a5fa' : '#0066ff'}
+                color={colors.primary[600]}
                 style={{ marginTop: 2, marginRight: 8 }}
               />
               <View>
@@ -117,7 +118,7 @@ const QualityDetail = () => {
               <TouchableOpacity
                 key={index}
                 onPress={() => setActiveTab(index)}
-                className={`rounded-full px-4 py-2 ${activeTab === index ? 'bg-blue-600' : 'bg-white dark:bg-gray-800'}`}
+                className={`rounded-full px-4 py-2 ${activeTab === index ? 'bg-primary-600' : 'bg-white dark:bg-gray-800'}`}
               >
                 <Text
                   className={`whitespace-nowrap text-sm font-medium ${activeTab === index ? 'text-white' : 'text-gray-600 dark:text-gray-300'}`}
@@ -131,14 +132,14 @@ const QualityDetail = () => {
 
         {/* 检验结果 */}
         {activeTab === 0 && (
-          <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
+          <View className="mb-4 rounded-2xl border border-gray-100 bg-white p-4 dark:border-gray-800 dark:bg-gray-800">
             <Text className="mb-3 font-medium text-gray-900 dark:text-gray-100">
               检验结果统计
             </Text>
 
             <View className="mb-4 flex-row justify-between">
               <View className="items-center">
-                <Text className="text-xl font-bold text-blue-600 dark:text-blue-400">
+                <Text className="text-xl font-bold text-primary-600 dark:text-primary-400">
                   650
                 </Text>
                 <Text className="text-xs text-gray-500 dark:text-gray-400">
@@ -287,7 +288,7 @@ const QualityDetail = () => {
 
         {/* 不良品分析 */}
         {activeTab === 1 && (
-          <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
+          <View className="mb-4 rounded-2xl border border-gray-100 bg-white p-4 dark:border-gray-800 dark:bg-gray-800">
             <Text className="mb-3 font-medium text-gray-900 dark:text-gray-100">
               不良品分析
             </Text>
@@ -402,7 +403,7 @@ const QualityDetail = () => {
 
         {/* 操作记录 */}
         {activeTab === 2 && (
-          <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
+          <View className="mb-4 rounded-2xl border border-gray-100 bg-white p-4 dark:border-gray-800 dark:bg-gray-800">
             <Text className="mb-3 font-medium text-gray-900 dark:text-gray-100">
               操作记录
             </Text>
@@ -413,7 +414,7 @@ const QualityDetail = () => {
                   <FontAwesome
                     name="play-circle"
                     size={16}
-                    color={isDark ? '#60a5fa' : '#0066ff'}
+                    color={colors.primary[600]}
                     style={{ marginRight: 8 }}
                   />
                   <Text className="font-medium text-gray-900 dark:text-gray-100">
@@ -479,7 +480,7 @@ const QualityDetail = () => {
                   <FontAwesome
                     name="play-circle"
                     size={16}
-                    color={isDark ? '#60a5fa' : '#0066ff'}
+                    color={colors.primary[600]}
                     style={{ marginRight: 8 }}
                   />
                   <Text className="font-medium text-gray-900 dark:text-gray-100">
@@ -521,7 +522,7 @@ const QualityDetail = () => {
 
         {/* 检验标准 */}
         {activeTab === 3 && (
-          <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-gray-800">
+          <View className="mb-4 rounded-2xl border border-gray-100 bg-white p-4 dark:border-gray-800 dark:bg-gray-800">
             <Text className="mb-3 font-medium text-gray-900 dark:text-gray-100">
               检验标准
             </Text>
@@ -598,7 +599,7 @@ const QualityDetail = () => {
               导出报告
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity className="flex-1 flex-row items-center justify-center rounded-lg bg-blue-600 py-3">
+          <TouchableOpacity className="flex-1 flex-row items-center justify-center rounded-lg bg-primary-600 py-3">
             <FontAwesome
               name="check-circle"
               size={16}

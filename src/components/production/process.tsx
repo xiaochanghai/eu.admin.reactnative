@@ -2,6 +2,7 @@ import { useRouter } from 'expo-router';
 import React from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 
+import colors from '@/components/ui/colors';
 import { FontAwesome } from '@/components/ui/icons';
 
 import { ProcessNode } from './process-node';
@@ -47,7 +48,7 @@ export const Process = () => {
     使用中: { color: '#22c55e', bgColor: '#dcfce7' },
     待优化: { color: '#f97316', bgColor: '#fff7ed' },
     已停用: { color: '#ef4444', bgColor: '#fee2e2' },
-    开发中: { color: '#0066ff', bgColor: '#ebf5ff' },
+    开发中: { color: colors.primary[600], bgColor: colors.primary[50] },
   };
 
   // 工序流程节点数据
@@ -72,7 +73,7 @@ export const Process = () => {
       equipment: {
         name: 'SMT贴片机#2',
         icon: 'microchip',
-        iconColor: '#0066ff',
+        iconColor: colors.primary[600],
       },
       yieldRate: '98.3%',
     },
@@ -97,13 +98,16 @@ export const Process = () => {
   return (
     <View>
       {/* 工序概览 - 显示工序总数、使用中和待优化的统计信息 */}
-      <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
+      <View className="mb-4 rounded-2xl border border-gray-100 bg-white p-4 dark:border-neutral-700 dark:bg-neutral-800">
         <Text className="mb-3 text-lg font-semibold text-gray-800 dark:text-gray-100">
           工序概览
         </Text>
         <View className="mb-3 flex-row justify-between">
           <View className="flex-1 items-center">
-            <Text className="text-2xl font-bold" style={{ color: '#0066ff' }}>
+            <Text
+              className="text-2xl font-bold"
+              style={{ color: colors.primary[600] }}
+            >
               18
             </Text>
             <Text className="mt-1 text-xs text-gray-500 dark:text-gray-400">
@@ -130,13 +134,13 @@ export const Process = () => {
       </View>
 
       {/* 工序流程图 - 显示生产工序的流程和进度 */}
-      <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
+      <View className="mb-4 rounded-2xl border border-gray-100 bg-white p-4 dark:border-neutral-700 dark:bg-neutral-800">
         <View className="mb-3 flex-row items-center justify-between">
           <Text className="text-base font-medium dark:text-gray-100">
             智能手表生产工序流程
           </Text>
           <View className="flex-row items-center">
-            <Text className="text-sm font-medium text-blue-600">
+            <Text className="text-sm font-medium text-primary-600">
               当前批次：
             </Text>
             <Text className="text-sm dark:text-gray-100">B20231204-01</Text>
@@ -168,11 +172,11 @@ export const Process = () => {
         </ScrollView>
 
         {/* 工序进度信息 */}
-        <View className="flex-row items-center rounded-xl bg-blue-50 p-3 dark:bg-blue-900/30">
+        <View className="flex-row items-center rounded-xl bg-primary-50 p-3 dark:bg-primary-900/30">
           <FontAwesome
             name="info-circle"
             size={16}
-            color="#0066ff"
+            color={colors.primary[600]}
             style={{ marginRight: 8 }}
           />
           <View>
@@ -194,7 +198,7 @@ export const Process = () => {
       {processData.map((process) => (
         <TouchableOpacity
           key={process.id}
-          className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800"
+          className="mb-4 rounded-2xl border border-gray-100 bg-white p-4 dark:border-neutral-700 dark:bg-neutral-800"
           onPress={() => router.push(`/production/process/1`)}
         >
           {/* 工序名称和状态 */}
@@ -248,7 +252,7 @@ export const Process = () => {
           </View>
 
           {/* 关联设备信息 */}
-          <View className="mb-3 rounded-xl bg-blue-50 p-3 dark:bg-blue-900/30">
+          <View className="mb-3 rounded-xl bg-primary-50 p-3 dark:bg-primary-900/30">
             <Text className="mb-2 text-sm font-medium dark:text-gray-100">
               关联设备
             </Text>

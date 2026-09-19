@@ -1,6 +1,7 @@
 import { useRouter } from 'expo-router';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 
+import colors from '@/components/ui/colors';
 import { FontAwesome } from '@/components/ui/icons';
 
 import { StatusBadge } from './status-badge';
@@ -100,8 +101,8 @@ export const Equipment = () => {
       date: '2023-12-15',
       responsible: '王工程师',
       status: '已计划',
-      statusColor: '#0066ff',
-      statusBgColor: '#ebf5ff',
+      statusColor: colors.primary[600],
+      statusBgColor: colors.primary[50],
     },
     {
       id: '2',
@@ -120,8 +121,8 @@ export const Equipment = () => {
       date: '2023-12-20',
       responsible: '李工程师',
       status: '已计划',
-      statusColor: '#0066ff',
-      statusBgColor: '#ebf5ff',
+      statusColor: colors.primary[600],
+      statusBgColor: colors.primary[50],
     },
   ];
 
@@ -134,13 +135,13 @@ export const Equipment = () => {
   return (
     <View>
       {/* 设备概览 - 显示设备总数、运行状态和效率信息 */}
-      <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
+      <View className="mb-4 rounded-2xl border border-gray-100 bg-white p-4 dark:border-neutral-700 dark:bg-neutral-800">
         <Text className="mb-3 text-lg font-semibold text-gray-800 dark:text-gray-100">
           设备概览
         </Text>
         <View className="mb-3 flex-row justify-between">
           <View className="flex-1 items-center">
-            <Text className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+            <Text className="text-2xl font-bold text-primary-600 dark:text-primary-400">
               32
             </Text>
             <Text className="mt-1 text-xs text-gray-500 dark:text-gray-400">
@@ -164,11 +165,11 @@ export const Equipment = () => {
             </Text>
           </View>
         </View>
-        <View className="flex-row items-center rounded-xl bg-blue-50 p-3 dark:bg-blue-900/30">
+        <View className="flex-row items-center rounded-xl bg-primary-50 p-3 dark:bg-primary-900/30">
           <FontAwesome
             name="wrench"
             size={20}
-            color="#0066ff"
+            color={colors.primary[600]}
             className="mr-3"
           />
           <View className="flex-1">
@@ -176,7 +177,7 @@ export const Equipment = () => {
               设备综合效率(OEE)
             </Text>
             <View className="flex-row items-center">
-              <Text className="mr-2 text-lg font-bold text-blue-600">
+              <Text className="mr-2 text-lg font-bold text-primary-600">
                 87.2%
               </Text>
               <Text className="text-xs text-green-500">↑ 2.1%</Text>
@@ -194,7 +195,7 @@ export const Equipment = () => {
       {equipmentData.map((equipment) => (
         <TouchableOpacity
           key={equipment.id}
-          className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800"
+          className="mb-4 rounded-2xl border border-gray-100 bg-white p-4 dark:border-neutral-700 dark:bg-neutral-800"
           onPress={() => handleEquipmentDetail(equipment.id)}
         >
           {/* 设备名称和状态 */}
@@ -252,12 +253,12 @@ export const Equipment = () => {
 
           {/* 设备警报信息 - 根据是否有警报显示不同样式 */}
           <View
-            className={`mb-3 flex-row items-start rounded-xl ${equipment.alert.hasAlert ? 'bg-red-50 dark:bg-red-900/30' : 'bg-blue-50'} p-3`}
+            className={`mb-3 flex-row items-start rounded-xl ${equipment.alert.hasAlert ? 'bg-red-50 dark:bg-red-900/30' : 'bg-primary-50'} p-3`}
           >
             <FontAwesome
               name={equipment.alert.hasAlert ? 'exclamation-triangle' : 'bell'}
               size={16}
-              color={equipment.alert.hasAlert ? '#ef4444' : '#0066ff'}
+              color={equipment.alert.hasAlert ? '#ef4444' : colors.primary[600]}
               className="mr-2 mt-0.5"
             />
             <View>
@@ -290,7 +291,7 @@ export const Equipment = () => {
       </Text>
 
       {/* 设备维护计划表格 */}
-      <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
+      <View className="mb-4 rounded-2xl border border-gray-100 bg-white p-4 dark:border-neutral-700 dark:bg-neutral-800">
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           <View>
             {/* 表头 - 确保宽度类名与表内容一致 */}

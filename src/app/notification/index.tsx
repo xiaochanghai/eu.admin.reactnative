@@ -4,8 +4,8 @@ import { StyleSheet, TouchableOpacity } from 'react-native';
 
 import { SegmentedControl, type SegmentedControlOption } from '@/components';
 import { NavHeader, ScrollView, Text, View } from '@/components/ui';
+import colors from '@/components/ui/colors';
 import { FontAwesome, GroupEnum } from '@/components/ui/icons';
-import { useAppColorScheme } from '@/lib';
 
 // type TabType = 0 | 1 | 2 | 3;
 
@@ -24,7 +24,6 @@ interface NotificationItem {
 const Notification = () => {
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
   const router = useRouter();
-  const { isDark } = useAppColorScheme();
 
   // 模拟通知数据
   const notifications: NotificationItem[] = [
@@ -142,8 +141,14 @@ const Notification = () => {
 
   // 渲染通知项
   const renderNotificationItem = (item: NotificationItem) => (
-    <TouchableOpacity key={item.id} onPress={() => handleViewDetail(item.id)}>
-      <View className="border-b border-gray-100 py-4 dark:border-neutral-700">
+    <TouchableOpacity
+      key={item.id}
+      activeOpacity={0.72}
+      onPress={() => handleViewDetail(item.id)}
+    >
+      <View
+        className={`border-b border-gray-100 px-1 py-4 dark:border-neutral-700 ${item.isUnread ? 'bg-primary-50/50 dark:bg-primary-900/10' : ''}`}
+      >
         <View className="flex-row">
           <View className="relative">
             <View
@@ -158,12 +163,14 @@ const Notification = () => {
               />
             </View>
             {item.isUnread && (
-              <View className="absolute right-0 top-0 size-2 rounded-full bg-red-500" />
+              <View className="absolute right-0 top-0 size-2.5 rounded-full border-2 border-white bg-primary-600 dark:border-neutral-800" />
             )}
           </View>
           <View className="flex-1">
             <View className="flex-row justify-between">
-              <Text className="font-medium text-gray-900 dark:text-gray-100">
+              <Text
+                className={`${item.isUnread ? 'font-semibold' : 'font-medium'} text-gray-900 dark:text-gray-100`}
+              >
                 {item.title}
               </Text>
               <Text className="text-xs text-gray-500 dark:text-gray-400">
@@ -175,7 +182,7 @@ const Notification = () => {
             </Text>
             <View className="mt-2 flex-row justify-end">
               <TouchableOpacity
-                className="rounded-full bg-gray-100 px-2 py-1 dark:bg-neutral-700"
+                className="rounded-full bg-gray-100 px-3 py-1.5 dark:bg-neutral-700"
                 onPress={() => handleIgnore(item.id)}
               >
                 <Text className="text-xs text-gray-600 dark:text-gray-300">
@@ -201,16 +208,12 @@ const Notification = () => {
         right={
           <>
             <TouchableOpacity style={styles.headerButton}>
-              <FontAwesome
-                name="cog"
-                size={18}
-                color={isDark ? '#9ca3af' : '#6b7280'}
-              />
+              <FontAwesome name="cog" size={18} color={colors.white} />
             </TouchableOpacity>
           </>
         }
       />
-      <View className="mx-1 my-4">
+      <View className="m-4">
         <SegmentedControl
           options={tabOptions}
           selectedIndex={selectedTabIndex}
@@ -219,15 +222,15 @@ const Notification = () => {
       </View>
       <ScrollView
         className="flex-1"
-        contentContainerStyle={{ padding: 4, paddingBottom: 20 }}
+        contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 24 }}
       >
         {/* 今日通知 */}
         {todayNotifications.length > 0 && (
           <>
-            <Text className="mb-3 text-lg font-semibold text-gray-900 dark:text-gray-100">
+            <Text className="mb-2 text-sm font-semibold text-gray-500 dark:text-gray-400">
               今日通知
             </Text>
-            <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
+            <View className="mb-5 overflow-hidden rounded-2xl border border-gray-100 bg-white px-3 dark:border-neutral-700 dark:bg-neutral-800">
               {todayNotifications.map(renderNotificationItem)}
             </View>
           </>
@@ -236,10 +239,10 @@ const Notification = () => {
         {/* 昨日通知 */}
         {yesterdayNotifications.length > 0 && (
           <>
-            <Text className="mb-3 text-lg font-semibold text-gray-900 dark:text-gray-100">
+            <Text className="mb-2 text-sm font-semibold text-gray-500 dark:text-gray-400">
               昨日通知
             </Text>
-            <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
+            <View className="mb-5 overflow-hidden rounded-2xl border border-gray-100 bg-white px-3 dark:border-neutral-700 dark:bg-neutral-800">
               {yesterdayNotifications.map(renderNotificationItem)}
             </View>
           </>
@@ -248,10 +251,10 @@ const Notification = () => {
         {/* 更早通知 */}
         {earlierNotifications.length > 0 && (
           <>
-            <Text className="mb-3 text-lg font-semibold text-gray-900 dark:text-gray-100">
+            <Text className="mb-2 text-sm font-semibold text-gray-500 dark:text-gray-400">
               更早
             </Text>
-            <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
+            <View className="mb-5 overflow-hidden rounded-2xl border border-gray-100 bg-white px-3 dark:border-neutral-700 dark:bg-neutral-800">
               {earlierNotifications.map(renderNotificationItem)}
             </View>
           </>

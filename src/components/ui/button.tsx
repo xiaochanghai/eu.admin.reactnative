@@ -149,3 +149,5 @@ export const Button = React.forwardRef<View, Props>(
     );
   }
 );
+
+Button.displayName = 'Button';

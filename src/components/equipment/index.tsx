@@ -1,4 +1,5 @@
 export * from './document-item';
+export * from './filter-button';
 export * from './info-row';
 export * from './maintenance-plan-item';
 export * from './repair-record-item';

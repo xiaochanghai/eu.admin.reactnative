@@ -3,16 +3,16 @@ import '../../global.css';
 import 'dayjs/locale/zh-cn';
 
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
-import { ThemeProvider } from '@react-navigation/native';
 import dayjs from 'dayjs';
-import { Stack, usePathname } from 'expo-router';
+import { ObserveRoot, useObserve } from 'expo-observe';
+import { Stack, ThemeProvider, usePathname } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import {
   checkForUpdateAsync,
   fetchUpdateAsync,
   reloadAsync,
 } from 'expo-updates';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Alert, BackHandler } from 'react-native';
 import { getUniqueId, getVersion } from 'react-native-device-info';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -32,6 +32,7 @@ import {
   useIsAgreePrivacy,
 } from '@/lib';
 import { setUniqueId } from '@/lib/auth/utils';
+import { useJPush } from '@/lib/hooks/use-jpush';
 import { useThemeConfig } from '@/lib/use-theme-config';
 
 dayjs.locale('zh-cn');
@@ -40,17 +41,18 @@ export { ErrorBoundary } from 'expo-router';
 export const unstable_settings = {
   initialRouteName: 'index',
 };
-hydrateAuth();
-loadSelectedTheme();
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
-// Set the animation options. This is optional.
-SplashScreen.setOptions({
-  duration: 500,
-  fade: true,
-});
+if (!isWeb || typeof window !== 'undefined') {
+  hydrateAuth();
+  loadSelectedTheme();
+  // Prevent the splash screen from auto-hiding before asset loading is complete.
+  SplashScreen.preventAutoHideAsync();
+  SplashScreen.setOptions({
+    duration: 500,
+    fade: true,
+  });
+}
 
-export default function RootLayout() {
+function RootLayout() {
   /**
    * 检查应用更新
    * 如果有可用更新，自动下载并重新加载应用
@@ -64,7 +66,7 @@ export default function RootLayout() {
         await fetchUpdateAsync();
         await reloadAsync();
       }
-    } catch (_error) {
+    } catch {
       // 错误处理（已注释）
       // alert('检查更新失败:' + error);
       // if (error instanceof Error) {
@@ -74,18 +76,49 @@ export default function RootLayout() {
     }
   };
 
-  // 应用启动时执行的操作（仅在挂载时运行）
+  // 初始化极光推送
+  const { registrationId } = useJPush({
+    onNotification: (notification) => {
+      console.log('[App] Notification event:', notification);
+
+      // 根据事件类型处理
+      if (notification.notificationEventType === 'notificationOpened') {
+        // 用户点击了通知
+        console.log('[App] layout Notification opened:', notification);
+        // 在这里处理通知点击，例如导航到特定页面
+        // 可以根据 notification.extras 中的数据进行路由跳转
+      } else if (notification.notificationEventType === 'notificationArrived') {
+        // 通知到达
+        console.log('[App] Notification arrived:', notification);
+      }
+    },
+    onCustomMessage: (message) => {
+      console.log('[App] Received custom message:', message);
+      // 在这里处理自定义消息
+    },
+  });
+
+  // OTA 更新与推送注册相互独立，应用启动后立即检查更新。
   useEffect(() => {
     if (!isWeb) {
-      // 检查应用更新
       checkForUpdate();
-      // 获取设备唯一ID并记录设备信息
-      getUniqueId().then((uniqueId) => {
-        setUniqueId(uniqueId);
-        recordDevice(uniqueId);
-      });
     }
   }, []);
+
+  // 推送注册成功后记录设备信息。
+  useEffect(() => {
+    if (!isWeb && registrationId) {
+      // 获取设备唯一ID并记录设备信息
+      getUniqueId()
+        .then(async (uniqueId) => {
+          setUniqueId(uniqueId);
+          await recordDevice(uniqueId, registrationId);
+        })
+        .catch((error) => {
+          console.error('[App] Failed to record device:', error);
+        });
+    }
+  }, [registrationId]);
 
   return (
     <Providers>
@@ -100,6 +133,7 @@ export default function RootLayout() {
         <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="(app)" options={{ headerShown: false }} />
         <Stack.Screen name="(repair)" options={{ headerShown: false }} />
+        <Stack.Screen name="(chat)" options={{ headerShown: false }} />
         <Stack.Screen name="onboarding" options={{ headerShown: false }} />
         <Stack.Screen name="login" options={{ headerShown: false }} />
       </Stack>
@@ -107,12 +141,35 @@ export default function RootLayout() {
   );
 }
 
+export default ObserveRoot.wrap(RootLayout);
+
 function Providers({ children }: { children: React.ReactNode }) {
   const theme = useThemeConfig();
   const [isPrivacyModalVisible, setPrivacyModalVisible] = useState(true);
   const pathname = usePathname();
   const [isAgreePrivacy, setIsAgreePrivacy] = useIsAgreePrivacy();
   const { ref, present } = useUpdateModal();
+  const { markInteractive } = useObserve();
+  const isSplashHidden = useRef(false);
+  const isInteractiveMarked = useRef(false);
+
+  const handleRootLayout = useCallback(() => {
+    if (!isWeb && !isSplashHidden.current) {
+      isSplashHidden.current = true;
+      try {
+        SplashScreen.hide();
+        if (!isInteractiveMarked.current) {
+          isInteractiveMarked.current = true;
+          // This records app-start TTI. Per-route TTI requires each screen to
+          // report its own readiness, so the Router integration stays disabled.
+          markInteractive();
+        }
+      } catch (error) {
+        isSplashHidden.current = false;
+        console.error('[App] Failed to hide splash screen:', error);
+      }
+    }
+  }, [markInteractive]);
 
   const shouldShowPrivacyModal =
     isPrivacyModalVisible &&
@@ -175,15 +232,20 @@ function Providers({ children }: { children: React.ReactNode }) {
         console.log('当前已是最新版本');
       }
     }
-  }, []);
+  }, [present]);
 
   useEffect(() => {
-    if (!isWeb) latestVersion();
-  }, []);
+    if (!isWeb) {
+      latestVersion().catch((error) => {
+        console.error('[App] Failed to query latest version:', error);
+      });
+    }
+  }, [latestVersion]);
   return (
     <GestureHandlerRootView
       // className={theme.dark ? `dark` : undefined}
       className={`relative flex-1 ${theme.dark === true ? 'dark' : ''}`}
+      onLayout={handleRootLayout}
     >
       <KeyboardProvider>
         <ThemeProvider value={theme}>

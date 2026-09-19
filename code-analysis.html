@@ -1,0 +1,540 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>eu.admin.reactnative 代码分析报告</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f5f7fb;
+        --panel: #ffffff;
+        --text: #172033;
+        --muted: #667085;
+        --line: #d9e0ea;
+        --primary: #0b68d8;
+        --critical: #b42318;
+        --warning: #b54708;
+        --ok: #027a48;
+        --code: #eef3f8;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", "Microsoft YaHei", sans-serif;
+        line-height: 1.65;
+      }
+
+      main {
+        width: min(1080px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 40px 0 56px;
+      }
+
+      header {
+        margin-bottom: 24px;
+      }
+
+      h1,
+      h2,
+      h3 {
+        margin: 0;
+        line-height: 1.25;
+      }
+
+      h1 {
+        font-size: 32px;
+        letter-spacing: 0;
+      }
+
+      h2 {
+        margin-bottom: 16px;
+        font-size: 22px;
+      }
+
+      h3 {
+        margin-bottom: 8px;
+        font-size: 17px;
+      }
+
+      p {
+        margin: 0 0 12px;
+      }
+
+      a {
+        color: var(--primary);
+        text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+
+      code {
+        border-radius: 4px;
+        background: var(--code);
+        padding: 2px 5px;
+        font-family:
+          "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+        font-size: 0.92em;
+      }
+
+      .subtitle {
+        margin-top: 10px;
+        color: var(--muted);
+        font-size: 15px;
+      }
+
+      .meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 18px;
+      }
+
+      .chip {
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: #fff;
+        padding: 6px 12px;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .section {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+        padding: 24px;
+        margin-top: 18px;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .item {
+        border-left: 3px solid var(--primary);
+        padding-left: 14px;
+      }
+
+      .finding {
+        border-top: 1px solid var(--line);
+        padding-top: 18px;
+        margin-top: 18px;
+      }
+
+      .finding:first-of-type {
+        border-top: 0;
+        padding-top: 0;
+        margin-top: 0;
+      }
+
+      .badge {
+        display: inline-block;
+        border-radius: 999px;
+        padding: 3px 9px;
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .badge.critical {
+        background: #fee4e2;
+        color: var(--critical);
+      }
+
+      .badge.warning {
+        background: #fef0c7;
+        color: var(--warning);
+      }
+
+      .badge.info {
+        background: #dbeafe;
+        color: #1849a9;
+      }
+
+      .status {
+        border-radius: 8px;
+        background: #fff7ed;
+        padding: 14px 16px;
+        color: #7a2e0e;
+      }
+
+      pre {
+        overflow-x: auto;
+        border-radius: 8px;
+        background: #111827;
+        color: #e5e7eb;
+        padding: 14px 16px;
+        line-height: 1.5;
+      }
+
+      ul,
+      ol {
+        margin: 8px 0 0;
+        padding-left: 20px;
+      }
+
+      li {
+        margin: 6px 0;
+      }
+
+      @media (max-width: 760px) {
+        main {
+          width: min(100% - 24px, 1080px);
+          padding-top: 28px;
+        }
+
+        h1 {
+          font-size: 26px;
+        }
+
+        .section {
+          padding: 18px;
+        }
+
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1>eu.admin.reactnative 代码分析报告</h1>
+        <p class="subtitle">
+          基于当前工作区的只读检查结果整理，分析范围包括项目结构、启动链路、鉴权、API
+          层、导航、配置和基础质量风险。
+        </p>
+        <div class="meta">
+          <span class="chip">项目：Expo Router + React Native</span>
+          <span class="chip">日期：2026-07-07</span>
+          <span class="chip">检查方式：静态阅读 + type-check 尝试</span>
+        </div>
+      </header>
+
+      <section class="section">
+        <h2>代码概览</h2>
+        <div class="grid">
+          <div class="item">
+            <h3>技术栈</h3>
+            <p>
+              Expo 57、React Native 0.86、React 19、TypeScript、NativeWind、
+              Zustand、MMKV、Axios、React Query、JPush。
+            </p>
+          </div>
+          <div class="item">
+            <h3>入口</h3>
+            <p>
+              根入口位于 <code>src/app/_layout.tsx</code>，路由入口为
+              <code>expo-router/entry</code>。
+            </p>
+          </div>
+          <div class="item">
+            <h3>路由组织</h3>
+            <p>
+              使用 <code>src/app</code> 文件路由。普通用户进入
+              <code>/(app)</code>，维修用户进入 <code>/(repair)</code>。
+            </p>
+          </div>
+          <div class="item">
+            <h3>通用 Tab</h3>
+            <p>
+              Tab 逻辑封装在 <code>src/components/tabs/tab-layout.tsx</code>，
+              自定义 TabBar 在 <code>custom-tab-bar.tsx</code>。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>核心链路</h2>
+        <ol>
+          <li>
+            启动阶段执行 <code>hydrateAuth()</code>、主题加载、Splash 控制、
+            隐私协议弹窗、版本检查、JPush 初始化和设备登记。
+          </li>
+          <li>
+            登录页位于 <code>src/app/login.tsx</code>，调用
+            <code>/api/Authorize/Login</code>，成功后保存 token 和 userInfo。
+          </li>
+          <li>
+            <code>src/app/index.tsx</code> 根据 <code>UserType</code> 路由到
+            <code>/(repair)</code> 或 <code>/(app)</code>。
+          </li>
+          <li>
+            API 层集中在 <code>src/api/common/http.tsx</code>，请求时统一注入
+            <code>Authorization</code>、<code>UUID</code>、<code>Platform</code>。
+          </li>
+        </ol>
+      </section>
+
+      <section class="section">
+        <h2>主要问题</h2>
+
+        <article class="finding">
+          <h3><span class="badge critical">高</span> 类型检查当前不可用</h3>
+          <p>
+            运行 <code>pnpm.cmd run type-check</code> 后失败在
+            <code>tsconfig.json</code>：TypeScript 6 已废弃 <code>baseUrl</code>，
+            当前配置会让本地和 CI 的类型检查直接中断。
+          </p>
+          <p>
+            建议先加 <code>"ignoreDeprecations": "6.0"</code> 解除阻塞，随后再规划
+            TypeScript 7 前的配置迁移。
+          </p>
+        </article>
+
+        <article class="finding">
+          <h3><span class="badge critical">高</span> 明文记住密码</h3>
+          <p>
+            <code>src/components/login-form.tsx</code> 会把账号和密码写入
+            MMKV 的 <code>login/credentials</code>。生产环境不建议保存明文密码。
+          </p>
+          <p>
+            建议改为只记账号，或使用系统 Keychain/Keystore 与生物识别方案。
+          </p>
+        </article>
+
+        <article class="finding">
+          <h3><span class="badge warning">中</span> Axios 错误响应没有真正 reject</h3>
+          <p>
+            <code>src/api/common/http.tsx</code> 中业务失败分支调用了
+            <code>Promise.reject(data)</code>，但没有 <code>return</code>。调用方可能把失败响应当成
+            成功结果处理。
+          </p>
+          <p>建议改为 <code>return Promise.reject(data)</code>。</p>
+        </article>
+
+        <article class="finding">
+          <h3><span class="badge warning">中</span> 登录过期判断可能不一致</h3>
+          <p>
+            响应体业务码使用 <code>data.Status</code>，但异常分支用
+            <code>response.status === ResultEnum.OVERDUE</code> 判断登出。如果
+            <code>OVERDUE</code> 是业务码而不是 HTTP 状态码，这里不会生效。
+          </p>
+        </article>
+
+        <article class="finding">
+          <h3><span class="badge warning">中</span> 中文文本和编码需要专项核查</h3>
+          <p>
+            多个 TSX 文件在控制台读取时出现中文乱码，<code>env.js</code> 通过
+            <code>rg</code> 显示正常。建议用编辑器确认源文件实际编码，重点检查
+            <code>src/app/_layout.tsx</code>、<code>src/app/login.tsx</code>、
+            <code>src/components/login-form.tsx</code>。
+          </p>
+        </article>
+
+        <article class="finding">
+          <h3><span class="badge info">低</span> 根布局副作用偏重</h3>
+          <p>
+            根布局同时承担更新检查、推送、设备登记、隐私协议、Provider 和全局弹窗。功能集中但维护成本偏高。
+          </p>
+          <p>
+            建议逐步拆分为 <code>useAppUpdate</code>、<code>useDeviceRegistration</code>、
+            <code>usePrivacyGate</code> 等 hook。
+          </p>
+        </article>
+      </section>
+
+      <section class="section">
+        <h2>当前工作区状态</h2>
+        <div class="status">
+          工作区已有未提交修改。此次报告生成只新增本 HTML 文件，没有改动现有源码。
+        </div>
+        <pre><code>M src/app/repair-order/add.tsx
+M src/components/tabs/custom-tab-bar.tsx
+M src/components/tabs/tab-layout.tsx</code></pre>
+      </section>
+
+      <section class="section">
+        <h2>建议优先级</h2>
+        <ol>
+          <li>先修复 <code>tsconfig.json</code>，让 <code>type-check</code> 可以跑通。</li>
+          <li>修复 Axios 拦截器的 reject 行为，避免失败请求被误判为成功。</li>
+          <li>移除明文保存密码，改成更安全的登录体验设计。</li>
+          <li>确认中文源文件编码，修复用户可见乱码文案。</li>
+          <li>在稳定后拆分根布局副作用，降低后续维护成本。</li>
+        </ol>
+      </section>
+
+      <section class="section">
+        <h2>具体实现分析</h2>
+
+        <article class="finding">
+          <h3>1. 启动与全局 Provider</h3>
+          <p>
+            <code>src/app/_layout.tsx</code> 是应用最核心的启动文件。模块加载阶段直接调用
+            <code>hydrateAuth()</code> 和 <code>loadSelectedTheme()</code>，因此鉴权与主题会在根组件渲染前先从
+            MMKV 恢复。随后通过 <code>SplashScreen.preventAutoHideAsync()</code> 接管启动屏隐藏时机。
+          </p>
+          <p>
+            <code>RootLayout</code> 内部负责注册 JPush、检查 OTA 更新、记录设备信息。<code>Providers</code>
+            内部再包裹 <code>GestureHandlerRootView</code>、<code>KeyboardProvider</code>、
+            <code>ThemeProvider</code>、<code>APIProvider</code> 和 <code>BottomSheetModalProvider</code>。
+            这套组合能保证手势、键盘、主题、React Query 和底部弹窗都在全局可用。
+          </p>
+          <p>
+            这里的问题是职责过多：根布局既做基础 Provider，又做业务更新检查、隐私协议、推送和设备上报。
+            这会让启动问题难定位，也让测试变困难。更好的结构是把这些副作用拆成独立 hook。
+          </p>
+        </article>
+
+        <article class="finding">
+          <h3>2. 鉴权状态与持久化</h3>
+          <p>
+            鉴权 store 在 <code>src/lib/auth/index.tsx</code>，使用 Zustand 保存
+            <code>token</code> 和 <code>status</code>。状态只有三种：<code>idle</code>、
+            <code>signOut</code>、<code>signIn</code>。<code>hydrate()</code> 从
+            <code>getToken()</code> 读取本地 token，有 token 就调用 <code>signIn</code>，否则调用
+            <code>signOut</code>。
+          </p>
+          <p>
+            token 实际读写在 <code>src/lib/auth/utils.tsx</code>，底层使用
+            <code>src/lib/storage.tsx</code> 的 MMKV 封装。用户信息也写在 MMKV 的
+            <code>userInfo</code> key 下。
+          </p>
+          <p>
+            当前实现简单有效，但 token 没有 refresh 流程，登录时写入的
+            <code>refresh: 'refresh-token'</code> 是占位值。后端 token 过期后只能走登出或接口失败，
+            还没有无感刷新能力。
+          </p>
+        </article>
+
+        <article class="finding">
+          <h3>3. 路由守卫与 Tab 布局</h3>
+          <p>
+            <code>TabLayout</code> 位于 <code>src/components/tabs/tab-layout.tsx</code>，它接收
+            <code>tabConfig</code>，再生成多个 <code>Tabs.Screen</code>。普通模块和维修模块只需要声明
+            tab 名称、标题和图标，就能复用同一套路由守卫和 Tab 渲染。
+          </p>
+          <p>
+            守卫逻辑在 Tab 层执行：如果 <code>isFirstTime</code> 为 true，跳转到
+            <code>/onboarding</code>；如果 <code>status === 'signOut'</code>，跳转到
+            <code>/login</code>。这意味着进入 <code>/(app)</code> 或 <code>/(repair)</code>
+            后才会判断登录状态。
+          </p>
+          <p>
+            自定义 TabBar 在 <code>custom-tab-bar.tsx</code>，通过
+            <code>navigation.emit({ type: 'tabPress' })</code> 保留 React Navigation 的事件机制。
+            目前还预留了名为 <code>add</code> 的中间悬浮按钮，但实际 tabConfig 中没有配置
+            <code>add</code>，所以这段逻辑目前不会触发。
+          </p>
+        </article>
+
+        <article class="finding">
+          <h3>4. API 请求封装</h3>
+          <p>
+            <code>src/api/common/http.tsx</code> 用一个 <code>RequestHttp</code> 类包装 Axios。
+            构造函数内创建 Axios 实例，并配置请求、响应拦截器。请求拦截器会从 MMKV 读取 token，
+            注入 <code>Authorization: Bearer ...</code>，同时注入设备 <code>UUID</code> 和平台信息。
+          </p>
+          <p>
+            响应拦截器假设后端返回结构为 <code>{ Status, Success, Message, Data }</code>。
+            如果 <code>Status</code> 不是成功码，就调用全局 Toast 显示错误。
+          </p>
+          <p>
+            这里最需要修的是失败分支：当前写了 <code>Promise.reject(data)</code>，但没有
+            <code>return</code>，后续又返回了 <code>data</code>。调用方可能进入正常分支。
+            正确写法应是 <code>return Promise.reject(data)</code>。
+          </p>
+        </article>
+
+        <article class="finding">
+          <h3>5. 登录表单实现</h3>
+          <p>
+            <code>src/components/login-form.tsx</code> 使用 <code>react-hook-form</code> 和
+            <code>zodResolver</code> 做表单校验。两个字段是 <code>account</code> 和
+            <code>password</code>，校验规则只要求非空。
+          </p>
+          <p>
+            表单提交前先处理“记住密码”：勾选时把 <code>account</code>、<code>password</code>
+            和 <code>remember</code> 写入 MMKV；不勾选时删除这份缓存。然后调用页面传入的
+            <code>onSubmit</code>。登录页的 <code>onSubmit</code> 再调用 <code>loginApi</code>，
+            成功后写 token、写 userInfo，并 <code>router.replace('/')</code>。
+          </p>
+          <p>
+            实现上表单和登录请求分离得比较清楚，但明文保存密码是明显安全问题。另外登录按钮没有使用
+            <code>loading</code> 状态锁定重复提交，只靠全局 Toast 展示加载状态，快速点击可能发出多次请求。
+          </p>
+        </article>
+
+        <article class="finding">
+          <h3>6. 列表分页与维修工单页</h3>
+          <p>
+            <code>src/app/(repair)/repair-order.tsx</code> 是比较典型的业务页。它维护
+            <code>list</code>、<code>hasMore</code>、<code>refreshing</code>、<code>pageRef</code>
+            等状态，通过 <code>queryByFilter('EM_REPAIR_ORDER_MNG')</code> 拉取分页数据。
+          </p>
+          <p>
+            后端记录先经过 <code>mapToWorkOrder</code> 转成 UI 组件需要的 <code>WorkOrder</code>
+            结构。这个映射里做了很多兼容字段，例如 <code>ID</code>、<code>Id</code>、<code>id</code>、
+            <code>RepairOrderId</code> 都可作为主键来源。这说明后端字段可能不完全稳定，前端在页面层做了兜底。
+          </p>
+          <p>
+            列表组件 <code>RefreshListView</code> 基于 <code>@shopify/flash-list</code> 封装下拉刷新和上拉加载。
+            不过 <code>handleEndReached</code> 中 <code>setIsLoadMore(true)</code> 后马上
+            <code>setIsLoadMore(false)</code>，没有等待异步加载完成，因此防重复触发能力不可靠。
+            应让 <code>onLoadMore</code> 返回 Promise，或把加载状态交给父组件统一控制。
+          </p>
+        </article>
+
+        <article class="finding">
+          <h3>7. 新建维修工单实现</h3>
+          <p>
+            <code>src/app/repair-order/add.tsx</code> 使用大量本地 <code>useState</code>
+            管理表单字段，包括设备、故障类型、影响程度、优先级、描述、期望时间、维修人员、备注和是否停机。
+          </p>
+          <p>
+            页面加载时并行概念上加载 LOV、设备列表、维修人员列表，但代码实际是多个异步函数在
+            <code>useEffect</code> 中连续调用，没有统一 loading/error 状态。提交时通过
+            <code>validateForm()</code> 做手写校验，再用 <code>buildSubmitData()</code>
+            拼接后端需要的字段，最后 POST 到 <code>/api/EmRepairOrder</code>。
+          </p>
+          <p>
+            这个页面已经有较完整的业务流程，但表单复杂度开始超过纯 <code>useState</code>
+            的舒适范围。建议后续迁移到 <code>react-hook-form</code>，并把设备选择、维修人员选择、故障信息拆成子组件。
+          </p>
+        </article>
+
+        <article class="finding">
+          <h3>8. Toast 全局提示</h3>
+          <p>
+            <code>src/components/ui/toast.tsx</code> 实现了一个单例 <code>ToastManager</code>。
+            外部通过静态对象 <code>Toast.success/error/info/loading/hide</code> 调用，
+            根布局渲染 <code>ToastContainer</code> 后订阅 manager 的状态变化。
+          </p>
+          <p>
+            它的优点是没有引入额外库，调用简单。缺点是动画只用 opacity state 和 timeout 模拟，
+            没有真正的卸载动画；多个 Toast 只显示最新一个，之前的 Toast 仍在队列里直到各自定时器清理。
+            对当前项目够用，但复杂交互下需要更严格的队列策略。
+          </p>
+        </article>
+
+        <article class="finding">
+          <h3>9. 通用组件风格</h3>
+          <p>
+            <code>Button</code> 使用 <code>tailwind-variants</code> 定义 variant 和 size，
+            再通过 NativeWind 的 <code>className</code> 应用到 RN 组件。这个模式有利于统一 UI
+            样式，也方便测试时通过 <code>testID</code> 定位 label 和 loading indicator。
+          </p>
+          <p>
+            当前页面层仍存在大量手写 className 和颜色值，说明设计系统只覆盖了部分基础组件。
+            后续如果页面继续增加，建议把卡片、表单项、选择器、状态标签也沉淀为统一组件。
+          </p>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>

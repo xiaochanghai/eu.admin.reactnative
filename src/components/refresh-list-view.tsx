@@ -30,11 +30,13 @@ interface RefreshListViewProps<T>
   }: {
     item: T;
   }) => React.ReactElement /** 提取列表项唯一键的函数 */;
-  keyExtractor: (item: T) => string /** 下拉刷新回调函数 */;
+  keyExtractor: (item: T, index: number) => string /** 下拉刷新回调函数 */;
   onRefresh?: () => void /** 上拉加载更多回调函数 */;
   onLoadMore?: () => void /** 是否正在刷新中 */;
   refreshing?: boolean /** 是否还有更多数据可加载 */;
   hasMore?: boolean;
+  /** 预估行高，提升 FlashList 性能 */
+  estimatedItemSize?: number;
   style?: ViewStyle;
 }
 
@@ -89,13 +91,13 @@ export const RefreshListView = <T,>(props: RefreshListViewProps<T>) => {
         <ActivityIndicator />
       </View>
     );
-  }, [hasMore]);
+  }, [hasMore, insets.bottom]);
 
   return (
     <FlashList
       data={data}
       renderItem={renderItem}
-      keyExtractor={(item) => keyExtractor(item)}
+      keyExtractor={(item, index) => keyExtractor(item, index)}
       refreshControl={
         <RefreshControl
           refreshing={refreshing != null ? refreshing : false}

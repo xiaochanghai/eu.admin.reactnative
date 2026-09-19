@@ -1,8 +1,20 @@
 import { Linking } from 'react-native';
 import type { StoreApi, UseBoundStore } from 'zustand';
 
-export function openLinkInBrowser(url: string) {
-  Linking.canOpenURL(url).then((canOpen) => canOpen && Linking.openURL(url));
+export async function openLinkInBrowser(url: string): Promise<boolean> {
+  try {
+    const canOpen = await Linking.canOpenURL(url);
+    if (canOpen) {
+      await Linking.openURL(url);
+      return true;
+    } else {
+      console.warn(`Cannot open URL: ${url}`);
+      return false;
+    }
+  } catch (error) {
+    console.error(`Failed to open URL: ${url}`, error);
+    return false;
+  }
 }
 
 type WithSelectors<S> = S extends { getState: () => infer T }
@@ -12,10 +24,12 @@ type WithSelectors<S> = S extends { getState: () => infer T }
 export const createSelectors = <S extends UseBoundStore<StoreApi<object>>>(
   _store: S
 ) => {
-  let store = _store as WithSelectors<typeof _store>;
-  store.use = {};
-  for (let k of Object.keys(store.getState())) {
-    (store.use as any)[k] = () => store((s) => s[k as keyof typeof s]);
+  const store = _store as WithSelectors<typeof _store>;
+  store.use = {} as WithSelectors<typeof _store>['use'];
+
+  for (const k of Object.keys(store.getState())) {
+    (store.use as Record<string, () => unknown>)[k] = () =>
+      store((s) => s[k as keyof typeof s]);
   }
 
   return store;
@@ -58,13 +72,15 @@ export function formatDate(date: Date): string {
  * @returns 格式化后的日期字符串
  */
 export function formatRelativeDate(
-  date: Date | string | number,
+  date: Date | string | number | undefined,
   options: {
     showTime?: boolean;
     showYear?: boolean;
     locale?: string;
   } = {}
 ): string {
+  if (date === undefined) return '';
+
   //   import { formatRelativeDate, getRelativeTimeString } from '@/lib/utils';
 
   // // 基本使用
@@ -159,9 +175,10 @@ export function formatRelativeDate(
  * @returns 相对时间字符串
  */
 export function getRelativeTimeString(
-  date: Date | string | number,
-  locale: string = 'en'
+  date: Date | string | number | undefined,
+  locale: string = 'zh'
 ): string {
+  if (date === undefined) return '';
   const targetDate = new Date(date);
   const now = new Date();
 
@@ -249,40 +266,77 @@ export const getFileIconInfo = (fileExt?: string) => {
   const ext = fileExt?.toLowerCase()?.replace('.', '') || '';
   switch (ext) {
     case 'pdf':
-      return { icon: 'file-pdf-o', iconColor: '#ef4444', iconBgColor: '#fef2f2' };
+      return {
+        icon: 'file-pdf-o',
+        iconColor: '#ef4444',
+        iconBgColor: '#fef2f2',
+      };
     case 'doc':
     case 'docx':
-      return { icon: 'file-word-o', iconColor: '#3b82f6', iconBgColor: '#eff6ff' };
+      return {
+        icon: 'file-word-o',
+        iconColor: '#3b82f6',
+        iconBgColor: '#eff6ff',
+      };
     case 'xls':
     case 'xlsx':
-      return { icon: 'file-excel-o', iconColor: '#22c55e', iconBgColor: '#f0fdf4' };
+      return {
+        icon: 'file-excel-o',
+        iconColor: '#22c55e',
+        iconBgColor: '#f0fdf4',
+      };
     case 'ppt':
     case 'pptx':
-      return { icon: 'file-powerpoint-o', iconColor: '#f97316', iconBgColor: '#fff7ed' };
+      return {
+        icon: 'file-powerpoint-o',
+        iconColor: '#f97316',
+        iconBgColor: '#fff7ed',
+      };
     case 'jpg':
     case 'jpeg':
     case 'png':
     case 'gif':
-      return { icon: 'file-image-o', iconColor: '#8b5cf6', iconBgColor: '#f5f3ff' };
+      return {
+        icon: 'file-image-o',
+        iconColor: '#8b5cf6',
+        iconBgColor: '#f5f3ff',
+      };
     case 'zip':
     case 'rar':
     case '7z':
-      return { icon: 'file-archive-o', iconColor: '#eab308', iconBgColor: '#fefce8' };
+      return {
+        icon: 'file-archive-o',
+        iconColor: '#eab308',
+        iconBgColor: '#fefce8',
+      };
     case 'txt':
-      return { icon: 'file-text-o', iconColor: '#6b7280', iconBgColor: '#f9fafb' };
+      return {
+        icon: 'file-text-o',
+        iconColor: '#6b7280',
+        iconBgColor: '#f9fafb',
+      };
     default:
       return { icon: 'file-o', iconColor: '#6b7280', iconBgColor: '#f9fafb' };
   }
 };
 
-// 格式化文件大小
-export const formatFileSize = (size?: string) => {
-  if (!size) return '';
-  const bytes = parseInt(size, 10);
-  if (isNaN(bytes)) return size;
+/**
+ * 格式化文件大小
+ * @param size - 文件大小（字节数），可以是数字或字符串
+ * @returns 格式化后的文件大小字符串
+ */
+export const formatFileSize = (size?: string | number): string => {
+  if (size === undefined || size === null || size === '') return '';
+
+  const bytes = typeof size === 'number' ? size : parseInt(size, 10);
+
+  if (isNaN(bytes)) return typeof size === 'string' ? size : '';
   if (bytes < 1024) return `${bytes} B`;
   if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
-  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+  if (bytes < 1024 * 1024 * 1024)
+    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+
+  return `${(bytes / (1024 * 1024 * 1024)).toFixed(1)} GB`;
 };
 
 // 格式化日期（简短格式）

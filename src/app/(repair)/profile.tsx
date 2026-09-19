@@ -16,8 +16,8 @@ type StatItemProps = {
 };
 
 const StatItem: React.FC<StatItemProps> = ({ value, label }) => (
-  <View className="items-center">
-    <Text className="text-2xl font-bold text-gray-800 dark:text-gray-100">
+  <View className="flex-1 items-center">
+    <Text className="text-xl font-bold text-gray-900 dark:text-white">
       {value}
     </Text>
     <Text className="mt-1 text-xs text-gray-500 dark:text-gray-400">
@@ -51,7 +51,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({
           {current}/{total}
         </Text>
       </View>
-      <View className="h-2 w-full rounded-full bg-gray-200 dark:bg-neutral-700">
+      <View className="h-2 w-full rounded-full bg-gray-100 dark:bg-neutral-800">
         <View
           className="h-2 rounded-full"
           style={{ width: `${percentage}%`, backgroundColor: color }}
@@ -82,7 +82,7 @@ const TodoTaskItem: React.FC<TodoTaskItemProps> = ({
   statusBgColor,
 }) => (
   <View
-    className="mb-3 flex-row items-center justify-between rounded-lg p-3"
+    className="mb-2 min-h-[64px] flex-row items-center justify-between rounded-xl p-3"
     style={{ backgroundColor: bgColor }}
   >
     <View className="flex-row items-center">
@@ -125,12 +125,12 @@ const MenuGridItem: React.FC<MenuGridItemProps> = ({
   onPress,
 }) => (
   <TouchableOpacity
-    className="items-center"
+    className="min-h-[72px] flex-1 items-center justify-center"
     onPress={onPress}
     activeOpacity={0.7}
   >
     <View
-      className="mx-auto mb-2 size-12 items-center justify-center rounded-xl"
+      className="mx-auto mb-2 size-11 items-center justify-center rounded-xl"
       style={{ backgroundColor: bgColor }}
     >
       <FontAwesome name={icon as any} size={20} color={iconColor} />
@@ -166,7 +166,7 @@ const MenuListItem: React.FC<MenuListItemProps> = ({
   iconGroup,
 }) => (
   <TouchableOpacity
-    className={`flex-row items-center justify-between p-4 ${!isLast ? 'border-b border-gray-100 dark:border-neutral-700' : ''}`}
+    className={`min-h-[64px] flex-row items-center justify-between px-4 py-3 ${!isLast ? 'border-b border-gray-100 dark:border-neutral-800' : ''}`}
     onPress={onPress}
     activeOpacity={0.7}
   >
@@ -210,6 +210,7 @@ const Profile: React.FC = () => {
         leftShown={false}
         right={
           <TouchableOpacity
+            className="size-10 items-center justify-center rounded-full"
             activeOpacity={0.7}
             onPress={() => router.push('/settings')}
           >
@@ -222,36 +223,36 @@ const Profile: React.FC = () => {
         }
       />
 
-      <View className="flex-1 bg-gray-50 dark:bg-neutral-900">
+      <View className="flex-1 bg-gray-100/70 dark:bg-neutral-950">
         <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
           {/* 顶部个人信息卡片 */}
           <LinearGradient
-            colors={['#3b82f6', '#2563eb']}
+            colors={isDark ? ['#28233f', '#17171c'] : ['#6554ee', '#4736c7']}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 1 }}
             style={{
               paddingHorizontal: 24,
-              paddingTop: 24,
-              paddingBottom: 80,
+              paddingTop: 20,
+              paddingBottom: 72,
             }}
           >
             <View className="flex-row items-center">
-              <View className="mr-4 size-20 items-center justify-center rounded-full bg-white shadow-lg">
-                <FontAwesome name="user" size={32} color="#3b82f6" />
+              <View className="mr-4 size-[72px] items-center justify-center rounded-2xl border border-white/30 bg-white">
+                <FontAwesome name="user" size={28} color="#543EF8" />
               </View>
               <View className="flex-1">
                 <Text className="mb-1 text-2xl font-bold text-white">
                   张工程师
                 </Text>
-                <Text className="text-sm text-blue-100">工号：EMP20231101</Text>
-                <Text className="text-sm text-blue-100">部门：设备维修部</Text>
+                <Text className="text-sm text-white/70">工号：EMP20231101</Text>
+                <Text className="text-sm text-white/70">部门：设备维修部</Text>
               </View>
             </View>
           </LinearGradient>
 
           {/* 统计卡片 */}
           <View className="px-4" style={{ marginTop: -48 }}>
-            <View className="rounded-2xl bg-white p-4 shadow-lg dark:bg-neutral-800">
+            <View className="rounded-2xl border border-gray-200/80 bg-white p-4 dark:border-neutral-800 dark:bg-neutral-900">
               <View className="flex-row justify-around">
                 <StatItem value="156" label="维修任务" />
                 <StatItem value="89" label="保养任务" />
@@ -262,8 +263,8 @@ const Profile: React.FC = () => {
           </View>
 
           {/* 本月工作统计 */}
-          <View className="mb-4 px-4 pt-4">
-            <View className="rounded-xl bg-white p-4 shadow-sm dark:bg-neutral-800">
+          <View className="mb-3 px-4 pt-3">
+            <View className="rounded-2xl border border-gray-200/80 bg-white p-4 dark:border-neutral-800 dark:bg-neutral-900">
               <View className="mb-4 flex-row items-center justify-between">
                 <Text className="font-bold text-gray-800 dark:text-gray-100">
                   本月工作统计
@@ -276,7 +277,7 @@ const Profile: React.FC = () => {
                 label="维修工单"
                 current={18}
                 total={20}
-                color="#3b82f6"
+                color="#543EF8"
               />
               <ProgressBar
                 label="保养任务"
@@ -294,21 +295,21 @@ const Profile: React.FC = () => {
           </View>
 
           {/* 我的待办 */}
-          <View className="mb-4 px-4">
-            <View className="rounded-xl bg-white p-4 shadow-sm dark:bg-neutral-800">
+          <View className="mb-3 px-4">
+            <View className="rounded-2xl border border-gray-200/80 bg-white p-4 dark:border-neutral-800 dark:bg-neutral-900">
               <View className="mb-4 flex-row items-center justify-between">
                 <Text className="font-bold text-gray-800 dark:text-gray-100">
                   我的待办
                 </Text>
                 <TouchableOpacity onPress={() => router.push('/(repair)')}>
                   <View className="flex-row items-center">
-                    <Text className="text-xs text-blue-500 dark:text-blue-400">
+                    <Text className="text-xs font-medium text-primary-600 dark:text-primary-400">
                       查看全部{' '}
                     </Text>
                     <FontAwesome
                       name="chevron-right"
                       size={10}
-                      color="#3b82f6"
+                      color="#543EF8"
                     />
                   </View>
                 </TouchableOpacity>
@@ -337,19 +338,19 @@ const Profile: React.FC = () => {
                 time="今天 14:00"
                 status="进行中"
                 bgColor="#eff6ff"
-                iconBgColor="#3b82f6"
-                statusBgColor="#3b82f6"
+                iconBgColor="#543EF8"
+                statusBgColor="#543EF8"
               />
             </View>
           </View>
 
           {/* 功能菜单 */}
-          <View className="mb-4 px-4">
-            <View className="rounded-xl bg-white p-4 shadow-sm dark:bg-neutral-800">
+          <View className="mb-3 px-4">
+            <View className="rounded-2xl border border-gray-200/80 bg-white p-4 dark:border-neutral-800 dark:bg-neutral-900">
               <View className="flex-row justify-around">
                 <MenuGridItem
                   icon="wrench"
-                  iconColor="#3b82f6"
+                  iconColor="#543EF8"
                   bgColor="#eff6ff"
                   label="我的维修"
                 />
@@ -376,11 +377,11 @@ const Profile: React.FC = () => {
           </View>
 
           {/* 个人信息 */}
-          <View className="mb-4 px-4">
-            <View className="overflow-hidden rounded-xl bg-white shadow-sm dark:bg-neutral-800">
+          <View className="mb-3 px-4">
+            <View className="overflow-hidden rounded-2xl border border-gray-200/80 bg-white dark:border-neutral-800 dark:bg-neutral-900">
               <MenuListItem
                 icon="user"
-                iconColor="#3b82f6"
+                iconColor="#543EF8"
                 bgColor="#eff6ff"
                 label="个人信息"
               />
@@ -408,7 +409,7 @@ const Profile: React.FC = () => {
 
           {/* 其他功能 */}
           <View className="mb-4 px-4">
-            <View className="overflow-hidden rounded-xl bg-white shadow-sm dark:bg-neutral-800">
+            <View className="overflow-hidden rounded-2xl border border-gray-200/80 bg-white dark:border-neutral-800 dark:bg-neutral-900">
               <MenuListItem
                 icon="bell"
                 iconColor="#ef4444"
@@ -427,7 +428,7 @@ const Profile: React.FC = () => {
               />
               <MenuListItem
                 icon="question-circle"
-                iconColor="#3b82f6"
+                iconColor="#543EF8"
                 bgColor="#eff6ff"
                 label="帮助与反馈"
               />
@@ -443,9 +444,6 @@ const Profile: React.FC = () => {
               />
             </View>
           </View>
-
-          {/* 底部空间 - 为底部导航留出空间 */}
-          <View className="h-[70px]" />
         </ScrollView>
 
         {/* 退出确认弹窗 */}

@@ -20,3 +20,7 @@ yarn-error.log
 expo-env.d.ts
 # @end expo-cli
 .claude/
+
+# Local secrets and machine-specific overrides
+.env.local
+.env.*.local

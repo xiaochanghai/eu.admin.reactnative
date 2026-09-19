@@ -1,9 +1,10 @@
 import { Env } from '@env';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { MotiView } from 'moti';
 import React, { useEffect, useState } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
-import { ScrollView, TouchableOpacity } from 'react-native';
+import { ScrollView } from 'react-native';
 import { KeyboardAvoidingView } from 'react-native-keyboard-controller';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import * as z from 'zod';
@@ -18,14 +19,7 @@ import {
   View,
 } from '@/components/ui';
 import colors from '@/components/ui/colors';
-import {
-  Eye,
-  EyeOff,
-  FontAwesome,
-  GroupEnum,
-  Lock,
-  User,
-} from '@/components/ui/icons';
+import { Eye, EyeOff } from '@/components/ui/icons';
 // import type { Language } from '@/lib/i18n/resources';
 import { isIos } from '@/lib';
 import { useAppColorScheme } from '@/lib/hooks';
@@ -52,12 +46,12 @@ export type LoginFormProps = {
   onSubmit?: SubmitHandler<FormType>;
 };
 
-export const LoginForm = ({ onSubmit = () => { } }: LoginFormProps) => {
+export const LoginForm = ({ onSubmit = () => {} }: LoginFormProps) => {
   // const { language, setLanguage } = useSelectedLanguage();
   const { isDark } = useAppColorScheme();
   const insets = useSafeAreaInsets();
 
-  const { handleSubmit, control, setValue } = useForm<FormType>({
+  const { handleSubmit, control, setValue, formState } = useForm<FormType>({
     resolver: zodResolver(schema),
     defaultValues: { account: '', password: '' },
   });
@@ -99,7 +93,9 @@ export const LoginForm = ({ onSubmit = () => { } }: LoginFormProps) => {
 
   // const handleLanguageChange = (languageCode: string) =>
   //   setLanguage(languageCode as Language);
-  const iconColor = colors.neutral[isDark ? 300 : 900];
+  const iconColor = colors.neutral[isDark ? 300 : 600];
+  const focusColor = isDark ? colors.neutral[100] : colors.neutral[900];
+
   return (
     <View className="flex-1 bg-white dark:bg-neutral-900">
       <KeyboardAvoidingView
@@ -110,140 +106,120 @@ export const LoginForm = ({ onSubmit = () => { } }: LoginFormProps) => {
       >
         <ScrollView
           className="flex-1 bg-white dark:bg-neutral-900"
-          contentContainerStyle={{ flexGrow: 1 }}
+          contentContainerStyle={{
+            flexGrow: 1,
+            paddingHorizontal: 24,
+            paddingTop: Math.max(insets.top, 24),
+          }}
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
           contentInsetAdjustmentBehavior="automatic"
         >
-          {/* 顶部空间 */}
-          {/* <View className="h-[20%]" /> */}
-          {/* Header with Language Selector */}
-          <View className="z-50 flex-row items-center justify-between px-6 py-8 ">
-            <View style={{ height: 50 }} />
-            {/* <LanguageSelector
-              currentLanguage={language}
-              onLanguageChange={handleLanguageChange}
-            /> */}
-          </View>
-          {/* Logo和标题 */}
-          <View className="mb-10 mt-5 items-center">
-            <View className="size-24 items-center justify-center rounded-full">
-              <Image
-                className="size-20"
-                source={require('../../assets/favicon.png')}
-                contentFit="contain"
-              />
-            </View>
-            <Text className="mt-5 text-2xl font-bold text-gray-800">
-              {Env.NAME}
-            </Text>
-            <Text className="mt-2 text-xl text-gray-500">
-              {translate('login.sub_title')}
-            </Text>
-          </View>
-
-          {/* Login Form Section */}
-          <View className="pb-30 flex-1 px-6">
-            <ControlledInputWithIcon
-              testID="account-input"
-              control={control}
-              name="account"
-              placeholder={translate('login.username_placeholder')}
-              leftIcon={
-                <User
-                  color={iconColor}
-                  className="size-6 text-gray-400 dark:text-gray-500"
+          <View className="flex-1 justify-center py-10">
+            <MotiView
+              className="mb-10 w-full max-w-[420px] items-center self-center"
+              from={{ opacity: 0, translateY: 10 }}
+              animate={{ opacity: 1, translateY: 0 }}
+              transition={{ type: 'timing', duration: 450 }}
+            >
+              <View className="mb-8 size-14 items-center justify-center overflow-hidden rounded-2xl border border-neutral-200 bg-black dark:border-neutral-700">
+                <Image
+                  className="size-11"
+                  source={require('../../assets/favicon.png')}
+                  contentFit="contain"
                 />
-              }
-            />
+              </View>
+              <Text className="text-center text-[32px] font-semibold leading-10 tracking-[-0.6px] text-neutral-900 dark:text-white">
+                欢迎回来
+              </Text>
+              <Text className="mt-3 text-center text-base leading-6 text-neutral-500 dark:text-neutral-400">
+                登录 {Env.NAME}，继续你的工作
+              </Text>
+            </MotiView>
 
-            <ControlledInputWithIcon
-              testID="password-input"
-              control={control}
-              name="password"
-              placeholder={translate('login.password_placeholder')}
-              secureTextEntry={!showPassword}
-              leftIcon={
-                <Lock
-                  color={iconColor}
-                  className="size-6 text-gray-400 dark:text-gray-500"
-                />
-              }
-              rightIcon={
-                showPassword ? (
-                  <Eye
-                    color={iconColor}
-                    className="size-5 text-gray-400 dark:text-gray-500"
-                  />
-                ) : (
-                  <EyeOff className="size-5 text-gray-400 dark:text-gray-500" />
-                )
-              }
-              onRightIconPress={togglePasswordVisibility}
-            />
-
-            {/* Remember Password Checkbox */}
-            <View className="mb-6 px-6">
-              <Checkbox
-                checked={rememberPassword}
-                onChange={setRememberPassword}
-                label={translate('login.remember_password')}
-                accessibilityLabel="Remember password"
+            <MotiView
+              className="w-full max-w-[420px] self-center"
+              from={{ opacity: 0, translateY: 14 }}
+              animate={{ opacity: 1, translateY: 0 }}
+              transition={{ type: 'timing', duration: 450, delay: 100 }}
+            >
+              <ControlledInputWithIcon
+                testID="account-input"
+                control={control}
+                name="account"
+                placeholder={translate('login.username_placeholder')}
+                autoComplete="username"
+                autoCorrect={false}
+                returnKeyType="next"
+                focusColor={focusColor}
+                containerClassName="mb-4"
+                inputClassName="h-14 rounded-xl border border-neutral-300 bg-white px-4 text-base text-neutral-900 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white"
               />
-            </View>
 
-            {/* Login Button */}
-            <Button
-              testID="login-button"
-              label={translate('login.login_button')}
-              onPress={handleSubmit(handleFormSubmit)}
-              className="h-14 rounded-full"
-              style={{
-                backgroundColor: colors.primary[isDark ? 700 : 600],
-              }}
-              textClassName="font-light text-white text-2xl"
-            />
+              <ControlledInputWithIcon
+                testID="password-input"
+                control={control}
+                name="password"
+                placeholder={translate('login.password_placeholder')}
+                secureTextEntry={!showPassword}
+                autoComplete="current-password"
+                returnKeyType="done"
+                onSubmitEditing={handleSubmit(handleFormSubmit)}
+                focusColor={focusColor}
+                containerClassName="mb-3"
+                inputClassName="h-14 rounded-xl border border-neutral-300 bg-white px-4 text-base text-neutral-900 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white"
+                rightIcon={
+                  showPassword ? (
+                    <Eye
+                      color={iconColor}
+                      className="size-5 text-gray-400 dark:text-gray-500"
+                    />
+                  ) : (
+                    <EyeOff
+                      color={iconColor}
+                      className="size-5 text-gray-400 dark:text-gray-500"
+                    />
+                  )
+                }
+                onRightIconPress={togglePasswordVisibility}
+              />
+
+              <View className="mb-5 mt-1">
+                <Checkbox
+                  checked={rememberPassword}
+                  onChange={setRememberPassword}
+                  label={translate('login.remember_password')}
+                  accessibilityLabel="Remember password"
+                  className="self-start"
+                />
+              </View>
+
+              <Button
+                testID="login-button"
+                label={translate('login.login_button')}
+                onPress={handleSubmit(handleFormSubmit)}
+                loading={formState.isSubmitting}
+                disabled={formState.isSubmitting}
+                className="h-14 rounded-xl bg-neutral-900 active:opacity-80 dark:bg-white"
+                textClassName="text-base font-semibold text-white dark:text-neutral-900"
+              />
+              <Text className="mt-5 text-center text-sm leading-5 text-neutral-500 dark:text-neutral-400">
+                账号由企业管理员统一创建和管理
+              </Text>
+            </MotiView>
           </View>
 
-          {/* 其他登录方式 */}
-          <View className="mt-10">
-            <View className="flex-row items-center justify-center">
-              <View className="h-px flex-1 bg-gray-200" />
-              <Text
-                className="px-4 text-lg text-gray-500"
-                tx="login.other_login_way"
-              />
-              <View className="h-px flex-1 bg-gray-200" />
-            </View>
-
-            <View className="mt-6 flex-row justify-center">
-              <TouchableOpacity className="mx-4 size-14 items-center justify-center rounded-full border border-gray-200 shadow-sm active:bg-gray-50">
-                <FontAwesome name="weixin" size={24} color="#07C160" />
-              </TouchableOpacity>
-              <TouchableOpacity className="mx-4 size-14 items-center justify-center rounded-full border border-gray-200 shadow-sm active:bg-gray-50">
-                <FontAwesome name="qrcode" size={24} color="#3b82f6" />
-              </TouchableOpacity>
-              <TouchableOpacity className="mx-4 size-14 items-center justify-center rounded-full border border-gray-200 shadow-sm active:bg-gray-50">
-                <FontAwesome
-                  name="fingerprint"
-                  size={24}
-                  color="#a855f7"
-                  group={GroupEnum.Entypo}
-                />
-              </TouchableOpacity>
-            </View>
-          </View>
-
-          {/* 底部 */}
           <View
-            className="mt-auto items-center py-8"
-            style={{ paddingBottom: insets.bottom }}
+            className="items-center pb-6"
+            style={{ paddingBottom: Math.max(insets.bottom, 20) }}
           >
-            <Text className="text-lg text-gray-500">
-              还没有账号?
-              <Text className="font-lg text-blue-500"> 联系管理员</Text>
+            <Text className="text-center text-sm text-neutral-500 dark:text-neutral-400">
+              还没有账号？请联系管理员
             </Text>
-            <Text className="mt-2 text-lg text-gray-400" tx="copyright" />
+            <Text
+              className="mt-2 text-center text-xs text-neutral-400 dark:text-neutral-500"
+              tx="copyright"
+            />
           </View>
         </ScrollView>
       </KeyboardAvoidingView>

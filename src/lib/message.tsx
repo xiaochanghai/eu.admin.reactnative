@@ -2,26 +2,31 @@
 import { Toast } from '@/components/ui/toast';
 
 /**
- * @message 提示内容
+ * 显示信息提示
+ * @param message 提示内容
  */
-export const info = (message: string, icon: string = '') => {
-  // 注意：自定义 Toast 暂不支持自定义图标
+export const info = (message: string) => {
   Toast.info(message);
 };
+
 /**
- * @message 提示内容
+ * 显示成功提示
+ * @param message 提示内容
  */
 export const success = (message: string) => Toast.success(message);
 
 /**
- * @message 提示内容
+ * 显示错误提示
+ * @param message 提示内容
  */
 export const error = (message: string) => Toast.error(message);
+
 /**
- * @message 加载提示内容
+ * 显示加载提示
  * @param message 提示文字
+ * @param duration 持续时间（秒）
  */
-export const loading = (message: string = '加载中...', duration: number = 15) =>
+export const loading = (message: string = '加载中...', duration: number = 30) =>
   Toast.loading({ content: message, duration });
 
 /**

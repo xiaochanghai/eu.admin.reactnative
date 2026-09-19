@@ -109,6 +109,8 @@ export const Modal = React.forwardRef(
   }
 );
 
+Modal.displayName = 'Modal';
+
 /**
  * Custom Backdrop
  */

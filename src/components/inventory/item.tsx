@@ -31,8 +31,8 @@ const Item = ({
   }
 
   return (
-    <TouchableOpacity onPress={onViewDetail}>
-      <View className="flex-row justify-between border-b border-gray-100 py-3 dark:border-neutral-700">
+    <TouchableOpacity onPress={onViewDetail} activeOpacity={0.65}>
+      <View className="min-h-[68px] flex-row items-center justify-between border-b border-gray-100 py-3 dark:border-neutral-800">
         <View className="flex-1">
           <View className="flex-row items-center">
             <View
@@ -43,7 +43,7 @@ const Item = ({
               {name}
             </Text>
           </View>
-          <Text className="text-sm text-gray-500 dark:text-gray-400">
+          <Text className="mt-1 text-xs text-gray-500 dark:text-gray-400">
             编号：{code}
           </Text>
         </View>

@@ -1,21 +1,17 @@
-import type { Theme } from '@react-navigation/native';
-import {
-  DarkTheme as _DarkTheme,
-  DefaultTheme,
-} from '@react-navigation/native';
+import { DarkTheme as _DarkTheme, DefaultTheme } from 'expo-router';
 
-import colors from '@/components/ui/colors';
-import { useAppColorScheme } from '@/lib/hooks';
+import { appColors, useAppColorScheme } from '@/lib/hooks';
 
+type Theme = typeof DefaultTheme;
 const DarkTheme: Theme = {
   ..._DarkTheme,
   colors: {
     ..._DarkTheme.colors,
-    primary: colors.primary[200],
-    background: colors.charcoal[950],
-    text: colors.charcoal[100],
-    border: colors.charcoal[500],
-    card: colors.charcoal[850],
+    primary: appColors.dark.accent,
+    background: appColors.dark.background,
+    text: appColors.dark.text,
+    border: appColors.dark.border,
+    card: appColors.dark.card,
   },
 };
 
@@ -23,8 +19,8 @@ const LightTheme: Theme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    primary: colors.primary[400],
-    background: colors.white,
+    primary: appColors.light.accent,
+    background: appColors.light.background,
   },
 };
 

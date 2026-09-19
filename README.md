@@ -7,10 +7,10 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Expo-53.0.23-000020?style=flat&logo=expo&logoColor=white" alt="Expo" />
-  <img src="https://img.shields.io/badge/React_Native-0.79.5-61DAFB?style=flat&logo=react&logoColor=white" alt="React Native" />
-  <img src="https://img.shields.io/badge/React-19.0.0-61DAFB?style=flat&logo=react&logoColor=white" alt="React" />
-  <img src="https://img.shields.io/badge/TypeScript-5.8.3-3178C6?style=flat&logo=typescript&logoColor=white" alt="TypeScript" />
+  <img src="https://img.shields.io/badge/Expo-57.0.4-000020?style=flat&logo=expo&logoColor=white" alt="Expo" />
+  <img src="https://img.shields.io/badge/React_Native-0.86.0-61DAFB?style=flat&logo=react&logoColor=white" alt="React Native" />
+  <img src="https://img.shields.io/badge/React-19.2.3-61DAFB?style=flat&logo=react&logoColor=white" alt="React" />
+  <img src="https://img.shields.io/badge/TypeScript-6.0.3-3178C6?style=flat&logo=typescript&logoColor=white" alt="TypeScript" />
   <img src="https://img.shields.io/badge/NativeWind-4.1.21-38BDF8?style=flat&logo=tailwindcss&logoColor=white" alt="NativeWind" />
 </p>
 
@@ -23,40 +23,42 @@
 - **🏭 生产管理** - 生产计划、任务分配、工序管理、设备监控、生产报表
 - **📦 库存管理** - 库存查询、实时监控、库存预警、物料管理
 - **📋 订单管理** - 订单列表、状态跟踪、订单详情
-- **🔧 维修模块** - 独立的维修业务系统，包含维修生产管理
+- **✅ 质量管理** - 质量概览、质量检验、缺陷管理、质量报表
+- **🔧 设备与维修** - 设备档案、维护计划、维修工单、维修分析
 - **👤 个人中心** - 用户信息、工作统计、消息通知、系统设置
-- **📊 数据概览** - 实时数据展示、工作统计、性能指标
+- **📊 数据分析** - 销售、生产、库存和质量数据展示
 - **🔐 安全认证** - JWT Token 认证、自动登录、权限管理
+- **📱 原生能力** - 二维码扫描、图片选择、PDF/XLSX 查看、JPush 推送
 
 ## 🚀 技术栈
 
 ### 核心框架
 
-- **[Expo SDK](https://expo.dev/) 53.0.23** - 采用最新 Expo 版本，启用新架构
-- **[React Native](https://reactnative.dev/) 0.79.5** - 跨平台移动开发框架
-- **[React](https://react.dev/) 19.0.0** - 使用 React 19 + React Compiler 自动优化
-- **[TypeScript](https://www.typescriptlang.org/) 5.8.3** - 严格类型检查
-- **[Expo Router](https://docs.expo.dev/router/introduction/) 5.1.7** - 基于文件的路由系统
+- **[Expo SDK](https://expo.dev/) 57.0.4** - React Native 应用开发与构建工具链
+- **[React Native](https://reactnative.dev/) 0.86.0** - 跨平台移动开发框架
+- **[React](https://react.dev/) 19.2.3** - 使用 React 19 + React Compiler 自动优化
+- **[TypeScript](https://www.typescriptlang.org/) 6.0.3** - 严格类型检查
+- **[Expo Router](https://docs.expo.dev/router/introduction/) 57.0.4** - 基于文件的路由系统
 
 ### 状态管理与数据
 
 - **[Zustand](https://github.com/pmndrs/zustand) 5.0.5** - 轻量级全局状态管理
-- **[TanStack Query](https://tanstack.com/query) 5.52.1** - 服务端状态管理和数据同步
-- **[React Native MMKV](https://github.com/mrousavy/react-native-mmkv) 3.1.0** - 高性能本地存储
-- **[Axios](https://axios-http.com/) 1.7.5** - HTTP 客户端
+- **[TanStack Query](https://tanstack.com/query) 5.85.6** - 服务端状态管理和数据同步
+- **[React Native MMKV](https://github.com/mrousavy/react-native-mmkv) 4.3.2** - 高性能本地存储
+- **[Axios](https://axios-http.com/) 1.18.1** - HTTP 客户端
 
 ### UI 与样式
 
 - **[NativeWind](https://www.nativewind.dev/) 4.1.21** - TailwindCSS for React Native
-- **[TailwindCSS](https://tailwindcss.com/) 3.4.4** - 实用优先的 CSS 框架
+- **[TailwindCSS](https://tailwindcss.com/) 3.4.19** - 实用优先的 CSS 框架
 - **[Moti](https://moti.fyi/) 0.29.0** - 声明式动画库
-- **[React Native Reanimated](https://docs.swmansion.com/react-native-reanimated/) 3.17.5** - 高性能动画引擎
+- **[React Native Reanimated](https://docs.swmansion.com/react-native-reanimated/) 4.5.0** - 高性能动画引擎
 - **[Expo Linear Gradient](https://docs.expo.dev/versions/latest/sdk/linear-gradient/)** - 渐变效果
 - **[Shopify Flash List](https://shopify.github.io/flash-list/)** - 高性能列表组件
 
 ### 表单与验证
 
-- **[React Hook Form](https://react-hook-form.com/) 7.53.0** - 高性能表单管理
+- **[React Hook Form](https://react-hook-form.com/) 7.67.0** - 高性能表单管理
 - **[Zod](https://zod.dev/) 3.23.8** - TypeScript 优先的数据验证
 
 ### 国际化
@@ -66,9 +68,9 @@
 
 ### 其他核心库
 
-- **[React Native Gesture Handler](https://docs.swmansion.com/react-native-gesture-handler/) 2.24.0** - 手势处理
-- **[React Native PDF](https://github.com/wonday/react-native-pdf) 6.7.7** - PDF 查看器
-- **[React Native Gifted Chat](https://github.com/FaridSafi/react-native-gifted-chat) 2.8.1** - 聊天组件
+- **[React Native Gesture Handler](https://docs.swmansion.com/react-native-gesture-handler/) 2.32.0** - 手势处理
+- **[React Native PDF](https://github.com/wonday/react-native-pdf) 7.0.4** - PDF 查看器
+- **[JPush React Native](https://github.com/jpush/jpush-react-native) 3.1.9** - 消息推送
 - **[Expo Camera](https://docs.expo.dev/versions/latest/sdk/camera/)** - 相机功能
 - **[Expo Image Picker](https://docs.expo.dev/versions/latest/sdk/imagepicker/)** - 图片选择器
 
@@ -82,90 +84,42 @@
 
 ## 📁 项目结构
 
-```
-eu.admin.rn/
-├── src/
-│   ├── app/                    # Expo Router 页面（基于文件的路由）
-│   │   ├── (app)/             # 主应用 Tab 导航组 (5个Tab)
-│   │   │   ├── _layout.tsx    # Tab 布局
-│   │   │   ├── index.tsx      # 首页 - 数据概览和快捷入口
-│   │   │   ├── production.tsx # 生产管理 - 计划/任务/工序/设备/报表
-│   │   │   ├── inventory.tsx  # 库存管理 - 库存查询和预警
-│   │   │   ├── order.tsx      # 订单管理 - 订单列表和跟踪
-│   │   │   └── profile.tsx    # 个人中心 - 用户信息和设置
-│   │   ├── repair/            # 维修模块 (3个Tab)
-│   │   │   ├── _layout.tsx    # 维修模块布局
-│   │   │   ├── index.tsx      # 维修首页
-│   │   │   ├── production.tsx # 维修生产管理
-│   │   │   └── profile.tsx    # 维修个人中心
-│   │   ├── settings/          # 设置页面
-│   │   ├── test/              # 测试页面
-│   │   ├── login.tsx          # 登录页面
-│   │   ├── onboarding.tsx     # 首次使用引导
-│   │   ├── qr-scanner.tsx     # 二维码扫描
-│   │   └── _layout.tsx        # 根布局
-│   │
-│   ├── components/            # 组件库 (105+ 组件)
-│   │   ├── ui/               # 通用 UI 组件
-│   │   │   ├── icons/        # 图标组件
-│   │   │   ├── button.tsx
-│   │   │   ├── input.tsx
-│   │   │   ├── date-picker.tsx
-│   │   │   ├── nav-header.tsx
-│   │   │   └── ...
-│   │   ├── production/       # 生产管理组件
-│   │   │   ├── plan.tsx      # 生产计划
-│   │   │   ├── task.tsx      # 生产任务
-│   │   │   ├── process.tsx   # 工序管理
-│   │   │   ├── equipment.tsx # 设备管理
-│   │   │   └── report.tsx    # 生产报表
-│   │   ├── inventory/        # 库存组件
-│   │   ├── modals/          # 模态框组件
-│   │   └── settings/        # 设置组件
-│   │
-│   ├── api/                  # API 层
-│   │   ├── common/          # 通用 API 配置
-│   │   │   └── http.tsx     # Axios 实例和拦截器
-│   │   ├── modules/         # 业务模块 API
-│   │   │   ├── login.ts
-│   │   │   └── common.ts
-│   │   └── types.ts         # API 类型定义
-│   │
-│   ├── lib/                 # 工具库
-│   │   ├── auth/           # 认证相关
-│   │   │   ├── index.tsx   # Zustand auth store
-│   │   │   └── utils.tsx   # Token 处理
-│   │   ├── user/           # 用户信息管理
-│   │   ├── hooks/          # 自定义 Hooks
-│   │   ├── i18n/           # 国际化配置
-│   │   ├── storage.tsx     # MMKV 存储封装
-│   │   └── utils.ts        # 通用工具函数
-│   │
-│   ├── translations/        # 多语言文件
-│   └── types/              # TypeScript 类型定义
-│
-├── assets/                  # 静态资源
-├── android/                # Android 原生代码
-├── ios/                    # iOS 原生代码
-├── .env.development        # 开发环境配置
-├── .env.staging           # 预发布环境配置
-├── .env.production        # 生产环境配置
-├── app.config.ts          # Expo 应用配置
-├── env.js                 # 环境变量管理
-├── package.json           # 依赖管理
-├── tsconfig.json          # TypeScript 配置
-├── tailwind.config.js     # TailwindCSS 配置
-└── eas.json              # EAS 构建配置
+```text
+eu.admin.reactnative/
+├─ src/
+│  ├─ app/
+│  │  ├─ (app)/             # 主应用：主页/生产/库存/订单/我的
+│  │  ├─ (repair)/          # 维修应用：主页/设备/维修/分析/我的
+│  │  ├─ analytics/         # 数据分析
+│  │  ├─ equipment/         # 设备详情与新增
+│  │  ├─ material/          # 物料列表与详情
+│  │  ├─ notification/      # 消息通知
+│  │  ├─ production/        # 生产业务详情
+│  │  ├─ quality/           # 质量管理
+│  │  ├─ repair-order/      # 维修工单
+│  │  └─ settings/          # 系统设置与文件查看
+│  ├─ api/                  # HTTP 客户端与业务接口
+│  ├─ components/           # 通用 UI 与业务组件
+│  ├─ lib/                  # 认证、存储、主题、国际化和 Hooks
+│  ├─ translations/         # 中英文翻译资源
+│  └─ types/                # 共享 TypeScript 类型
+├─ assets/                  # 图标、启动图和字体
+├─ android/                 # Android 原生工程
+├─ ios/                     # iOS 原生工程
+├─ app.config.ts            # Expo 应用配置
+├─ env.js                   # 环境变量加载与校验
+├─ eas.json                 # EAS Build/Submit 配置
+└─ package.json             # 依赖与脚本
 ```
 
 ## 🛠️ 快速开始
 
 ### 环境要求
 
-- Node.js 20.14.0 或更高版本
-- PNPM 9.12.3 或更高版本
-- iOS: Xcode 15+ (macOS only)
-- Android: Android Studio with API 34+
+- Node.js：项目暂未在 `package.json` 中固定版本，请使用与 Expo SDK 57 兼容的版本
+- pnpm 10.12.3
+- iOS：macOS、Xcode 和 CocoaPods
+- Android：Android Studio、Android SDK、模拟器或真机
 
 ### 安装依赖
 
@@ -202,22 +156,39 @@ pnpm android
 - **Production** - 生产环境
 
 环境变量配置文件：
+
 ```bash
 .env.development    # 开发环境 (默认)
 .env.staging       # 预发布环境
 .env.production    # 生产环境
 ```
 
-切换环境：
-```bash
-# 使用指定环境构建
-APP_ENV=production pnpm build:android
-APP_ENV=staging pnpm build:ios
+各环境文件需要提供以下变量，请勿在文档或日志中暴露真实值：
+
+```dotenv
+API_URL=
+SECRET_KEY=
+VAR_NUMBER=
+VAR_BOOL=
+LOGIN_REQUIRED=
+JPUSH_APPKEY=
+JPUSH_CHANNEL=
 ```
+
+切换环境：
+
+```bash
+# 使用项目内置环境脚本
+pnpm start:staging
+pnpm android:production
+pnpm ios:staging
+```
+
+未设置 `APP_ENV` 时默认使用 `development`。非生产环境的 Bundle ID 和 Package 会自动追加环境后缀，应用图标也会显示环境与版本角标。
 
 ## 🏗️ 构建发布
 
-### 本地构建
+### 常用构建
 
 ```bash
 # 生产环境构建
@@ -261,29 +232,31 @@ pnpm update:dev
 pnpm update:staging
 ```
 
+更新分别发布到 `production`、`development` 和 `staging` channel。`update:prod` 与 `update:dev` 使用类 Unix `date` 命令生成消息，Windows 用户应在 Git Bash、WSL 或 CI 中运行，或先调整脚本。
+
 ## 🧪 测试
 
 ```bash
 # 运行单元测试
 pnpm test
 
-# 运行测试并生成覆盖率报告
-pnpm test:coverage
+# 运行 CI 测试并生成覆盖率报告
+pnpm test:ci
 
 # 类型检查
-pnpm typecheck
+pnpm type-check
 
 # 代码检查
 pnpm lint
-
-# 代码格式化
-pnpm format
 
 # 运行所有检查
 pnpm check-all
 
 # E2E 测试
 pnpm e2e-test
+
+# Expo 项目诊断
+pnpm doctor
 ```
 
 ## 📱 应用信息
@@ -293,6 +266,7 @@ pnpm e2e-test
 - **Package**: com.eucloud.erp
 - **Scheme**: eucloud
 - **版本**: 1.0.0
+- **构建号**: 2
 - **EAS Project ID**: 9d0f9588-d00f-40cf-a15c-ffd7e8bc7654
 
 ## 🎯 主要功能模块
@@ -329,9 +303,9 @@ pnpm e2e-test
 
 ### 6. 维修模块
 - 独立的维修业务系统
-- 维修任务管理
-- 维修生产流程
-- 维修数据统计
+- 设备列表、详情、新增和维护记录
+- 维修工单列表、详情、新增和进度跟踪
+- 设备、维修和效率数据分析
 
 ### 7. 系统功能
 - JWT Token 认证
@@ -340,15 +314,16 @@ pnpm e2e-test
 - 消息通知
 - 多语言支持（i18n）
 - PDF 查看器
-- 聊天功能
+- XLSX 文件查看
+- 浅色、深色和跟随系统主题
+- JPush 消息推送
 
 ## 🌟 技术亮点
 
 ### 性能优化
 - ✅ **React 19 + React Compiler** - 自动优化渲染性能
-- ✅ **Expo 新架构** - 启用 New Architecture 提升性能
-- ✅ **Flash List** - 替代 FlatList，列表性能提升 10 倍
-- ✅ **MMKV** - 替代 AsyncStorage，存储性能提升 30 倍
+- ✅ **Flash List** - 支持高性能长列表
+- ✅ **MMKV** - 提供高性能本地键值存储
 - ✅ **React Query** - 智能数据缓存和同步
 - ✅ **Reanimated** - GPU 加速动画，60fps 流畅体验
 
@@ -360,8 +335,8 @@ pnpm e2e-test
 - ✅ **热更新** - EAS Update OTA 更新机制
 
 ### 代码质量
-- ✅ **35+ 页面组件** - 完整的业务页面
-- ✅ **105+ UI 组件** - 丰富的组件库
+- ✅ **多业务页面** - 覆盖生产、库存、订单、质量、设备和维修场景
+- ✅ **通用 UI 组件** - 提供表单、弹窗、列表、导航和文件查看组件
 - ✅ **模块化设计** - 清晰的代码结构
 - ✅ **组件复用** - 高复用性的组件设计
 - ✅ **单元测试** - Jest + React Testing Library

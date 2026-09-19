@@ -6,8 +6,8 @@ import {
   Button,
   Dimensions,
   Linking,
+  StyleSheet,
   Text,
-  StyleSheet
 } from 'react-native';
 
 // Remove the top-level import

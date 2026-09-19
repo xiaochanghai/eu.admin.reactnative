@@ -1,21 +1,18 @@
+import { useTheme } from 'expo-router';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   type LayoutChangeEvent,
-  LayoutAnimation,
-  Platform,
   StyleSheet,
   Text,
   TouchableOpacity,
-  UIManager,
   View,
 } from 'react-native';
-
-import { useAppColorScheme } from '@/lib';
-
-// 启用 Android 的 LayoutAnimation
-if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
-  UIManager.setLayoutAnimationEnabledExperimental(true);
-}
+import Animated, {
+  Easing,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 
 // 分段控制器选项类型
 export type SegmentedControlOption = {
@@ -42,13 +39,16 @@ export const SegmentedControl: React.FC<SegmentedControlProps> = ({
   backgroundColor,
   sliderColor,
 }) => {
-  const { isDark } = useAppColorScheme();
+  const theme = useTheme();
+  const isDark = theme.dark;
 
   // 根据主题设置默认颜色
-  const defaultActiveColor = activeColor || '#0066ff';
-  const defaultInactiveColor = inactiveColor || (isDark ? '#9ca3af' : '#6b7280');
-  const defaultBackgroundColor = backgroundColor || (isDark ? '#262626' : '#e5e7eb');
-  const defaultSliderColor = sliderColor || (isDark ? '#404040' : 'white');
+  const defaultActiveColor = activeColor || theme.colors.primary;
+  const defaultInactiveColor =
+    inactiveColor || (isDark ? '#9ca3af' : '#6b7280');
+  const defaultBackgroundColor =
+    backgroundColor || (isDark ? '#171717' : '#f3f4f6');
+  const defaultSliderColor = sliderColor || (isDark ? '#303030' : 'white');
 
   // 内层容器的 padding
   const PADDING = 2;
@@ -56,11 +56,9 @@ export const SegmentedControl: React.FC<SegmentedControlProps> = ({
   // 内层容器宽度状态
   const [innerContainerWidth, setInnerContainerWidth] = useState(0);
 
-  // 滑块的 left 位置
-  const [sliderLeft, setSliderLeft] = useState(0);
-
   // 标记是否已经初始化过滑块位置
   const isInitialized = useRef(false);
+  const sliderTranslateX = useSharedValue(0);
 
   // 计算每个选项的实际宽度（基于内容区）
   const optionWidth = useMemo(() => {
@@ -78,8 +76,7 @@ export const SegmentedControl: React.FC<SegmentedControlProps> = ({
     if (!isInitialized.current) {
       const contentWidth = width - PADDING * 2;
       const calculatedOptionWidth = contentWidth / options.length;
-      const initialLeft = PADDING + selectedIndex * calculatedOptionWidth;
-      setSliderLeft(initialLeft);
+      sliderTranslateX.value = selectedIndex * calculatedOptionWidth;
       isInitialized.current = true;
     }
 
@@ -89,35 +86,40 @@ export const SegmentedControl: React.FC<SegmentedControlProps> = ({
   // 当选中索引或容器宽度变化时，更新滑块位置
   useEffect(() => {
     if (innerContainerWidth > 0) {
-      // 配置平滑动画
-      LayoutAnimation.configureNext({
+      sliderTranslateX.value = withTiming(selectedIndex * optionWidth, {
         duration: 250,
-        create: { type: 'easeInEaseOut', property: 'opacity' },
-        update: { type: 'spring', springDamping: 0.7 },
-        delete: { type: 'easeInEaseOut', property: 'opacity' },
+        easing: Easing.out(Easing.cubic),
       });
-
-      // 滑块位置 = padding偏移 + index * 选项宽度
-      const leftPosition = PADDING + selectedIndex * optionWidth;
-      setSliderLeft(leftPosition);
     }
-  }, [selectedIndex, innerContainerWidth, optionWidth]);
+  }, [selectedIndex, innerContainerWidth, optionWidth, sliderTranslateX]);
+
+  const animatedSliderStyle = useAnimatedStyle(() => ({
+    transform: [{ translateX: sliderTranslateX.value }],
+  }));
 
   return (
     <View
-      style={[styles.segmentedControlContainer, { backgroundColor: defaultBackgroundColor }]}
+      style={[
+        styles.segmentedControlContainer,
+        { backgroundColor: defaultBackgroundColor },
+      ]}
     >
       <View
-        style={[styles.segmentedControl, { backgroundColor: defaultBackgroundColor }]}
+        style={[
+          styles.segmentedControl,
+          { backgroundColor: defaultBackgroundColor },
+        ]}
         onLayout={handleLayout}
       >
-        <View
+        <Animated.View
           style={[
             styles.segmentedControlSlider,
+            animatedSliderStyle,
             {
-              left: sliderLeft,
+              left: PADDING,
               width: optionWidth,
               backgroundColor: defaultSliderColor,
+              opacity: optionWidth > 0 ? 1 : 0,
             },
           ]}
         />
@@ -128,13 +130,15 @@ export const SegmentedControl: React.FC<SegmentedControlProps> = ({
               key={option.key}
               style={styles.segmentedControlOption}
               onPress={() => onChange(index)}
-              activeOpacity={0.7}
+              activeOpacity={1}
             >
               <Text
                 style={[
                   styles.segmentedControlText,
                   {
-                    color: isSelected ? defaultActiveColor : defaultInactiveColor,
+                    color: isSelected
+                      ? defaultActiveColor
+                      : defaultInactiveColor,
                     fontWeight: isSelected ? '600' : '500',
                   },
                 ]}
@@ -151,14 +155,14 @@ export const SegmentedControl: React.FC<SegmentedControlProps> = ({
 
 const styles = StyleSheet.create({
   segmentedControlContainer: {
-    borderRadius: 8,
+    borderRadius: 12,
   },
   segmentedControl: {
     flexDirection: 'row',
-    borderRadius: 8,
-    padding: 2,
+    borderRadius: 12,
+    padding: 3,
     position: 'relative',
-    height: 40,
+    height: 44,
   },
   segmentedControlOption: {
     flex: 1,
@@ -168,16 +172,16 @@ const styles = StyleSheet.create({
   },
   segmentedControlSlider: {
     position: 'absolute',
-    top: 2,
-    bottom: 2,
-    borderRadius: 6,
+    top: 3,
+    bottom: 3,
+    borderRadius: 9,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 1,
+    shadowOpacity: 0.06,
+    shadowRadius: 2,
     elevation: 1,
   },
   segmentedControlText: {
-    fontSize: 14,
+    fontSize: 13,
   },
 });

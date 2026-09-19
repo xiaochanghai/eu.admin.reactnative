@@ -4,12 +4,7 @@ import { TextInput, TouchableOpacity } from 'react-native';
 
 import { SegmentedControl, type SegmentedControlOption } from '@/components';
 import InventoryItem from '@/components/inventory/item';
-import {
-  NavHeader,
-  ScrollView,
-  Text,
-  View,
-} from '@/components/ui';
+import { NavHeader, ScrollView, Text, View } from '@/components/ui';
 import { FontAwesome } from '@/components/ui/icons';
 
 // 预警项组件
@@ -20,22 +15,31 @@ type AlertItemProps = {
 };
 
 const AlertItem: React.FC<AlertItemProps> = ({ name, message, type }) => {
-  const bgColor = type === 'danger' ? 'bg-red-50 dark:bg-red-900/30' : 'bg-amber-50 dark:bg-amber-900/30';
+  const bgColor =
+    type === 'danger'
+      ? 'bg-red-50 dark:bg-red-900/30'
+      : 'bg-amber-50 dark:bg-amber-900/30';
   const iconColor = type === 'danger' ? '#ef4444' : '#eab308';
   const icon =
     type === 'danger' ? 'exclamation-circle' : 'exclamation-triangle';
 
   return (
-    <View className={`mb-2 flex-row items-center rounded-lg p-3 ${bgColor}`}>
+    <View className={`mb-2 flex-row items-center rounded-xl p-3 ${bgColor}`}>
       <View className="mr-3 size-10 items-center justify-center rounded-full bg-black/5 dark:bg-white/10">
         <FontAwesome name={icon} size={20} color={iconColor} />
       </View>
       <View className="flex-1">
-        <Text className="mb-0.5 text-base font-medium dark:text-gray-100">{name}</Text>
-        <Text className="mt-0.5 text-sm text-gray-500 dark:text-gray-400">{message}</Text>
+        <Text className="mb-0.5 text-base font-medium dark:text-gray-100">
+          {name}
+        </Text>
+        <Text className="mt-0.5 text-sm text-gray-500 dark:text-gray-400">
+          {message}
+        </Text>
       </View>
-      <TouchableOpacity>
-        <Text className="text-sm font-medium text-blue-600 dark:text-blue-400">补货</Text>
+      <TouchableOpacity className="min-h-[40px] justify-center px-2">
+        <Text className="text-sm font-medium text-primary-600 dark:text-primary-400">
+          补货
+        </Text>
       </TouchableOpacity>
     </View>
   );
@@ -182,10 +186,10 @@ const Inventory: React.FC = () => {
         leftShown={false}
         right={
           <>
-            <TouchableOpacity className="ml-4">
+            <TouchableOpacity className="size-10 items-center justify-center rounded-full">
               <FontAwesome name="search" size={18} color="#6b7280" />
             </TouchableOpacity>
-            <TouchableOpacity className="ml-4">
+            <TouchableOpacity className="size-10 items-center justify-center rounded-full">
               <FontAwesome name="filter" size={18} color="#6b7280" />
             </TouchableOpacity>
           </>
@@ -193,7 +197,7 @@ const Inventory: React.FC = () => {
       />
 
       {/* 分段控制器 - 固定在顶部 */}
-      <View className="px-4 pt-4">
+      <View className="border-b border-gray-200/70 bg-white px-4 pb-3 pt-2 dark:border-neutral-800 dark:bg-neutral-900">
         <SegmentedControl
           options={tabOptions}
           selectedIndex={selectedTabIndex}
@@ -205,39 +209,47 @@ const Inventory: React.FC = () => {
       <ScrollView
         className="flex-1 px-4"
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingTop: 16 }}
+        contentContainerStyle={{ paddingTop: 16, paddingBottom: 96 }}
       >
         {/* 库存概览 */}
         {selectedTabIndex === 0 && (
           <View>
             {/* 库存概览卡片 */}
-            <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
-              <Text className="mb-3 text-lg font-semibold dark:text-gray-100">库存概览</Text>
+            <View className="mb-3 rounded-2xl border border-gray-200/80 bg-white p-5 dark:border-neutral-800 dark:bg-neutral-900">
+              <Text className="mb-4 text-base font-bold dark:text-gray-100">
+                库存概览
+              </Text>
               <View className="mb-4 flex-row justify-between">
                 <View className="flex-1 items-center">
-                  <Text className="mb-1 text-2xl font-bold text-blue-600 dark:text-blue-400">
+                  <Text className="mb-1 text-2xl font-bold text-primary-600 dark:text-primary-400">
                     152
                   </Text>
-                  <Text className="text-sm text-gray-500 dark:text-gray-400">物料种类</Text>
+                  <Text className="text-sm text-gray-500 dark:text-gray-400">
+                    物料种类
+                  </Text>
                 </View>
                 <View className="flex-1 items-center">
                   <Text className="mb-1 text-2xl font-bold text-green-500 dark:text-green-400">
                     87%
                   </Text>
-                  <Text className="text-sm text-gray-500 dark:text-gray-400">库存健康度</Text>
+                  <Text className="text-sm text-gray-500 dark:text-gray-400">
+                    库存健康度
+                  </Text>
                 </View>
                 <View className="flex-1 items-center">
                   <Text className="mb-1 text-2xl font-bold text-red-500 dark:text-red-400">
                     3
                   </Text>
-                  <Text className="text-sm text-gray-500 dark:text-gray-400">库存预警</Text>
+                  <Text className="text-sm text-gray-500 dark:text-gray-400">
+                    库存预警
+                  </Text>
                 </View>
               </View>
-              <View className="flex-row items-center rounded-lg bg-blue-50 p-3 dark:bg-blue-900/30">
+              <View className="dark:bg-primary-950/30 flex-row items-center rounded-xl bg-primary-50 p-3">
                 <FontAwesome
                   name="info-circle"
                   size={20}
-                  color="#0066ff"
+                  color="#543EF8"
                   className="mr-3"
                 />
                 <View>
@@ -245,7 +257,7 @@ const Inventory: React.FC = () => {
                     本月库存周转率
                   </Text>
                   <View className="flex-row items-center">
-                    <Text className="mr-2 text-lg font-semibold text-blue-600">
+                    <Text className="mr-2 text-lg font-semibold text-primary-600">
                       4.2
                     </Text>
                     <Text className="text-sm font-medium text-green-500">
@@ -257,11 +269,13 @@ const Inventory: React.FC = () => {
             </View>
 
             {/* 库存预警 */}
-            <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
+            <View className="mb-3 rounded-2xl border border-gray-200/80 bg-white p-4 dark:border-neutral-800 dark:bg-neutral-900">
               <View className="mb-3 flex-row items-center justify-between">
-                <Text className="text-lg font-semibold dark:text-gray-100">库存预警</Text>
+                <Text className="text-base font-bold dark:text-gray-100">
+                  库存预警
+                </Text>
                 <TouchableOpacity>
-                  <Text className="text-sm font-medium text-blue-600 dark:text-blue-400">
+                  <Text className="text-sm font-medium text-primary-600 dark:text-primary-400">
                     查看全部
                   </Text>
                 </TouchableOpacity>
@@ -283,10 +297,10 @@ const Inventory: React.FC = () => {
               库存列表
             </Text>
 
-            <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
+            <View className="mb-4 rounded-2xl border border-gray-200/80 bg-white p-4 dark:border-neutral-800 dark:bg-neutral-900">
               <View className="relative mb-4">
                 <TextInput
-                  className="rounded-lg bg-gray-100 px-10 py-2.5 text-sm dark:bg-neutral-800 dark:text-white"
+                  className="min-h-[46px] rounded-xl border border-gray-200 bg-gray-50 px-10 py-2.5 text-sm dark:border-neutral-700 dark:bg-neutral-950 dark:text-white"
                   placeholder="搜索物料"
                   placeholderTextColor="#9ca3af"
                 />
@@ -317,17 +331,19 @@ const Inventory: React.FC = () => {
         {/* 原材料 */}
         {selectedTabIndex === 1 && (
           <View>
-            <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
-              <Text className="mb-3 text-lg font-semibold dark:text-gray-100">原材料库存</Text>
+            <View className="mb-3 rounded-2xl border border-gray-200/80 bg-white p-4 dark:border-neutral-800 dark:bg-neutral-900">
+              <Text className="mb-3 text-lg font-semibold dark:text-gray-100">
+                原材料库存
+              </Text>
               <Text className="mt-1 text-sm text-gray-500 dark:text-gray-400">
                 此处显示原材料库存信息
               </Text>
             </View>
 
-            <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
+            <View className="mb-4 rounded-2xl border border-gray-200/80 bg-white p-4 dark:border-neutral-800 dark:bg-neutral-900">
               <View className="relative mb-4">
                 <TextInput
-                  className="rounded-lg bg-gray-100 px-10 py-2.5 text-sm dark:bg-neutral-800 dark:text-white"
+                  className="min-h-[46px] rounded-xl border border-gray-200 bg-gray-50 px-10 py-2.5 text-sm dark:border-neutral-700 dark:bg-neutral-950 dark:text-white"
                   placeholder="搜索原材料"
                   placeholderTextColor="#9ca3af"
                 />
@@ -358,17 +374,19 @@ const Inventory: React.FC = () => {
         {/* 半成品 */}
         {selectedTabIndex === 2 && (
           <View>
-            <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
-              <Text className="mb-3 text-lg font-semibold dark:text-gray-100">半成品库存</Text>
+            <View className="mb-3 rounded-2xl border border-gray-200/80 bg-white p-4 dark:border-neutral-800 dark:bg-neutral-900">
+              <Text className="mb-3 text-lg font-semibold dark:text-gray-100">
+                半成品库存
+              </Text>
               <Text className="mt-1 text-sm text-gray-500 dark:text-gray-400">
                 此处显示半成品库存信息
               </Text>
             </View>
 
-            <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
+            <View className="mb-4 rounded-2xl border border-gray-200/80 bg-white p-4 dark:border-neutral-800 dark:bg-neutral-900">
               <View className="relative mb-4">
                 <TextInput
-                  className="rounded-lg bg-gray-100 px-10 py-2.5 text-sm dark:bg-neutral-800 dark:text-white"
+                  className="min-h-[46px] rounded-xl border border-gray-200 bg-gray-50 px-10 py-2.5 text-sm dark:border-neutral-700 dark:bg-neutral-950 dark:text-white"
                   placeholder="搜索半成品"
                   placeholderTextColor="#9ca3af"
                 />
@@ -399,17 +417,19 @@ const Inventory: React.FC = () => {
         {/* 成品 */}
         {selectedTabIndex === 3 && (
           <View>
-            <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
-              <Text className="mb-3 text-lg font-semibold dark:text-gray-100">成品库存</Text>
+            <View className="mb-3 rounded-2xl border border-gray-200/80 bg-white p-4 dark:border-neutral-800 dark:bg-neutral-900">
+              <Text className="mb-3 text-lg font-semibold dark:text-gray-100">
+                成品库存
+              </Text>
               <Text className="mt-1 text-sm text-gray-500 dark:text-gray-400">
                 此处显示成品库存信息
               </Text>
             </View>
 
-            <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
+            <View className="mb-4 rounded-2xl border border-gray-200/80 bg-white p-4 dark:border-neutral-800 dark:bg-neutral-900">
               <View className="relative mb-4">
                 <TextInput
-                  className="rounded-lg bg-gray-100 px-10 py-2.5 text-sm dark:bg-neutral-800 dark:text-white"
+                  className="min-h-[46px] rounded-xl border border-gray-200 bg-gray-50 px-10 py-2.5 text-sm dark:border-neutral-700 dark:bg-neutral-950 dark:text-white"
                   placeholder="搜索成品"
                   placeholderTextColor="#9ca3af"
                 />
@@ -440,57 +460,84 @@ const Inventory: React.FC = () => {
         {/* 库存报表 */}
         {selectedTabIndex === 4 && (
           <View>
-            <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
-              <Text className="mb-3 text-lg font-semibold dark:text-gray-100">库存报表</Text>
+            <View className="mb-3 rounded-2xl border border-gray-200/80 bg-white p-4 dark:border-neutral-800 dark:bg-neutral-900">
+              <Text className="mb-3 text-lg font-semibold dark:text-gray-100">
+                库存报表
+              </Text>
               <Text className="mt-1 text-sm text-gray-500 dark:text-gray-400">
                 此处显示库存报表信息
               </Text>
             </View>
 
-            <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
-              <Text className="text-base font-medium dark:text-gray-100">库存周转率</Text>
+            <View className="mb-3 rounded-2xl border border-gray-200/80 bg-white p-4 dark:border-neutral-800 dark:bg-neutral-900">
+              <Text className="text-base font-medium dark:text-gray-100">
+                库存周转率
+              </Text>
               <View className="mt-3">
                 <View className="flex-row justify-between border-b border-gray-100 py-2 dark:border-neutral-700">
-                  <Text className="text-sm text-gray-500 dark:text-gray-400">原材料</Text>
-                  <Text className="text-sm font-medium dark:text-gray-100">4.5</Text>
+                  <Text className="text-sm text-gray-500 dark:text-gray-400">
+                    原材料
+                  </Text>
+                  <Text className="text-sm font-medium dark:text-gray-100">
+                    4.5
+                  </Text>
                 </View>
                 <View className="flex-row justify-between border-b border-gray-100 py-2 dark:border-neutral-700">
-                  <Text className="text-sm text-gray-500 dark:text-gray-400">半成品</Text>
-                  <Text className="text-sm font-medium dark:text-gray-100">3.8</Text>
+                  <Text className="text-sm text-gray-500 dark:text-gray-400">
+                    半成品
+                  </Text>
+                  <Text className="text-sm font-medium dark:text-gray-100">
+                    3.8
+                  </Text>
                 </View>
                 <View className="flex-row justify-between border-b border-gray-100 py-2 dark:border-neutral-700">
-                  <Text className="text-sm text-gray-500 dark:text-gray-400">成品</Text>
-                  <Text className="text-sm font-medium dark:text-gray-100">5.2</Text>
+                  <Text className="text-sm text-gray-500 dark:text-gray-400">
+                    成品
+                  </Text>
+                  <Text className="text-sm font-medium dark:text-gray-100">
+                    5.2
+                  </Text>
                 </View>
               </View>
             </View>
 
-            <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm dark:bg-neutral-800">
-              <Text className="text-base font-medium dark:text-gray-100">库存价值分布</Text>
+            <View className="mb-4 rounded-2xl border border-gray-200/80 bg-white p-4 dark:border-neutral-800 dark:bg-neutral-900">
+              <Text className="text-base font-medium dark:text-gray-100">
+                库存价值分布
+              </Text>
               <View className="mt-3">
                 <View className="flex-row justify-between border-b border-gray-100 py-2 dark:border-neutral-700">
-                  <Text className="text-sm text-gray-500 dark:text-gray-400">原材料</Text>
-                  <Text className="text-sm font-medium dark:text-gray-100">¥125,000</Text>
+                  <Text className="text-sm text-gray-500 dark:text-gray-400">
+                    原材料
+                  </Text>
+                  <Text className="text-sm font-medium dark:text-gray-100">
+                    ¥125,000
+                  </Text>
                 </View>
                 <View className="flex-row justify-between border-b border-gray-100 py-2 dark:border-neutral-700">
-                  <Text className="text-sm text-gray-500 dark:text-gray-400">半成品</Text>
-                  <Text className="text-sm font-medium dark:text-gray-100">¥85,000</Text>
+                  <Text className="text-sm text-gray-500 dark:text-gray-400">
+                    半成品
+                  </Text>
+                  <Text className="text-sm font-medium dark:text-gray-100">
+                    ¥85,000
+                  </Text>
                 </View>
                 <View className="flex-row justify-between border-b border-gray-100 py-2 dark:border-neutral-700">
-                  <Text className="text-sm text-gray-500 dark:text-gray-400">成品</Text>
-                  <Text className="text-sm font-medium dark:text-gray-100">¥210,000</Text>
+                  <Text className="text-sm text-gray-500 dark:text-gray-400">
+                    成品
+                  </Text>
+                  <Text className="text-sm font-medium dark:text-gray-100">
+                    ¥210,000
+                  </Text>
                 </View>
               </View>
             </View>
           </View>
         )}
-
-        {/* 底部间距 */}
-        <View className="h-20" />
       </ScrollView>
 
       {/* 浮动按钮 */}
-      <TouchableOpacity className="absolute bottom-4 right-4 size-14 items-center justify-center rounded-full bg-blue-600 shadow-lg">
+      <TouchableOpacity className="absolute bottom-5 right-5 size-14 items-center justify-center rounded-2xl bg-primary-600 shadow-lg">
         <FontAwesome name="plus" size={20} color="white" />
       </TouchableOpacity>
     </View>
@@ -498,4 +545,3 @@ const Inventory: React.FC = () => {
 };
 
 export default Inventory;
-
