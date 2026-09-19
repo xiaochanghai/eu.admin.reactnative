@@ -1,13 +1,11 @@
 import { useTheme } from 'expo-router';
 import type { BottomTabBarProps } from 'expo-router/tabs';
 import { memo, useCallback } from 'react';
-import { TouchableOpacity, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Platform, TouchableOpacity, View } from 'react-native';
 
 import { Text } from '@/components/ui';
 
-// Tab 高度常量
-const TAB_HEIGHT = 54;
+import { TabBarSurface } from './tab-bar-surface';
 
 // TabItem 组件
 interface TabItemProps {
@@ -25,7 +23,7 @@ const TabItem = memo(
 
     return (
       <TouchableOpacity
-        accessibilityRole="button"
+        accessibilityRole="tab"
         accessibilityState={isFocused ? { selected: true } : {}}
         accessibilityLabel={label}
         testID={options.tabBarButtonTestID}
@@ -33,6 +31,19 @@ const TabItem = memo(
         onLongPress={onLongPress}
         activeOpacity={1}
         className="flex-1 items-center justify-center"
+        style={
+          Platform.OS === 'ios'
+            ? {
+                minHeight: 54,
+                borderRadius: 28,
+                backgroundColor: isFocused
+                  ? theme.dark
+                    ? 'rgba(255,255,255,0.12)'
+                    : 'rgba(0,0,0,0.06)'
+                  : 'transparent',
+              }
+            : undefined
+        }
       >
         {options.tabBarIcon?.({ focused: isFocused })}
         <Text
@@ -76,41 +87,36 @@ CenterButton.displayName = 'CenterButton';
 // CustomTabBar 主组件
 export const CustomTabBar = memo(
   ({ state, descriptors, navigation }: BottomTabBarProps) => {
-    const insets = useSafeAreaInsets();
-
     const handleTabPress = useCallback(
-      (routeName: string, isFocused: boolean) => {
+      (
+        route: BottomTabBarProps['state']['routes'][number],
+        isFocused: boolean
+      ) => {
         const event = navigation.emit({
           type: 'tabPress',
-          target: routeName,
+          target: route.key,
           canPreventDefault: true,
         });
 
         if (!isFocused && !event.defaultPrevented) {
-          navigation.navigate(routeName);
+          navigation.navigate(route.name, route.params);
         }
       },
       [navigation]
     );
 
     const handleTabLongPress = useCallback(
-      (routeName: string) => {
+      (route: BottomTabBarProps['state']['routes'][number]) => {
         navigation.emit({
           type: 'tabLongPress',
-          target: routeName,
+          target: route.key,
         });
       },
       [navigation]
     );
 
     return (
-      <View
-        className="relative flex-row items-center justify-between border-t border-gray-200 bg-white px-0 dark:border-neutral-800 dark:bg-neutral-900"
-        style={{
-          height: TAB_HEIGHT + insets.bottom,
-          paddingBottom: insets.bottom,
-        }}
-      >
+      <TabBarSurface>
         <View className="flex-1 flex-row items-center justify-between">
           {state.routes.map((route, index) => {
             const isFocused = state.index === index;
@@ -133,13 +139,13 @@ export const CustomTabBar = memo(
                 route={route}
                 isFocused={isFocused}
                 options={options}
-                onPress={() => handleTabPress(route.name, isFocused)}
-                onLongPress={() => handleTabLongPress(route.name)}
+                onPress={() => handleTabPress(route, isFocused)}
+                onLongPress={() => handleTabLongPress(route)}
               />
             );
           })}
         </View>
-      </View>
+      </TabBarSurface>
     );
   }
 );

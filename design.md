@@ -222,8 +222,15 @@ Chip 组件；页面中的卡片和分隔大多由 View 与样式组合。
 
 ### 11.5 导航、响应式与平台行为
 
-ERP 和维修继续使用 [TabLayout](src/components/tabs/tab-layout.tsx)；当前自定义 Tab 栏基础高度
-为 54，并叠加底部安全区。共享 Header 标题居中，背景随浅深主题变化。当前返回按钮直接调用
+ERP 和维修继续使用 [TabLayout](src/components/tabs/tab-layout.tsx) 与自定义 Tab 导航。
+Android/Web 的 Tab 栏基础高度为 54，并叠加底部安全区。iOS 通过
+[TabBarSurface](src/components/tabs/tab-bar-surface.ios.tsx) 使用原生 GlassView 胶囊表面，
+同时检查构建与运行时玻璃能力；不可用时回退为 BlurView，开启“降低透明度”时使用实色表面。
+玻璃外观跟随应用浅深主题，底部及横屏左右留白读取安全区。外层保留布局占位，页面内容不会被
+Tab 栏遮挡；本实现不是 NativeTabs，不包含系统原生 Tab 栏的滚动收起与选择动画。
+未新增原生依赖；效果需在含现有 expo-glass-effect 模块、支持 Liquid Glass 的 iOS 构建中验收。
+
+共享 Header 标题居中，背景随浅深主题变化。当前返回按钮直接调用
 `router.back()`，无历史栈的安全回退尚不能作为已实现能力描述。
 
 Chat 使用侧栏／抽屉结构，Header、消息、会话列表和输入区有平台变体。
